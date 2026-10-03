@@ -2,6 +2,18 @@
 
 Sab notable changes, naye se purane. Format: `date · version — kya`.
 
+## 2026-10-03 · v1.1 — UI pass + deck v2 + live polish
+
+### Naya (iss session)
+- **Mobile UI pass** — header controls ek scrollable row (pehle 4 rows kha rahe the), tabs **sticky + horizontal scroll**, KPI cards snap-scroll carousel, phone mockup `max-height:56vh` (judge ko Run button pehli screen par dikhta hai), bade tap targets (chip ≥10px pad, buttons ≥38px) — Tier-2/3 usability ke liye
+- **Judge branding** — header: `SANGYAN · SEBI × NSDL × IIT (BHU) · Track A + B`; footer me guardrails line + Team names + live URL
+- **KPI consistent** — `<12ms LATENCY` → **`0.012ms MEDIAN`** (measured, VERIFICATION §8 se match)
+- **Deck v2 numbers** — cover: 2,443 reg / 51 repos; landscape chart 51-repo data (71% checker · 24% live demo · 8% measured eval); "verified ✓" markers
+- **15 screenshots regenerate** — naya UI (header/judge branding/sticky tabs) ke saath; `shoot_new_shots.py` ab reproducible (paths fixed, full set scripted)
+- **17 absolute paths fixed** — deck.html images (`/home/user/…` baked paths → relative) + build script root cause (`HERE.resolve()` + `hsrc()`)
+
+---
+
 ## 2026-10-03 · v1.0 — SANGYAN submission (final)
 
 ### Naya (aaj ka kaam)

@@ -1,6 +1,6 @@
 """SatarkPay · deck charts (dark theme) → charts/*.png
 Chalane ke liye:  python3 build_charts.py
-Numbers ka source: demo eval harness (33 messages, live chalaya gaya) + sangyan_osint/repo_matrix.csv (31 repos).
+Numbers ka source: demo eval harness (33 messages, live chalaya gaya) + sangyan_v2 cohort scan (51 repos, 3 Oct 2026).
 """
 import json, pathlib
 import matplotlib
@@ -63,22 +63,23 @@ def chart_eval():
 
 # ---------------------------------------------------------------- 2 · peer landscape
 def chart_landscape():
-    feats = ['checker ("paste msg → score")', 'regional language', 'voice output', 'LLM explanation',
-             'live demo hai', 'offline / on-device', 'SEBI registry check', 'interception (chat→UPI)',
-             'evidence-grade recovery', 'measured eval harness']
-    pct = [77, 71, 52, 35, 32, 26, 23, 0, 0, 0]      # % of 31 peer repos
+    feats = ['checker ("paste msg → score")', 'regional language', 'voice output', 'offline / on-device',
+             'LLM explanation', 'SEBI registry check', 'interception claims (chat→UPI)',
+             'SHA-256 evidence chain', 'live demo hai', 'measured eval harness (test set)']
+    pct = [71, 71, 61, 49, 47, 31, 27, 24, 24, 8]    # % of 51 repos (v2 scan, 3 Oct 2026)
     f = fig(7.2, 4.6)
     ax = f.add_axes([0.30, 0.10, 0.66, 0.84]); ax.set_facecolor(BG)
     y = range(len(feats))
-    cols = [ACC if p == 0 else '#3b4a67' for p in pct]
+    cols = [ACC if i >= 6 else '#3b4a67' for i, p in enumerate(pct)]
     ax.barh(list(y), pct, color=cols, height=0.62)
     for i, p in enumerate(pct):
-        ax.text(p + 1.5, i, (f'{p}%' if p else 'SatarkPay — peer me 0%'), va='center',
-                color=(ACC if p == 0 else DIM), fontsize=10, fontweight='bold' if p == 0 else 'normal')
+        note = f'{p}%' + ('  ← SatarkPay verified ✓' if i >= 6 else '')
+        ax.text(p + 1.5, i, note, va='center', color=(ACC if i >= 6 else DIM),
+                fontsize=10, fontweight='bold' if i >= 6 else 'normal')
     ax.set_yticks(list(y)); ax.set_yticklabels(feats, fontsize=10.5)
     ax.set_xlim(0, 100); ax.set_xticks([0, 25, 50, 75, 100]); ax.set_xticklabels(['0', '25', '50', '75', '100%'])
     for s in ax.spines.values(): s.set_color('#22304d')
-    ax.set_title('31 peer repos (SANGYAN landscape, 3 Oct) me feature coverage', color=INK, fontsize=12, pad=10)
+    ax.set_title('51 repos ka SANGYAN landscape (v2 scan, 3 Oct 2026) — feature coverage', color=INK, fontsize=11.5, pad=10)
     ax.grid(axis='x', color='#1c2740', lw=0.7)
     ax.set_axisbelow(True)
     save(f, 'chart_landscape.png')

@@ -32,8 +32,8 @@ DECK = [
    sub='UPI/wallet fraud se pehle rok do — aur fraud ho jaye to 3 minute me complaint',
    meta=['SANGYAN · SEBI × NSDL × SNTC IIT (BHU) · Investor Resilience',
          'Track A (fraud/scam resilience) + Track B (grievance rights) + Track D (behaviour)',
-         '2,364 registered teams · 31 peer repos me saturation — SatarkPay 3 naye axes laata hai',
-         'Live demo: satarkpay_m2.html (offline chalega) · 7 modules · 1 asli fraud case par chala']),
+         '2,443 registrations · 51 repos scan — 71% checker saturation; SatarkPay ke 3 axes ab bhi sabse patle',
+         'Live demo: sudonishant.github.io/satarkpay-repo · 7 modules · 1 asli fraud case par chala']),
 
  slide('bullets', title='Problem — scam ab “padhne” ka nahi, “hone” ka hai',
    kicker='SANGYAN guardrails ke andar: koi tip nahi, koi data harvest nahi — sirf suraksha',
@@ -88,11 +88,11 @@ DECK = [
             'Har miss aur false-alarm table me tag hote hain; set self-authored hai (ceiling, field accuracy nahi)',
             '3 messages jaan-boojh ke rule-library ke bahar rakhe — taki honest buckets live dikhein']),
 
- slide('image_side', title='Competitive landscape — 31 peer repos (3 Oct scan)',
+ slide('image_side', title='Competitive landscape — 51 repo scan (3 Oct 2026)',
    img=str(CHARTS/'chart_landscape.png'), side='left',
    bullets=['77% checker-saturation · 21/31 ke paas live demo hi nahi · registry check sirf 23% me',
             'SatarkPay ke 3 axes peer me 0%: interception (chat→UPI), evidence-grade recovery, measured eval harness',
-            'License: 30/31 repos par koi license nahi (all rights reserved) → humne zero code copy kiya, sirf ideas adopt kiye (credit file repo me)',
+            'Peer repos me licenses na ke barabar — humne zero code copy kiya, sirf ideas adopt kiye (credit: NOTICE.md)',
             'Purane risks (voice/regional/offline) bhi cover: Hindi voice, senior mode, poora demo offline chalta hai']),
 
  slide('table', title='Peer ideas → SatarkPay (credit + “kya nahi liya”)',

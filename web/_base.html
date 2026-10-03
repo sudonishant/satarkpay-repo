@@ -232,6 +232,62 @@ body.senior{background:#04060b}
 code{font-family:var(--mono); font-size:11.5px; background:rgba(13,23,41,0.9); border:1px solid var(--line2); padding:1px 6px; border-radius:5px; color:#93c5fd}
 .spin{display:inline-block; width:12px;height:12px;border-radius:50%; border:2px solid rgba(255,255,255,0.25); border-top-color:#fff; animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
+
+/* ===== UI pass (3 Oct) — mobile density + judge-friendly ===== */
+html{scroll-behavior:smooth}
+@media (max-width:700px){
+  body{padding-bottom:24px; font-size:14.5px}
+  header.top{padding:10px 14px; gap:8px; background:rgba(6,10,18,0.97)}
+  .brand{font-size:15px; line-height:1.25}
+  .brand .sub{font-size:11.5px}
+  .hdr-right{gap:6px}
+  .hdr-right .sm{padding:7px 10px; font-size:12px}
+  .hdr-right .tag{padding:5px 9px; font-size:11.5px}
+  nav.tabs{flex-wrap:nowrap; overflow-x:auto; gap:6px;
+    padding:10px 14px; position:sticky; top:0; z-index:40;
+    background:rgba(6,10,18,0.97); backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line); scrollbar-width:none;
+    -webkit-overflow-scrolling:touch}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{flex:0 0 auto; padding:8px 11px; font-size:12.5px}
+  .kpi-strip{display:flex; overflow-x:auto; gap:8px; padding:10px 14px 2px;
+    scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+  .kpi-strip::-webkit-scrollbar{display:none}
+  .kpi-card{flex:0 0 78%; scroll-snap-align:start; padding:10px 12px}
+  .kpi-val{font-size:12.5px}
+  .kpi-lbl{font-size:10.5px}
+  main{padding:12px 14px 0}
+  .card{padding:14px; border-radius:14px}
+  .module.on{gap:16px}
+}
+@media (max-width:420px){
+  .brand{font-size:14px}
+  .kpi-card{flex:0 0 86%}
+}
+
+/* ===== UI pass 2 — mobile: header 1 row + phone cap + bade tap targets ===== */
+@media (max-width:1080px){
+  .phonewrap{position:static; top:auto}     /* sticky phone mobile par overlap karta tha */
+}
+@media (max-width:700px){
+  .brand{width:100%}
+  .brand .sub{display:block; margin-top:2px}
+  .hdr-right{margin-left:0; width:100%; flex-wrap:nowrap; overflow-x:auto;
+    gap:6px; padding:2px 0 6px; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+    mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 22px), transparent 100%)}
+  .hdr-right::-webkit-scrollbar{display:none}
+  .hdr-right .sm, .hdr-right .tag{flex:0 0 auto}
+  /* phone ko cap karo — scenario chips + Run button bhi pehli screen par dikhein */
+  .screen{min-height:auto; max-height:56vh; overflow-y:auto; -webkit-overflow-scrolling:touch}
+  .phone{border-radius:36px; padding:9px}
+  /* bade tap targets (senior/low-literacy users) */
+  .chip{padding:10px 13px !important; font-size:13px !important; border-radius:11px}
+  .sm{padding:9px 12px !important; font-size:12.5px !important}
+  button{min-height:38px}
+  /* scroll hints */
+  .kpi-strip{mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 26px), transparent 100%)}
+  footer{font-size:11.5px; margin-top:18px}
+}
 </style>
 </head>
 <body>
@@ -239,7 +295,7 @@ code{font-family:var(--mono); font-size:11.5px; background:rgba(13,23,41,0.9); b
 <header class="top">
   <div class="brand">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2.5 4 6v6.2c0 4.7 3.3 8.6 8 9.8 4.7-1.2 8-5.1 8-9.8V6l-8-3.5Z" stroke="#06b6d4" stroke-width="1.8"/><path d="m8.6 12.2 2.3 2.3 4.5-4.6" stroke="#3b82f6" stroke-width="2.1" stroke-linecap="round"/></svg>
-    SatarkPay <span class="sub">M2 · New Module Pack <span class="dim2">·</span> 7 modules · demo + asli case ka masked pack</span>
+    SatarkPay <span class="sub">SANGYAN · SEBI × NSDL × IIT (BHU) <span class="dim2">·</span> Track A + B · 7 modules</span>
   </div>
   <div class="hdr-right">
     <span class="tag ok"><span class="dot ok"></span>&nbsp;Guard ON</span>
@@ -275,8 +331,8 @@ code{font-family:var(--mono); font-size:11.5px; background:rgba(13,23,41,0.9); b
     <div class="kpi-lbl">Digital Arrest · Task · Utility · Sextortion · Fake Refund · APK · QR Swap</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-val" style="color:var(--accent)">&lt;12ms LATENCY</div>
-    <div class="kpi-lbl">Deterministic edge inference · zero round-trip lag · works offline</div>
+    <div class="kpi-val" style="color:var(--accent)">0.012ms MEDIAN</div>
+    <div class="kpi-lbl">Measured classify() (5,000 runs) · deterministic · zero network · works offline</div>
   </div>
   <div class="kpi-card">
     <div class="kpi-val" style="color:var(--ok)">100% PII REDACTED</div>

@@ -1055,4 +1055,6 @@ if($('#evRun')) $('#evRun').textContent='▶ Run eval ('+EVAL_SET.length+' messa
 $('#foot').innerHTML=`<b class="dim">SatarkPay M2 · New Module Pack</b> — ye interactive demo synthetic data + public headlines (live crawl ${esc(INTEL.generated_at.slice(0,10))}) par chalta hai.
 Har verdict demo me rule-engine se aata hai (deterministic), koi LLM call nahi — production me wahi verdict LLM se explain hota hai.
 Naye rules R15–R37 deck ke R1–R14 ke saath chalte hain (do JSON packs: rules_R15_R25.json + rules_R26_R38.json); borrowed concepts ka credit sangyan_osint/BORROW_LIST.md me — zero code copying. Honest limits: Android telemetry (UsageStats/Notification/SMS) real device par permission + Play-policy review maangta hai;
-iOS par kuch signals nahi milte (graceful degrade); screenshots ka OCR opt-in hai (image store nahi hoti, sirf entity + hash). Block kuch bhi auto nahi hota — hamesha user ya human decide karta hai.`;
+iOS par kuch signals nahi milte (graceful degrade); screenshots ka OCR opt-in hai (image store nahi hoti, sirf entity + hash). Block kuch bhi auto nahi hota — hamesha user ya human decide karta hai.
+<br><b class="dim">Guardrails:</b> koi stock tip / buy-sell-hold nahi · koi monetisation nahi · SMS/OTP/PII harvest nahi (0 permissions) · DPDP-aligned · public-good.
+<br><b class="dim">Live demo:</b> sudonishant.github.io/satarkpay-repo · <b class="dim">Team SCΛMURΛI</b> — Nishant Kumar · Prince Singh · Kartik Singh`;
