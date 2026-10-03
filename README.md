@@ -7,11 +7,23 @@
 [![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20Web%20Dashboard-0284c7?style=for-the-badge&logo=android&logoColor=white)](app/satarkpay-android)
 [![Privacy](https://img.shields.io/badge/Privacy-100%25%20On--Device%20%7C%20DPDP%202023-8b5cf6?style=for-the-badge&logo=security&logoColor=white)](docs/PRIVACY.md)
 [![License](https://img.shields.io/badge/License-MIT-f59e0b?style=for-the-badge)](LICENSE)
-[![Latency](https://img.shields.io/badge/Classify%20(Node)-0.012ms%20median-06b6d4?style=for-the-badge)](docs/VERIFICATION.md)
+[![Latency](https://img.shields.io/badge/Classify%20(Node)-0.012ms%20median-4bb5c9?style=for-the-badge)](docs/VERIFICATION.md)
+[![Pitch Deck](https://img.shields.io/badge/Pitch%20Deck-17%20slides-c9a86a?style=for-the-badge&logo=microsoftpowerpoint&logoColor=white)](web/pitch/SANGYAN_SatarkPay_Pitch.pptx)
+[![Permissions](https://img.shields.io/badge/Permissions-0%20SMS%20%7C%200%20Contacts-2fb59a?style=for-the-badge&logo=shield&logoColor=white)](#%EF%B8%8F-guardrail-compliance-sangyan-ps--judges-ke-liye-seedha-mapping)
 
 <br/>
 
-**🔴 Live demo:** **[sudonishant.github.io/satarkpay-repo](https://sudonishant.github.io/satarkpay-repo/)** — offline-capable, no install (phone par kholo)
+**🔴 Live demo:** **[sudonishant.github.io/satarkpay-repo](https://sudonishant.github.io/satarkpay-repo/)** — offline-capable, no install (phone par kholo) · **[interactive deck](https://sudonishant.github.io/satarkpay-repo/web/deck/deck.html)**
+**🎥 Demo video (3 min):** _(recording pending — yahan link aayega)_
+
+| Artifact | Kahan hai |
+|---|---|
+| 🔴 Live demo (offline bhi chalta hai) | **[sudonishant.github.io/satarkpay-repo](https://sudonishant.github.io/satarkpay-repo/)** |
+| 📑 **Pitch deck (17 slides, Python-generated)** | [`web/pitch/SANGYAN_SatarkPay_Pitch.pptx`](web/pitch/SANGYAN_SatarkPay_Pitch.pptx) · [PDF](web/pitch/SANGYAN_SatarkPay_Pitch.pdf) |
+| 🖼️ Interactive deck (HTML) | [web/deck/deck.html](https://sudonishant.github.io/satarkpay-repo/web/deck/deck.html) |
+| ✅ Verified numbers + exact commands | [`docs/VERIFICATION.md`](docs/VERIFICATION.md) |
+
+**⚡ 2 minute me judge kya kare:** demo kholo → tab `01 Chat-Before-Pay` → chip **Unknown · 10 min chat** → **▶ Run scenario** → hold card + "final call user ki" line dekho.
 
 <br/>
 
@@ -64,6 +76,28 @@ Modern UPI fraud in India relies heavily on **social engineering, psychological 
 ```
 
 ---
+
+## ⚖️ Guardrail compliance (SANGYAN PS — judges ke liye seedha mapping)
+
+| PS guardrail | SatarkPay |
+|---|---|
+| No stock tips / buy-sell-hold / price prediction | **Zero** advice-path — verdict sirf safety signal hai; system kabhi "buy/sell/hold" nahi kehta (eval me bhi verify) |
+| No monetisation / broker promotion | Koi commission, upsell, referral nahi — MIT, public-good |
+| **No unauthorised SMS/OTP/PII harvesting** | Manifest me **READ_SMS / Notification access / Contacts / Accessibility = ZERO** (sirf INTERNET + RECORD_AUDIO + VIBRATE + REQUEST_DELETE_PACKAGES) |
+| Privacy by design | On-device compute · data device par · server par sirf verdict code + entity **hash** (opt-in); `docs/PRIVACY.md` me DPDP checklist |
+| Uncertainty transparent | "PAKKA NAHI BATA SAKTA" ek valid verdict hai; eval me apne **miss (2)** aur **false-alarm (1)** khud report karte hain |
+| Public-good ethos | Free, open (MIT), koi per-user cost nahi; Phase-2 me SEBI registry sync + SCORES/ODR draft |
+
+## 📈 Verified numbers (khud chala kar dekho)
+
+| Claim | Command | Result |
+|---|---|---|
+| Demo automated checks | `cd web && bash run_smoke.sh` | **66 / 66 pass** (CI me har push par) |
+| Rule-engine accuracy | `python3 eval/run_eval.py` | **P 95.0% · R 90.5% · F1 92.7%** (33 labelled msgs) |
+| Inference latency | `cd eval && NODE_PATH=../node_modules node bench_latency.js` | **0.012 ms median** (5,000 runs) |
+| Evidence pipeline | `python3 tools/build_report.py` (case_pack) | **28 files** → SHA-256 chain + NCRP + email + annexure |
+
+Har number ka exact command + output: **[`docs/VERIFICATION.md`](docs/VERIFICATION.md)** (8 sections).
 
 ## 🚀 Key Deliverables in This Repository
 

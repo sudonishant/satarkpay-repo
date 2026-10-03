@@ -2,6 +2,38 @@
 
 Sab notable changes, naye se purane. Format: `date · version — kya`.
 
+## 2026-10-03 · v1.3 — premium pass 3 (complete palette) + 17-slide pitch deck + README v3
+
+### UI — "aur zyada red green lag raha hai" fix
+- Poora saturation audit (HLS-based script): JS + M3/M6 inline styles me bache hue **~50 bright hexes** bhi repalette — `#9ff0c4/#ff5d5d/#fca5a5/#f5a524/#3b82f6/#06b6d4` → jade/clay/champagne/steel
+- Brand logo cyan → champagne gold; primary buttons deeper steel-blue; tag borders muted
+- Result: HLS me sirf approved premium tones bache (sat check script se verify)
+
+### Naya pitch deck — 17 slides, poora Python se (`web/pitch/`)
+- **6 naye diagrams** (`make_diagrams2.py`): eval + confusion matrix, **latency histogram (asli 5,000-run raw data)**, module map, privacy data-flow, 7 scam families, “Monday” roadmap
+- Slides: cover → **Ramesh story** → problem scale → journey → demo → architecture → modules → eval → latency → competition → permissions → data flow → **rubric map** → coverage → honesty → Monday → close
+- Research-backed: action titles, one idea/slide, 60-30-10, ≤2 fonts, "name one real person", "what we cut", "what happens Monday"
+- `latency_raw.json` — chart hand-drawn nahi, measured data se
+
+### README v3 (judge-first)
+- Naye badges: pitch deck + permissions (0 SMS / 0 contacts)
+- Artifacts table + "2 minute me judge kya kare" quickstart
+- Guardrail mapping + verified numbers table (har claim ka command)
+## 2026-10-03 · v1.2 — premium theme + pitch deck (Python-generated) + judge-first README
+
+### Naya (iss session)
+- **Premium UI theme** — bright red/green ki jagah muted navy + champagne palette: `ok #2fb59a · warn #d9a441 · bad #d15b5b · accent #4a8fe7`, naye `--gold/--sand/--jade` tones, KPI cards par gold hairline accent, glow box-shadows halke (research: premium dark = navy/charcoal, desaturate accents)
+- **Naya pitch deck (11 slides)** — poori tarah **Python (python-pptx) se generated**: cover → problem → journey → demo → architecture → proof → competition → guardrails → **rubric map** → honesty/roadmap → close. Research-backed rules: action titles, one idea per slide, 2 fonts, 3–5 colours, 60-30-10, big type
+- **Python-generated diagrams** — `web/pitch/make_diagrams.py` (matplotlib): 60-second journey, 3-box architecture, proof panel, permissions trust table, 51-repo landscape — sab code se reproducible
+- **README judge-first** — guardrail compliance table (PS ke har guardrail ka proof), verified-numbers table (har claim ka exact command), video slot, pitch deck link
+- **Deck refresh** — 18-slide deck + PDF premium UI screenshots ke saath dobara build
+
+### Command
+```bash
+python3 web/pitch/make_diagrams.py && python3 web/pitch/build_pitch.py   # pitch deck
+cd web && bash run_smoke.sh                                              # 66/66
+```
+
 ## 2026-10-03 · v1.1 — UI pass + deck v2 + live polish
 
 ### Naya (iss session)

@@ -47,7 +47,7 @@ function toast(msg,kind){
   d.style.cssText=`position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:99;padding:10px 16px;border-radius:12px;
   font-size:13px;font-weight:550;border:1px solid ${kind==='bad'?'rgba(239,68,68,0.5)':kind==='ok'?'rgba(16,185,129,0.5)':'rgba(59,130,246,0.35)'};
   background:${kind==='bad'?'rgba(44,16,21,0.95)':kind==='ok'?'rgba(14,42,30,0.95)':'rgba(18,29,54,0.95)'};
-  box-shadow:0 14px 35px -10px rgba(0,0,0,0.7), 0 0 15px ${kind==='bad'?'rgba(239,68,68,0.2)':kind==='ok'?'rgba(16,185,129,0.2)':'rgba(59,130,246,0.2)'};
+  box-shadow:0 14px 35px -10px rgba(0,0,0,0.7), 0 0 15px ${kind==='bad'?'rgba(176,101,79,0.16)':kind==='ok'?'rgba(16,185,129,0.2)':'rgba(59,130,246,0.2)'};
   backdrop-filter:blur(8px);transition:all .25s ease;animation:pop .25s ease`;
   document.body.appendChild(d);setTimeout(()=>{d.style.opacity='0';d.style.transform='translateX(-50%) translateY(8px)';setTimeout(()=>d.remove(),300);},2400);
 }
@@ -250,7 +250,7 @@ let m1={key:null,dwell:0,timer:null,cleared:false,answers:{},gateState:null,tier
 function m1Timeline(txt,kind){const el=$('#m1timeline');
   if(el.dataset.init!=='1'){el.dataset.init='1';el.innerHTML='<table><thead><tr><th>t</th><th>event (metadata only)</th><th>source</th></tr></thead><tbody></tbody></table>';}
   const tb=$('#m1timeline tbody');const tr=document.createElement('tr');
-  const c=kind==='bad'?'#ff9d9d':kind==='ok'?'#9ff0c4':'#cdd9ee';
+  const c=kind==='bad'?'#e0a49c':kind==='ok'?'#a3d6c5':'#cdd9ee';
   tr.innerHTML=`<td class="mono" style="color:var(--dim)">${new Date().toLocaleTimeString('en-IN',{hour12:false})}</td><td style="color:${c}">${txt}</td><td class="tiny dim">on-device</td>`;
   tb.prepend(tr);}
 function m1Notify(tier,s){
@@ -293,7 +293,7 @@ function m1Ring(){
   const s=M1SC[m1.key],T=M1TIERS[m1.tier||'QUICK'],need=T.need||1;
   const p=Math.min(1,m1.dwell/need);
   $('#m1arc').style.strokeDashoffset=String(276*(1-p));
-  $('#m1arc').setAttribute('stroke',p>=1?'#25d07a':T.cls==='bad'?'#ff5d5d':T.cls==='warn'?'#f5a524':'#4f8cff');
+  $('#m1arc').setAttribute('stroke',p>=1?'#3fae94':T.cls==='bad'?'#cd7a6e':T.cls==='warn'?'#d9a441':'#c9a86a');
   $('#m1clock').textContent=s.known===null?'—':mmss(Math.max(0,need-m1.dwell));
   const SHORT={QUICK:s.known===null?'no gate':'1-min check',NOTIFY:'10-min rule',COOLING:'8-min guided',HOLD:'hold + callback'};
   $('#m1phase').textContent=p>=1?'clear ✓':SHORT[m1.tier||'QUICK'];
@@ -412,7 +412,7 @@ function m2Render(){
   $('#m2count').textContent=String(m2shots.length);
   $('#m2burst').innerHTML=pay+'<span style="font-size:13px; color:var(--dim)"> / 30 min</span>';
   $('#m2bar').style.width=Math.min(100,pay*20)+'%';
-  $('#m2bar').style.background=pay>=5||bad?'linear-gradient(90deg,#f5a524,#ff5d5d)':'linear-gradient(90deg,#2dd4bf,#4f8cff)';
+  $('#m2bar').style.background=pay>=5||bad?'linear-gradient(90deg,#d9a441,#cd7a6e)':'linear-gradient(90deg,#4bb5c9,#c9a86a)';
   const sev=$('#m2sev');
   if(pay>=5||bad){sev.className='tag bad';sev.textContent='RED';}else if(pay>=3){sev.className='tag warn';sev.textContent='amber';}else{sev.className='tag';sev.textContent='safe';}
   let b='';
@@ -511,7 +511,7 @@ function m3Render(raw){
   const steps=r.level>=3?['Ruk jao — is page par payment mat karo','Asli app/site khud khol kar check karo (link se nahi)','Kisi ne bheja hai to screenshot + number save karo (1930 ke liye)','Bhejne wale ko call karke known number par confirm karo']
     :['Payment se pehle merchant ka naam screen par check karo','Amount + UPI ID match karo'];
   $('#m3out').innerHTML=`
-   <div class="verdict" style="border-color:${cls==='ok'?'#1d6b45':cls==='warn'?'#7a5620':'#7d2b39'}">
+   <div class="verdict" style="border-color:${cls==='ok'?'#2e6b57':cls==='warn'?'#6b5528':'#5c333c'}">
      <div class="spread"><b>${r.level===4?'🔴':r.level===3?'🟠':'🟢'} ${esc(name)}</b><span class="tag ${cls}">L${r.level}</span></div>
      <div class="tiny dim mono" style="margin-top:6px">${esc(r.host)} · ${esc(tldNote)}${r.gatewayMerchant?' · merchant: '+esc(r.gatewayMerchant):''}</div>
      <div style="margin-top:9px">${r.reasons.map(x=>`<div class="tiny" style="margin:4px 0"><span class="tag ${x[0]==='red'?'bad':'warn'}" style="margin-right:6px">${x[0]}</span>${esc(x[1])}</div>`).join('')}</div>
@@ -629,14 +629,14 @@ function m4Ask(){
     if(r.verdict==='SCAM LIKELY'&&hit){
       body=`<b>🔴 SCAM LIKELY</b> · family ${hit.fam} · confidence: high
       <div style="margin-top:7px">${hit.why.map(w=>'• '+esc(w)).join('<br>')}</div>
-      <div class="tiny" style="margin-top:8px;color:#ffd9a1">MAT KARO: ${esc(hit.dont)}</div>
-      <div class="tiny" style="margin-top:5px;color:#9ff0c4">KARO: ${hit.doo.map(esc).join(' · ')}</div>
+      <div class="tiny" style="margin-top:8px;color:#e3c98f">MAT KARO: ${esc(hit.dont)}</div>
+      <div class="tiny" style="margin-top:5px;color:#a3d6c5">KARO: ${hit.doo.map(esc).join(' · ')}</div>
       <div class="tiny dim2" style="margin-top:6px">Library: T1–T24 se match · 1930/CFCFRMS pack ready · <b>human analyst</b> chahiye to neeche button</div>`;
     } else if(r.verdict==='CAUTION'&&hit){
       body=`<b>🟠 CAUTION — zyada</b> · family ${hit.fam} · confidence: medium
       <div style="margin-top:7px">${hit.why.map(w=>'• '+esc(w)).join('<br>')}</div>
-      <div class="tiny" style="margin-top:8px;color:#ffd9a1">MAT KARO: ${esc(hit.dont)}</div>
-      <div class="tiny" style="margin-top:5px;color:#9ff0c4">KARO: ${hit.doo.map(esc).join(' · ')}</div>
+      <div class="tiny" style="margin-top:8px;color:#e3c98f">MAT KARO: ${esc(hit.dont)}</div>
+      <div class="tiny" style="margin-top:5px;color:#a3d6c5">KARO: ${hit.doo.map(esc).join(' · ')}</div>
       <div class="tiny dim2" style="margin-top:6px">Ye rule sev=warn wala hai — poori jaanch ke baad hi koi payment.</div>`;
     } else if(r.verdict==='SCAM LIKELY'){
       const reds=[];
@@ -644,7 +644,7 @@ function m4Ask(){
       if(dom&&dom.level>=4) reds.push(`• Domain ${dom.host} — lookalike/fake signals: ${dom.reasons.filter(x=>x[0]==='red').map(x=>x[1]).join('; ')}`);
       body=`<b>🔴 SCAM LIKELY (registry/link)</b> · confidence: high
       <div style="margin-top:7px">${reds.map(esc).join('<br>')}</div>
-      <div class="tiny" style="margin-top:8px;color:#ffd9a1">MAT KARO: paisa bhejna, link kholna, OTP/PIN daalna — sab band.</div>
+      <div class="tiny" style="margin-top:8px;color:#e3c98f">MAT KARO: paisa bhejna, link kholna, OTP/PIN daalna — sab band.</div>
       <div class="tiny dim2" style="margin-top:6px">Library: R26 + M3 engine · Intel Desk me ye domain/handle cluster bhi track hoga</div>`;
     } else if(r.verdict==='CAUTION'){
       const ambers=[];
@@ -652,8 +652,8 @@ function m4Ask(){
       if(dom&&dom.level===3) ambers.push(`• Domain ${dom.host} — ${dom.reasons.map(x=>x[1]).join('; ')}`);
       body=`<b>🟠 CAUTION — zyada</b> · confidence: medium
       <div style="margin-top:7px">${ambers.map(esc).join('<br>')}</div>
-      <div class="tiny" style="margin-top:8px;color:#ffd9a1">MAT KARO: dava/portal verify hone tak koi payment nahi.</div>
-      <div class="tiny" style="margin-top:5px;color:#9ff0c4">KARO: official portal se khud verify karo (sebi.gov.in / NSE/BSE) · SCORES par complaint ho sakti hai</div>`;
+      <div class="tiny" style="margin-top:8px;color:#e3c98f">MAT KARO: dava/portal verify hone tak koi payment nahi.</div>
+      <div class="tiny" style="margin-top:5px;color:#a3d6c5">KARO: official portal se khud verify karo (sebi.gov.in / NSE/BSE) · SCORES par complaint ho sakti hai</div>`;
     } else if(r.verdict==='SEEMS OK'){
       const P=r.passRule;
       const plabel=P? (P.label||'legit-refund / service message') : 'safety-warning (negation handle hui — R27)';
@@ -661,7 +661,7 @@ function m4Ask(){
       const pdoo=P?P.doo:['Message ke link par click na karo — bank/company app khud kholo','Sender ID + official domain match karo'];
       body=`<b>🟢 SEEMS OK</b> · confidence: medium<br><span class="dim tiny">pattern: ${esc(plabel)}</span>
       <div style="margin-top:7px">${pwhy.map(w=>'• '+esc(w)).join('<br>')}</div>
-      <div class="tiny" style="margin-top:8px;color:#9ff0c4">KARO: ${pdoo.map(esc).join(' · ')}</div>
+      <div class="tiny" style="margin-top:8px;color:#a3d6c5">KARO: ${pdoo.map(esc).join(' · ')}</div>
       <div class="tiny dim2" style="margin-top:5px">Library: none · koi block nahi</div>`;
     } else {
       body=`<b>🟡 PAKA NAHI BATA SAKTA</b> · confidence: low<br>
@@ -675,7 +675,7 @@ function m4Ask(){
         <div class="dim2" style="margin-top:5px">Hum “registered hai” certify nahi karte — sirf format + domain + lists check karte hain.</div></div>`;
     }
     if(negated){
-      body+=`<div class="verdict tiny" style="border-color:#1d6b45"><b>✅ Negation handle hui (R27):</b>
+      body+=`<div class="verdict tiny" style="border-color:#2e6b57"><b>✅ Negation handle hui (R27):</b>
         ye message khud safety-warning de raha hai (“OTP/PIN share na karein”) — isliye ise scam nahi gina.
         <div class="dim2" style="margin-top:5px">Asli bank/company ke security alerts aise hi likhe hote hain; par link/portal alag se check karo.</div></div>`;
     }
@@ -720,7 +720,7 @@ function m5Render(){
   $('#m5mand').innerHTML=MAND.map(m=>`<div class="item"><div class="ic ${m.risk==='RED'?'bad':'ok'}">${m.risk==='RED'?'⚠':'✓'}</div><div class="bd">
     <div class="ti">${esc(m.name)} <span class="mono dim">${esc(m.who)}</span></div>
     <div class="su">₹${m.amt.toLocaleString('en-IN')} · ${esc(m.freq)} · next ${esc(m.next)} · via ${esc(m.via)} · ${esc(m.created)}<br>
-    <span class="${m.risk==='RED'?'':'dim2'}" style="${m.risk==='RED'?'color:#ff9d9d':''}">${esc(m.why)}</span></div></div>
+    <span class="${m.risk==='RED'?'':'dim2'}" style="${m.risk==='RED'?'color:#e0a49c':''}">${esc(m.why)}</span></div></div>
     <button class="sm ${m.risk==='RED'?'danger':''}" data-rev="${m.id}">Revoke</button></div>`).join('');
   $$('#m5mand button[data-rev]').forEach(b=>b.onclick=()=>{MAND=MAND.filter(x=>x.id!==b.dataset.rev);m5Render();toast('Mandate revoke request bhej di (PSP API)','ok');});
   const red=MAND.filter(m=>m.risk==='RED').length;
@@ -901,7 +901,7 @@ function emTick(){
   const m=String(Math.floor(sec/60)).padStart(2,'0'), ss=String(sec%60).padStart(2,'0');
   const el=$('#emClock'); if(!el) return;
   el.textContent='+'+m+':'+ss;
-  el.style.color = sec<600?'#9ff0c4' : sec<1800?'#ffd9a1' : '#ff9b9b';
+  el.style.color = sec<600?'#a3d6c5' : sec<1800?'#e3c98f' : '#e0a49c';
 }
 function emDone(){
   const n=Object.values(EM.steps).filter(Boolean).length;

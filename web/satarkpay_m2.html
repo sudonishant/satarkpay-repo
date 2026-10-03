@@ -9,7 +9,8 @@
   --bg:#060a12; --bg2:#09101d; --panel:#0d1527; --panel2:#121d36; --panel3:#182647;
   --line:rgba(255,255,255,0.08); --line2:rgba(255,255,255,0.14);
   --txt:#f1f5f9; --dim:#94a3b8; --dim2:#64748b;
-  --ok:#10b981; --warn:#f59e0b; --bad:#ef4444; --accent:#3b82f6; --teal:#06b6d4; --violet:#8b5cf6;
+  --ok:#2fb59a; --warn:#d9a441; --bad:#d15b5b; --accent:#4a8fe7; --teal:#4bb5c9; --violet:#8b7fd4;
+  --gold:#c9a86a; --sand:#e6d3ac; --jade:#2fb59a;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Inter", "Noto Sans", sans-serif;
 }
@@ -20,9 +21,9 @@
 ::-webkit-scrollbar-thumb:hover{background:#334155}
 
 html,body{margin:0;padding:0;background:
-  radial-gradient(1200px 700px at 80% -10%, #172554 0%, transparent 60%),
+  radial-gradient(1200px 700px at 80% -10%, #1b2a44 0%, transparent 60%),
   radial-gradient(1000px 600px at 0% 0%, #0f172a 0%, transparent 55%),
-  radial-gradient(800px 600px at 50% 100%, #1e1b4b 0%, transparent 60%), var(--bg);
+  radial-gradient(800px 600px at 50% 100%, #16233f 0%, transparent 60%), var(--bg);
   color:var(--txt); font-family:var(--sans); font-size:14px; line-height:1.55;
   -webkit-font-smoothing:antialiased}
 body{padding-bottom:60px}
@@ -32,50 +33,50 @@ a:hover{text-decoration:underline}
 button{font-family:inherit; font-size:13px; font-weight:550; cursor:pointer; border-radius:10px; border:1px solid var(--line2);
   background:linear-gradient(180deg, #162238, #0e1728); color:var(--txt); padding:8px 13px; transition:all .18s ease;
   box-shadow:0 2px 4px rgba(0,0,0,0.2)}
-button:hover{background:linear-gradient(180deg, #1f2f4c, #132038); border-color:rgba(255,255,255,0.22); transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+button:hover{background:linear-gradient(180deg, #223050, #132038); border-color:rgba(255,255,255,0.22); transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,0.3)}
 button:active{transform:translateY(0)}
-button.primary{background:linear-gradient(180deg,#2563eb,#1d4ed8); border-color:#60a5fa; box-shadow:0 4px 14px -3px rgba(37,99,235,0.5)}
-button.primary:hover{background:linear-gradient(180deg,#3b82f6,#2563eb); border-color:#93c5fd; box-shadow:0 6px 20px -3px rgba(37,99,235,0.65)}
-button.danger{background:linear-gradient(180deg,#991b1b,#7f1d1d); border-color:#f87171; color:#fee2e2; box-shadow:0 4px 14px -3px rgba(220,38,38,0.4)}
-button.danger:hover{background:linear-gradient(180deg,#b91c1c,#991b1b)}
+button.primary{background:linear-gradient(180deg,#41699e,#35567f); border-color:#7a9cc9; box-shadow:0 4px 14px -3px rgba(84,132,196,0.42)}
+button.primary:hover{background:linear-gradient(180deg,#5484c4,#41699e); border-color:#a8bfdc; box-shadow:0 6px 20px -3px rgba(84,132,196,0.55)}
+button.danger{background:linear-gradient(180deg,#84463c,#5c332c); border-color:#d98a80; color:#ecd7d1; box-shadow:0 4px 14px -3px rgba(168,90,78,0.34)}
+button.danger:hover{background:linear-gradient(180deg,#a85a4e,#84463c)}
 button.ghost{background:transparent; box-shadow:none; border-color:transparent}
 button.ghost:hover{background:rgba(255,255,255,0.06); border-color:var(--line2)}
 button:disabled{opacity:.45; cursor:not-allowed; transform:none !important; box-shadow:none !important}
 button.sm{padding:5px 10px; font-size:12px; border-radius:8px}
 input,textarea{font-family:inherit; font-size:13px; color:var(--txt); background:#070d18;
   border:1px solid var(--line2); border-radius:10px; padding:10px 12px; width:100%; transition:all .18s ease}
-input:focus,textarea:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 3px rgba(6,182,212,0.18)}
+input:focus,textarea:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 3px rgba(75,181,201,0.14)}
 .mono{font-family:var(--mono)}
 .dim{color:var(--dim)} .dim2{color:var(--dim2)}
 .tiny{font-size:11.5px; line-height:1.5}
 .tag{display:inline-flex; align-items:center; font-size:10.5px; font-weight:600; padding:2px 8px; border-radius:999px;
   border:1px solid var(--line2); background:rgba(13,23,41,0.7); color:var(--dim); letter-spacing:.02em; backdrop-filter:blur(4px)}
-.tag.ok{color:#6ee7b7; border-color:rgba(16,185,129,0.4); background:rgba(6,78,59,0.35)}
-.tag.warn{color:#fde047; border-color:rgba(245,158,11,0.4); background:rgba(120,53,15,0.35)}
-.tag.bad{color:#fca5a5; border-color:rgba(239,68,68,0.4); background:rgba(127,29,29,0.35)}
-.tag.info{color:#93c5fd; border-color:rgba(59,130,246,0.4); background:rgba(30,58,138,0.35)}
-.tag.v{color:#c4b5fd; border-color:rgba(139,92,246,0.4); background:rgba(76,29,149,0.35)}
+.tag.ok{color:#8fd4bd; border-color:rgba(47,181,154,0.34); background:rgba(31,80,66,0.3)}
+.tag.warn{color:#e3c98f; border-color:rgba(201,168,106,0.34); background:rgba(94,74,32,0.28)}
+.tag.bad{color:#e0a49c; border-color:rgba(176,101,79,0.34); background:rgba(92,44,36,0.28)}
+.tag.info{color:#a8bfdc; border-color:rgba(122,147,178,0.32); background:rgba(44,60,84,0.3)}
+.tag.v{color:#c3b8e3; border-color:rgba(139,127,212,0.32); background:rgba(58,50,92,0.28)}
 
 /* ---------- layout ---------- */
 header.top{position:sticky; top:0; z-index:50; display:flex; align-items:center; gap:14px; flex-wrap:wrap;
   padding:12px 24px; background:rgba(6,10,18,0.85); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
   border-bottom:1px solid var(--line); box-shadow:0 4px 20px -2px rgba(0,0,0,0.6)}
 .brand{display:flex; align-items:center; gap:11px; font-weight:750; font-size:16.5px; letter-spacing:-0.01em}
-.brand svg{filter:drop-shadow(0 0 8px rgba(6,182,212,0.4))}
+.brand svg{filter:drop-shadow(0 0 8px rgba(201,168,106,0.38))}
 .brand .sub{font-weight:450; font-size:11.5px; color:var(--dim)}
 .hdr-right{margin-left:auto; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
 .live{display:inline-flex; align-items:center; gap:6px}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--ok); box-shadow:0 0 0 3px rgba(16,185,129,0.22), 0 0 10px var(--ok); animation:p 1.8s infinite}
-.dot.bad{background:var(--bad); box-shadow:0 0 0 3px rgba(239,68,68,0.22), 0 0 10px var(--bad)}
-.dot.warn{background:var(--warn); box-shadow:0 0 0 3px rgba(245,158,11,0.22), 0 0 10px var(--warn)}
-.dot.ok{background:var(--ok); box-shadow:0 0 0 3px rgba(16,185,129,0.22), 0 0 10px var(--ok)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ok); box-shadow:0 0 0 3px rgba(47,181,154,0.16), 0 0 8px rgba(47,181,154,0.55); animation:p 1.8s infinite}
+.dot.bad{background:var(--bad); box-shadow:0 0 0 3px rgba(209,91,91,0.16), 0 0 8px rgba(209,91,91,0.5)}
+.dot.warn{background:var(--warn); box-shadow:0 0 0 3px rgba(217,164,65,0.16), 0 0 8px rgba(217,164,65,0.5)}
+.dot.ok{background:var(--ok); box-shadow:0 0 0 3px rgba(47,181,154,0.16), 0 0 8px rgba(47,181,154,0.55)}
 @keyframes p{0%,100%{opacity:1; transform:scale(1)}50%{opacity:.5; transform:scale(0.85)}}
 
 /* ---------- threat intelligence ticker ---------- */
 .threat-ticker{display:flex; align-items:center; gap:12px; background:rgba(10,16,29,0.92);
   border-bottom:1px solid var(--line); padding:6px 20px; font-size:11.5px; overflow:hidden; white-space:nowrap}
 .ticker-badge{display:inline-flex; align-items:center; gap:5px; font-family:var(--mono); font-size:10px; font-weight:700;
-  letter-spacing:.06em; padding:2px 7px; border-radius:5px; background:rgba(239,68,68,0.2); border:1px solid rgba(239,68,68,0.4); color:#fca5a5; flex-shrink:0}
+  letter-spacing:.06em; padding:2px 7px; border-radius:5px; background:rgba(176,101,79,0.16); border:1px solid rgba(176,101,79,0.34); color:#e0a49c; flex-shrink:0}
 .ticker-track{display:flex; align-items:center; overflow:hidden; mask-image:linear-gradient(90deg, transparent 0, #000 30px, #000 calc(100% - 30px), transparent 100%)}
 .ticker-content{display:inline-flex; align-items:center; gap:36px; animation:marquee 34s linear infinite; padding-left:100%}
 .threat-ticker:hover .ticker-content{animation-play-state:paused}
@@ -88,8 +89,10 @@ header.top{position:sticky; top:0; z-index:50; display:flex; align-items:center;
 .kpi-strip{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; max-width:1500px; margin:14px auto 0; padding:0 20px}
 @media (max-width:960px){.kpi-strip{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:540px){.kpi-strip{grid-template-columns:1fr}}
-.kpi-card{background:linear-gradient(180deg, rgba(16,26,45,0.7), rgba(11,18,32,0.85)); border:1px solid var(--line);
+.kpi-card{background:linear-gradient(180deg, rgba(18,28,48,0.72), rgba(11,17,30,0.9)); border:1px solid var(--line);
   border-radius:12px; padding:10px 14px; display:flex; flex-direction:column; gap:2px; transition:border-color .2s}
+.kpi-card::before{content:""; display:block; height:2px; border-radius:2px; margin:-2px -2px 8px;
+  background:linear-gradient(90deg, var(--gold), rgba(201,168,106,0.12))}
 .kpi-card:hover{border-color:rgba(255,255,255,0.18)}
 .kpi-val{font-family:var(--mono); font-weight:700; font-size:13.5px; letter-spacing:0.02em}
 .kpi-lbl{font-size:11px; color:var(--dim); line-height:1.35}
@@ -99,9 +102,9 @@ nav.tabs button{display:flex; align-items:center; gap:8px; padding:9px 13px; fon
   background:rgba(15,22,38,0.7); border:1px solid var(--line); backdrop-filter:blur(8px)}
 nav.tabs button .n{font-family:var(--mono); font-size:11px; color:var(--dim2)}
 nav.tabs button:hover{background:rgba(24,37,65,0.85); border-color:rgba(79,140,255,0.3)}
-nav.tabs button.on{background:linear-gradient(180deg,rgba(37,99,235,0.22),rgba(15,23,42,0.8)); border-color:#3b82f6;
+nav.tabs button.on{background:linear-gradient(180deg,rgba(37,99,235,0.22),rgba(15,23,42,0.8)); border-color:#5484c4;
   color:#fff; box-shadow:0 6px 20px -6px rgba(59,130,246,0.6); font-weight:600}
-nav.tabs button.on .n{color:#93c5fd}
+nav.tabs button.on .n{color:#a8bfdc}
 
 main{max-width:1500px; margin:0 auto; padding:16px 20px 0}
 .module{display:none; grid-template-columns:auto minmax(0,1fr); gap:24px; align-items:start}
@@ -127,7 +130,7 @@ main{max-width:1500px; margin:0 auto; padding:16px 20px 0}
 .sig .lbl{flex:1; font-size:12.5px}
 .sig .v{font-family:var(--mono); font-size:12px; color:var(--dim)}
 .bar{height:7px; border-radius:99px; background:#101a2d; overflow:hidden; margin-top:7px; box-shadow:inset 0 1px 2px rgba(0,0,0,0.5)}
-.bar>i{display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#06b6d4,#3b82f6); transition:width .3s ease}
+.bar>i{display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#c9a86a,#5484c4); transition:width .3s ease}
 .note{font-size:12px; color:var(--dim); border-left:3px solid var(--accent); padding:3px 0 3px 11px; background:rgba(59,130,246,0.05); border-radius:0 8px 8px 0}
 .warnbox{border:1px solid rgba(245,158,11,0.35); background:linear-gradient(180deg,rgba(44,32,9,0.7),rgba(32,24,10,0.85)); border-radius:12px; padding:12px; box-shadow:0 4px 14px -4px rgba(245,158,11,0.15)}
 .badbox{border:1px solid rgba(239,68,68,0.35); background:linear-gradient(180deg,rgba(44,16,21,0.7),rgba(32,13,17,0.85)); border-radius:12px; padding:12px; box-shadow:0 4px 14px -4px rgba(239,68,68,0.15)}
@@ -150,20 +153,20 @@ main{max-width:1500px; margin:0 auto; padding:16px 20px 0}
   background:linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 60%); pointer-events:none}
 .phone-island{width:90px; height:22px; background:#000; border-radius:99px; margin:7px auto 0;
   display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 2px 6px rgba(0,0,0,0.6); z-index:10; flex-shrink:0}
-.phone-lens{width:8px; height:8px; border-radius:50%; background:#0b192c; box-shadow:inset 0 0 2px #06b6d4}
+.phone-lens{width:8px; height:8px; border-radius:50%; background:#0b192c; box-shadow:inset 0 0 2px #c9a86a}
 .sbar{display:flex; align-items:center; gap:6px; padding:3px 18px 5px; font-family:var(--mono); font-size:11px; color:var(--dim)}
 .sbar .sp{margin-left:auto}
 .appbar{display:flex; align-items:center; gap:10px; padding:10px 15px 12px; border-bottom:1px solid rgba(255,255,255,0.07); background:rgba(8,13,24,0.6)}
 .appbar .av{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:700;color:#04121a;
-  background:linear-gradient(180deg,#5eead4,#06b6d4); box-shadow:0 2px 8px rgba(6,182,212,0.35)}
+  background:linear-gradient(180deg,#8fd0c5,#3e9bab); box-shadow:0 2px 8px rgba(75,181,201,0.3)}
 .appbar .t{font-size:13px; font-weight:650; line-height:1.25}
 .appbar .t small{display:block; font-weight:400; color:var(--dim); font-size:10.5px}
 .scrbody{padding:13px; display:flex; flex-direction:column; gap:11px; flex:1}
 .bub{max-width:82%; padding:9px 12px; border-radius:14px; font-size:12.5px; line-height:1.45}
 .bub.in{background:#152138; border:1px solid rgba(255,255,255,0.08); border-bottom-left-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.25)}
-.bub.out{background:#11382b; border:1px solid rgba(16,185,129,0.3); align-self:flex-end; border-bottom-right-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.25)}
+.bub.out{background:#16302a; border:1px solid rgba(16,185,129,0.3); align-self:flex-end; border-bottom-right-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.25)}
 .bub .who{font-size:10.5px; color:var(--dim); margin-bottom:3px}
-.notif{border:1px solid #3b82f6; background:linear-gradient(180deg,#172554,#0f172a); border-radius:14px; padding:11px 13px;
+.notif{border:1px solid #5484c4; background:linear-gradient(180deg,#1b2a44,#0f172a); border-radius:14px; padding:11px 13px;
   box-shadow:0 12px 28px -10px rgba(0,0,0,0.7), 0 0 15px rgba(59,130,246,0.25); animation:pop .35s cubic-bezier(0.16,1,0.3,1)}
 @keyframes pop{from{transform:translateY(-8px); opacity:0}to{transform:none; opacity:1}}
 .sheet{margin-top:auto; background:linear-gradient(180deg,#121d33,#0c1322); border:1px solid rgba(255,255,255,0.1); border-radius:18px; padding:14px;
@@ -193,7 +196,7 @@ main{max-width:1500px; margin:0 auto; padding:16px 20px 0}
 .shot .meta b{color:var(--txt); font-weight:600; font-size:11px; display:block}
 .chat{display:flex; flex-direction:column; gap:9px; max-height:300px; overflow:auto; padding-right:2px}
 .chat .m{max-width:88%; padding:9px 12px; border-radius:14px; font-size:12.5px; white-space:pre-wrap; box-shadow:0 2px 6px rgba(0,0,0,0.2)}
-.chat .u{align-self:flex-end; background:#1e3a5f; border:1px solid rgba(59,130,246,0.4)}
+.chat .u{align-self:flex-end; background:#22314c; border:1px solid rgba(122,147,178,0.32)}
 .chat .a{align-self:flex-start; background:#0f1c32; border:1px solid rgba(255,255,255,0.1)}
 .verdict{border-radius:12px; padding:11px; margin-top:8px; font-size:12px; border:1px solid var(--line2); background:#0b1322}
 .list{display:flex; flex-direction:column; gap:8px}
@@ -203,7 +206,7 @@ main{max-width:1500px; margin:0 auto; padding:16px 20px 0}
 .item .bd{flex:1; min-width:0}
 .item .ti{font-size:12.8px; font-weight:600}
 .item .su{font-size:11.3px; color:var(--dim); margin-top:2px; line-height:1.45}
-.ic.ok{background:#0e2a1e;border-color:#10b981} .ic.warn{background:#2c2009;border-color:#f59e0b} .ic.bad{background:#2c1015;border-color:#ef4444}
+.ic.ok{background:#142b24;border-color:#2fb59a} .ic.warn{background:#2a2318;border-color:#d9a441} .ic.bad{background:#2a1a18;border-color:#c96a5f}
 table{width:100%; border-collapse:collapse; font-size:12.3px}
 th,td{text-align:left; padding:8px 10px; border-bottom:1px solid rgba(255,255,255,0.06); vertical-align:top}
 th{color:var(--dim); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.05em}
@@ -217,7 +220,7 @@ tr:last-child td{border-bottom:none}
   border:1px solid var(--line); background:#0d1626; cursor:pointer; color:var(--dim); transition:all .15s}
 .step b{font-family:var(--mono); color:var(--accent)}
 .step:hover{border-color:rgba(255,255,255,0.2); color:var(--txt)}
-.step.on{border-color:#3b82f6; background:#172554; color:var(--txt); box-shadow:0 0 12px rgba(59,130,246,0.3)}
+.step.on{border-color:#5484c4; background:#1b2a44; color:var(--txt); box-shadow:0 0 12px rgba(122,147,178,0.24)}
 footer{max-width:1500px; margin:26px auto 0; padding:0 20px; font-size:12px; color:var(--dim2); line-height:1.6}
 .senior{font-size:17.5px}
 .senior .tiny{font-size:13.5px} .senior .tiny.dim2{font-size:13px}
@@ -227,9 +230,9 @@ footer{max-width:1500px; margin:26px auto 0; padding:0 20px; font-size:12px; col
 .senior .sheet .big{font-size:30px} .senior button{font-size:15px; padding:10px 14px}
 .senior :root{--txt:#ffffff; --dim:#c2cfe6}
 body.senior{background:#04060b}
-.speaking{outline:2px solid #3b82f6; outline-offset:3px; border-radius:12px; animation:spk 1.2s infinite}
-@keyframes spk{0%,100%{outline-color:rgba(59,130,246,0.4)}50%{outline-color:rgba(59,130,246,1)}}
-code{font-family:var(--mono); font-size:11.5px; background:rgba(13,23,41,0.9); border:1px solid var(--line2); padding:1px 6px; border-radius:5px; color:#93c5fd}
+.speaking{outline:2px solid #5484c4; outline-offset:3px; border-radius:12px; animation:spk 1.2s infinite}
+@keyframes spk{0%,100%{outline-color:rgba(122,147,178,0.32)}50%{outline-color:rgba(59,130,246,1)}}
+code{font-family:var(--mono); font-size:11.5px; background:rgba(13,23,41,0.9); border:1px solid var(--line2); padding:1px 6px; border-radius:5px; color:#a8bfdc}
 .spin{display:inline-block; width:12px;height:12px;border-radius:50%; border:2px solid rgba(255,255,255,0.25); border-top-color:#fff; animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 
@@ -294,7 +297,7 @@ html{scroll-behavior:smooth}
 
 <header class="top">
   <div class="brand">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2.5 4 6v6.2c0 4.7 3.3 8.6 8 9.8 4.7-1.2 8-5.1 8-9.8V6l-8-3.5Z" stroke="#06b6d4" stroke-width="1.8"/><path d="m8.6 12.2 2.3 2.3 4.5-4.6" stroke="#3b82f6" stroke-width="2.1" stroke-linecap="round"/></svg>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2.5 4 6v6.2c0 4.7 3.3 8.6 8 9.8 4.7-1.2 8-5.1 8-9.8V6l-8-3.5Z" stroke="#c9a86a" stroke-width="1.8"/><path d="m8.6 12.2 2.3 2.3 4.5-4.6" stroke="#e6d3ac" stroke-width="2.1" stroke-linecap="round"/></svg>
     SatarkPay <span class="sub">SANGYAN · SEBI × NSDL × IIT (BHU) <span class="dim2">·</span> Track A + B · 7 modules</span>
   </div>
   <div class="hdr-right">
@@ -327,19 +330,19 @@ html{scroll-behavior:smooth}
 <!-- ---------- KPI Metrics Strip ---------- -->
 <div class="kpi-strip" id="kpiBar">
   <div class="kpi-card">
-    <div class="kpi-val" style="color:var(--teal)">7 SCAM FAMILIES</div>
+    <div class="kpi-val" style="color:var(--gold)">7 SCAM FAMILIES</div>
     <div class="kpi-lbl">Digital Arrest · Task · Utility · Sextortion · Fake Refund · APK · QR Swap</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-val" style="color:var(--accent)">0.012ms MEDIAN</div>
+    <div class="kpi-val" style="color:var(--sand)">0.012ms MEDIAN</div>
     <div class="kpi-lbl">Measured classify() (5,000 runs) · deterministic · zero network · works offline</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-val" style="color:var(--ok)">100% PII REDACTED</div>
+    <div class="kpi-val" style="color:var(--jade)">100% PII REDACTED</div>
     <div class="kpi-lbl">Zero screen pixels stored · DPDP Act 2023 &amp; RBI privacy compliant</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-val" style="color:var(--violet)">SHA-256 INTEGRITY</div>
+    <div class="kpi-val" style="color:var(--teal)">SHA-256 INTEGRITY</div>
     <div class="kpi-lbl">Tamper-evident chain of custody pack ready for 1930 / NCRP cyber cell</div>
   </div>
 </div>
@@ -411,7 +414,7 @@ html{scroll-behavior:smooth}
           <div class="sheet" style="padding:11px">
             <div class="ring" id="m1ring">
               <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" stroke="#1b2740" stroke-width="8" fill="none"/>
-              <circle id="m1arc" cx="50" cy="50" r="44" stroke="#4f8cff" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="276"/></svg>
+              <circle id="m1arc" cx="50" cy="50" r="44" stroke="#c9a86a" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="276"/></svg>
               <div class="lbl"><div style="font-size:19px" id="m1clock">--:--</div><div class="tiny dim" id="m1phase">idle</div></div>
             </div>
             <div class="tiny dim" style="text-align:center; margin-top:6px" id="m1hint">Scenario select karke Run dabao</div>
@@ -662,7 +665,7 @@ html{scroll-behavior:smooth}
       <div class="phone-island"><div class="phone-lens"></div></div>
       <div class="sbar"><span>9:49</span><span class="sp">5G ▪▪▪ 78%</span></div>
       <div class="appbar">
-        <div class="av" style="background:linear-gradient(180deg,#a78bfa,#7c5cf0); color:#0b0a1f">AI</div>
+        <div class="av" style="background:linear-gradient(180deg,#a99bd6,#8877c9); color:#141226">AI</div>
         <div class="t">Sanchalak — Poochho<small>“Ye legit hai ya nahi?” · HI/EN · 12 languages</small></div>
       </div>
       <div class="scrbody">
@@ -769,7 +772,7 @@ Main batata hoon: legit hai, caution, ya scam-likely — aur <b>kyun</b> (3 reas
       <div class="phone-island"><div class="phone-lens"></div></div>
       <div class="sbar"><span>9:52</span><span class="sp">5G ▪▪▪ 77%</span></div>
       <div class="appbar">
-        <div class="av" style="background:linear-gradient(180deg,#7dd3fc,#38bdf8); color:#04121a">👛</div>
+        <div class="av" style="background:linear-gradient(180deg,#9fc9dd,#6fb3cf); color:#04121a">👛</div>
         <div class="t">Wallet + AutoPay Audit<small>kaunse app juda hai · kya auto-debit chal raha hai</small></div>
       </div>
       <div class="scrbody">
@@ -839,7 +842,7 @@ Main batata hoon: legit hai, caution, ya scam-likely — aur <b>kyun</b> (3 reas
       <div class="phone-island"><div class="phone-lens"></div></div>
       <div class="sbar"><span>9:55</span><span class="sp">5G ▪▪▪ 76%</span></div>
       <div class="appbar">
-        <div class="av" style="background:linear-gradient(180deg,#fca5a5,#f87171); color:#2b0f14">📡</div>
+        <div class="av" style="background:linear-gradient(180deg,#e0a49c,#d98a80); color:#281917">📡</div>
         <div class="t">Naya Scam Alert<small>Intel Desk · internet crawl · <span id="m6time">aaj</span></small></div>
       </div>
       <div class="scrbody">
@@ -908,7 +911,7 @@ Main batata hoon: legit hai, caution, ya scam-likely — aur <b>kyun</b> (3 reas
       <div class="phone-island"><div class="phone-lens"></div></div>
       <div class="sbar"><span>9:58</span><span class="sp">5G ▪▪▪ 74%</span></div>
       <div class="appbar">
-        <div class="av" style="background:linear-gradient(180deg,#fca5a5,#f87171); color:#2b0f14">📄</div>
+        <div class="av" style="background:linear-gradient(180deg,#e0a49c,#d98a80); color:#281917">📄</div>
         <div class="t">Auto-Report (1930 pack)<small>asli case · numbers masked · SatarkPay par</small></div>
       </div>
       <div class="scrbody">
@@ -926,7 +929,7 @@ Main batata hoon: legit hai, caution, ya scam-likely — aur <b>kyun</b> (3 reas
           <button class="primary sm" id="m7build">📦 1930 / NCRP pack banao</button>
           <button class="sm" id="m7mask">👁 mask toggle</button>
         </div>
-        <button class="primary sm" id="m7confirm" style="width:100%;margin-top:8px;background:linear-gradient(180deg,#ff6b6b,#e03131);border-color:#ff9b9b;color:#fff">🚨 Fraud CONFIRM hai — turant complaint + payment stop</button>
+        <button class="primary sm" id="m7confirm" style="width:100%;margin-top:8px;background:linear-gradient(180deg,#cd7a6e,#b5564a);border-color:#e0a49c;color:#fff">🚨 Fraud CONFIRM hai — turant complaint + payment stop</button>
         <div class="tiny dim2" style="margin-top:5px">Ye dabate hi: cyber cell ko email pack + 1930/helpline call + bank se payment stop request — sab ek screen par.</div>
         <div id="m7out"></div>
         <div class="tiny dim2">Bank/PSP ko bhejne se pehle: apna naam, account, aur masked numbers ke full digits daalna zaroori hai.</div>
@@ -1278,7 +1281,7 @@ function toast(msg,kind){
   d.style.cssText=`position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:99;padding:10px 16px;border-radius:12px;
   font-size:13px;font-weight:550;border:1px solid ${kind==='bad'?'rgba(239,68,68,0.5)':kind==='ok'?'rgba(16,185,129,0.5)':'rgba(59,130,246,0.35)'};
   background:${kind==='bad'?'rgba(44,16,21,0.95)':kind==='ok'?'rgba(14,42,30,0.95)':'rgba(18,29,54,0.95)'};
-  box-shadow:0 14px 35px -10px rgba(0,0,0,0.7), 0 0 15px ${kind==='bad'?'rgba(239,68,68,0.2)':kind==='ok'?'rgba(16,185,129,0.2)':'rgba(59,130,246,0.2)'};
+  box-shadow:0 14px 35px -10px rgba(0,0,0,0.7), 0 0 15px ${kind==='bad'?'rgba(176,101,79,0.16)':kind==='ok'?'rgba(16,185,129,0.2)':'rgba(59,130,246,0.2)'};
   backdrop-filter:blur(8px);transition:all .25s ease;animation:pop .25s ease`;
   document.body.appendChild(d);setTimeout(()=>{d.style.opacity='0';d.style.transform='translateX(-50%) translateY(8px)';setTimeout(()=>d.remove(),300);},2400);
 }
@@ -1481,7 +1484,7 @@ let m1={key:null,dwell:0,timer:null,cleared:false,answers:{},gateState:null,tier
 function m1Timeline(txt,kind){const el=$('#m1timeline');
   if(el.dataset.init!=='1'){el.dataset.init='1';el.innerHTML='<table><thead><tr><th>t</th><th>event (metadata only)</th><th>source</th></tr></thead><tbody></tbody></table>';}
   const tb=$('#m1timeline tbody');const tr=document.createElement('tr');
-  const c=kind==='bad'?'#ff9d9d':kind==='ok'?'#9ff0c4':'#cdd9ee';
+  const c=kind==='bad'?'#e0a49c':kind==='ok'?'#a3d6c5':'#cdd9ee';
   tr.innerHTML=`<td class="mono" style="color:var(--dim)">${new Date().toLocaleTimeString('en-IN',{hour12:false})}</td><td style="color:${c}">${txt}</td><td class="tiny dim">on-device</td>`;
   tb.prepend(tr);}
 function m1Notify(tier,s){
@@ -1524,7 +1527,7 @@ function m1Ring(){
   const s=M1SC[m1.key],T=M1TIERS[m1.tier||'QUICK'],need=T.need||1;
   const p=Math.min(1,m1.dwell/need);
   $('#m1arc').style.strokeDashoffset=String(276*(1-p));
-  $('#m1arc').setAttribute('stroke',p>=1?'#25d07a':T.cls==='bad'?'#ff5d5d':T.cls==='warn'?'#f5a524':'#4f8cff');
+  $('#m1arc').setAttribute('stroke',p>=1?'#3fae94':T.cls==='bad'?'#cd7a6e':T.cls==='warn'?'#d9a441':'#c9a86a');
   $('#m1clock').textContent=s.known===null?'—':mmss(Math.max(0,need-m1.dwell));
   const SHORT={QUICK:s.known===null?'no gate':'1-min check',NOTIFY:'10-min rule',COOLING:'8-min guided',HOLD:'hold + callback'};
   $('#m1phase').textContent=p>=1?'clear ✓':SHORT[m1.tier||'QUICK'];
@@ -1643,7 +1646,7 @@ function m2Render(){
   $('#m2count').textContent=String(m2shots.length);
   $('#m2burst').innerHTML=pay+'<span style="font-size:13px; color:var(--dim)"> / 30 min</span>';
   $('#m2bar').style.width=Math.min(100,pay*20)+'%';
-  $('#m2bar').style.background=pay>=5||bad?'linear-gradient(90deg,#f5a524,#ff5d5d)':'linear-gradient(90deg,#2dd4bf,#4f8cff)';
+  $('#m2bar').style.background=pay>=5||bad?'linear-gradient(90deg,#d9a441,#cd7a6e)':'linear-gradient(90deg,#4bb5c9,#c9a86a)';
   const sev=$('#m2sev');
   if(pay>=5||bad){sev.className='tag bad';sev.textContent='RED';}else if(pay>=3){sev.className='tag warn';sev.textContent='amber';}else{sev.className='tag';sev.textContent='safe';}
   let b='';
@@ -1742,7 +1745,7 @@ function m3Render(raw){
   const steps=r.level>=3?['Ruk jao — is page par payment mat karo','Asli app/site khud khol kar check karo (link se nahi)','Kisi ne bheja hai to screenshot + number save karo (1930 ke liye)','Bhejne wale ko call karke known number par confirm karo']
     :['Payment se pehle merchant ka naam screen par check karo','Amount + UPI ID match karo'];
   $('#m3out').innerHTML=`
-   <div class="verdict" style="border-color:${cls==='ok'?'#1d6b45':cls==='warn'?'#7a5620':'#7d2b39'}">
+   <div class="verdict" style="border-color:${cls==='ok'?'#2e6b57':cls==='warn'?'#6b5528':'#5c333c'}">
      <div class="spread"><b>${r.level===4?'🔴':r.level===3?'🟠':'🟢'} ${esc(name)}</b><span class="tag ${cls}">L${r.level}</span></div>
      <div class="tiny dim mono" style="margin-top:6px">${esc(r.host)} · ${esc(tldNote)}${r.gatewayMerchant?' · merchant: '+esc(r.gatewayMerchant):''}</div>
      <div style="margin-top:9px">${r.reasons.map(x=>`<div class="tiny" style="margin:4px 0"><span class="tag ${x[0]==='red'?'bad':'warn'}" style="margin-right:6px">${x[0]}</span>${esc(x[1])}</div>`).join('')}</div>
@@ -1860,14 +1863,14 @@ function m4Ask(){
     if(r.verdict==='SCAM LIKELY'&&hit){
       body=`<b>🔴 SCAM LIKELY</b> · family ${hit.fam} · confidence: high
       <div style="margin-top:7px">${hit.why.map(w=>'• '+esc(w)).join('<br>')}</div>
-      <div class="tiny" style="margin-top:8px;color:#ffd9a1">MAT KARO: ${esc(hit.dont)}</div>
-      <div class="tiny" style="margin-top:5px;color:#9ff0c4">KARO: ${hit.doo.map(esc).join(' · ')}</div>
+      <div class="tiny" style="margin-top:8px;color:#e3c98f">MAT KARO: ${esc(hit.dont)}</div>
+      <div class="tiny" style="margin-top:5px;color:#a3d6c5">KARO: ${hit.doo.map(esc).join(' · ')}</div>
       <div class="tiny dim2" style="margin-top:6px">Library: T1–T24 se match · 1930/CFCFRMS pack ready · <b>human analyst</b> chahiye to neeche button</div>`;
     } else if(r.verdict==='CAUTION'&&hit){
       body=`<b>🟠 CAUTION — zyada</b> · family ${hit.fam} · confidence: medium
       <div style="margin-top:7px">${hit.why.map(w=>'• '+esc(w)).join('<br>')}</div>
-      <div class="tiny" style="margin-top:8px;color:#ffd9a1">MAT KARO: ${esc(hit.dont)}</div>
-      <div class="tiny" style="margin-top:5px;color:#9ff0c4">KARO: ${hit.doo.map(esc).join(' · ')}</div>
+      <div class="tiny" style="margin-top:8px;color:#e3c98f">MAT KARO: ${esc(hit.dont)}</div>
+      <div class="tiny" style="margin-top:5px;color:#a3d6c5">KARO: ${hit.doo.map(esc).join(' · ')}</div>
       <div class="tiny dim2" style="margin-top:6px">Ye rule sev=warn wala hai — poori jaanch ke baad hi koi payment.</div>`;
     } else if(r.verdict==='SCAM LIKELY'){
       const reds=[];
@@ -1875,7 +1878,7 @@ function m4Ask(){
       if(dom&&dom.level>=4) reds.push(`• Domain ${dom.host} — lookalike/fake signals: ${dom.reasons.filter(x=>x[0]==='red').map(x=>x[1]).join('; ')}`);
       body=`<b>🔴 SCAM LIKELY (registry/link)</b> · confidence: high
       <div style="margin-top:7px">${reds.map(esc).join('<br>')}</div>
-      <div class="tiny" style="margin-top:8px;color:#ffd9a1">MAT KARO: paisa bhejna, link kholna, OTP/PIN daalna — sab band.</div>
+      <div class="tiny" style="margin-top:8px;color:#e3c98f">MAT KARO: paisa bhejna, link kholna, OTP/PIN daalna — sab band.</div>
       <div class="tiny dim2" style="margin-top:6px">Library: R26 + M3 engine · Intel Desk me ye domain/handle cluster bhi track hoga</div>`;
     } else if(r.verdict==='CAUTION'){
       const ambers=[];
@@ -1883,8 +1886,8 @@ function m4Ask(){
       if(dom&&dom.level===3) ambers.push(`• Domain ${dom.host} — ${dom.reasons.map(x=>x[1]).join('; ')}`);
       body=`<b>🟠 CAUTION — zyada</b> · confidence: medium
       <div style="margin-top:7px">${ambers.map(esc).join('<br>')}</div>
-      <div class="tiny" style="margin-top:8px;color:#ffd9a1">MAT KARO: dava/portal verify hone tak koi payment nahi.</div>
-      <div class="tiny" style="margin-top:5px;color:#9ff0c4">KARO: official portal se khud verify karo (sebi.gov.in / NSE/BSE) · SCORES par complaint ho sakti hai</div>`;
+      <div class="tiny" style="margin-top:8px;color:#e3c98f">MAT KARO: dava/portal verify hone tak koi payment nahi.</div>
+      <div class="tiny" style="margin-top:5px;color:#a3d6c5">KARO: official portal se khud verify karo (sebi.gov.in / NSE/BSE) · SCORES par complaint ho sakti hai</div>`;
     } else if(r.verdict==='SEEMS OK'){
       const P=r.passRule;
       const plabel=P? (P.label||'legit-refund / service message') : 'safety-warning (negation handle hui — R27)';
@@ -1892,7 +1895,7 @@ function m4Ask(){
       const pdoo=P?P.doo:['Message ke link par click na karo — bank/company app khud kholo','Sender ID + official domain match karo'];
       body=`<b>🟢 SEEMS OK</b> · confidence: medium<br><span class="dim tiny">pattern: ${esc(plabel)}</span>
       <div style="margin-top:7px">${pwhy.map(w=>'• '+esc(w)).join('<br>')}</div>
-      <div class="tiny" style="margin-top:8px;color:#9ff0c4">KARO: ${pdoo.map(esc).join(' · ')}</div>
+      <div class="tiny" style="margin-top:8px;color:#a3d6c5">KARO: ${pdoo.map(esc).join(' · ')}</div>
       <div class="tiny dim2" style="margin-top:5px">Library: none · koi block nahi</div>`;
     } else {
       body=`<b>🟡 PAKA NAHI BATA SAKTA</b> · confidence: low<br>
@@ -1906,7 +1909,7 @@ function m4Ask(){
         <div class="dim2" style="margin-top:5px">Hum “registered hai” certify nahi karte — sirf format + domain + lists check karte hain.</div></div>`;
     }
     if(negated){
-      body+=`<div class="verdict tiny" style="border-color:#1d6b45"><b>✅ Negation handle hui (R27):</b>
+      body+=`<div class="verdict tiny" style="border-color:#2e6b57"><b>✅ Negation handle hui (R27):</b>
         ye message khud safety-warning de raha hai (“OTP/PIN share na karein”) — isliye ise scam nahi gina.
         <div class="dim2" style="margin-top:5px">Asli bank/company ke security alerts aise hi likhe hote hain; par link/portal alag se check karo.</div></div>`;
     }
@@ -1951,7 +1954,7 @@ function m5Render(){
   $('#m5mand').innerHTML=MAND.map(m=>`<div class="item"><div class="ic ${m.risk==='RED'?'bad':'ok'}">${m.risk==='RED'?'⚠':'✓'}</div><div class="bd">
     <div class="ti">${esc(m.name)} <span class="mono dim">${esc(m.who)}</span></div>
     <div class="su">₹${m.amt.toLocaleString('en-IN')} · ${esc(m.freq)} · next ${esc(m.next)} · via ${esc(m.via)} · ${esc(m.created)}<br>
-    <span class="${m.risk==='RED'?'':'dim2'}" style="${m.risk==='RED'?'color:#ff9d9d':''}">${esc(m.why)}</span></div></div>
+    <span class="${m.risk==='RED'?'':'dim2'}" style="${m.risk==='RED'?'color:#e0a49c':''}">${esc(m.why)}</span></div></div>
     <button class="sm ${m.risk==='RED'?'danger':''}" data-rev="${m.id}">Revoke</button></div>`).join('');
   $$('#m5mand button[data-rev]').forEach(b=>b.onclick=()=>{MAND=MAND.filter(x=>x.id!==b.dataset.rev);m5Render();toast('Mandate revoke request bhej di (PSP API)','ok');});
   const red=MAND.filter(m=>m.risk==='RED').length;
@@ -2132,7 +2135,7 @@ function emTick(){
   const m=String(Math.floor(sec/60)).padStart(2,'0'), ss=String(sec%60).padStart(2,'0');
   const el=$('#emClock'); if(!el) return;
   el.textContent='+'+m+':'+ss;
-  el.style.color = sec<600?'#9ff0c4' : sec<1800?'#ffd9a1' : '#ff9b9b';
+  el.style.color = sec<600?'#a3d6c5' : sec<1800?'#e3c98f' : '#e0a49c';
 }
 function emDone(){
   const n=Object.values(EM.steps).filter(Boolean).length;
