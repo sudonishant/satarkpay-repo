@@ -16,6 +16,8 @@ jobs:
         run: cd web && NODE_PATH=$PWD/../node_modules node smoke_test.js
       - name: eval harness (33 messages)
         run: NODE_PATH=$PWD/node_modules node eval/run_eval.js
+      - name: latency benchmark (classify)
+        run: NODE_PATH=$PWD/node_modules node eval/bench_latency.js
       - name: rules JSON valid
         run: |
           python3 - <<'PY'

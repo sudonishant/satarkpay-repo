@@ -1,8 +1,8 @@
 import asyncio, pathlib
 from playwright.async_api import async_playwright
 
-HTML = 'file:///home/user/satarkpay-m2/demo/satarkpay_m2.html'
-OUT = pathlib.Path('/home/user/satarkpay-m2/demo/screenshots')
+HTML = 'file://demo/satarkpay_m2.html'
+OUT = pathlib.Path('demo/screenshots')
 OUT.mkdir(parents=True, exist_ok=True)
 
 async def main():

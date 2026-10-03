@@ -72,7 +72,7 @@ Modern UPI fraud in India relies heavily on **social engineering, psychological 
 | **🌐 Web Cyber Simulator** | [`web/satarkpay_m2.html`](web/satarkpay_m2.html) | Standalone interactive dashboard with live threat intelligence ticker, haptic audio (Web Audio API), and executive KPI metrics. |
 | **📱 Native Android App** | [`app/satarkpay-android/`](app/satarkpay-android/) | Full native Kotlin & Jetpack Compose app featuring a modern, crisp **White Fintech Theme**, Material 3, and Room DB. |
 | **📦 Android debug APK** | [`app/satarkpay-android/`](app/satarkpay-android/) | Build from source: `./gradlew assembleDebug` (steps neeche). Binary APK repo me nahi (23 MB, `.gitignore`). |
-| **📑 Interactive Pitch Deck** | [`web/deck/deck.html`](web/deck/deck.html) | 18-slide responsive interactive presentation deck with embedded architecture diagrams and screenshots. |
+| **📑 Interactive Pitch Deck** | [`web/deck/deck.html`](web/deck/deck.html) · [**live**](https://sudonishant.github.io/satarkpay-repo/web/deck/deck.html) | 18-slide responsive interactive presentation deck with embedded architecture diagrams and screenshots. |
 | **⚙️ Deterministic Rules** | [`rules/`](rules/) | Machine-readable rule packs (`rules_R15_R25.json` and `rules_R26_R38.json`) covering 18 fraud families. |
 | **🔍 Evidence Toolkit** | [`tools/`](tools/) | Automated redaction, OCR, SHA-256 evidence hashing, and crawler pipeline. |
 

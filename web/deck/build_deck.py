@@ -13,14 +13,16 @@ from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from PIL import Image
 import matplotlib.font_manager  # noqa (font cache warm)
 
-HERE = pathlib.Path(__file__).parent
-SHOTS = HERE.parent / 'demo' / 'screenshots'
+HERE = pathlib.Path(__file__).resolve().parent
+SHOTS = HERE / 'screenshots'
 CHARTS = HERE / 'charts'
 DIAG = HERE / 'diagrams'
 
 INK, DIM, ACC, OK, WARN, DANGER, BG, PANEL = ('#E8EEF9', '#9FB0CC', '#4CC9F0', '#3DDC97',
                                              '#FFC857', '#FF6B6B', '#0B1220', '#121C31')
 def R(h): return RGBColor.from_string(h.lstrip('#'))
+def hsrc(p):  # HTML <img src> — deck/ se relative (GitHub Pages / kisi bhi machine par chale)
+    return pathlib.Path(p).relative_to(HERE).as_posix()
 
 # ============================================================ CONTENT MODEL
 def slide(kind, **kw): return dict(kind=kind, **kw)
@@ -202,15 +204,15 @@ def render_html():
             if s.get('sub'): out.append(f'<p class="sub">{html.escape(s["sub"])}</p>')
             out.append('<ul>'); out += [f'<li>{html.escape(b)}</li>' for b in s['bullets']]; out.append('</ul>')
         elif k == 'image_full':
-            out.append(f'<img class="full" src="{s["img"]}"/>')
+            out.append(f'<img class="full" src="{hsrc(s["img"])}"/>')
         elif k == 'image_row':
             out.append('<div class="row">')
             for i, im in enumerate(s['imgs']):
-                out.append(f'<figure><img src="{im}"/><figcaption>{html.escape(s["captions"][i])}</figcaption></figure>')
+                out.append(f'<figure><img src="{hsrc(im)}"/><figcaption>{html.escape(s["captions"][i])}</figcaption></figure>')
             out.append('</div>')
         elif k == 'image_side':
             side = s.get('side', 'left')
-            img = f'<img src="{s["img"]}"/>'
+            img = f'<img src="{hsrc(s["img"])}"/>'
             ul = '<ul>' + ''.join(f'<li>{html.escape(b)}</li>' for b in s['bullets']) + '</ul>'
             out.append(f'<div class="side">{img + ul if side == "left" else ul + img}</div>')
         elif k == 'table':
