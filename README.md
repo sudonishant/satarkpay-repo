@@ -7,7 +7,11 @@
 [![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20Web%20Dashboard-0284c7?style=for-the-badge&logo=android&logoColor=white)](app/satarkpay-android)
 [![Privacy](https://img.shields.io/badge/Privacy-100%25%20On--Device%20%7C%20DPDP%202023-8b5cf6?style=for-the-badge&logo=security&logoColor=white)](docs/PRIVACY.md)
 [![License](https://img.shields.io/badge/License-MIT-f59e0b?style=for-the-badge)](LICENSE)
-[![Latency](https://img.shields.io/badge/Edge%20Latency-%3C12ms-06b6d4?style=for-the-badge)](rules/)
+[![Latency](https://img.shields.io/badge/Classify%20(Node)-0.012ms%20median-06b6d4?style=for-the-badge)](docs/VERIFICATION.md)
+
+<br/>
+
+**🔴 Live demo:** **[sudonishant.github.io/satarkpay-repo](https://sudonishant.github.io/satarkpay-repo/)** — offline-capable, no install (phone par kholo)
 
 <br/>
 
@@ -67,7 +71,7 @@ Modern UPI fraud in India relies heavily on **social engineering, psychological 
 |---|---|---|
 | **🌐 Web Cyber Simulator** | [`web/satarkpay_m2.html`](web/satarkpay_m2.html) | Standalone interactive dashboard with live threat intelligence ticker, haptic audio (Web Audio API), and executive KPI metrics. |
 | **📱 Native Android App** | [`app/satarkpay-android/`](app/satarkpay-android/) | Full native Kotlin & Jetpack Compose app featuring a modern, crisp **White Fintech Theme**, Material 3, and Room DB. |
-| **📦 Ready Android APK** | [`SatarkPay-WhiteTheme.apk`](SatarkPay-WhiteTheme.apk) | Pre-compiled 23 MB debug APK ready for installation on any Android device. |
+| **📦 Android debug APK** | [`app/satarkpay-android/`](app/satarkpay-android/) | Build from source: `./gradlew assembleDebug` (steps neeche). Binary APK repo me nahi (23 MB, `.gitignore`). |
 | **📑 Interactive Pitch Deck** | [`web/deck/deck.html`](web/deck/deck.html) | 18-slide responsive interactive presentation deck with embedded architecture diagrams and screenshots. |
 | **⚙️ Deterministic Rules** | [`rules/`](rules/) | Machine-readable rule packs (`rules_R15_R25.json` and `rules_R26_R38.json`) covering 18 fraud families. |
 | **🔍 Evidence Toolkit** | [`tools/`](tools/) | Automated redaction, OCR, SHA-256 evidence hashing, and crawler pipeline. |
@@ -100,7 +104,7 @@ export ANDROID_HOME=$HOME/Android/Sdk
 ./gradlew assembleDebug
 # Generated APK: app/build/outputs/apk/debug/app-debug.apk
 # Or install directly to connected phone:
-adb install -r ../../SatarkPay-WhiteTheme.apk
+adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
 ---
@@ -229,7 +233,6 @@ satarkpay-repo/
 │       │   ├── java/com/example/ui/ # HomeScreen, Sanchalak, Radar, Domain & Emergency screens
 │       │   └── java/com/example/ui/theme/ # Clean White Fintech Theme Palette
 │       └── build.gradle.kts         # Android build configuration
-├── SatarkPay-WhiteTheme.apk         # Compiled production debug APK (23 MB)
 ├── rules/                           # Deterministic JSON fraud pattern definitions
 │   ├── rules_R15_R25.json           # Module Pack 1 rules
 │   └── rules_R26_R38.json           # Module Pack 2 rules (Negation, Registry, Emergency)

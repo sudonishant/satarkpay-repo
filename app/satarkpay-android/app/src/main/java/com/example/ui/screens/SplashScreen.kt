@@ -99,7 +99,7 @@ fun SplashScreen(
                     PermissionRow(
                         isAllowed = true,
                         title = "Chat session ka time",
-                        subtitle = "UsageStats (sirf foreground dwell, chat text nahi)"
+                        subtitle = "Chat dwell timer (demo: user-set value · production: opt-in)"
                     )
                     PermissionRow(
                         isAllowed = true,

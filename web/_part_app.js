@@ -216,7 +216,7 @@ $('#dsClose').onclick=()=>stepsEl.style.display='none';
 const M1SC={
  k_short:{tag:'Known · 2 min chat',app:'WhatsApp',av:'P',who:'Prince Singh (saved)',sub:'saved contact · 18 mahine se',known:true,session:130,gap:'11 min',
    chat:[['out','Bhai kal ka ₹1,200 bhej deta hoon','9:35'],['in','Haan bhej do, wahi number hai','9:36'],['in','jaldi kar, shop band ho rahi 😅','9:36']],
-   payee:'prince.singh@okhdfcbank',amount:1200,norm:1950,newPayees:1,seen:'18 mahine'},
+   payee:'demo.payee@okhdfcbank',amount:1200,norm:1950,newPayees:1,seen:'18 mahine'},
  k_long:{tag:'Known · 12 min chat',app:'WhatsApp',av:'प',who:'“Papa” (saved) · +91 98xxx 33710',sub:'saved contact — par 12 min ki chat',known:true,session:735,gap:'40 s',
    chat:[['in','Papa mera phone kharab ho gaya, ye naya number hai','9:22'],['in','ek kaam tha, urgent ₹15,000 transfer karna hai','9:24'],['out','itni jaldi?','9:26'],['in','hospital me hoon, baad me batata hoon. UPI kar do: helpdesk.verify@ybl','9:30'],['in','kisi ko batane ki zarurat nahi, baad me samjhaunga','9:32']],
    payee:'helpdesk.verify@ybl',amount:15000,norm:1950,newPayees:2,seen:'number 3 din purana'},
@@ -824,9 +824,9 @@ const M7={
 let m7masked=true;
 $('#m7mask').onclick=()=>{
   m7masked=!m7masked;
-  $('#m7upi').textContent=m7masked?'7349••••••@ptaxis':'7349045416@ptaxis (asli pack me)';
+  $('#m7upi').textContent=m7masked?'7349••••••@ptaxis':'7349XXXXX6@ptaxis (demo placeholder)';
   $('#m7maskTag').textContent=m7masked?'masked':'unmasked';
-  toast(m7masked?'Masked view (share ke liye)':'Asli values (official complaint ke liye)');
+  toast(m7masked?'Masked view (share ke liye)':'Unmasked view (demo: placeholder — asli value sirf victim ke device par)');
 };
 $('#m7build').onclick=()=>{
   $('#m7out').innerHTML='<div class="okbox tiny" style="margin-top:10px"><b><span class="spin"></span> Pack ban raha hai…</b><div id="m7steps" class="tiny dim" style="margin-top:6px"></div></div>';
@@ -844,7 +844,7 @@ $('#m7build').onclick=()=>{
       <div class="tiny dim2" style="margin-top:6px">Demo me sirf UI hai — asli files workspace ke case_evidence/ folder me ban chuki hain.</div></div>`;
     const rows=M7.payments.map((p,i)=>`<tr><td>A0${i+1}</td><td>${p.amt.toLocaleString('en-IN')} · ${p.app}</td><td class="mono">${p.tx}</td><td class="mono">${p.utr}</td><td class="mono">${M7.sha(p.tx)}</td></tr>`).join('');
     $('#m7annex').innerHTML=`<table><thead><tr><th>ID</th><th>Payment</th><th>Txn</th><th>UTR</th><th>sha256 (short)</th></tr></thead><tbody>${rows}
-      <tr><td>A03</td><td>QR → UPI ID</td><td class="mono">${m7masked?'7349••••••@ptaxis':'7349045416@ptaxis'}</td><td>—</td><td class="mono">${M7.sha('qr')}</td></tr>
+      <tr><td>A03</td><td>QR → UPI ID</td><td class="mono">${m7masked?'7349••••••@ptaxis':'7349XXXXX6@ptaxis'}</td><td>—</td><td class="mono">${M7.sha('qr')}</td></tr>
       <tr><td>A04</td><td>Phishing SMS + shortlink</td><td class="mono">cutt.ly/••••••</td><td>—</td><td class="mono">${M7.sha('sms')}</td></tr></tbody></table>
       <div class="tiny dim" style="margin-top:7px">Total 28 files hashed · originals untouched · redacted copies alag folder me.</div>`;
   },380);

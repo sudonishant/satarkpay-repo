@@ -152,7 +152,7 @@ const t=(name,cond,extra='')=>{cond?(pass++,console.log('  ✓',name)):(fail++,c
  $('#tabs button[data-m="m7"]').click();
  t('M7 masked UPI by default', $('#m7upi').textContent.includes('••••'));
  $('#m7mask').click();
- t('M7 mask toggle works', $('#m7upi').textContent.includes('7349045416'));
+ t('M7 mask toggle works', $('#m7upi').textContent.includes('7349XXXXX6'));
  $('#m7build').click();
  await sleep(3600);
  t('M7 pack ready', $('#m7out').textContent.includes('Pack ready'), $('#m7out').textContent.slice(0,60));

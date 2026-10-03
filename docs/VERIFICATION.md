@@ -124,6 +124,23 @@ Aakhri build: **18 slides**, 13.333×7.5 in, PPTX me **18 images embedded** (3 A
 
 ---
 
+## 8 · Rule-engine latency — **median 0.012 ms** (measured, 5,000 runs)
+
+```bash
+cd eval && NODE_PATH=../node_modules node bench_latency.js
+```
+
+```
+classify() latency · 5000 runs over 33 eval messages
+  mean 0.0295 ms · median 0.0124 ms · p95 0.0364 ms · p99 0.4548 ms · max 4.96 ms
+  NOTE: Node/jsdom par measured (deterministic engine, no network). Low-end phone par zyada hoga.
+```
+
+**Kya measure hota hai:** `classify(text)` — wahi deterministic rule engine (RULES4 + negation + registry format checks) jo user ke paste par chalta hai. Network call zero; yahi "on-device" ka matlab hai.
+**Limit:** Node (desktop) par measured hai — low-end Android device par number zyada hoga; SDK 24+ device par dobara measure karna Phase-2 checklist me hai.
+
+---
+
 ## 7 · Repo hygiene checks
 
 ```bash

@@ -1,13 +1,13 @@
 # Submission checklist — SANGYAN (4 Oct 2026, 11:59 PM IST)
 
 ## Kya submit hota hai
-1. **Live demo** — `web/satarkpay_m2.html` (offline, ek file)
+1. **Live demo** — 🔴 **https://sudonishant.github.io/satarkpay-repo/** (GitHub Pages; fallback: `web/satarkpay_m2.html` offline single file)
 2. **3–5 min video** — script: `docs/DEMO_SCRIPT.md`
 3. **PPT** — `web/deck/satarkpay_deck.pptx` (PDF bhi: `satarkpay_deck.pdf`)
 
 ## Pre-submit (aaj hi)
 
-- [ ] `cd web && ./run_smoke.sh` → **66/66** (log screenshot le lo)
+- [x] `cd web && ./run_smoke.sh` → **66/66** ✅ (verified 3 Oct)
 - [ ] `python3 eval/run_eval.py` → **P 95.0% · R 90.5% · F1 92.7%** (latest_results.json update ho gaya)
 - [ ] Demo browser me khol ke 7 tabs + R38 emergency panel ek baar chala lo (network **off** karke bhi)
 - [ ] Deck PDF ka page-count/tone check: 18 slides, images load ho rahi hain
