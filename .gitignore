@@ -26,3 +26,11 @@ crops_full/
 *.eml.draft
 secrets.env
 .env
+# android
+*.apk
+*.aab
+.gradle/
+**/build/
+*.keystore
+*.jks
+local.properties

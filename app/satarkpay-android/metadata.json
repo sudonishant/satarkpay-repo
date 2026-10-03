@@ -1,0 +1,6 @@
+{
+  "name": "SatarkPay",
+  "description": "UPI and financial fraud prevention, real-time scam verification with AI Sanchalak, and emergency cyber cell recovery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

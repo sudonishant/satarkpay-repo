@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Outer Shield Halo Glow -->
+    <path
+        android:fillColor="#224CC9F0"
+        android:pathData="M54,22 C67,22 80,26 84,33 C84,57 71,76 54,86 C37,76 24,57 24,33 C28,26 41,22 54,22 Z" />
+
+    <!-- Main Shield Body -->
+    <path
+        android:fillColor="#15243E"
+        android:strokeColor="#4CC9F0"
+        android:strokeWidth="3.2"
+        android:strokeLineJoin="round"
+        android:pathData="M54,26 C65,26 76,29 79,35 C79,56 68,72 54,81 C40,72 29,56 29,35 C32,29 43,26 54,26 Z" />
+
+    <!-- Shield Inner Fill Accent -->
+    <path
+        android:fillColor="#1D3357"
+        android:pathData="M54,30 C63,30 71,33 74,38 C74,54 65,67 54,75 C43,67 34,54 34,38 C37,33 45,30 54,30 Z" />
+
+    <!-- Rupee + Shield Core Graphic -->
+    <!-- Rupee Top Horizontal Bar -->
+    <path
+        android:fillColor="#3DDC97"
+        android:pathData="M45,41 H63 V44 H45 Z" />
+
+    <!-- Rupee Middle Horizontal Bar -->
+    <path
+        android:fillColor="#3DDC97"
+        android:pathData="M45,47 H61 V50 H45 Z" />
+
+    <!-- Rupee Stem and Curve -->
+    <path
+        android:fillColor="#3DDC97"
+        android:pathData="M51,41 H55 V52 C58,52 61,50 61,46 H64 C64,52 59,55 54,55 L63,67 H58 L50.5,56 H47 V67 H43 V41 H51 Z" />
+
+    <!-- Security Checkmark Badge on bottom right of shield -->
+    <path
+        android:fillColor="#3DDC97"
+        android:pathData="M70,64 A8,8 0 1,0 70,80 A8,8 0 1,0 70,64 Z" />
+    <path
+        android:fillColor="#0B1220"
+        android:strokeColor="#0B1220"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M66,72 L69,75 L75,69" />
+</vector>
