@@ -8,11 +8,60 @@ const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const pad=n=>String(n).padStart(2,'0');
 const mmss=s=>`${pad(Math.floor(s/60))}:${pad(Math.floor(s%60))}`;
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function toast(msg,kind){const d=document.createElement('div');d.textContent=msg;
-  d.style.cssText=`position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:99;padding:10px 15px;border-radius:11px;
-  font-size:13px;border:1px solid ${kind==='bad'?'#7d2b39':kind==='ok'?'#1d6b45':'#2e3f61'};
-  background:${kind==='bad'?'#2c1015':kind==='ok'?'#0e2a1e':'#141d31'};box-shadow:0 14px 30px -12px #000c`;
-  document.body.appendChild(d);setTimeout(()=>d.remove(),2600);}
+let AUDIO_ENABLED=true;
+let audioCtx=null;
+function playSfx(type){
+  if(!AUDIO_ENABLED) return;
+  try{
+    const AudioCtor=window.AudioContext||window.webkitAudioContext;
+    if(!AudioCtor) return;
+    if(!audioCtx) audioCtx=new AudioCtor();
+    if(audioCtx.state==='suspended') audioCtx.resume();
+    const osc=audioCtx.createOscillator();
+    const gain=audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    const now=audioCtx.currentTime;
+    if(type==='bad'||type==='alert'){
+      osc.type='sawtooth'; osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(160, now+0.22);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.22);
+      osc.start(now); osc.stop(now+0.23);
+    } else if(type==='ok'||type==='safe'){
+      osc.type='sine'; osc.frequency.setValueAtTime(520, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now+0.18);
+      gain.gain.setValueAtTime(0.09, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.18);
+      osc.start(now); osc.stop(now+0.19);
+    } else {
+      osc.type='triangle'; osc.frequency.setValueAtTime(650, now);
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.005, now+0.05);
+      osc.start(now); osc.stop(now+0.06);
+    }
+  }catch(e){}
+}
+function toast(msg,kind){
+  playSfx(kind);
+  const d=document.createElement('div');d.textContent=msg;
+  d.style.cssText=`position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:99;padding:10px 16px;border-radius:12px;
+  font-size:13px;font-weight:550;border:1px solid ${kind==='bad'?'rgba(239,68,68,0.5)':kind==='ok'?'rgba(16,185,129,0.5)':'rgba(59,130,246,0.35)'};
+  background:${kind==='bad'?'rgba(44,16,21,0.95)':kind==='ok'?'rgba(14,42,30,0.95)':'rgba(18,29,54,0.95)'};
+  box-shadow:0 14px 35px -10px rgba(0,0,0,0.7), 0 0 15px ${kind==='bad'?'rgba(239,68,68,0.2)':kind==='ok'?'rgba(16,185,129,0.2)':'rgba(59,130,246,0.2)'};
+  backdrop-filter:blur(8px);transition:all .25s ease;animation:pop .25s ease`;
+  document.body.appendChild(d);setTimeout(()=>{d.style.opacity='0';d.style.transform='translateX(-50%) translateY(8px)';setTimeout(()=>d.remove(),300);},2400);
+}
+
+/* ---------- sound toggle ---------- */
+const sBtn=$('#soundBtn');
+if(sBtn){
+  sBtn.onclick=()=>{
+    AUDIO_ENABLED=!AUDIO_ENABLED;
+    sBtn.innerHTML=AUDIO_ENABLED?'🔔 sound: on':'🔕 sound: off';
+    toast(AUDIO_ENABLED?'Audio feedback enabled':'Audio muted');
+    if(AUDIO_ENABLED) playSfx('ok');
+  };
+}
 
 /* ---------- demo speed ---------- */
 let SPEED=30;
