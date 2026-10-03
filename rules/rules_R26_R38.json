@@ -1,0 +1,156 @@
+{
+  "_meta": {
+    "module": "SatarkPay M2 · New Module Pack — pack 2",
+    "team": "SCΛMURΛI · Nishant Kumar · Prince Singh · Kartik Singh",
+    "track": "SANGYAN (SEBI × NSDL × SNTC IIT-BHU) · Investor Resilience",
+    "version": "2.3 · 2026-10-03 (+R38 emergency action: confirm → email + call + payment stop)",
+    "status_legend": "EVAL = demo/eval harness me measured · RULE = deterministic rule (offline, koi LLM/network call nahi) · UX = interface safeguard · PARTNER = external hook chahiye (PSP/bank/telecom/registry)",
+    "note": "Ye rules deck ke R1–R14 aur pack 1 (R15–R25) ke saath chalti hain. Sab rules sirf friction/salah dete hain — auto-block koi rule nahi karta. Peer repos se sirf IDEA li gayi hai, code nahi (credit: sangyan_osint/BORROW_LIST.md).",
+    "license_position": "31 peer repos me 30 par koi license nahi (all rights reserved), 1 MIT — isliye zero code copying; sirf concepts adopt kiye."
+  },
+  "rules": [
+    {
+      "id": "R26",
+      "feature": "M3 + M4 · registry check (SEBI/NSDL)",
+      "name": "SEBI / NSDL registration number aur portal verification",
+      "trigger": "message/chat/screenshot me SEBI, NSDL, SCORES, SMART ODR ka zikr ya registration-number claim ho",
+      "action": "3 cheezein check hoti hain, sirf teen: (1) number ka FORMAT — INZ/INH/INA/INB + 9 digits; (2) portal domain official list me hai ya lookalike (sebi.gov.in, scores.gov.in, smartodr.in, nsdl.co.in, nseindia.com, bseindia.com); (3) naam demo-debarred/watch list me hai. Galat-format number (jaise “SEBI12345”), ya “SEBI” + paisa/join ka zikr bina number ke → red flag. Sirf awareness message me SEBI ka zikr ho (koi money-ask nahi) → koi flag nahi.",
+      "tier": "T2 (CAUTION) / T3 (red flag + analyst queue)",
+      "status": "RULE (demo me live chalta hai)",
+      "honest_limit": "Hum “registered hai” CERTIFY nahi karte aur live SEBI registry download bhi nahi karte (offline demo) — user ko sebi.gov.in par khud verify karne bhejte hain. Demo defaulter list synthetic hai.",
+      "borrowed_from": "concept: patelsachin9879-gif/Sangyan-Kavach + pyharshcodes/Sangyan_hackathon + Enky-yy/sangyan-sebi (idea only)"
+    },
+    {
+      "id": "R27",
+      "feature": "M4 · negation-aware verdict",
+      "name": "Safety-warning ko scam na samajhna (negation handling)",
+      "trigger": "rule ka keyword mila, par uske aas-paas negation ho — “kabhi bhi OTP share mat karo”, “OTP share karne ko nahi kahenge”",
+      "action": "dono order pack hote hain (keyword-pehle aur negation-pehle). Negation mila to verdict SEEMS OK (safety-warning) branch me jaata hai, risk-word list ke saath. Override: agar text me asli scam-words bhi hain (guarantee/300%/deposit/safe account/arrest), to negation ka asar nahi hota.",
+      "tier": "T1 (koi friction nahi) — par link/portal alag se M3 se check hota hi hai",
+      "status": "RULE + EVAL (eval set me legit sample isi ke liye rakha hai)",
+      "honest_limit": "Regex-based negation hai, semantic nahi — teesra-level sarcasm/mixed message miss ho sakta hai; aise case “PAKA NAHI” bucket me jaate hain.",
+      "borrowed_from": "concept: prakshithamalla-art/scam-shield-sangyan (idea only)"
+    },
+    {
+      "id": "R28",
+      "feature": "M4 + M7 · privacy by design",
+      "name": "analysis se pehle client-side PII redaction",
+      "trigger": "user chat/email/screenshot text paste kare",
+      "action": "phone (6-9 se shuru 10 digit), UPI handle, aadhaar-jaisa 12-digit, account-number pattern device par hi mask hote hain; analysis masked text par chalti hai, UI me “🔒 client-side redaction: N item mask” note dikhta hai. Demo me koi network call nahi hoti — asli text device par hi rehta hai.",
+      "tier": "n/a (privacy layer)",
+      "status": "RULE + UX",
+      "honest_limit": "Pattern-based masking hai — OCR ke garbled ya naye format wale identifiers bach sakte hain; production me on-device model + user “verify” step chahiye.",
+      "borrowed_from": "concept: adityakr-git/sangyan (“Ruko”) (idea only)"
+    },
+    {
+      "id": "R29",
+      "feature": "M4/M6 · link-shortener + “withdraw instantly” trap",
+      "name": "shortened URL aur instant-gift luring pattern flag",
+      "trigger": "cutt.ly / bit.ly / tinyurl / rb.gy / is.gd / t.co jaise shortener, ya “special VIP gift”, “withdraw instantly”, “free gift”, “turant withdraw” jaise phrase",
+      "action": "F29 family → SCAM LIKELY (T3), reasons + “link na kholo, app khud kholo” action, M7 report pack link.",
+      "tier": "T3",
+      "status": "RULE",
+      "honest_limit": "Legit brands bhi kabhi-kabhi shortener use karte hain — isliye message ko akela proof nahi maana jaata; domain/registry check bhi saath chalta hai.",
+      "borrowed_from": "apna (M3 ladder ka extension)"
+    },
+    {
+      "id": "R30",
+      "feature": "M7 · recovery procedure",
+      "name": "“pehle 1 ghante” checklist (paisa jaane ke baad)",
+      "trigger": "user confirm kare ki fraud payment ho gaya (ya screenshot + txn ID diya)",
+      "action": "clock ke hisaab se steps: (0–10 min) 1930 par call + bank helpline par freeze request; (10–30 min) cybercrime.gov.in / NCRP par complaint (txn ID/UTR), UPI app me “Report fraud”; (30–60 min) Sanchar Saathi par number report, SEBI SCORES/SMART ODR agar advisory/investment angle hai, screenshots ka chain-of-custody pack (crop + redact + hash) banake rakho.",
+      "tier": "n/a (user-facing procedure)",
+      "status": "UX + partner note",
+      "honest_limit": "Recovery ki guarantee koi nahi de sakta — freeze-trace ka nateeja bank/PSP par depend karta hai; hum sirf time-optimised steps dete hain.",
+      "borrowed_from": "concept: anuragtiwari-ux/Sangyan-Suraksha (MIT) (idea only)"
+    },
+    {
+      "id": "R31",
+      "feature": "M4 · advance-fee family (F30)",
+      "name": "registration/processing/verification fee, loan-sanction fee, EMI + legal-threat recovery",
+      "trigger": "“registration fee”, “processing fee”, “advance fee”, “loan approved/sanction”, “EMI pending + personal UPI par pay”, “warna legal action”",
+      "action": "SCAM LIKELY (T3) + action: koi fee mat bhejo, lender/bank ko official number par call, 1930 + NCRP report.",
+      "tier": "T3",
+      "status": "RULE",
+      "honest_limit": "Asli lenders bhi fee lete hain (processing charge) — par woh aapke account se auto-debit karte hain, kisi personal UPI handle ya link par nahi; yehi line draw ki gayi hai.",
+      "borrowed_from": "concept base: Kshitijsawant17/PATIBIMB (deterministic pattern rules) (idea only)"
+    },
+    {
+      "id": "R32",
+      "feature": "M4 · OTP/PIN maangne wala (F31)",
+      "name": "bank impersonation + “warna freeze ho jayega” pressure",
+      "trigger": "“OTP batayein/de/share karo”, “PIN daal do”, “CVV share karo”, “account freeze ho jayega”",
+      "action": "SCAM LIKELY (T3) + “call kaat do”, bank ke official number par callback, 1930 + Sanchar Saathi report.",
+      "tier": "T3",
+      "status": "RULE",
+      "honest_limit": "Bank ke genuine OTP messages “OTP kabhi share na karein” likhkar aate hain — woh R27 negation se alag handle hote hain; par copy-paste scam isi tone me aa sakta hai, isliye sender-ID + link check hamesha chahiye.",
+      "borrowed_from": "deck rules (R6/R7) ka extension + PATIBIMB-style deterministic patterns (idea only)"
+    },
+    {
+      "id": "R33",
+      "feature": "M4 · sextortion / blackmail (F32)",
+      "name": "private-photo/video dhamki se paisa nikalna",
+      "trigger": "“photo family ko bhej dunga”, “gallery access hai”, “video viral kar dunga”, “private photo”, “screen record”",
+      "action": "SCAM LIKELY (T3) + zero-payment advice (paise dene ke baad bhi demand rukti nahi), 1930 / cybercrime.gov.in me report, platform par block+report, evidence save karo.",
+      "tier": "T3 + human analyst",
+      "status": "RULE + UX (sharam-free reporting copy)",
+      "honest_limit": "Emotional-support flow demo me simulated hai; production me human/trained counsellor routing chahiye.",
+      "borrowed_from": "apna (M7 evidence flow ke saath natural fit)"
+    },
+    {
+      "id": "R34",
+      "feature": "M4 · lottery/prize fee (F33)",
+      "name": "“aapki lottery lagi hai” + tax/fee",
+      "trigger": "lottery / jackpot / inaam / lucky draw / prize + tax|fee|nikalne ke liye",
+      "action": "SCAM LIKELY (T3) + “aapne participate hi nahi kiya”, koi detail/paisa mat bhejo, message delete na karo (report ke liye), 1930 + Sanchar Saathi.",
+      "tier": "T3",
+      "status": "RULE",
+      "honest_limit": "State lotteries legally exist karti hain, par woh advance fee nahi maangti — isliye trigger me “fee/tax” ka hona zaroori rakha hai.",
+      "borrowed_from": "apna"
+    },
+    {
+      "id": "R35",
+      "feature": "M4 · emergency / voice-clone (F34)",
+      "name": "“mera naya number + hospital/accident + urgent paisa”",
+      "trigger": "naya/new number claim, hospital me hoon, accident, voice clone/AI awaaz, urgent ₹X bhej do, phone band hai",
+      "action": "SCAM LIKELY (T3) + purane number par khud call, ghar me cross-verify, bina voice/video confirm kiye payment nahi.",
+      "tier": "T3",
+      "status": "RULE",
+      "honest_limit": "Ye template asli emergency me bhi match kar sakta hai — isliye verdict ke saath “verify karne ka tarika” wajib hai, sirf darr nahi failana.",
+      "borrowed_from": "apna (deepfake/voice-clone track-A theme ke saath)"
+    },
+    {
+      "id": "R36",
+      "feature": "M4 · insider tip / pump-and-dump (F35)",
+      "name": "“insider news + X% upar jayega” tip group",
+      "trigger": "stock tip, insider news/tip, trading tip, multibagger, target price, “N% upar jayega”, “abhi paisa bhejo is UPI par”",
+      "action": "SCAM LIKELY (T3) + paid tip group chhod do, registry check (R26), SEBI SCORES / SMART ODR complaint, screenshots rakh lo.",
+      "tier": "T3",
+      "status": "RULE",
+      "honest_limit": "Hum koi buy/sell/hold ya price prediction nahi dete (SANGYAN guardrail) — sirf tip ke tareeke ka risk batate hain, market view nahi.",
+      "borrowed_from": "concept base: Kshitijsawant17/PATIBIMB (idea only) + SANGYAN track-A (fake advisors/pump & dump)"
+    },
+    {
+      "id": "R37",
+      "feature": "M4 · measurement (eval harness)",
+      "name": "labelled test set par live precision/recall + honest buckets",
+      "trigger": "user “Run eval” dabaye (ya judge khud chalaye)",
+      "action": "33 labelled messages (22 scam + 11 legit) par wahi engine chalta hai jo user ke paste par chalta hai. Live TP/FP/FN/TN + precision/recall/F1, plus CAUTION bucket alag (soft catch vs friction) aur “paka nahi” bucket. Table me har miss ko `miss` aur har false alarm ko `false-alarm` tag milta hai — chhupte nahi. Button ka count set ki length se aata hai, koi number hardcoded nahi.",
+      "tier": "n/a (measurement layer)",
+      "status": "EVAL (self-authored set — ceiling hai, field accuracy nahi; 3 messages jaan-boojh ke outside-library hain)",
+      "honest_limit": "Set humne khud likha hai, isliye ye upper-bound hai; out-of-distribution naye variant par recall neeche jayega — isliye “UNCERTAIN/PAKA NAHI” bucket product ka hissa hai.",
+      "borrowed_from": "concept: anuragtiwari-ux/Sangyan-Suraksha (MIT) (idea only)"
+    },
+    {
+      "id": "R38",
+      "feature": "M7 · fraud confirm → turant teen kadam",
+      "name": "confirm-fraud emergency action: cyber-cell email + helpline call + payment stop",
+      "trigger": "user khud “Fraud CONFIRM hai” dabaye (koi auto-detect nahi — confirmation user ka)",
+      "action": "ek panel khulta hai jisme: (1) 📧 ready email draft — Bihar cyber cell (patnacyberpps-bih@gov.in, sp-cyber@biharpolice.gov.in, cciu-bih@nic.in) + bank nodal officer cc, subject/body me txn ID, UTR, amount, 3 demands, annexure index; user ke tap par mail app khulta hai (auto-send NAHI); (2) 📞 click-to-call dialer — 1930 (cyber financial fraud), 1909 (Sanchar Saathi), bank/PSP official helpline, Bihar cyber cell 9031825975 — saath me 5-line call script (naam/mobile · txn/UTR · amount · kya maanga · complaint number); (3) ⛔ payment-stop request text — txn-wise dispute/chargeback + beneficiary VPA par hold (CFCFRMS) + account temporary freeze/limit + unknown mandate revoke. Golden-hour clock us waqt se chalta hai jab user fraud confirm karta hai.",
+      "tier": "n/a (user-initiated emergency flow)",
+      "status": "UX + RULE (demo me simulated mail/call; real device par seedha mail app + dialer)",
+      "honest_limit": "App khud email nahi bhejti aur call nahi karti (privacy + permission) — sirf draft, dialer aur script ready karti hai; actual bhejna/call karna user ke tap par hota hai. Email me aapke full naam/account daalne padte hain.",
+      "borrowed_from": "user ka requirement (3 Oct 2026): “fraud confirm ho to turant cyber cell ko complaint mail + payment stop ke liye helpline se direct baat”"
+    }
+  ]
+}

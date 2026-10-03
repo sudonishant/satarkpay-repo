@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SatarkPay · M2 New Module Pack (7 modules)</title>
+<style>
+:root{
+  --bg:#070b14; --bg2:#0a101d; --panel:#0f1626; --panel2:#141d31; --panel3:#1a2540;
+  --line:#22304c; --line2:#2e3f61;
+  --txt:#e8eef9; --dim:#93a4c2; --dim2:#6b7c9c;
+  --ok:#25d07a; --warn:#f5a524; --bad:#ff5d5d; --accent:#4f8cff; --teal:#2dd4bf; --violet:#a78bfa;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:
+  radial-gradient(1100px 600px at 85% -10%, #16233d 0%, transparent 60%),
+  radial-gradient(900px 500px at 0% 0%, #10203a 0%, transparent 55%), var(--bg);
+  color:var(--txt); font-family:var(--sans); font-size:14.5px; line-height:1.5}
+body{padding-bottom:60px}
+h1,h2,h3,h4{margin:0; font-weight:650; letter-spacing:-.01em}
+a{color:var(--accent)}
+button{font-family:inherit; font-size:13px; cursor:pointer; border-radius:10px; border:1px solid var(--line2);
+  background:var(--panel2); color:var(--txt); padding:8px 12px; transition:.15s}
+button:hover{background:var(--panel3); border-color:#3c527d}
+button.primary{background:linear-gradient(180deg,#2f6bff,#1f4fd0); border-color:#4f7fff}
+button.primary:hover{background:linear-gradient(180deg,#3d78ff,#2557dc)}
+button.danger{background:#3a1620; border-color:#7d2b39; color:#ffd6d6}
+button.ghost{background:transparent}
+button:disabled{opacity:.45; cursor:not-allowed}
+button.sm{padding:5px 9px; font-size:12px; border-radius:8px}
+input,textarea{font-family:inherit; font-size:13px; color:var(--txt); background:#0b1220;
+  border:1px solid var(--line2); border-radius:10px; padding:9px 11px; width:100%}
+input:focus,textarea:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px #4f8cff22}
+.mono{font-family:var(--mono)}
+.dim{color:var(--dim)} .dim2{color:var(--dim2)}
+.tiny{font-size:11.5px; line-height:1.45}
+.tag{display:inline-block; font-size:10.5px; font-weight:600; padding:2px 7px; border-radius:999px;
+  border:1px solid var(--line2); background:#0d1729; color:var(--dim); letter-spacing:.02em}
+.tag.ok{color:#9ff0c4; border-color:#1d6b45; background:#0d2a1d}
+.tag.warn{color:#ffd9a1; border-color:#7a5620; background:#2b1f0c}
+.tag.bad{color:#ffc4c4; border-color:#7d2b39; background:#2b0f14}
+.tag.info{color:#bcd6ff; border-color:#2a4b8a; background:#0d1a30}
+.tag.v{color:#d9cdff; border-color:#4c3a8a; background:#171233}
+
+/* ---------- layout ---------- */
+header.top{position:sticky; top:0; z-index:50; display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:11px 20px; background:#070f1de8; backdrop-filter:blur(12px); border-bottom:1px solid var(--line)}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px}
+.brand .sub{font-weight:500; font-size:11.5px; color:var(--dim)}
+.hdr-right{margin-left:auto; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.live{display:inline-flex; align-items:center; gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ok); box-shadow:0 0 0 3px #25d07a22; animation:p 1.8s infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.35}}
+nav.tabs{display:flex; gap:8px; padding:14px 20px 0; flex-wrap:wrap; max-width:1500px; margin:0 auto}
+nav.tabs button{display:flex; align-items:center; gap:8px; padding:10px 13px; font-size:13px; border-radius:12px}
+nav.tabs button .n{font-family:var(--mono); font-size:11px; color:var(--dim2)}
+nav.tabs button.on{background:linear-gradient(180deg,#1d2c4c,#16233c); border-color:#3d5f9e; box-shadow:0 6px 18px -8px #4f8cff88}
+main{max-width:1500px; margin:0 auto; padding:16px 20px 0}
+.module{display:none; grid-template-columns:auto minmax(0,1fr); gap:22px; align-items:start}
+.module.on{display:grid}
+@media (max-width:1080px){ .module.on{grid-template-columns:1fr} }
+.card{background:linear-gradient(180deg,#101a2d,#0d1524); border:1px solid var(--line); border-radius:16px; padding:16px}
+.card + .card{margin-top:14px}
+.card h3{font-size:14px; display:flex; align-items:center; gap:8px}
+.card h3 .tag{margin-left:auto}
+.hr{height:1px; background:var(--line); margin:12px 0}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+@media (max-width:640px){ .grid2,.grid3{grid-template-columns:1fr} }
+.kv{display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px dashed #1c2942; font-size:12.5px}
+.kv:last-child{border-bottom:none}
+.kv b{font-weight:600; font-family:var(--mono); font-size:12.5px}
+.sig{display:flex; align-items:center; gap:10px; padding:8px 10px; border:1px solid var(--line); border-radius:10px; background:#0b1322; margin-bottom:7px}
+.sig .lbl{flex:1; font-size:12.5px}
+.sig .v{font-family:var(--mono); font-size:12px; color:var(--dim)}
+.bar{height:6px; border-radius:99px; background:#16203a; overflow:hidden; margin-top:6px}
+.bar>i{display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#2dd4bf,#4f8cff)}
+.note{font-size:12px; color:var(--dim); border-left:2px solid var(--line2); padding:2px 0 2px 10px}
+.warnbox{border:1px solid #7a5620; background:linear-gradient(180deg,#2c2009,#20180a); border-radius:12px; padding:12px}
+.badbox{border:1px solid #7d2b39; background:linear-gradient(180deg,#2c1015,#200d11); border-radius:12px; padding:12px}
+.okbox{border:1px solid #1d6b45; background:linear-gradient(180deg,#0e2a1e,#0b1f17); border-radius:12px; padding:12px}
+.chips{display:flex; gap:7px; flex-wrap:wrap}
+.chip{font-size:11.5px; padding:4px 9px; border-radius:999px; border:1px dashed var(--line2); color:var(--dim); cursor:pointer}
+.chip:hover{border-style:solid; color:var(--txt); border-color:#4f7fff}
+
+/* ---------- phone mock ---------- */
+.phonewrap{position:sticky; top:76px}
+.phone{width:352px; max-width:88vw; border-radius:38px; padding:9px; background:linear-gradient(180deg,#26324c,#161f33);
+  box-shadow:0 30px 60px -22px #000c, inset 0 1px 0 #ffffff14; border:1px solid #33415f}
+.screen{border-radius:30px; background:#070c16; min-height:604px; overflow:hidden; position:relative;
+  border:1px solid #0f172acc; display:flex; flex-direction:column}
+.sbar{display:flex; align-items:center; gap:6px; padding:9px 16px 5px; font-family:var(--mono); font-size:11px; color:var(--dim)}
+.sbar .sp{margin-left:auto}
+.appbar{display:flex; align-items:center; gap:9px; padding:9px 14px 11px; border-bottom:1px solid #131d2f}
+.appbar .av{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:13px;font-weight:700;color:#04121a;
+  background:linear-gradient(180deg,#5eead4,#2dd4bf)}
+.appbar .t{font-size:13px; font-weight:600; line-height:1.2}
+.appbar .t small{display:block; font-weight:400; color:var(--dim); font-size:10.5px}
+.scrbody{padding:13px; display:flex; flex-direction:column; gap:11px; flex:1}
+.bub{max-width:82%; padding:9px 11px; border-radius:14px; font-size:12.5px; line-height:1.45}
+.bub.in{background:#16223a; border:1px solid #22314f; border-bottom-left-radius:5px}
+.bub.out{background:#173a2c; border:1px solid #215b44; align-self:flex-end; border-bottom-right-radius:5px}
+.bub .who{font-size:10.5px; color:var(--dim); margin-bottom:3px}
+.notif{border:1px solid #3d5f9e; background:linear-gradient(180deg,#16233c,#0f1a2e); border-radius:14px; padding:10px 11px;
+  box-shadow:0 10px 24px -14px #000c; animation:pop .35s ease}
+@keyframes pop{from{transform:translateY(-8px); opacity:0}to{transform:none; opacity:1}}
+.sheet{margin-top:auto; background:linear-gradient(180deg,#111b2e,#0c1422); border:1px solid var(--line); border-radius:16px; padding:13px}
+.sheet h4{font-size:13.5px; margin-bottom:5px}
+.sheet .big{font-family:var(--mono); font-size:26px; letter-spacing:-.02em}
+.row{display:flex; gap:9px; align-items:center}
+.row.wrap{flex-wrap:wrap}
+.spread{display:flex; justify-content:space-between; align-items:center; gap:10px}
+.sheetbtns{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:11px}
+.sheetbtns button{width:100%}
+.ring{width:96px;height:96px; display:grid; place-items:center; position:relative; margin:0 auto}
+.ring svg{position:absolute; inset:0; transform:rotate(-90deg)}
+.ring .lbl{text-align:center; font-family:var(--mono); max-width:88px}
+.banner{padding:11px 13px; border-radius:12px; font-size:12.5px; display:flex; gap:9px; align-items:flex-start}
+.banner.w{background:#2c2009; border:1px solid #7a5620}
+.banner.b{background:#2c1015; border:1px solid #7d2b39}
+.banner.g{background:#0e2a1e; border:1px solid #1d6b45}
+.banner.i{background:#0d1a30; border:1px solid #2a4b8a}
+.gal{display:grid; grid-template-columns:1fr 1fr; gap:9px}
+.shot{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#0b1322}
+.shot .thumb{height:78px; background:
+  repeating-linear-gradient(135deg,#12203a 0 8px,#0f1a30 8px 16px); display:grid; place-items:center; font-size:20px; position:relative}
+.shot .thumb .badge{position:absolute; top:5px; right:5px}
+.shot .meta{padding:7px 8px; font-size:10.5px; line-height:1.4; color:var(--dim)}
+.shot .meta b{color:var(--txt); font-weight:600; font-size:11px; display:block}
+.chat{display:flex; flex-direction:column; gap:9px; max-height:300px; overflow:auto; padding-right:2px}
+.chat .m{max-width:88%; padding:9px 11px; border-radius:13px; font-size:12.5px; white-space:pre-wrap}
+.chat .u{align-self:flex-end; background:#1b3050; border:1px solid #2a4b8a}
+.chat .a{align-self:flex-start; background:#101c30; border:1px solid #21324f}
+.verdict{border-radius:12px; padding:10px; margin-top:8px; font-size:12px; border:1px solid var(--line2); background:#0b1322}
+.list{display:flex; flex-direction:column; gap:8px}
+.item{display:flex; gap:10px; align-items:flex-start; padding:10px; border:1px solid var(--line); border-radius:12px; background:#0b1322}
+.item .ic{width:30px;height:30px;border-radius:9px; display:grid; place-items:center; font-size:14px; background:#16223a; border:1px solid var(--line2); flex:0 0 auto}
+.item .bd{flex:1; min-width:0}
+.item .ti{font-size:12.8px; font-weight:600}
+.item .su{font-size:11.3px; color:var(--dim); margin-top:2px; line-height:1.45}
+.ic.ok{background:#0e2a1e;border-color:#1d6b45} .ic.warn{background:#2c2009;border-color:#7a5620} .ic.bad{background:#2c1015;border-color:#7d2b39}
+table{width:100%; border-collapse:collapse; font-size:12.3px}
+th,td{text-align:left; padding:7px 8px; border-bottom:1px solid #18233a; vertical-align:top}
+th{color:var(--dim); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.04em}
+tr:last-child td{border-bottom:none}
+.console{margin-top:18px; grid-column:1/-1}
+@media (min-width:1081px){ .console{grid-column:2} }
+.conshead{display:flex; align-items:center; gap:9px; margin-bottom:10px}
+.conshead .t{font-size:13px; font-weight:600}
+.stepper{display:flex; gap:8px; flex-wrap:wrap}
+.step{display:flex; align-items:center; gap:7px; font-size:12px; padding:7px 11px; border-radius:999px;
+  border:1px solid var(--line); background:#0d1626; cursor:pointer; color:var(--dim)}
+.step b{font-family:var(--mono); color:var(--accent)}
+.step.on{border-color:#3d5f9e; background:#16233c; color:var(--txt)}
+footer{max-width:1500px; margin:26px auto 0; padding:0 20px; font-size:12px; color:var(--dim2)}
+.senior{font-size:17.5px}
+.senior .tiny{font-size:13.5px} .senior .tiny.dim2{font-size:13px}
+.senior .bub{font-size:14.5px; line-height:1.55} .senior .sig .lbl{font-size:14.5px} .senior .sig .v{font-size:14px}
+.senior .kv{font-size:14px} .senior .kv b{font-size:14px} .senior .item .ti{font-size:14.5px} .senior .item .su{font-size:13px}
+.senior table{font-size:14px} .senior th{font-size:12.5px} .senior .chip{font-size:13px}
+.senior .sheet .big{font-size:30px} .senior button{font-size:15px; padding:10px 14px}
+.senior :root{--txt:#ffffff; --dim:#c2cfe6}
+body.senior{background:#05080f}
+.speaking{outline:2px solid #4f8cff; outline-offset:3px; border-radius:12px; animation:spk 1.2s infinite}
+@keyframes spk{0%,100%{outline-color:#4f8cff88}50%{outline-color:#4f8cffff}}
+code{font-family:var(--mono); font-size:11.5px; background:#0d1729; border:1px solid var(--line); padding:1px 5px; border-radius:5px}
+.spin{display:inline-block; width:12px;height:12px;border-radius:50%; border:2px solid #ffffff33; border-top-color:#fff; animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2.5 4 6v6.2c0 4.7 3.3 8.6 8 9.8 4.7-1.2 8-5.1 8-9.8V6l-8-3.5Z" stroke="#2dd4bf" stroke-width="1.6"/><path d="m8.6 12.2 2.3 2.3 4.5-4.6" stroke="#4f8cff" stroke-width="1.9" stroke-linecap="round"/></svg>
+    SatarkPay <span class="sub">M2 · New Module Pack <span class="dim2">·</span> 7 modules · demo + asli case ka masked pack</span>
+  </div>
+  <div class="hdr-right">
+    <span class="tag ok"><span class="dot"></span>&nbsp;Guard ON</span>
+    <span class="tag info">metadata-only</span>
+    <span class="tag v">on-device</span>
+    <button class="sm" id="demoBtn" title="Judges ke liye 3-minute click-path">▶ 3-min demo script</button>
+    <button class="sm" id="voiceBtn" title="Verdict ko Hindi me sunno (Web Speech)">🔊 voice: off</button>
+    <button class="sm" id="seniorBtn" title="Senior mode: bada font + high contrast">👁 senior: off</button>
+    <button class="sm" id="speedBtn" title="Demo speed: real 9-min gate ko 18s me dikhata hai">⏩ speed ×30 <span class="dim2">(real time)</span></button>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="on" data-m="m1"><span class="n">01</span> Chat-Before-Pay</button>
+  <button data-m="m2"><span class="n">02</span> Screenshot Radar</button>
+  <button data-m="m3"><span class="n">03</span> Domain Trust</button>
+  <button data-m="m4"><span class="n">04</span> AI Sanchalak</button>
+  <button data-m="m5"><span class="n">05</span> Wallet Audit</button>
+  <button data-m="m6"><span class="n">06</span> Intel Desk</button>
+  <button data-m="m7"><span class="n">07</span> Auto-Report</button>
+</nav>
+
+<main>
+
+<!-- ============================ M1 · CHAT-BEFORE-PAY ============================ -->
+<section class="module on" id="m1">
+  <div class="phonewrap">
+    <div class="phone"><div class="screen">
+      <div class="sbar"><span>9:41</span><span class="sp">4G ▪▪▪ 82%</span></div>
+      <div class="appbar">
+        <div class="av" id="m1av">व</div>
+        <div class="t" id="m1title">WhatsApp · <span id="m1who">+91 9xxxx 21473</span><small id="m1sub">unknown contact · saved nahi hai</small></div>
+      </div>
+      <div class="scrbody" id="m1body">
+        <div id="m1notif"></div>
+        <div class="banner i tiny">🧭 <div><b>Journey watch on.</b> WhatsApp/Telegram khulne ke baad UPI app khula to guard automatically laga.</div></div>
+        <div id="m1chat"></div>
+      </div>
+    </div></div>
+    <div class="tiny dim" style="text-align:center; margin-top:9px">Aapka asli phone UI nahi badalta — ye SatarkPay ka upi:// check + overlay hai.</div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h3>Feature 1 · Chat-Before-Pay Guard <span class="tag warn">RULE R15 / R16</span></h3>
+      <p class="dim" style="margin:8px 0 0">
+        Do signal milte hain: <b>contact known/unknown</b> + <b>chat session kitni lambi thi</b> (UsageStats). Matrix:
+      </p>
+      <div class="grid2" style="margin-top:9px">
+        <div class="okbox tiny"><b>🟢 Saved contact + chhoti chat (≈1–2 min)</b><br>
+          1 minute check → phir <b>seedha payment</b>. Ya ek tap me <b>saved number par call karke confirm</b> → payment allow.</div>
+        <div class="warnbox tiny"><b>🟠 Chat ≥ 10 min ke baad turant UPI</b><br>
+          Contact saved ho tab bhi <b>notification</b> — kyunki lambi baat + turant payment pressure/coercion ka pattern hai (number hack bhi ho sakta hai).</div>
+        <div class="warnbox tiny"><b>🟠 Unknown contact (chhoti chat)</b><br>
+          <b>8 min guided check</b> — user ko samjhaane me time lagta hai: chat dobara padho + 3 sawal.</div>
+        <div class="badbox tiny"><b>🔴 Unknown + 8 min se lambi chat</b><br>
+          <b>Hold + analyst callback</b> (digital-arrest / task script). Payment rukta hai, block nahi — user cancel kar sakta hai.</div>
+      </div>
+      <div class="note tiny" style="margin-top:9px">Timer sirf tab chalta hai jab woh chat screen par ho (foreground dwell), warna pause — app chhod ke 5 sec me wapas aaye to time nahi milta.</div>
+      <div class="hr"></div>
+      <div class="grid2">
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">DEMO SCENARIO</div>
+          <div class="chips" style="margin-bottom:8px">
+            <span class="chip" data-m1sc="k_short">Saved contact · 2 min chat</span>
+            <span class="chip" data-m1sc="k_long">Saved contact · 12 min chat</span>
+            <span class="chip" data-m1sc="u_short">Unknown · 5 min chat</span>
+            <span class="chip" data-m1sc="u_long">Unknown · 10 min chat</span>
+            <span class="chip" data-m1sc="nochat">Direct payment (no chat)</span>
+          </div>
+          <button class="primary" id="m1run">▶ Run scenario</button>
+          <button class="sm ghost" id="m1reset">reset</button>
+        </div>
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">GATE (live)</div>
+          <div class="sheet" style="padding:11px">
+            <div class="ring" id="m1ring">
+              <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" stroke="#1b2740" stroke-width="8" fill="none"/>
+              <circle id="m1arc" cx="50" cy="50" r="44" stroke="#4f8cff" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="276"/></svg>
+              <div class="lbl"><div style="font-size:19px" id="m1clock">--:--</div><div class="tiny dim" id="m1phase">idle</div></div>
+            </div>
+            <div class="tiny dim" style="text-align:center; margin-top:6px" id="m1hint">Scenario select karke Run dabao</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Jo signals guard dekhta hai <span class="tag info">metadata only · no message text</span></h3>
+      <div class="grid2" style="margin-top:10px">
+        <div id="m1sigs"></div>
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">PAYMENT GATE — KYA DIKHEGA</div>
+          <div id="m1gateUI" class="note">Run karo, phir yahan gate ka asli wording (HI + EN) aayega.</div>
+          <div class="tiny dim" style="margin-top:10px; margin-bottom:6px">FRICTION ACCOUNTING</div>
+          <div class="kv"><span>Saved + chhoti chat</span><b>1.0 min (ya 1-tap call confirm)</b></div>
+          <div class="kv"><span>Chat ≥ 10 min → UPI</span><b>notification + 3 min</b></div>
+          <div class="kv"><span>Unknown contact</span><b>8 min guided</b></div>
+          <div class="kv"><span>Unknown + lambi chat</span><b>hold + callback (T3)</b></div>
+          <div class="kv"><span>Bank/PIN friction</span><b>0 (kuch nahi)</b></div>
+          <div class="kv"><span>Guard mode jab chat na ho</span><b>off (0 friction)</b></div>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <div class="note"><b>Anti-cheat (honest):</b> timer sirf foreground dwell count karta hai — 5 sec me wapas UPI app par aaye to ruk jata hai; screen-off / doosri app = pause. Ye “padha” nahi naap sakta, sirf “kitni der chat screen par the” — isliye unknown case me aakhir me 3 sawal bhi aate hain (neeche).</div>
+    </div>
+  </div>
+
+  <div class="console">
+    <div class="card">
+      <div class="conshead"><span class="tag v">OPS CONSOLE</span><span class="t">Journey timeline — live</span>
+        <span class="tiny dim" style="margin-left:auto">rule R15 = app-switch + dwell gate · R16 = chat-before-pay memory (7d) </span></div>
+      <div id="m1timeline" class="tiny dim">Run karo — timeline yahan banti hai (WhatsApp open → dwell → UPI open → gate → decision).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ M2 · SCREENSHOT RADAR ============================ -->
+<section class="module" id="m2">
+  <div class="phonewrap">
+    <div class="phone"><div class="screen">
+      <div class="sbar"><span>9:43</span><span class="sp">4G ▪▪▪ 80%</span></div>
+      <div class="appbar">
+        <div class="av">📸</div>
+        <div class="t">Screenshot Radar<small>Screenshots/ folder + payment-scene cross-check</small></div>
+      </div>
+      <div class="scrbody">
+        <div id="m2banner"></div>
+        <div class="spread"><div class="tiny dim">Recent screenshots (24h) · <span id="m2count" class="mono">0</span> payment-type</div>
+        <button class="sm" id="m2add">+ screenshot liya</button></div>
+        <div class="gal" id="m2gal"></div>
+        <div class="sheet">
+          <div class="spread"><div><div class="tiny dim">PAYMENT-SCREENSHOT BURST</div>
+            <div class="big" id="m2burst">0<span style="font-size:13px; color:var(--dim)"> / 30 min</span></div></div>
+            <div id="m2sev" class="tag">safe</div></div>
+          <div class="bar"><i id="m2bar" style="width:0%"></i></div>
+          <div class="tiny dim" style="margin-top:8px" id="m2why">3+ payment screenshots thode hi time me = task/investment scam ka classic pattern (scammer “proof” maangta rehta hai).</div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h3>Feature 2 + 5 · Screenshot Radar + Provenance <span class="tag warn">RULE R17</span></h3>
+      <p class="dim" style="margin:8px 0 0">
+        Jab bhi screenshot banta hai, SatarkPay uska <b>provenance tag</b> banata hai: us second <b>kaunsa app foreground</b> tha
+        (UsageStats), browser tha to <b>URL/domain</b>, UPI app tha to <b>app naam + extracted UPI ID / amount / merchant</b>.
+        Isse pata chalta hai: payment <b>site par</b> ho raha hai ya <b>app me</b> — aur woh legit hai ya nahi.
+      </p>
+      <div class="hr"></div>
+      <div class="chips" style="margin-bottom:10px">
+        <span class="chip" data-m2sc="one">1 normal screenshot</span>
+        <span class="chip" data-m2sc="burst">4 payment screenshots (burst)</span>
+        <span class="chip" data-m2sc="fake">screenshot from fake site</span>
+        <span class="chip" data-m2sc="clean">reset gallery</span>
+      </div>
+      <div id="m2warn"></div>
+      <div class="hr"></div>
+      <div class="grid2">
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">KAISE DETECT HOTA HAI (Android, real)</div>
+          <div class="sig"><span class="lbl">ContentObserver on <span class="mono">MediaStore.Images</span></span><span class="v">screenshot aaya?</span></div>
+          <div class="sig"><span class="lbl">UsageStats event @ wahi timestamp</span><span class="v">kaunsa app</span></div>
+          <div class="sig"><span class="lbl">MediaStore <span class="mono">RELATIVE_PATH=Screenshots/</span></span><span class="v">scene confirm</span></div>
+          <div class="sig"><span class="lbl">ML Kit OCR (opt-in, on-device)</span><span class="v">domain/UPI/VPA</span></div>
+        </div>
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">KYA DIKHEGA USER KO</div>
+          <div id="m2copy" class="note">Burst ya unverified source par amber/red banner + wajah.</div>
+          <div class="kv" style="margin-top:10px"><span>Threshold amber</span><b>3 screenshots / 30 min</b></div>
+          <div class="kv"><span>Threshold red</span><b>5+ ya unverified domain</b></div>
+          <div class="kv"><span>Image store</span><b>nahi (sirf tag)</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="console">
+    <div class="card">
+      <div class="conshead"><span class="tag v">OPS CONSOLE</span><span class="t">Repeat-payment guard (R22) — same payee ko 3+ payment</span>
+        <span class="tiny dim" style="margin-left:auto">aapka point 5 (doosra hissa) + deck ka F3 staircase detector</span></div>
+      <div class="grid2">
+        <div>
+          <div class="tiny dim" style="margin-bottom:7px">24 GHANTE ME USI PAYEE KO</div>
+          <div id="m2bchart"></div>
+        </div>
+        <div>
+          <div class="tiny dim" style="margin-bottom:7px">KYA HOTA HAI</div>
+          <div id="m2bwarn"></div>
+          <div class="row" style="margin-top:10px"><button class="primary sm" id="m2bnext">▶ agla payment simulate karo</button></div>
+          <div class="kv" style="margin-top:10px"><span>3rd payment / 24h</span><b>T2 cooling</b></div>
+          <div class="kv"><span>4th payment / 24h</span><b>T3 hold + callback</b></div>
+          <div class="kv"><span>7 din me 3+ naye payee + badhta amount</span><b>staircase flag</b></div>
+          <div class="kv"><span>Stranger ne paisa bheja, phir bada debit</span><b>credit-then-pay flag</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Privacy delta — honestly <span class="tag bad">ye naya hai</span></h3>
+      <div class="note">
+        Deck ke original principle “no screen pixels” ke against jaata hai <b>sirf ek opt-in part</b> me: OCR.
+        Isliye design: (1) OCR <b>on-device</b>, (2) image aur raw text <b>delete</b>, sirf extracted entity
+        (domain / UPI ID / app naam) + hash store hota hai, (3) burst detection <b>OCR ke bina</b> bhi chalta hai
+        (UsageStats ∩ MediaStore), (4) consent per-signal, ek tap revoke.
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer id="foot"></footer>
+
+</body></html>

@@ -1,0 +1,31 @@
+MIT License
+
+Copyright (c) 2026 Team SCΛMURΛI — Nishant Kumar, Prince Singh, Kartik Singh
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+NOTE ON THIRD-PARTY IDEAS
+-------------------------
+SatarkPay ke kuch features *ideas* par based hain jo SANGYAN hackathon ke public
+peer repositories me dikhe (negation-aware matching, client-side redaction,
+registry-format validation, measured test-set evaluation, senior mode, voice
+output, escalation ladder, deterministic pattern rules). Un repos me se KOI CODE
+copy nahi kiya gaya — 31 me se 30 repos me koi license file hi nahi thi
+(all rights reserved) aur 1 MIT tha. Poora idea-credit + "kya nahi liya" NOTICE.md
+me hai. Ye MIT license sirf is repo ke original code par lagta hai.

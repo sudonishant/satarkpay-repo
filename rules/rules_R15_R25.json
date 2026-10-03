@@ -1,0 +1,230 @@
+{
+  "_meta": {
+    "module": "SatarkPay M2 · New Module Pack",
+    "team": "SCΛMURΛI · Nishant Kumar · Prince Singh · Kartik Singh",
+    "track": "Amazon AI Cyber Security Hackathon - Round 1 · Challenge 02",
+    "version": "2.1 · 2026-10-02 (M1 matrix update)",
+    "status_legend": "EVAL = simulator/model par measured · RULE = designed rule (Layer B), simulated nahi · UX = interface safeguard · PARTNER = external hook chahiye (PSP/bank/telecom/registry)",
+    "note": "Ye rules deck ke R1–R14 ke saath chalti hain, unki jagah nahi leti. Sab rules sirf 'friction badhate' hain — auto-block koi rule nahi karta."
+  },
+  "rules": [
+    {
+      "id": "R15",
+      "feature": "F1 · Chat-Before-Pay Guard (contact tier × chat-session length)",
+      "name": "app-switch + contact-tier + session-duration gate",
+      "trigger": "WhatsApp/Telegram foreground → UPI app foreground (≤ 5 min gap) AND payment screen open (upi:// intent ya in-app pay flow)",
+      "inputs": [
+        "UsageStatsManager events (app-switch + chat session ki lambai)",
+        "contacts saved? (ContactsContract lookup — device par)",
+        "payment intent (payee, amount)",
+        "journey memory (new payee? amount vs norm?)"
+      ],
+      "action": "4-cell matrix lagti hai — contact (saved/unknown) × chat session (chhoti <8 min / lambi ≥8 min):\n  · SAVED + chhoti chat  → T1 fast path: 1.0 min check, phir seedha payment; ya ek tap me saved number par call-confirm karke payment allow.\n  · SAVED + lambi chat (≥10 min) → T1 notification (3 min): lambi baat ke turant baad payment = coercion/pressure ka pattern; number saved hone par bhi account-hack possible.\n  · UNKNOWN + chhoti chat → T2 cooling 8 min guided check (user ko samjhaane me time lagta hai) + 3 sawal.\n  · UNKNOWN + lambi chat → T3 hold + analyst callback (digital-arrest / task-script pattern).\n  · chat hi nahi → T1 nudge only (0 min), koi hold nahi.\nTimer sirf foreground dwell count karta hai (chat screen par). Payment rukta hai, block nahi hota — user kabhi bhi cancel kar sakta hai.",
+      "tier": "T1 (saved/chhoti · saved/lambi) · T2 (unknown/chhoti) · T3 (unknown/lambi)",
+      "escalation": "jawab risky (offer/officer/call) → T3 hold + analyst callback; 24h sticky watch naye payee par",
+      "ui_copy_hi": "Fast path: “Saved contact — 1 minute check, phir pay.” · Notification: “Aapke saath 10+ minute chat ke baad payment app khula hai. Ruko — kya koi aapko paisa bhejne ko keh raha hai?” · Cooling: “Unknown contact — 8 minute me chat dobara padho aur 3 sawal.” · Hold: “Unknown number + lambi chat + turant payment. Koi officer/bank UPI par paisa nahi mangta.”",
+      "ui_copy_en": "You just came from a chat into this payment. Re-read that chat (unknown contact: 9 min). Nothing is blocked — you keep the final call.",
+      "anti_cheat": "timer foreground-dwell only · app leave = pause · 5s me wapas UPI = no credit · notification/cooldown 'It's me' se nahi khulta (sawal ya trusted person chahiye) · fast path bhi per-payee 24h me ek baar",
+      "status": "EVAL (matrix demo me tested) + RULE + UX",
+      "honest_limit": "M1 'padha' nahi naap sakta — sirf 'kitni der chat screen par the'. Isliye fast path par bhi Q1 + call-confirm option, aur lambi-chat case me sirf notification (block nahi).",
+      "notes_matrix": {
+        "saved_short": {
+          "session": "< 8 min",
+          "tier": "T1",
+          "friction": "1.0 min ya 1-tap call confirm",
+          "user_options": [
+            "Direct pay",
+            "Saved number par call-confirm",
+            "Cancel"
+          ]
+        },
+        "saved_long": {
+          "session": ">= 8–10 min",
+          "tier": "T1 notification",
+          "friction": "notification + 3 min (confirm sawal)",
+          "note": "agar call/chat me 'paisa bhejo' bola ja raha hai → T3"
+        },
+        "unknown_short": {
+          "session": "< 8 min",
+          "tier": "T2",
+          "friction": "8 min guided + 3 sawal"
+        },
+        "unknown_long": {
+          "session": ">= 8 min",
+          "tier": "T3",
+          "friction": "hold + analyst callback"
+        },
+        "no_chat": {
+          "session": "0",
+          "tier": "T1 nudge",
+          "friction": "0 min"
+        }
+      }
+    },
+    {
+      "id": "R16",
+      "feature": "F1 (supporting)",
+      "name": "chat-before-pay memory",
+      "trigger": "payment ke 24h/7d andar kitni baar chat→pay pattern hua, aur kaunse contacts se",
+      "inputs": [
+        "journey counters (existing feature store)",
+        "contact-hash (on-device)",
+        "reason codes"
+      ],
+      "action": "model feature: chat_then_pay_count_24h, unknown_chat_pay_ratio, same_payee_after_chat. Score ke saath reason generator me jaata hai.",
+      "tier": "model input (scoring)",
+      "status": "EVAL",
+      "honest_limit": "25% devices par UsageStats access nahi hota → feature NaN, model fallback (deck A4 principle)."
+    },
+    {
+      "id": "R17",
+      "feature": "F2 + F5 · Screenshot Radar + Provenance",
+      "name": "screenshot → scene provenance + payment-screenshot burst",
+      "trigger": "(a) naya screenshot MediaStore me aaya, ya (b) ek hi screenshot repeated/duplicate (perceptual hash)",
+      "inputs": [
+        "ContentObserver on MediaStore.Images + RELATIVE_PATH='Screenshots/'",
+        "UsageStats event @ same timestamp (kaunsa app foreground)",
+        "browser → URL (supervised phone ke liye Accessibility/Notification route; warna text field se OCR — opt-in)",
+        "UPI app → OCR (opt-in) se UPI ID / amount / merchant",
+        "domain engine (R18)"
+      ],
+      "action": "har screenshot ko tag: source app + extracted entities + trust level. 30 min me ≥3 payment-screenshots ⇒ amber; ≥5 ya unverified source ⇒ red warning + agle payment par cooling.",
+      "tier": "T1/T2",
+      "ui_copy_hi": "Aapne thodi der me kaafi payment screenshots liye hain. Jo bhi pay karne ko keh raha hai, usse ruk kar ek baar apni app me khud confirm karo — kisi screenshot par bharosa mat karo.",
+      "status": "RULE + UX",
+      "privacy": "burst detection OCR ke BINA chalta hai (UsageStats ∩ MediaStore). OCR opt-in, on-device; image store nahi hoti — sirf extracted entity (domain/UPI ID/amount) + hash, 7 din.",
+      "honest_limit": "Web se aaya screenshot ka source-domain 100% reliable nahi (Chrome tab title URL = permission). Isliye ise 'evidence', verdict nahi, treat karte hain."
+    },
+    {
+      "id": "R18",
+      "feature": "F3 · Domain / Website Trust",
+      "name": "4-level domain trust ladder (+ gateway-merchant mismatch)",
+      "trigger": "koi bhi link / domain / screenshot me dikha domain / QR ke peeche ka URL / SMS-Chrome text",
+      "inputs": [
+        "L1 registry: RBI/NPCI/bank/PSP domains (app OTA JSON)",
+        "L2 verified merchant allowlist",
+        "heuristics: homoglyph, typosquat Levenshtein ≤2, brand-in-subdomain, punycode xn--, risky TLD, URL shortener, no-HTTPS, IP-literal, '@' trick",
+        "merchant-vs-gateway mismatch analysis",
+        "production: RDAP domain age (< 90d), DoT FRI, I4C suspect registry"
+      ],
+      "action": "L1/L2 = pass · L3 unverified-clean = amber warning + naam/QR check · L4 lookalike/fake = red warning + cooling, aur 1930 pack shortcut",
+      "tier": "T1/L3 · T2/L4",
+      "ui_copy_hi": "Ye website hamari verified list me nahi hai. Sirf tab pay karo jab aapne khud ye site kholi ho.",
+      "note": "Gateway legit hone par bhi merchant unverified ho to warning (classic 2026 trick). Wording: 'scam' nahi, 'verified nahi hai' — deck ke non-accusing principle ke hisaab se.",
+      "status": "RULE + UX · registry = PARTNER (NPCI/PSP feeds)"
+    },
+    {
+      "id": "R19",
+      "feature": "F4 · AI Sanchalak (chat LLM)",
+      "name": "user-facing scam explainer with deterministic verdicts",
+      "trigger": "user khud chat/email/SMS/link/screenshot-text paste karke poochhta hai",
+      "inputs": [
+        "text/link (device par)",
+        "R18 domain engine",
+        "payee intel + journey memory",
+        "threat library F1–F18 / T1–T24 + Intel Desk ke naye patterns"
+      ],
+      "action": "verdict (SEEMS OK / CAUTION / SCAM LIKELY / PAKKA NAHI BATA SAKTA) + 3 reasons + turant kya karo + kya mat karo + library citation. LLM sirf explanation likhta hai, verdict nahi deta. Low-confidence → human analyst queue + 1930 pack.",
+      "tier": "T1 (advisory) → T3 (agar user live payment me ho)",
+      "status": "RULE + UX · LLM production me optional (env-var switch), prompt-injection guard, PII on-device",
+      "honest_limit": "Naya pattern jo library me nahi hai → low confidence par honest 'pakka nahi' jawab, fake confidence nahi."
+    },
+    {
+      "id": "R20",
+      "feature": "F6 · Wallet / AutoPay / Link Audit",
+      "name": "linked-app + mandate + delegate audit",
+      "trigger": "weekly audit + har mandate/SMS/notification event",
+      "inputs": [
+        "queryIntentActivities(upi://pay) → installed UPI/wallet apps",
+        "NotificationListenerService → mandate debit alerts",
+        "SMS DLT mandate format ('will be auto-debited')",
+        "PSP mandate API (partner) → authoritative list",
+        "UPI Circle delegate list",
+        "R18 domain engine"
+      ],
+      "action": "warnings: Daily/Weekly mandate jiska purpose 'one-time' bataya gaya · naya mandate (≤7d) + unverified merchant · naya delegate · ek bank account 4+ apps me · idle wallet linked. One-tap revoke.",
+      "tier": "T1",
+      "ui_copy_hi": "quickearn-pro@ybl se ₹299 roz kata ja raha hai — kal se shuru, aur ye merchant verified nahi hai. Ek tap me band karo.",
+      "status": "RULE + UX · authoritative list = PARTNER · shared mule/mandate clusters = PARTNER (hashed, k≥5)"
+    },
+    {
+      "id": "R21",
+      "feature": "F2 · Intel Desk (crawler)",
+      "name": "internet-wide new-scam discovery → review → library push",
+      "trigger": "roz (cron) ya ops console se manual run",
+      "inputs": [
+        "public RSS: RBI, NPCI, PIB (regulator)",
+        "10 Google-News queries EN+HI",
+        "optional LLM extraction (env-var)"
+      ],
+      "action": "fetch → fraud filter (EN+HI) → dedupe (URL + fuzzy title) → family classify (F1–F18) → novelty check → REVIEW queue → analyst 15-sec verdict → threat library + registry + detector update (app OTA)",
+      "tier": "n/a (ops pipeline)",
+      "status": "EVAL (chali hui: 784 raw → 172 relevant → 63 novel-review, 02 Oct 2026)",
+      "honest_limit": "Headline-level crawl hai (article body nahi — DPDP + copyright safe). ~37% items generic bucket me rukte hain. Auto-publish nahi — human approve karta hai."
+    },
+    {
+      "id": "R22",
+      "feature": "F5 · Repeat-payment frequency",
+      "name": "same-user / same-payee multiple payment guard",
+      "trigger": "24h me usi payee ko 3+ payment, ya 7d me 3+ naye payee + badhta amount (staircase)",
+      "inputs": [
+        "journey memory (existing 1h/24h/7d)",
+        "staircase detector",
+        "stranger-credit-then-pay"
+      ],
+      "action": "3rd payment se pehle cooling + 'staircase' reason; 4th+ par hold (≥2 evidence groups) + analyst callback; trusted-person approval",
+      "tier": "T2 → T3",
+      "ui_copy_hi": "Aapne 24 ghante me isi account ko 3 baar paisa bheja hai. Task/investment scam me aisa hi hota hai — chhota se shuru, phir badhta jaata hai.",
+      "status": "EVAL (deck F3 simulator) + RULE"
+    },
+    {
+      "id": "R23",
+      "feature": "F1 (supporting)",
+      "name": "chat-session duration + session→payment gap feature",
+      "trigger": "har app-switch event par: chat session kitni lambi thi, gap kitna chhota tha, aur session ke andar kitne message/notification events aaye (count only)",
+      "inputs": [
+        "UsageStats session start/end",
+        "notification-event count (coarse count, content nahi)",
+        "app-switch timestamps",
+        "journey memory"
+      ],
+      "action": "model features: chat_session_sec, session_to_pay_gap_sec, long_chat_flag, chat_pay_ratio_7d. Notification/low-friction tier ka trigger bhi yahi deta hai.",
+      "tier": "model input (scoring) + T1 notification trigger",
+      "status": "EVAL",
+      "honest_limit": "Content nahi padhte — isliye 'lambi chat' ka matlab 'zyada der baat hui', 'manipulation hui' nahi. Pressure ka proof 3 sawal / analyst call se aata hai."
+    },
+    {
+      "id": "R24",
+      "feature": "F7 · Auto-Report (1930 / NCRP pack)",
+      "name": "one-tap fraud report pack",
+      "trigger": "user 'fraud hua' bole/confirm kare, ya journey model T3 hold ke baad scam confirm ho, ya user khud Report dabaye",
+      "inputs": [
+        "evidence screenshots (device)",
+        "journey timeline + reasons",
+        "payee intel (hashed)",
+        "extracted entities (UPI ID/txn/UTR/links)",
+        "complainant details"
+      ],
+      "action": "4 minute ka pack generate: NCRP form text (HI+EN) copy-ready · ready email cyber-cell/bank ke liye (crops attached) · 1930 call-sheet (txn/UTR top par) · annexure index (SHA-256) · ZIP bundle. User ko sirf bhejna/review karna hai.",
+      "tier": "n/a (post-incident)",
+      "status": "EVAL (asli case par chala: 28 screenshots → pack)",
+      "honest_limit": "Email auto-bhejne se pehle user ko ek baar dikhana zaroori hai (galat details jaane ka risk). Receiver ki email IDs official list se hi (harvested nahi)."
+    },
+    {
+      "id": "R25",
+      "feature": "F7 (supporting)",
+      "name": "crop · redact · hash (chain of custody)",
+      "trigger": "screenshot evidence ingest (auto ya manual)",
+      "inputs": [
+        "screenshots",
+        "OCR boxes (offline RapidOCR)",
+        "QR decode (cv2)",
+        "redaction patterns + user masks"
+      ],
+      "action": "smart crop (status bar/nav/letterbox hata) · QR detect+decode (UPI ID nikaalna) · 2 copies: full (officials) + redacted (share) · per-file SHA-256 + manifest. Originals kabhi modify nahi.",
+      "tier": "n/a",
+      "status": "EVAL (28 files hashed)",
+      "honest_limit": "Redaction pattern-based hai — CJK/OCR-miss cases me user ko manual check karna chahiye (UI me 'verify' step)."
+    }
+  ]
+}

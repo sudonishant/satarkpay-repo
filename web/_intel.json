@@ -1,0 +1,196 @@
+{
+ "generated_at": "2026-10-02T15:59:08+00:00",
+ "counts": {
+  "items": 172,
+  "review_queue": 63,
+  "by_family": {
+   "F14": 63,
+   "F1": 48,
+   "F8": 5,
+   "F2": 3,
+   "F9": 1,
+   "F5": 1,
+   "F3": 1,
+   "F18": 50
+  },
+  "raw_fetched": 784
+ },
+ "items": [
+  {
+   "t": "Haryana: 2 men held in Hisar for providing bank accounts to cyber fraud gang | India News - hindustantimes.com",
+   "f": "F18",
+   "fn": "Unspecified online-financial fraud (watchlist)",
+   "d": "2026-10-02",
+   "src": "hindustantimes.com",
+   "pl": [],
+   "ve": [],
+   "sg": [],
+   "st": "WATCH",
+   "sev": "medium",
+   "kw": []
+  },
+  {
+   "t": "Cyber Alert: Today’s Biggest Cyber Crime Stories Shaking India – 2nd October - The420.in",
+   "f": "F18",
+   "fn": "Unspecified online-financial fraud (watchlist)",
+   "d": "2026-10-02",
+   "src": "The420.in",
+   "pl": [],
+   "ve": [],
+   "sg": [],
+   "st": "WATCH",
+   "sev": "medium",
+   "kw": []
+  },
+  {
+   "t": "Lalitpur: व्हाट्सएप हैक कर पिता-बेटी के खातों से 1.93 लाख उड़ाए, जांच में जुटी साइबर पुलिस - Amar Ujala",
+   "f": "F1",
+   "fn": "Digital arrest / fake officer",
+   "d": "2026-10-01",
+   "src": "Amar Ujala",
+   "pl": [
+    "WhatsApp"
+   ],
+   "ve": [],
+   "sg": [],
+   "st": "NEW",
+   "sev": "medium",
+   "kw": []
+  },
+  {
+   "t": "WhatsApp पर मैसेज भेज कर फ्रॉड, जवाब में नो पर टिक करते ही सीए के खाते से 1.70 लाख कटे - Jagran",
+   "f": "F14",
+   "fn": "New / unclassified pattern",
+   "d": "2026-09-24",
+   "src": "Jagran",
+   "pl": [
+    "WhatsApp",
+    "SMS"
+   ],
+   "ve": [],
+   "sg": [],
+   "st": "REVIEW",
+   "sev": "medium",
+   "kw": [
+    "whatsapp"
+   ]
+  },
+  {
+   "t": "सावधान! अब WhatsApp के जरिए साइबर ठगी, बैंक के नाम पर आ रहा ऐसा मैसेज, YES या NO का जवाब भी पड़ जाएगा भारी, पढ़ ",
+   "f": "F14",
+   "fn": "New / unclassified pattern",
+   "d": "2026-09-23",
+   "src": "ETV Bharat",
+   "pl": [
+    "WhatsApp",
+    "SMS"
+   ],
+   "ve": [],
+   "sg": [],
+   "st": "REVIEW",
+   "sev": "medium",
+   "kw": [
+    "whatsapp"
+   ]
+  },
+  {
+   "t": "Cyberfraud gang busted: 507 mule accounts found in phones of 3 accused - The Times of India",
+   "f": "F8",
+   "fn": "Job / mule / rent-an-account",
+   "d": "2026-09-21",
+   "src": "The Times of India",
+   "pl": [],
+   "ve": [],
+   "sg": [],
+   "st": "NEW",
+   "sev": "medium",
+   "kw": []
+  },
+  {
+   "t": "बाराबंकी: साइबर ठग की व्हाट्सएप कॉल से घबराई युवती ने फांसी लगाकर दी जान, पुलिस आरोपियों की तलाश में जुटी - Amar",
+   "f": "F1",
+   "fn": "Digital arrest / fake officer",
+   "d": "2026-09-17",
+   "src": "Amar Ujala",
+   "pl": [
+    "WhatsApp",
+    "Phone call"
+   ],
+   "ve": [],
+   "sg": [],
+   "st": "NEW",
+   "sev": "medium",
+   "kw": []
+  },
+  {
+   "t": "साइबर ठगी के शिकार युवक के 5000 रुपए वापस मिले: रामपुर साइबर टीम ने व्हाट्सएप पर APK फाइल भेजकर हुए फ्रॉड क... -",
+   "f": "F2",
+   "fn": "Remote access / APK / KYC-expiry",
+   "d": "2026-09-15",
+   "src": "bhaskar.com",
+   "pl": [
+    "WhatsApp"
+   ],
+   "ve": [
+    "APK / sideload"
+   ],
+   "sg": [],
+   "st": "NEW",
+   "sev": "medium",
+   "kw": [
+    "apk"
+   ]
+  },
+  {
+   "t": "Kattappana cardamom merchant foils online scam with fake payment screenshot - Onmanorama",
+   "f": "F9",
+   "fn": "Fake payment screenshot / merchant fraud",
+   "d": "2026-09-03",
+   "src": "Onmanorama",
+   "pl": [],
+   "ve": [
+    "Fake screenshot"
+   ],
+   "sg": [],
+   "st": "NEW",
+   "sev": "medium",
+   "kw": [
+    "screenshot"
+   ]
+  },
+  {
+   "t": "QR Code Fraud Alert: Spot the scam and protect your money - The Indian Express",
+   "f": "F5",
+   "fn": "Fake collect / QR / 'receive money'",
+   "d": "2026-09-01",
+   "src": "The Indian Express",
+   "pl": [],
+   "ve": [
+    "QR code"
+   ],
+   "sg": [],
+   "st": "NEW",
+   "sev": "medium",
+   "kw": [
+    "qr"
+   ]
+  },
+  {
+   "t": "The Deadly Telegram Task Scam Draining Lakhs From Job Seekers - The420.in",
+   "f": "F3",
+   "fn": "Investment / task / pig-butchering",
+   "d": "2026-08-27",
+   "src": "The420.in",
+   "pl": [
+    "Telegram"
+   ],
+   "ve": [],
+   "sg": [],
+   "st": "NEW",
+   "sev": "high",
+   "kw": [
+    "telegram"
+   ]
+  }
+ ]
+}

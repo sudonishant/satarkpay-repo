@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- copy master: docs/UI_SPEC.md §6 (Hinglish screen + Hindi voice) -->
+<resources>
+    <string name="app_name">SatarkPay</string>
+    <string name="guard_on">Guard ON</string>
+    <string name="gate_long_chat">Aapke saath 10+ minute chat ke baad payment app khula hai. Kya koi aapko paisa bhejne ko keh raha hai?</string>
+    <string name="gate_unknown_short">Unknown number se baat ke turant baad payment. 8 minute me chat dobara padho aur 3 sawal.</string>
+    <string name="emergency_confirm">Fraud CONFIRM hai — turant complaint + payment stop</string>
+    <string name="emergency_call">1930 par call karo — Txn ID, UTR aur rakam saamne rakho</string>
+</resources>

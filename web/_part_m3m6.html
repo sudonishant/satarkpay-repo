@@ -1,0 +1,479 @@
+<!-- ============================ M3 · DOMAIN TRUST ============================ -->
+<section class="module" id="m3">
+  <div class="phonewrap">
+    <div class="phone"><div class="screen">
+      <div class="sbar"><span>9:46</span><span class="sp">4G ▪▪▪ 79%</span></div>
+      <div class="appbar">
+        <div class="av">🔗</div>
+        <div class="t">Link / Domain Check<small>Payment se pehle — gateway koi bhi ho</small></div>
+      </div>
+      <div class="scrbody">
+        <input id="m3url" value="https://rbi-nodal-verify.xyz/refund?amt=4999" spellcheck="false">
+        <div class="chips">
+          <span class="chip" data-u="https://rbi-nodal-verify.xyz/refund?amt=4999">rbi-nodal-verify.xyz</span>
+          <span class="chip" data-u="https://sbi.onlinekyc-update.top/verify">sbi.onlinekyc-update.top</span>
+          <span class="chip" data-u="https://checkout.razorpay.com/v1/checkout.html?merchant=quickearn-pro">razorpay checkout</span>
+          <span class="chip" data-u="https://amaz0n-pay-offer.com/claim">amaz0n-pay-offer</span>
+          <span class="chip" data-u="http://vahan-challan-pay.online/pay">vahan-challan-pay</span>
+          <span class="chip" data-u="https://www.blueleafhospital.in/pay">unknown-but-clean</span>
+          <span class="chip" data-u="https://onlinesbi.sbi/netbanking">onlinesbi.sbi</span>
+        </div>
+        <button class="primary" id="m3go">Check karo</button>
+        <div id="m3out"></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h3>Feature 3 · Domain / Website Trust <span class="tag warn">RULE R18</span></h3>
+      <p class="dim" style="margin:8px 0 0">
+        Koi bhi request — link, SMS, WhatsApp message, QR ke peeche ka page, ya screenshot me dikha <b>domain</b> —
+        usko 4-level ladder par rakha jaata hai. Chahe <b>payment gateway legit</b> ho (Razorpay/PayU/Cashfree/BillDesk),
+        agar <b>merchant ka domain verified nahi</b> hai to warning milti hai. Kyunki "gateway achha hai" ka matlab
+        "merchant achha hai" nahi hota — ye classic 2026 trick hai.
+      </p>
+      <div class="hr"></div>
+      <div class="grid2">
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">4-LEVEL LADDER</div>
+          <div class="sig"><span class="ic ok" style="width:26px;height:26px;border-radius:8px;display:grid;place-items:center">✓</span><span class="lbl">L1 · Verified (RBI/NPCI/bank/PSP registry)</span></div>
+          <div class="sig"><span class="ic ok" style="width:26px;height:26px;border-radius:8px;display:grid;place-items:center">✓</span><span class="lbl">L2 · Verified merchant (allowlist)</span></div>
+          <div class="sig"><span class="ic warn" style="width:26px;height:26px;border-radius:8px;display:grid;place-items:center">!</span><span class="lbl">L3 · Unverified but clean → amber warning</span></div>
+          <div class="sig"><span class="ic bad" style="width:26px;height:26px;border-radius:8px;display:grid;place-items:center">✕</span><span class="lbl">L4 · Lookalike / fake → red warning</span></div>
+        </div>
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">HEURISTICS (production me + RDAP age, FRI, registry)</div>
+          <div class="tiny" style="line-height:1.8">
+            homoglyph (0↔o, 1↔l, rn↔m) · typosquat distance ≤2 · brand-in-subdomain
+            (<code>sbi.secure-login.xyz</code>) · punycode <code>xn--</code> · risky TLD
+            (.xyz .top .online .click .icu .buzz .cf .tk) · URL shortener · no HTTPS · IP-literal host ·
+            <code>@</code> in URL · gateway-merchant mismatch · domain age &lt; 90 din · FRI/I4C hit
+          </div>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <div class="note"><b>Wording principle (deck se):</b> unknown-clean domain par hum “scam” nahi likhte — <b>“verified nahi hai, dhyaan se”</b> likhte hain. Red sirf tab jab structural proof ho (lookalike/TLD/no-TLS/shortener).</div>
+    </div>
+    <div class="card">
+      <h3>SEBI / NSDL registry check <span class="tag warn">RULE R26</span></h3>
+      <p class="dim tiny" style="margin:6px 0 0">
+        “SEBI-registered” ka dawa sabse aam trick hai. Hum teen cheezein check karte hain: (1) registration-number ka
+        <b>format</b> (INZ/INH/INA + 9 digits), (2) official portal domains (sebi.gov.in · scores.gov.in · smartodr.in · nsdl.co.in),
+        (3) debarred-entity naam. Number valid bhi ho to hum “verified” nahi kehte — <b>sebi.gov.in par khud check karo</b> link dete hain.
+      </p>
+      <div class="grid2" style="margin-top:10px">
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">DEMO: DAAWE PAR TEST</div>
+          <div class="sig"><span class="lbl">“SEBI registered, Reg: INA998877112”</span><span class="v">format ok → phir bhi “khud verify”</span></div>
+          <div class="sig"><span class="lbl">“SEBI registered” (koi number nahi)</span><span class="v tag bad">red flag</span></div>
+          <div class="sig"><span class="lbl">Reg: SEBI12345 (galat format)</span><span class="v tag bad">red flag</span></div>
+          <div class="sig"><span class="lbl">“SEBI safe-account.xyz se verify karo”</span><span class="v tag bad">L4 lookalike (M3 engine)</span></div>
+        </div>
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">HONEST LIMIT</div>
+          <div class="tiny dim" style="line-height:1.7">
+            Demo me registry offline hai (format + domain + chhoti debarred list). Production me: SEBI ke public
+            intermediaries/debarred lists ko read-only feed se lo (jaise M6 Intel Desk), cache karo, aur user ko
+            <b>source + date</b> dikhao. Hum khud kabhi “ye registered hai” certify nahi karte.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="conshead"><span class="tag v">OPS CONSOLE</span><span class="t">Domain Trust Registry</span></div>
+      <div class="grid3">
+        <div class="kv" style="display:block"><div class="tiny dim">verified entries</div><b style="font-size:18px">41</b></div>
+        <div class="kv" style="display:block"><div class="tiny dim">lookalike hits (7d)</div><b style="font-size:18px">1,284</b></div>
+        <div class="kv" style="display:block"><div class="tiny dim">merchant mismatch (gateway)</div><b style="font-size:18px">312</b></div>
+      </div>
+      <div class="tiny dim" style="margin-top:8px">Registry weekly update hota hai: naye verified merchant + naye lookalike clusters (Intel Desk se). Same JSON app me OTA jaata hai — naya detector release ki zarurat nahi.</div>
+    </div>
+  </div>
+
+  <div class="console">
+    <div class="card">
+      <div class="conshead"><span class="tag v">OPS CONSOLE</span><span class="t">Registry view — kaun verify kar raha hai</span>
+        <span class="tiny dim" style="margin-left:auto">L3 par bhi count karte hain — warna log warning ignore kar dete hain</span></div>
+      <table>
+        <thead><tr><th>Domain</th><th>Level</th><th>Source of truth</th><th>Route</th><th>User ko copy</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">onlinesbi.sbi</td><td><span class="tag ok">L1 verified</span></td><td>Bank registry</td><td>allow</td><td>—</td></tr>
+          <tr><td class="mono">checkout.razorpay.com<br><span class="dim2">merchant=quickearn-pro</span></td><td><span class="tag warn">L3 unmapped merchant</span></td><td>Gateway list ✓ / merchant ✗</td><td>warn + name check</td><td>“Gateway verified hai, par merchant unverified”</td></tr>
+          <tr><td class="mono">rbi-nodal-verify.xyz</td><td><span class="tag bad">L4 lookalike</span></td><td>brand-in-host + risky TLD + age 6d</td><td>red + cooling</td><td>“RBI kabhi UPI par paisa nahi mangta”</td></tr>
+          <tr><td class="mono">www.blueleafhospital.in</td><td><span class="tag warn">L3 unverified-clean</span></td><td>clean structure, no registry hit</td><td>warn only</td><td>“Verified nahi hai — QR/naam check karo”</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ M4 · AI SANCHALAK ============================ -->
+<section class="module" id="m4">
+  <div class="phonewrap">
+    <div class="phone"><div class="screen">
+      <div class="sbar"><span>9:49</span><span class="sp">4G ▪▪▪ 78%</span></div>
+      <div class="appbar">
+        <div class="av" style="background:linear-gradient(180deg,#a78bfa,#7c5cf0); color:#0b0a1f">AI</div>
+        <div class="t">Sanchalak — Poochho<small>“Ye legit hai ya nahi?” · HI/EN · 12 languages</small></div>
+      </div>
+      <div class="scrbody">
+        <div class="chat" id="m4chat">
+          <div class="m a"><b>SatarkPay Sanchalak</b>
+Jo bhi mila — WhatsApp/Telegram chat, email, SMS, link, payment screenshot ki baat — yahan paste karo.
+Main batata hoon: legit hai, caution, ya scam-likely — aur <b>kyun</b> (3 reason + turant kya karo).
+
+⚠️ Main block nahi karta. Bada paisa, naya payee: bank callback + apni family se confirm zaroor.</div>
+        </div>
+        <div class="chips">
+          <span class="chip" data-e="5">SEBI-registered tip (fake number)</span>
+          <span class="chip" data-e="6">bank ka OTP warning (negation)</span>
+          <span class="chip" data-e="0">digital arrest call</span>
+          <span class="chip" data-e="1">Telegram task offer</span>
+          <span class="chip" data-e="2">KYC/APK SMS</span>
+          <span class="chip" data-e="3">refund-back trap</span>
+          <span class="chip" data-e="4">legit Amazon refund</span>
+        </div>
+        <textarea id="m4in" rows="3" placeholder="Yahan paste karo… (ya upar ke example chip dabao)"></textarea>
+        <div class="spread"><button class="primary" id="m4ask">Poochho</button>
+          <button class="sm ghost" id="m4human">👤 Human analyst se poochho (queue)</button></div>
+        <div class="tiny dim2">Ye demo me rule-engine + threat library par chalta hai (offline). Production me LLM + wahi citations — neeche dekho.</div>
+        <div class="tiny dim2">🔒 <b>Client-side redaction on:</b> phone/UPI/aadhaar/account numbers analysis se pehle mask ho jaate hain (koi bhi text bahar nahi jaata).</div>
+      </div>
+    </div></div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h3>Feature 4 · AI Sanchalak (chat LLM) <span class="tag warn">RULE R19</span></h3>
+      <p class="dim" style="margin:8px 0 0">
+        User chat kar ke puchh sakta hai — WhatsApp chat, email, SMS, screenshot ka text paste karke.
+        Jawab ka structure fixed hai: <b>verdict → 3 reason (matched signals) → turant kya karo → kya mat karo → threat-library citation</b>.
+        LLM se <b>verdict nahi</b> aata — verdict deterministic rules + domain engine + threat library se aata hai,
+        LLM sirf <b>samjhaata hai</b> (ye hallucination-safe design hai).
+      </p>
+      <div class="hr"></div>
+      <div class="grid2">
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">PIPELINE</div>
+          <div class="tiny" style="line-height:1.75">
+            ① input normalise (text/link/OCR)<br>
+            ② signal extract: platform, vector, link, UPI ID, amount, urgency words<br>
+            ③ domain engine (M3) + payee intel + journey memory<br>
+            ④ family map (F1–F18) → verdict + confidence<br>
+            ⑤ LLM = explanation layer (HI/EN/12 lang), citations only from library<br>
+            ⑥ “pakka nahi” par human queue + 1930 pack
+          </div>
+        </div>
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">LLM MODE (production, 1 env var)</div>
+          <div class="tiny" style="line-height:1.75">
+            <code>SATARKPAY_LLM=1</code> + key (Groq/Gemini/OpenAI/self-host)<br>
+            • system prompt = “kabhi naya verdict invent mat karo, sirf diya gaya verdict explain karo”<br>
+            • RAG = threat library (T1–T24 + Intel Desk ke naye T25+)<br>
+            • prompt-injection guard: user text untrusted, tools nahi<br>
+            • PII: text <b>device par hi</b> rakhta hai, server ko sirf extracted entities + hash<br>
+            • log: verdict + reason codes (audit), raw chat nahi
+          </div>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <div class="note"><b>Honest limit:</b> “naya” scam jo library me nahi hai, us par confidence low rahega — tab jawab “paka nahi bata sakta + human/1930” hota hai, fake confidence nahi. Yahi cheez misuse ko bhi rokta hai.</div>
+    </div>
+    <div class="card">
+      <div class="conshead"><span class="tag v">OPS CONSOLE</span><span class="t">Sanchalak queue</span></div>
+      <div class="list">
+        <div class="item"><div class="ic">👤</div><div class="bd"><div class="ti">Escalated: “RBI safe account” video call — ₹85,000 pending</div>
+          <div class="su">verdict: F1 · confidence high · user ne 3 min me reply kiya · analyst callback ≤5 min · rule R1 attach</div></div>
+          <span class="tag bad">live</span></div>
+        <div class="item"><div class="ic">❓</div><div class="bd"><div class="ti">Low-confidence: “courier ne bola customs fee ₹2,100 UPI karo”</div>
+          <div class="su">library me partial match (T23/T22) · naya variant ho sakta hai → Intel Desk review queue me bheja</div></div>
+          <span class="tag warn">review</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <div class="card">
+      <h3>Measured, guess nahi — labelled test set <span class="tag ok">EVAL</span></h3>
+      <p class="dim tiny" style="margin:6px 0 0">
+        33 labelled messages (22 scam + 11 legit; Hinglish + English) par <b>wahi engine</b> chalta hai jo aapne upar use kiya.
+        Positive class = “SCAM LIKELY”; CAUTION alag bucket me ginte hain (honest non-binary scoring).
+        <b>Self-authored set</b> hai — ye ceiling hai, field accuracy nahi. Isme 3 messages jaan-boojh ke outside-library rakhe hain
+        taki “miss” aur legit par “friction” bhi table me dikhein (chhupate nahi).
+      </p>
+      <div class="grid3" style="margin-top:10px">
+        <div class="kv" style="display:block"><div class="tiny dim">precision</div><b style="font-size:19px" id="evP">—</b></div>
+        <div class="kv" style="display:block"><div class="tiny dim">recall</div><b style="font-size:19px" id="evR">—</b></div>
+        <div class="kv" style="display:block"><div class="tiny dim">F1</div><b style="font-size:19px" id="evF">—</b></div>
+      </div>
+      <div class="row wrap" style="margin-top:10px"><button class="primary sm" id="evRun">▶ Run eval (33 messages)</button>
+        <span class="tiny dim" id="evNote">test set is folder me hai — koi number hardcoded nahi.</span></div>
+      <div id="evOut" class="tiny" style="margin-top:9px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ M5 · WALLET AUDIT ============================ -->
+<section class="module" id="m5">
+  <div class="phonewrap">
+    <div class="phone"><div class="screen">
+      <div class="sbar"><span>9:52</span><span class="sp">4G ▪▪▪ 77%</span></div>
+      <div class="appbar">
+        <div class="av" style="background:linear-gradient(180deg,#7dd3fc,#38bdf8); color:#04121a">👛</div>
+        <div class="t">Wallet + AutoPay Audit<small>kaunse app juda hai · kya auto-debit chal raha hai</small></div>
+      </div>
+      <div class="scrbody">
+        <div id="m5warn"></div>
+        <div class="spread"><div class="tiny dim">UPI / wallet apps is phone par</div><button class="sm" id="m5scan">🔁 Re-scan</button></div>
+        <div class="list" id="m5apps"></div>
+        <div class="spread" style="margin-top:4px"><div class="tiny dim">AUTO-DEBIT (mandates)</div>
+          <div class="tag bad" id="m5mtag">5 active</div></div>
+        <div class="list" id="m5mand"></div>
+        <div class="sheet" id="m5sum"></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h3>Feature 6 · Wallet / AutoPay / Link Audit <span class="tag warn">RULE R20</span></h3>
+      <p class="dim" style="margin:8px 0 0">
+        Ye batata hai: <b>kaunse UPI/wallet apps</b> is phone par hain aur <b>kaunse bank account se juda</b> hai,
+        <b>kaunse auto-pay (e-mandate)</b> chal rahe hain, aur konsa app <b>delegate/UPI-Circle</b> ya
+        <b>recurring link</b> rakh raha hai. Red flag: naya mandate + unverified domain + Daily/Weekly frequency.
+      </p>
+      <div class="hr"></div>
+      <div class="grid2">
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">REAL ANDROID APIs</div>
+          <div class="sig"><span class="lbl"><code>queryIntentActivities("upi://pay")</code></span><span class="v">sabhi UPI apps</span></div>
+          <div class="sig"><span class="lbl"><code>NotificationListenerService</code></span><span class="v">mandate debit alerts</span></div>
+          <div class="sig"><span class="lbl">SMS parse (DLT mandate format)</span><span class="v">“will be auto-debited”</span></div>
+          <div class="sig"><span class="lbl">PSP mandate API (partner hook)</span><span class="v">authoritative list</span></div>
+          <div class="sig"><span class="lbl">UPI Circle delegate check</span><span class="v">naya delegate?</span></div>
+        </div>
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">WARNING KAB MILTI HAI</div>
+          <div class="tiny" style="line-height:1.85">
+            🔴 Daily/Weekly mandate jiska purpose “one-time” bataya gaya<br>
+            🔴 Mandate ≤ 7 din purana + merchant domain unverified<br>
+            🔴 Naya delegate add (UPI Circle) — OTP-based “verify” ke naam par<br>
+            🟠 Ek bank account 4+ UPI apps me linked<br>
+            🟠 Wallet app jo lambe time se use nahi hua par linked hai<br>
+            🟢 Verified merchant, monthly, known amount → chup
+          </div>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <div class="note"><b>Note:</b> “connected apps” ka matlab yahan — installed UPI apps + unke linked accounts + autopay mandates + delegates. Kisi bhi app se bank credential share karne ki baat nahi hoti; hum sirf phone par dikhne wali cheezein padhte hain (usage/notification/SMS), aur finance apps ke internal account list ko PSP API se lete hain.</div>
+    </div>
+    <div class="card">
+      <div class="conshead"><span class="tag v">OPS CONSOLE</span><span class="t">Mandate-abuse cluster</span></div>
+      <table>
+        <thead><tr><th>UPI ID / merchant</th><th>Frequency</th><th>Pehli baar dekha</th><th>Signal</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">quickearn-pro@ybl</td><td>DAILY ₹299</td><td>2 din pehle</td><td><span class="tag bad">3 victims same ID · L4 domain</span></td></tr>
+          <tr><td class="mono">aitips.premium@axl</td><td>WEEKLY ₹1,000</td><td>9 din pehle</td><td><span class="tag bad">Telegram task-family F3</span></td></tr>
+          <tr><td class="mono">netflix@razorpay</td><td>MONTHLY ₹649</td><td>14 mahine</td><td><span class="tag ok">verified merchant</span></td></tr>
+        </tbody>
+      </table>
+      <div class="tiny dim" style="margin-top:8px">Ye cluster shared intelligence se banta hai (hashed payee ID, k≥5 anonymity) — 3 logon ne ek hi ID par daily mandate diya, to 4th user ko pehle bataya jaata hai.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ M6 · INTEL DESK ============================ -->
+<section class="module" id="m6">
+  <div class="phonewrap">
+    <div class="phone"><div class="screen">
+      <div class="sbar"><span>9:55</span><span class="sp">4G ▪▪▪ 76%</span></div>
+      <div class="appbar">
+        <div class="av" style="background:linear-gradient(180deg,#fca5a5,#f87171); color:#2b0f14">📡</div>
+        <div class="t">Naya Scam Alert<small>Intel Desk · internet crawl · <span id="m6time">aaj</span></small></div>
+      </div>
+      <div class="scrbody">
+        <div class="banner w tiny">📡 <div><b><span id="m6n">0</span> naye patterns</b> mile — aapke area/platform ke hisaab se filter karke dikha rahe hain.</div></div>
+        <div class="chips" id="m6filt">
+          <span class="chip" data-f="all">sab</span>
+          <span class="chip" data-f="WhatsApp">WhatsApp</span>
+          <span class="chip" data-f="Telegram">Telegram</span>
+          <span class="chip" data-f="SMS">SMS</span>
+          <span class="chip" data-f="Phone call">call</span>
+        </div>
+        <div class="list" id="m6list"></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h3>Feature 2 · Internet-wide naya-scam discovery <span class="tag warn">RULE R21 (Intel Desk)</span></h3>
+      <p class="dim" style="margin:8px 0 0">
+        Crawler public sources (news RSS, RBI/NPCI/PIB feeds, advisories) se roz naye fraud items uthata hai →
+        dedupe → family classify → jo pattern library me nahi milta usko <b>REVIEW</b> queue me bhejta hai →
+        analyst 15 second me verdict deta hai → app me naya alert + naya detector/registry entry push.
+        <b>Ye cycle ab chalu hai</b> — is demo ki list aaj (02 Oct 2026) ke live crawl se hai.
+      </p>
+      <div class="hr"></div>
+      <div class="grid3">
+        <div class="kv" style="display:block"><div class="tiny dim">raw fetched (24h)</div><b style="font-size:20px" id="m6raw">784</b></div>
+        <div class="kv" style="display:block"><div class="tiny dim">fraud-relevant + fresh</div><b style="font-size:20px" id="m6rel">172</b></div>
+        <div class="kv" style="display:block"><div class="tiny dim">novel → review queue</div><b style="font-size:20px" id="m6rev">63</b></div>
+      </div>
+      <div class="hr"></div>
+      <div class="grid2">
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">PIPELINE</div>
+          <div class="tiny" style="line-height:1.8">
+            crawl (keyless RSS + Google News queries, EN+HI) → fraud filter → dedupe (URL + fuzzy title) →
+            family classify (F1–F18) → novelty detect → LLM extraction (optional) →
+            analyst review → threat library + registry + detector update → app OTA
+          </div>
+        </div>
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">KAUNSE SOURCES (trust tag ke saath)</div>
+          <div class="tiny" style="line-height:1.8">
+            <span class="tag ok">regulator</span> RBI / NPCI / PIB feeds &nbsp; <span class="tag info">news</span> 10 Google-News queries (EN+HI)<br>
+            <span class="tag v">review</span> vendor reports (Group-IB, ThreatFabric) — tagged, kabhi akele claim nahi banate
+          </div>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <div class="note"><b>Honest limit:</b> crawler headline-level hai (article body nahi padhta — DPDP + copyright safe), isliye ~37% items “generic fraud” bucket me aate hain aur
+      <b>REVIEW</b> par rukte hain. Isi queue se naye patterns niklte hain — jo bhi analyst approve karta hai, wahi app tak jaata hai. Auto-publish kabhi nahi.</div>
+    </div>
+    <div class="card">
+      <div class="conshead"><span class="tag v">OPS CONSOLE</span><span class="t">New Pattern Review queue <span class="tiny dim2">(analyst 15-sec verdict)</span></span>
+        <span class="tiny dim" style="margin-left:auto" id="m6qcount"></span></div>
+      <div class="list" id="m6queue"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ M7 · AUTO-REPORT ============================ -->
+<section class="module" id="m7">
+  <div class="phonewrap">
+    <div class="phone"><div class="screen">
+      <div class="sbar"><span>9:58</span><span class="sp">4G ▪▪▪ 74%</span></div>
+      <div class="appbar">
+        <div class="av" style="background:linear-gradient(180deg,#fca5a5,#f87171); color:#2b0f14">📄</div>
+        <div class="t">Auto-Report (1930 pack)<small>asli case · numbers masked · SatarkPay par</small></div>
+      </div>
+      <div class="scrbody">
+        <div class="banner i tiny">🧾 <div><b>28 screenshots mile</b> — crop, redact, OCR aur hash ho gaye. Neeche jo hai wahi complaint me jayega.</div></div>
+        <div class="sheet" style="margin-top:0">
+          <div class="spread"><div><div class="tiny dim">EVIDENCE-ME-DIKHTA NUKSAN</div><div class="big">₹5,000</div></div>
+            <div class="tag bad" id="m7maskTag">masked</div></div>
+          <div class="kv"><span>Payments</span><b>2 (₹3,000 + ₹2,000)</b></div>
+          <div class="kv"><span>Fake QR → UPI ID</span><b class="mono" id="m7upi">7349••••••@ptaxis</b></div>
+          <div class="kv"><span>Txn / UTR</span><b class="mono">2 txn · 3 utr</b></div>
+          <div class="kv"><span>Phishing short-link</span><b class="mono">cutt.ly/••••••</b></div>
+          <div class="kv"><span>Or maanga gaya</span><b>₹30,625 (3 demand)</b></div>
+        </div>
+        <div class="row wrap">
+          <button class="primary sm" id="m7build">📦 1930 / NCRP pack banao</button>
+          <button class="sm" id="m7mask">👁 mask toggle</button>
+        </div>
+        <button class="primary sm" id="m7confirm" style="width:100%;margin-top:8px;background:linear-gradient(180deg,#ff6b6b,#e03131);border-color:#ff9b9b;color:#fff">🚨 Fraud CONFIRM hai — turant complaint + payment stop</button>
+        <div class="tiny dim2" style="margin-top:5px">Ye dabate hi: cyber cell ko email pack + 1930/helpline call + bank se payment stop request — sab ek screen par.</div>
+        <div id="m7out"></div>
+        <div class="tiny dim2">Bank/PSP ko bhejne se pehle: apna naam, account, aur masked numbers ke full digits daalna zaroori hai.</div>
+      </div>
+    </div></div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h3>Feature 7 · Auto-Report (1930 / NCRP / cyber-cell email) <span class="tag warn">RULE R24 / R25</span></h3>
+      <p class="dim" style="margin:8px 0 0">
+        User ko fraud ka pata chalte hi SatarkPay ek <b>report pack</b> banata hai — 4 minute me, bina kuch type kiye:
+        saare screenshot <b>crop</b> (status bar/nav hata), <b>redact</b> (a/c numbers blur — do versions: full = police/bank ke liye, blur = share ke liye),
+        <b>OCR se entities</b> (UPI ID, txn ID, UTR, links, amounts), <b>QR decode</b>, aur <b>SHA-256 hash</b> (chain of custody) →
+        phir <b>NCRP form ka text (Hindi + English)</b>, <b>ready email</b> cyber-cell + bank ko, aur <b>annexure index</b>.
+      </p>
+      <div class="hr"></div>
+      <div class="grid2">
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">PIPELINE (asli case par chali)</div>
+          <div class="tiny" style="line-height:1.8">
+            ① 28 screenshots ingest (Drive ZIP) → ② smart crop → ③ OCR (offline) →
+            ④ entity extract: UPI ID · txn · UTR · shortlink · ₹ → ⑤ QR decode (`7349••••••@ptaxis`) →
+            ⑥ redact (a/c numbers) + hash (SHA-256) → ⑦ pack: NCRP text + email + annexure + ZIP
+          </div>
+        </div>
+        <div>
+          <div class="tiny dim" style="margin-bottom:6px">KAUN-KAUN KO JAATA HAI</div>
+          <div class="sig"><span class="lbl">1930 helpline</span><span class="v">call sheet + txn/UTR</span></div>
+          <div class="sig"><span class="lbl">cybercrime.gov.in (NCRP)</span><span class="v">copy-paste text (EN/HI)</span></div>
+          <div class="sig"><span class="lbl">Cyber cell email (Bihar)</span><span class="v">email + crops attached</span></div>
+          <div class="sig"><span class="lbl">Bank + PhonePe dispute</span><span class="v">txn-wise evidence sheet</span></div>
+          <div class="sig"><span class="lbl">Sanchar Saathi</span><span class="v">us number block request</span></div>
+          <div class="sig"><span class="lbl">SEBI SCORES (scores.gov.in)</span><span class="v">registered intermediary ke khilaf complaint</span></div>
+          <div class="sig"><span class="lbl">SMART ODR (smartodr.in)</span><span class="v">mediation/arbitration — broker/DP dispute</span></div>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <div class="note"><b>Privacy:</b> OCR **device par** chalta hai; redacted copy default hai (kyunki zyadatar log screenshot WhatsApp par bhej dete hain).
+      Full-resolution copies sirf official channels ke liye alag folder me. Original screenshots kabhi modify nahi hote — hash verify karne ke liye rehte hain.</div>
+    </div>
+    <div class="card">
+      <div class="conshead"><span class="tag v">OPS CONSOLE</span><span class="t">Annexure + chain of custody</span></div>
+      <div id="m7annex" class="tiny"><span class="dim">“1930 / NCRP pack banao” dabao — annexure yahan aayega.</span></div>
+      <div class="hr"></div>
+      <div class="tiny dim">Rule R24 (auto-report pack) + R25 (crop/redact/hash) — demo me asli case ka **masked** version hai;
+      poora pack workspace me `case_evidence/` folder me (complaint_ncrp.md, complaint_email.eml, annexure_index.csv, evidence_bundle.zip).</div>
+    </div>
+    <div class="card" id="emCard" style="display:none">
+      <h3>🚨 Emergency action — fraud confirm <span class="tag bad">RULE R38</span></h3>
+      <p class="dim tiny" style="margin:6px 0 0">
+        Confirm hone ke baad <b>teen cheezein turant</b> — mail chala gaya, helpline par baat, aur payment stop request.
+        Neeche wale buttons real device par <b>seedha dialer / mail app</b> kholte hain; demo me simulate hote hain (offline demo me net/call nahi jaata).
+      </p>
+      <div class="grid3" style="margin-top:10px">
+        <div class="kv" style="display:block"><div class="tiny dim">golden hour clock</div><b id="emClock" style="font-size:19px">00:00</b><div class="tiny dim2">jitna jaldi, utna zyada freeze-trace chance</div></div>
+        <div class="kv" style="display:block"><div class="tiny dim">steps complete</div><b id="emDone" style="font-size:19px">0 / 3</b><div class="tiny dim2">email · call · payment stop</div></div>
+        <div class="kv" style="display:block"><div class="tiny dim">pack ready</div><b id="emPack" style="font-size:19px">—</b><div class="tiny dim2">annexure + hashes + crops</div></div>
+      </div>
+      <div class="hr"></div>
+      <div class="col">
+        <div class="item"><div class="row"><b>1 · 📧 Cyber cell + bank ko email</b><span class="tag" id="emMailTag">pending</span></div>
+          <div class="tiny dim" style="margin-top:4px">Ready email (subject + body + annexure index) — Bihar cyber cell, NCRP email ID aur bank nodal officer ko. Aapke naam/account ke full digits sirf official copy me jaate hain.</div>
+          <div class="row wrap" style="margin-top:7px"><button class="primary sm" id="emMail">📧 Mail bhejo (ready draft)</button>
+            <button class="sm" id="emMailCopy">📋 Draft copy karo</button></div>
+          <div id="emMailPrev" class="tiny" style="display:none;margin-top:7px"></div>
+        </div>
+        <div class="item"><div class="row"><b>2 · 📞 Helpline par direct baat (payment stop)</b><span class="tag" id="emCallTag">pending</span></div>
+          <div class="tiny dim" style="margin-top:4px">Ek tap se dialer — <b>1930</b> (cyber financial fraud) · <b>1909</b> (Sanchar Saathi) · apne bank/PSP ka official number · Bihar cyber cell. Call script screen par likhi milti hai (kya bolna hai, txn/UTR ready).</div>
+          <div class="row wrap" style="margin-top:7px"><button class="primary sm" id="emCall1930">📞 1930 par call</button>
+            <button class="sm" id="emCallBank">📞 Bank/PSP helpline</button>
+            <button class="sm" id="emCallScript">📝 Call script</button></div>
+        </div>
+        <div class="item"><div class="row"><b>3 · ⛔ Payment stop (bank + UPI + mandate)</b><span class="tag" id="emStopTag">pending</span></div>
+          <div class="tiny dim" style="margin-top:4px">Freeze/stop request ka text, UPI app ke “Report fraud” path, aur AutoPay/mandate revoke checklist — copy karke bank ko bhej do.</div>
+          <div class="row wrap" style="margin-top:7px"><button class="primary sm" id="emStop">⛔ Stop-request banao</button>
+            <button class="sm" id="emStopCopy">📋 Copy karo</button></div>
+        </div>
+      </div>
+      <div class="item" style="margin-top:8px"><div class="row"><b>4 · 👨‍👩‍👧 Parivaar / community alert (optional)</b><span class="tag" id="emFamTag">off</span></div>
+        <div class="tiny dim" style="margin-top:4px">Ek tap me ready WhatsApp-style message: “Is number/UPI par paisa mat bhejo — humare ghar me is se fraud hua hai” (numbers masked). Family + mohalla group ko bhej sakte ho — taaki agla victim na bane. Ye <b>optional</b> hai: user chaahe to skip kare.</div>
+        <div class="row wrap" style="margin-top:7px"><button class="sm" id="emFam">👨‍👩‍👧 Alert banao</button>
+          <button class="sm" id="emFamCopy">📋 Copy karo</button></div>
+      </div>
+      <div id="emOut" class="tiny" style="margin-top:9px"></div>
+      <div class="note tiny" style="margin-top:9px"><b>Honest:</b> email bhejna/call karna user ki marzi se hota hai (koi auto-send nahi) — app sirf draft, dialer aur script ready karti hai.
+        Helpline par aapka <b>txn ID + UTR + time</b> sabse pehle poochha jaata hai, isliye wahi sabse upar rakha gaya hai.</div>
+    </div>
+    <div class="card">
+      <h3>“Pehle 1 ghante” checklist <span class="tag warn">RULE R30</span></h3>
+      <div class="tiny" style="line-height:1.9; margin-top:8px">
+        <b>0–10 min</b> — 1930 par call (golden hour) · apne bank/PSP app me us txn par Help → Report Issue<br>
+        <b>10–30 min</b> — bank ko likhit complaint (RBI limited-liability framework) · UPI/card block<br>
+        <b>30 min–2 hr</b> — NCRP portal par complaint (acknowledgement save) · NCRP Suspect Repository me payee check<br>
+        <b>Aaj hi</b> — evidence safe rakho (delete nahi), scammer ko block, number Sanchar Saathi par report<br>
+        <b>Investor fraud hua?</b> — registered intermediary ke khilaf <b>SEBI SCORES</b> (scores.gov.in); dispute escalation ke liye <b>SMART ODR</b> (smartodr.in)<br>
+        <b>Kabhi mat karo</b> — “recovery agent” ko advance fee dena (ye doosra scam hota hai)
+      </div>
+      <div class="tiny dim" style="margin-top:8px">Idea credit: peer repos ke Track-B flows (Grievance-Clock, HAQ, Sangyan-Suraksha) se <b>inspiration</b> — procedures public government channels ki hain; code humne apna likha hai.</div>
+    </div>
+

@@ -1,0 +1,227 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>SatarkPay deck</title><style>
+@page { size: 13.333in 7.5in; margin: 0; }
+* { box-sizing: border-box; }
+body { margin:0; background:#0B1220; color:#E8EEF9; font-family:'DejaVu Sans','FreeSans','Noto Sans','Nirmala UI',sans-serif; }
+.slide { width:13.333in; height:7.5in; padding:0.5in 0.6in 0.75in; page-break-after:always; position:relative;
+          background:linear-gradient(160deg,#0B1220 0%,#0e1730 100%); overflow:hidden;
+          display:flex; flex-direction:column; }
+.head { flex:0 0 auto; }
+.body { flex:1 1 auto; display:flex; flex-direction:column; justify-content:center; }
+.body.top { justify-content:flex-start; padding-top:0.15in; }
+.kicker { color:#4CC9F0; font-size:13px; letter-spacing:.4px; margin:0 0 6px; }
+h1 { font-size:44px; margin:0 0 10px; line-height:1.15; }
+h2 { font-size:30px; margin:0 0 14px; }
+.sub { color:#9FB0CC; font-size:17px; margin:0 0 18px; }
+ul { margin:0; padding-left:20px; } li { margin:0 0 14px; font-size:17.5px; line-height:1.4; }
+.note { position:absolute; left:0.6in; right:0.6in; bottom:0.28in; color:#9FB0CC; font-size:13px; border-top:1px solid #22304d; padding-top:8px; }
+img.full { width:100%; max-height:5.55in; object-fit:contain; display:block; margin:0 auto; }
+.row { display:flex; gap:14px; align-items:flex-start; }
+.row figure { margin:0; flex:1; }
+.row img { width:100%; max-height:5.2in; object-fit:contain; border-radius:10px; border:1px solid #22304d; }
+figcaption { color:#9FB0CC; font-size:12px; margin-top:6px; }
+.side { display:flex; gap:18px; align-items:center; }
+.side img { width:52%; border-radius:10px; border:1px solid #22304d; }
+.side ul { flex:1; }
+table { width:100%; border-collapse:collapse; font-size:15px; }
+th { text-align:left; color:#4CC9F0; border-bottom:1px solid #2c3d5f; padding:10px 9px; font-size:14px; }
+td { border-bottom:1px solid #1c2740; padding:10px 9px; color:#E8EEF9; }
+td.d { color:#9FB0CC; }
+.meta { color:#9FB0CC; font-size:15px; } .meta b { color:#3DDC97; }
+.cols { display:flex; gap:24px; } .cols > div { flex:1; }
+.cols h3 { font-size:16px; color:#4CC9F0; margin:0 0 8px; } .cols li { font-size:15.5px; margin-bottom:11px; }
+.big { font-size:56px; font-weight:bold; }
+</style></head><body>
+<section class="slide">
+<h1 style="font-size:52px">SatarkPay</h1><p class="sub">UPI/wallet fraud se pehle rok do — aur fraud ho jaye to 3 minute me complaint</p><ul class="meta">
+<li>SANGYAN · SEBI × NSDL × SNTC IIT (BHU) · Investor Resilience</li>
+<li>Track A (fraud/scam resilience) + Track B (grievance rights) + Track D (behaviour)</li>
+<li>2,364 registered teams · 31 peer repos me saturation — SatarkPay 3 naye axes laata hai</li>
+<li>Live demo: satarkpay_m2.html (offline chalega) · 7 modules · 1 asli fraud case par chala</li>
+</ul></section>
+<section class="slide">
+<div class="head">
+<h2>Problem — scam ab “padhne” ka nahi, “hone” ka hai</h2>
+<p class="kicker">SANGYAN guardrails ke andar: koi tip nahi, koi data harvest nahi — sirf suraksha</p>
+</div><div class="body top">
+<ul>
+<li>16 crore+ demat accounts · 70% naye Tier-2/3 se · F&amp;O me 9/10 retail traders loss me (problem statement)</li>
+<li>Aaj ke scam chat-se-shuru hote hain: WhatsApp/Telegram par baat → phir UPI app → phir paisa</li>
+<li>Peer repos ka 77% kaam “message paste karo → score dekho” hai — yaani fraud ke BAAD</li>
+<li>Recovery ka golden hour pehla 60 minute hai; usme sahi complaint ho jaye to freeze-trace ka mauka bachta hai</li>
+<li>Asli case (humare evidence pack se): ₹5,000 evidence-visible loss, ₹30,625 maanga gaya, 9 scam families</li>
+</ul>
+</div>
+<div class="note">Yaani asli problem do hisse ka hai: (1) payment se PEHLE rokna, (2) fraud ke turant baad evidence + complaint.</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>Solution map — ek journey, saat module</h2>
+</div><div class="body">
+<img class="full" src="/home/user/satarkpay-m2/deck/diagrams/svg_journey.png"/>
+</div>
+<div class="note">Lane 1 interception (peer me 0%) · Lane 2 parallel shields · Lane 3 evidence + turant action (R38).</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>M1 · Chat-Before-Pay — matrix, block nahi</h2>
+</div><div class="body">
+<img class="full" src="/home/user/satarkpay-m2/deck/diagrams/svg_m1.png"/>
+</div>
+<div class="note">Saved contact ≈1 min (ya call-confirm) · unknown = 8 min guided · 10+ min chat ke baad payment = notification · officer/offer mila to T3 hold.</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>M1 live demo — teeno haalat</h2>
+</div><div class="body">
+<div class="row">
+<figure><img src="/home/user/satarkpay-m2/demo/screenshots/01a_saved_contact_fastpath.png"/><figcaption>Saved + 2 min chat → 1:00 fast path</figcaption></figure>
+<figure><img src="/home/user/satarkpay-m2/demo/screenshots/01b_known_12min_notification.png"/><figcaption>Saved + 12 min chat → notification</figcaption></figure>
+<figure><img src="/home/user/satarkpay-m2/demo/screenshots/01c_unknown_hold_callback.png"/><figcaption>Unknown + lambi chat → hold + callback</figcaption></figure>
+</div>
+</div>
+<div class="note">Timer sirf foreground dwell naapta hai; “It&#x27;s me” dabane se notification nahi khulta — sawal ya trusted-person confirm chahiye.</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>M2 · Screenshot Radar + repeat-payment guard  |  M5 · Wallet &amp; AutoPay</h2>
+</div><div class="body">
+<div class="row">
+<figure><img src="/home/user/satarkpay-m2/demo/screenshots/02_screenshot_radar.png"/><figcaption>30 min me 3+ payment-screenshot = amber, 5+ = red</figcaption></figure>
+<figure><img src="/home/user/satarkpay-m2/demo/screenshots/05_wallet_autopay_audit.png"/><figcaption>Daily/unknown mandate = red, one-tap revoke</figcaption></figure>
+</div>
+</div>
+<div class="note">R22: usi payee ko 24h me 3rd payment → cooling (staircase), 4th → hold. Screenshot ki image store nahi hoti — sirf entity + hash.</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>M3 · Domain Trust ladder  |  M4 · AI Sanchalak + registry check</h2>
+</div><div class="body">
+<div class="row">
+<figure><img src="/home/user/satarkpay-m2/demo/screenshots/03_domain_trust.png"/><figcaption>L1…L4 ladder + gateway≠merchant warning</figcaption></figure>
+<figure><img src="/home/user/satarkpay-m2/demo/screenshots/08_m4_sebi_registry_negation.png"/><figcaption>verdict + 3 reason + registry flag (R26)</figcaption></figure>
+</div>
+</div>
+<div class="note">R26: SEBI number ka format (INZ/INH/INA + 9 digits) + official portal domain check — “registered hai” kabhi certify nahi karte. R27: bank ka apna OTP-warning scam nahi ginta. R28: PII device par hi mask.</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>M6 · Intel Desk (live crawler)  |  M7 · Evidence pack</h2>
+</div><div class="body">
+<div class="row">
+<figure><img src="/home/user/satarkpay-m2/demo/screenshots/06_intel_desk_live.png"/><figcaption>784 raw → 172 relevant → 63 novel (aaj)</figcaption></figure>
+<figure><img src="/home/user/satarkpay-m2/demo/screenshots/07_auto_report_1930_pack.png"/><figcaption>28 screenshots → crop · OCR · QR · redact · hash</figcaption></figure>
+</div>
+</div>
+<div class="note">M6 auto-publish nahi karta — analyst 15-second review ke baad hi registry update hota hai. M7 me NCRP text (HI+EN) + email + annexure CSV + ZIP, hashes ke saath.</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>R38 · Fraud CONFIRM — email + helpline + payment stop (3 kadam)</h2>
+</div><div class="body">
+<img class="full" src="/home/user/satarkpay-m2/deck/diagrams/svg_emergency.png"/>
+</div>
+<div class="note">User khud confirm karta hai; app draft/dialer/script ready karti hai — auto-send nahi. Golden-hour clock live chalta hai.</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>R38 live demo — emergency panel</h2>
+</div><div class="body">
+<div class="side"><img src="/home/user/satarkpay-m2/demo/screenshots/11_emergency_confirm_action.png"/><ul><li>1 · 📧 mail draft ready: Bihar cyber cell (3 IDs) + bank nodal officer cc; body me txn ID, UTR, amount, 3 demands, annexure</li><li>2 · 📞 one-tap dialer: 1930 · 1909 · bank/PSP · Bihar cyber cell — 5-line call script screen par</li><li>3 · ⛔ payment-stop: txn-wise dispute/chargeback + beneficiary par hold (CFCFRMS) + account freeze/limit + unknown mandate revoke</li><li>4 (optional) · 👨‍👩‍👧 parivaar/mohalla alert — masked numbers ke saath, taaki agla victim na bane</li><li>Golden-hour clock user ke confirm karne se chalta hai; 3/3 hone par “complaint number sambhalo” note</li></ul></div>
+</div>
+<div class="note">Auto-send NAHI: app sirf draft + dialer + script ready karti hai — bhejna/call user ke tap par (privacy + consent).</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>Measured, guess nahi — 33-message eval harness</h2>
+</div><div class="body">
+<div class="side"><img src="/home/user/satarkpay-m2/deck/charts/chart_eval.png"/><ul><li>Wahi engine jo user ke paste par chalta hai, wahi 33 labelled messages (22 scam + 11 legit) par — precision 95% · recall 90% · F1 93%</li><li>CAUTION alag bucket (soft catch / legit friction) aur “PAKA NAHI” bhi ek valid jawab — fake confidence nahi</li><li>Har miss aur false-alarm table me tag hote hain; set self-authored hai (ceiling, field accuracy nahi)</li><li>3 messages jaan-boojh ke rule-library ke bahar rakhe — taki honest buckets live dikhein</li></ul></div>
+</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>Competitive landscape — 31 peer repos (3 Oct scan)</h2>
+</div><div class="body">
+<div class="side"><img src="/home/user/satarkpay-m2/deck/charts/chart_landscape.png"/><ul><li>77% checker-saturation · 21/31 ke paas live demo hi nahi · registry check sirf 23% me</li><li>SatarkPay ke 3 axes peer me 0%: interception (chat→UPI), evidence-grade recovery, measured eval harness</li><li>License: 30/31 repos par koi license nahi (all rights reserved) → humne zero code copy kiya, sirf ideas adopt kiye (credit file repo me)</li><li>Purane risks (voice/regional/offline) bhi cover: Hindi voice, senior mode, poora demo offline chalta hai</li></ul></div>
+</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>Peer ideas → SatarkPay (credit + “kya nahi liya”)</h2>
+</div><div class="body">
+<table><thead><tr><th>Peer repo (public)</th><th>Concept</th><th>SatarkPay me</th></tr></thead><tbody>
+<tr><td>prakshithamalla-art/scam-shield-sangyan</td><td class=d>negation-aware matching</td><td class=d>R27 — bank ka OTP-warning scam nahi ginta</td></tr>
+<tr><td>adityakr-git/sangyan (“Ruko”)</td><td class=d>client-side redaction + local lists</td><td class=d>R28 redactPII() · R26 inline registry lists</td></tr>
+<tr><td>patelsachin9879-gif/Sangyan-Kavach + pyharshcodes</td><td class=d>registry-number format validator</td><td class=d>R26 sebiCheck() — format + domain + watch-list</td></tr>
+<tr><td>anuragtiwari-ux/Sangyan-Suraksha (MIT)</td><td class=d>measured test set + first-hour recovery</td><td class=d>R37 eval harness · R30 “pehle 1 ghante”</td></tr>
+<tr><td>surdish/scamshield-bharat · arcimillion/nivesh</td><td class=d>senior mode · voice-first</td><td class=d>senior mode · Hindi voice (Web Speech)</td></tr>
+<tr><td>Kshitijsawant17/PATIBIMB · Algo-explorer/Grievance-Clock</td><td class=d>deterministic rules · escalation ladder</td><td class=d>R31–R36 families · SCORES/SMART ODR rows</td></tr>
+</tbody></table>
+</div>
+<div class="note">Zero code copying (30/31 par license nahi, 1 MIT) · koi peer dataset/UI/number quote nahi kiya · pehle jaisa “paste→score” kaam copy nahi kiya — sirf gaps bhare.</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>Guardrails + privacy (judges ke liye)</h2>
+<p class="kicker">SANGYAN ke disqualification rules ka seedha jawab</p>
+</div><div class="body top">
+<ul>
+<li>Koi stock tip / buy-sell-hold / price prediction / trading algo nahi — R36 sirf “tip ka tareeka” ka risk batata hai</li>
+<li>Koi monetisation funnel nahi; koi tip-group promotion nahi</li>
+<li>Privacy by design: analysis se pehle client-side PII redaction (R28); demo me network call zero; OCR opt-in, image store nahi (sirf entity + hash)</li>
+<li>Koi SMS/OTP/PII harvesting nahi — UsageStats/notification sirf on-device, permission + Play-policy note ke saath (docs/)</li>
+<li>Sab verdict deterministic layer deta hai; LLM sirf samjhaata hai (production me 1 env var) — hallucination-safe</li>
+<li>“Registered hai” certify karna, ya recovery ki guarantee dena — dono se saaf inkaar (honest limits slide)</li>
+</ul>
+</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>Impact → Rubric mapping (30 · 25 · 15 · 15 · 15)</h2>
+</div><div class="body top">
+<ul>
+<li>Resilience &amp; Safety Impact (30): interception + evidence-recovery + registry checks; asli case par end-to-end chala (₹5,000 evidence-visible)</li>
+<li>Tier-2/3 Usability (25): Hinglish copy, Hindi voice, senior mode, offline demo, 8-min guided cooling (paisa nahi, samajh)</li>
+<li>Guardrail Compliance &amp; Trust (15): privacy by design, no tips/no funnel, honest non-binary verdicts, credit file + limits slide</li>
+<li>Technical Execution (15): 7 modules, 66 automated checks (jsdom), live eval harness, crawler (784→172→63), chain-of-custody hashing</li>
+<li>Feasibility &amp; Scalability (15): Android parity path (UsageStats + NotificationListener), PSP/bank/telecom partner hooks, on-device-first architecture</li>
+</ul>
+</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>Roadmap — 48 ghante me demo se device tak</h2>
+</div><div class="body top">
+<ul>
+<li>h0–4: Kotlin/Compose skeleton — UsageStats listener + MediaStore observer + consent centre</li>
+<li>h4–12: M1 matrix + M3 domain engine ko shared module (app + console parity test)</li>
+<li>h12–20: M4 real LLM hookup (HI/EN) + library RAG + low-confidence → human queue</li>
+<li>h20–30: M5 NotificationListener se mandate parse + revoke flow (synthetic bank notifications)</li>
+<li>h30–40: M6 crawler cron + analyst console; M7 pack ko PSP/bank formats me export</li>
+<li>h40–48: Red-team (mentor scripts), Hindi copy user-test, 3-min demo rehearsal ×5</li>
+<li>Scale: on-device pehle, phir telecom (Sanchar Saathi) + PSP (UPI Help) + exchange (SCORES) hooks</li>
+</ul>
+</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>Honest limits + kya hum NAHI karte</h2>
+</div><div class="body">
+<div class="cols"><div><h3>Honest limits</h3><ul><li>Telemetry permissions ke bina features degrade hote hain (iOS par M1/M2/M5 partial)</li><li>M1 “padha” nahi naap sakta — sirf “kitni der chat screen par the”</li><li>Screenshot ka source-domain 100% reliable nahi — evidence treat karte hain, verdict nahi</li><li>Eval set self-authored hai (ceiling); field calibration ke liye PS/bank data chahiye</li><li>Recovery ki guarantee nahi — hum sirf time-optimised steps dete hain</li></ul></div><div><h3>Kya NAHI karte</h3><ul><li>Koi auto-block nahi — payment rukta hai, final call user ki</li><li>WhatsApp automation / READ_SMS / QUERY_ALL_PACKAGES / Accessibility abuse nahi</li><li>Koi stock tip, price prediction, ya “guaranteed return” messaging nahi</li><li>Koi auto-send email/call nahi — draft + dialer + script dete hain, bhejna user ke tap par</li><li>Peer repos se code copy nahi (licenses nahi hain) — sirf ideas, credit ke saath</li></ul></div></div>
+</div>
+</section>
+<section class="slide">
+<div class="head">
+<h2>Team SCΛMURΛI</h2>
+</div><div class="body top">
+<p class="sub">Nishant Kumar · Prince Singh · Kartik Singh</p>
+<ul>
+<li>Live demo: satarkpay-m2/demo/satarkpay_m2.html (offline, 66/66 checks pass)</li>
+<li>Evidence pack: case_evidence/ (28 screenshots, hashes, complaint drafts)</li>
+<li>Idea credit: BORROW_LIST.md · OSINT report: OSINT_REPORT.md · rules: rules_R15_R25.json + rules_R26_R38.json</li>
+<li>Crawler: scam_intel/intel_crawler.py (aaj: 784 raw → 172 relevant → 63 novel)</li>
+<li>SANGYAN submission: 4 Oct, 11:59 PM IST · demo + 3–5 min video + ye deck</li>
+</ul>
+</div>
+<div class="note">“Paisa bhejne se pehle 60 second — aur fraud ke baad 60 minute. Dono humare paas hain.”</div>
+</section>
+</body></html>

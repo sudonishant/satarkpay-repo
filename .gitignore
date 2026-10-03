@@ -1,0 +1,28 @@
+# python
+__pycache__/
+*.pyc
+.venv/
+.venv*/
+env/
+# node
+node_modules/
+npm-debug.log*
+# build/cache
+.cache/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+# playwright
+ms-playwright/
+# OS
+.DS_Store
+Thumbs.db
+# privacy — kabhi commit na karo
+evidence_bundle.zip
+raw/
+crops_full/
+*.eml.draft
+secrets.env
+.env

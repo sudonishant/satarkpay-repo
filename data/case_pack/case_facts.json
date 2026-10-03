@@ -1,0 +1,62 @@
+{
+  "case_id": "SP-CASE-2026-1002-PATNA",
+  "victim": {
+    "name_note": "Complainant ka naam NCRP form me bharna hai (demo me placeholder)",
+    "district": "Patna",
+    "state": "Bihar",
+    "contact_note": "NCRP me mobile + email daalna hai"
+  },
+  "reporting_channels": [
+    { "name": "National Cyber Crime Helpline", "value": "1930", "type": "phone", "when": "turant — golden hour (pehle 1-6 ghante)" },
+    { "name": "NCRP portal", "value": "https://cybercrime.gov.in", "type": "web", "when": "aaj hi, 1930 ke baad (acknowledgement number save karo)" },
+    { "name": "Bihar Cyber Police Station (Patna)", "value": "patnacyberpps-bih@gov.in", "type": "email" },
+    { "name": "Bihar Cyber Crime Investigation Unit (CCIU)", "value": "cciu-bih@nic.in", "type": "email" },
+    { "name": "Bihar EOU Cyber Cell", "value": "cybercell-bih@nic.in", "type": "email", "phone": "+91 612 221 6236" },
+    { "name": "Apna bank / PSP (PhonePe) fraud desk", "value": "app ke Help → Report Issue → aur bank ka fraud email", "type": "action" }
+  ],
+  "losses": [
+    { "item": "UPI payment (QR scan)", "amount": 3000, "app": "PhonePe", "paid_to": "AYESHA MEHAK", "upi_id": "7349XXXXX6@ptaxis",
+      "upi_id_source": "QR code se decode (screenshot me QR ka payload)", "txn_id": "T2606252059539226326113", "utr": "462HD163",
+      "date_visible": "25 Jun 2026, ~20:59 (PhonePe receipt)", "evidence": ["215419", "215423", "215427"] },
+    { "item": "UPI payment (PhonePe)", "amount": 2000, "app": "PhonePe", "paid_to": "N RAJESH (Banking name: N Rajesh)",
+      "account_masked": "XXXXXXXX4707", "phone_masked": "+91 91XXXXXX4707",
+      "txn_id": "T2505301200368307075101", "utr": "589501728666 (ek screenshot me 58950666 — partial)",
+      "date_visible": "30 May 2025, 12:00 pm", "evidence": ["215400", "215404", "215408"] },
+    { "item": "Loan 'registration/advance' fee maanga gaya (B.Ed exam ke liye)", "amount": 30000, "status": "demand/discussed — actual transfer confirm karna hai",
+      "suspect": "WhatsApp +91 XXXXX0371 ('money help'), reference: loan app/gang", "evidence": ["215212", "215106"] },
+    { "item": "Fake job 'test task' fee (restaurant rating job, IHCL/recruiter claim)", "amount": 375, "status": "demand (text me 'registration fee 375 rupees only')",
+      "suspect": "WhatsApp +91 XXXXX1774 (self-claimed recruiter 'Varsha Banjare')", "evidence": ["215106", "215102"] },
+    { "item": "Fake 'old coin selling' scheme — registration fee", "amount": 250, "status": "demand (poster: 'only registration fees 250')",
+      "note": "Fake cheque ₹1,80,000 (Chandrashekhar, PNB) dikha kar trust banaya gaya", "evidence": ["214508", "214511"] }
+  ],
+  "visible_loss_total": 5000,
+  "demanded_total_approx": 30625,
+  "scam_patterns": [
+    { "id": "F5/F6", "name": "Parcel 'payment refund' scam (WhatsApp)", "detail": "Suspect ne kaha parcel ka payment refund hoga, 'parcel cancel kara dijiye' pressure, number par refund ka vaada", "evidence": ["214246", "214308", "214325", "214344"] },
+    { "id": "F7/F9", "name": "Fake finance company 'Ram Mudra Finance' — payment liya, service nahi", "detail": "4 din tak 'bank verification', 'mam free hote hi', screenshots maangna — payment ₹ le liya, kaam nahi hua; voice calls no-answer", "evidence": ["214930", "214938", "214942", "214945"] },
+    { "id": "F2", "name": "Fake/banking app + OTP APK (Telegram par '3.5 lakh loan approved' lalch)", "detail": "Stolen banking apps beche ja rahe hain (APK) — account takeover ka risk", "evidence": ["214842", "214859"] },
+    { "id": "F6", "name": "Phishing SMS + shortlink (fake ₹3,000 VIP gift / bonus)", "detail": "cutt.ly shortlink se OTP/credential phishing; sender id fake 'AB 5668 / +66' style", "evidence": ["214753", "214842"] },
+    { "id": "F3", "name": "Fake job / task scam (rating + 'registration fee')", "detail": "IHCL recruiter bankar 5-star rating ka kaam, ₹375 test-task fee maangi; baad me badi amount", "evidence": ["215102", "215106"] },
+    { "id": "F5/R22", "name": "QR code payment trap — ek hi payee ko multiple payments (₹2,000 + ₹3,000)", "detail": "Do alag QR/payee par payment; 'this is not my no', 'bye' karke block — R22 staircase pattern", "evidence": ["215419", "215423", "215427"] },
+    { "id": "F15", "name": "Blackmail / photo-threat (loan recovery style)", "detail": "'Aapki photo family ko bhej dunga', gallery access ki dhamki, WhatsApp par call ka pressure", "evidence": ["215014"] },
+    { "id": "F1/F17", "name": "Fake loan/gang build-up — 'Papa' number + loan app + 'Terri family ma hu abhi Teri'", "detail": "Galat number par loan app messages + dhamki", "evidence": ["215014", "215453", "215503"] },
+    { "id": "F17", "name": "Fake 'foreign parcel' + 'delivery boy' van", "detail": "WhatsApp par 'I am delivery boy', 'wait 5 minut', 'wapas vapas kar do' — parcel scam ka doosra set", "evidence": ["215453", "215456", "215459", "215503"] },
+    { "id": "F11", "name": "Fake bill/invoice (iPhone invoice ₹1,45,990 — Ekta)", "detail": "Invoice dikha kar payment demand", "evidence": ["215456"] }
+  ],
+  "evidence_notes": [
+    "Sab screenshots 02 Oct 2026, 21:42–21:55 ko liye gaye (screenshot filename se) — same device, ek hi session me collect kiye.",
+    "Kuch screenshots me '+91 9XXXXX' masked hai — screenshot lene wale ke phone me full number save/visible hai; NCRP form me full number daalna chahiye.",
+    "QR se UPI ID decode hui: 7349XXXXX6@ptaxis — ye complaint ka sabse strong evidence hai (bank/PSP isko trace kar sakta hai).",
+    "Har evidence file ka SHA-256 hash annexure me hai (chain-of-custody ke liye) — dobara koi file badle to hash match nahi hoga."
+  ],
+  "immediate_actions": [
+    "1930 par call karo — turant (golden hour). Transaction ID/UTR ready rakho.",
+    "cybercrime.gov.in par 'Report Cyber Financial Fraud' file karo, acknowledgement number save karo.",
+    "NCRP 'Suspect Repository Search' me dono UPI IDs / numbers daal kar check karo.",
+    "PhonePe app me dono transactions par Help/Report Issue — 'money transferred to fraud' dispute raise karo.",
+    "Apne bank ko likhit complaint bhejo (RBI limited-liability framework ka reference) + card/UPI block karwao.",
+    "Scammer ko block karo, aur jo bhi screenshots/chats hain — delete NA karo (evidence).",
+    "Fake job/loan ke jhoothe vaade band karo; aur kisi bhi 'registration fee' ka payment mat karo (already paid ka refund sirf official process se).",
+    "Telecom: us number ko report karo (Sanchar Saathi https://sancharsaathi.gov.in) taaki number block ho."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "_note": "SatarkPay M2 · Intel Desk feed registry. Har source ke saath 'trust' tag hai: regulator (highest), news, vendor, community. Crawler sirf title+link+date uthata hai, article body nahi.",
+  "queries": [
+    { "q": "UPI fraud India", "hl": "en-IN", "trust": "news" },
+    { "q": "UPI scam new modus operandi", "hl": "en-IN", "trust": "news" },
+    { "q": "digital arrest scam India", "hl": "en-IN", "trust": "news" },
+    { "q": "cyber fraud India bank account", "hl": "en-IN", "trust": "news" },
+    { "q": "\"WhatsApp\" scam India money", "hl": "en-IN", "trust": "news" },
+    { "q": "Telegram task scam India", "hl": "en-IN", "trust": "news" },
+    { "q": "AutoPay mandate fraud UPI", "hl": "en-IN", "trust": "news" },
+    { "q": "fake payment screenshot scam merchant", "hl": "en-IN", "trust": "news" },
+    { "q": "यूपीआई ठगी नया तरीका", "hl": "hi-IN", "trust": "news" },
+    { "q": "साइबर ठगी व्हाट्सएप", "hl": "hi-IN", "trust": "news" }
+  ],
+  "feeds": [
+    { "url": "https://www.rbi.org.in/pressreleases_rss.xml", "name": "RBI Press Releases", "trust": "regulator" },
+    { "url": "https://www.rbi.org.in/notifications_rss.xml", "name": "RBI Notifications", "trust": "regulator" },
+    { "url": "https://www.pib.gov.in/RssMain.aspx?ModId=6&Lang=2&Regid=3&reg=48", "name": "PIB (Cyber/Home)", "trust": "regulator" },
+    { "url": "https://www.npci.org.in/rss/circular", "name": "NPCI Circulars", "trust": "regulator" }
+  ]
+}

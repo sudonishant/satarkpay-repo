@@ -1,0 +1,312 @@
+{
+  "generated": "2026-10-03T01:05:37.696Z",
+  "source": "web/satarkpay_m2.html",
+  "n": 33,
+  "nScam": 22,
+  "tp": 19,
+  "fp": 1,
+  "fn": 2,
+  "tn": 9,
+  "precision": 0.95,
+  "recall": 0.9048,
+  "f1": 0.9268,
+  "rows": [
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F1",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Main CBI officer Sharma bol raha hoon, aapke naam par case hai, kisi ko mat batao, RBI safe account me paisa transfer karo"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F3",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Telegram task job: ₹17 per YouTube like, joining ke liye ₹500 deposit, 30 min me ₹650 wapas"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F2",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Aapka KYC expire ho gaya, 24 ghante me UPI band. KYC.apk install karo, AnyDesk se help karenge"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F22",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Maine galti se ₹2,000 bhej diye, aap ₹20,000 wapas bhej do"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F28",
+      "reds": 1,
+      "domLevel": null,
+      "tag": "",
+      "text": "Sir main SEBI registered advisor hoon, Reg: SEBI12345, guaranteed 300% profit, VIP group join karo"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F28",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Join VIP group, guaranteed 30% monthly returns on SME IPO, WhatsApp 9876543210"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F29",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Your account just received Rs 3,000 as a special VIP gift! Withdraw instantly: cutt.ly/Ats3kaUt"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F1",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Sir aapka parcel customs me atka hai, verification ke liye ₹12,000 is UPI par bhejo: quickearn-pro@ybl"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F2",
+      "reds": 0,
+      "domLevel": 4,
+      "tag": "",
+      "text": "SBI KYC update: http://sbi.onlinekyc-update.top/verify par apna account verify karo warna block ho jayega"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F30",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Aapke naam par loan approved hai, registration fee ₹375 UPI karo, baad me 3.5 lakh milega"
+    },
+    {
+      "label": "scam",
+      "verdict": "CAUTION",
+      "family": "F11",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "soft",
+      "text": "Fake challan: aapka vehicle ka ₹500 challan pending hai, is link par pay karo vahan-challan-pay.online"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F32",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Meri photo family ko bhej dunga agar paisa nahi bheja, gallery access hai mere paas"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F1",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Aapko ₹85,000 digital arrest verification ke liye safe-verify@ybl par turant bhejne honge"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F2",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "AutoPay mandate lag gaya hai, KYC verify karne ke liye Daily ₹299 approve karo"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F30",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Refund ke liye pehle ₹4,999 processing fee bhejo, refund 24 ghante me aa jayega"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F31",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Main HDFC bank se bol raha hoon, aapka OTP batayein warna account freeze ho jayega"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F35",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Stock tip insider news: kal ye share 40% upar jayega, abhi paisa bhejo is UPI par"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F30",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Aapki lottery lagi hai ₹25 lakh, prize ke liye tax ₹5,000 UPI karo"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F30",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Loan app se reminder: aapki EMI pending hai, is personal UPI par pay karo warna legal action"
+    },
+    {
+      "label": "scam",
+      "verdict": "SCAM LIKELY",
+      "family": "F34",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Papa mera naya number hai, hospital me hoon, urgent ₹15,000 bhej do, kisi ko mat batana"
+    },
+    {
+      "label": "legit",
+      "verdict": "SEEMS OK",
+      "family": null,
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Dear customer, HDFC Bank kabhi bhi aapse OTP, PIN ya CVV share karne ko nahi kahega. Kisi ko mat batana."
+    },
+    {
+      "label": "legit",
+      "verdict": "SEEMS OK",
+      "family": null,
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Your Amazon Pay refund of ₹1,499 for order #A82 has been credited to your account ending 4432. No PIN required."
+    },
+    {
+      "label": "legit",
+      "verdict": "UNCERTAIN",
+      "family": null,
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "IRCTC: aapki ticket PNR 4521XXX confirm ho gayi hai. Koi payment pending nahi hai."
+    },
+    {
+      "label": "legit",
+      "verdict": "CAUTION",
+      "family": "F7",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "soft",
+      "text": "Netflix subscription renewal ₹649 monthly mandate aapke approval ke baad lagega. Cancel: app me Manage AutoPay."
+    },
+    {
+      "label": "legit",
+      "verdict": "UNCERTAIN",
+      "family": null,
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "SBI: aapke account me ₹12,000 salary credit hui hai. Balance check: official app. Ye message kisi payment ke liye nahi hai."
+    },
+    {
+      "label": "legit",
+      "verdict": "UNCERTAIN",
+      "family": null,
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Aapke saman ka delivery aaj 5 baje aa raha hai (Delhivery). Koi extra payment ki zarurat nahi."
+    },
+    {
+      "label": "legit",
+      "verdict": "UNCERTAIN",
+      "family": null,
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Options trading me 90% retail traders ko loss hota hai — SEBI study. Koi tip nahi, sirf risk awareness."
+    },
+    {
+      "label": "legit",
+      "verdict": "UNCERTAIN",
+      "family": null,
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "LIC premium ₹1,847 ka auto-debit 1 Nov ko hoga (existing policy). Amount ya date badalni ho to app me karein."
+    },
+    {
+      "label": "legit",
+      "verdict": "UNCERTAIN",
+      "family": null,
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Bhai kal ka ₹1,200 bhej dena jab time mile. Mera number wahi purana hai."
+    },
+    {
+      "label": "legit",
+      "verdict": "UNCERTAIN",
+      "family": null,
+      "reds": 0,
+      "domLevel": null,
+      "tag": "",
+      "text": "Mutual fund SIP ke liye nominee add karna zaroori hai — apni app/fund website se kar sakte hain, koi fee nahi lagti."
+    },
+    {
+      "label": "scam",
+      "verdict": "UNCERTAIN",
+      "family": null,
+      "reds": 0,
+      "domLevel": null,
+      "tag": "miss",
+      "text": "Sir, main aapke bete ka dost bol raha hoon, uska phone kharab hai. Hostel fees ₹8,500 turant isi UPI par bhejni hai warna fine lagega."
+    },
+    {
+      "label": "scam",
+      "verdict": "UNCERTAIN",
+      "family": null,
+      "reds": 0,
+      "domLevel": null,
+      "tag": "miss",
+      "text": "Aapke gas connection ki subsidy band ho jayegi. Update karne ke liye ₹10 UPI karo: gasverify@ybl"
+    },
+    {
+      "label": "legit",
+      "verdict": "SCAM LIKELY",
+      "family": "F2",
+      "reds": 0,
+      "domLevel": null,
+      "tag": "false-alarm",
+      "text": "Aapke KYC documents ka annual verification baaki hai — apni bank branch ya official app se karayein (koi fee nahi lagti). Koi APK/link nahi."
+    }
+  ]
+}
