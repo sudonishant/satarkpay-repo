@@ -11,12 +11,15 @@ Any one of those alone is survivable. Two or three together is the shape of an
 active attack, and that shape is visible **on the phone, offline, before the
 money moves**. That is the entire idea this project is built on.
 
-**[▶ Open the live app](https://sudonishant.github.io/satarkpay-repo/webapp/)** —
+**[▶ Open the live web app](https://sudonishant.github.io/satarkpay-repo/webapp/)** —
 no install, no account, works with the network switched off.
+
+**[📱 Download Android APK (SatarkPay v2.1 English)](https://github.com/sudonishant/satarkpay-repo/releases)** —
+On-device scam detection with real-time attack-chain correlation, call awareness, and sensitive app alerts.
 
 **Also in this repo:** [the 10-slide hackathon deck](SatarkPay_SANGYAN_Final.pptx) ·
 the demo video (`assets/demo/SatarkPay_Demo.mp4`) ·
-[the native Android app](app/satarkpay-android/) ·
+[the native Android app source](app/satarkpay-android/) ·
 [the offline single-file demo](web/satarkpay_m2.html)
 
 ---
@@ -147,6 +150,20 @@ cd webapp && python3 -m http.server 8000
 
 Or open `index.html` directly from the filesystem — everything except the
 service worker works from `file://` too.
+
+### Android Native App & APK
+
+The native Android app (`app/satarkpay-android/`) brings SatarkPay's attack-chain scoring engine natively to Android with Material 3, real-time background protection, and accessibility checks:
+
+- **Download APK:** Get the latest release `SatarkPay-v2.1-English.apk` directly from GitHub Releases or compile locally.
+- **Build APK locally:**
+  ```bash
+  cd app/satarkpay-android
+  ./gradlew assembleDebug
+  # Output APK generated at:
+  # app/build/outputs/apk/debug/app-debug.apk
+  ```
+- **Key Features:** Real-Time Pre-Payment Risk Assessment, Call-State Correlation (voice/video call scam protection), Screen-Share & Remote-Access App Audit (AnyDesk, TeamViewer, RustDesk), Offline Beneficiary Directory, and AI Cyber Advisor.
 
 ---
 
