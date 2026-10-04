@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0081f2">
+<meta name="description" content="Take a link apart and see whether it is really the organisation it claims to be.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/app.css">
+<title>Check a link</title>
+</head>
+<body>
+
+<h1>Check a link</h1>
+<p class="lede">
+  This does not use a blacklist. A blacklist is out of date the moment a domain
+  is registered, and attackers register thousands a day. Instead the link is
+  taken apart and compared, structurally, against the real domain it is
+  imitating.
+</p>
+
+<div class="card pad" style="margin-top:22px">
+  <label class="f" for="u">Paste the link or the domain</label>
+  <div class="row" style="gap:10px">
+    <input type="text" id="u" placeholder="http://sbi-kyc-update.online/verify" style="flex:1;min-width:220px">
+    <button class="btn primary" id="go">Check</button>
+  </div>
+  <div id="shortcuts" class="chips" style="margin-top:12px"></div>
+</div>
+
+<div id="out" style="margin-top:16px"></div>
+
+<h2>Why structure beats a list</h2>
+<div class="cols two">
+  <div class="card pad">
+    <h3>What a link can lie about</h3>
+    <p class="small muted" style="margin:0">
+      Everything visible. The text you read, the blue underline, the padlock,
+      the subdomain, even the letters themselves — Unicode lets
+      <span class="mono">а</span> (Cyrillic) sit where <span class="mono">a</span>
+      (Latin) should be and look identical. Only the registered domain is
+      ultimately yours to check, and that is what this page pulls out first.
+    </p>
+  </div>
+  <div class="card pad">
+    <h3>The four structural tells</h3>
+    <div class="steps">
+      <div class="step"><span class="no"></span><span class="tx"><b>A brand glued to an action word</b>Banks do not name their own site <span class="mono">hdfc-login</span>. The hyphen is the tell.</span></div>
+      <div class="step"><span class="no"></span><span class="tx"><b>Digits inside a brand</b><span class="mono">sbi24</span>, <span class="mono">hdfc2026</span> — a number is added because the plain name was taken.</span></div>
+      <div class="step"><span class="no"></span><span class="tx"><b>A cheap bulk TLD</b>.xyz, .top, .club, .icu cost almost nothing and are bought in bulk for pages that live for a week.</span></div>
+      <div class="step"><span class="no"></span><span class="tx"><b>Punycode</b>A domain starting <span class="mono">xn--</span> uses look-alike foreign characters. It renders as the brand and is a different name entirely.</span></div>
+    </div>
+  </div>
+</div>
+
+<h2>Real domains, for reference</h2>
+<p class="lede small">The fifteen organisations this app checks against. Nothing else has been added — a wrong entry here would be worse than no entry.</p>
+<div class="card" style="margin-top:14px; overflow:hidden">
+  <table>
+    <thead><tr><th>Registered domain</th><th>Who it actually is</th><th>Answers</th></tr></thead>
+    <tbody id="officials"></tbody>
+  </table>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/chain.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  SP.$('#officials').innerHTML = SP.DOMAINS.official.map(function (o) {
+    return '<tr><td class="mono">' + SP.esc(o.d) + '</td><td>' + SP.esc(o.who) + '</td>' +
+      '<td><span class="badge b-live">real</span></td></tr>';
+  }).join('');
+
+  var tries = [
+    'sbi-kyc-update.online/verify',
+    'onlinesbi.sbi',
+    'hdfcbank.com',
+    'hdfc-bank.xyz',
+    'npci.org.in',
+    'npci-upi.top',
+    'cybercrime.gov.in',
+    'paytm-cashback2026.club'
+  ];
+  SP.$('#shortcuts').innerHTML = tries.map(function (t) {
+    return '<button class="chip" data-u="' + SP.esc(t) + '" style="cursor:pointer">' + SP.esc(t) + '</button>';
+  }).join('');
+
+  SP.$$('#shortcuts .chip').forEach(function (b) {
+    b.addEventListener('click', function () {
+      SP.$('#u').value = b.getAttribute('data-u');
+      go();
+    });
+  });
+
+  function go() {
+    var raw = SP.$('#u').value.trim();
+    var r = SP.checkDomain(raw);
+
+    if (r.verdict === 'empty') {
+      SP.$('#out').innerHTML = '<div class="card pad"><div class="note warn">' + SP.esc(r.why) + '</div></div>';
+      return;
+    }
+
+    var tone = { official: 'v-low', fake: 'v-critical', suspicious: 'v-high', unknown: 'v-caution' }[r.verdict];
+    var name = { official: 'REAL DOMAIN', fake: 'LOOK-ALIKE — NOT THE REAL DOMAIN',
+                 suspicious: 'SUSPICIOUS STRUCTURE', unknown: 'NO STRUCTURAL PROBLEM FOUND' }[r.verdict];
+
+    var parts = breakdown(raw, r);
+
+    SP.$('#out').innerHTML =
+      '<div class="verdict ' + tone + '">' +
+        '<div class="head"><div>' +
+          '<div class="tier" style="font-size:17px">' + name + '</div>' +
+          '<div class="sub mono">' + SP.esc(r.host || raw) + '</div>' +
+        '</div>' +
+        '<div style="margin-left:auto"><span class="badge ' +
+          (r.verdict === 'official' ? 'b-live' : r.verdict === 'unknown' ? 'b-demo' : 'b-bad') + '">' +
+          (r.verdict === 'official' ? 'verified against list' : r.verdict === 'unknown' ? 'unknown — not unsafe' : 'do not open') +
+        '</span></div></div>' +
+        '<div class="body">' +
+          '<p style="margin:14px 0 6px">' + SP.esc(r.why) + '</p>' +
+          parts +
+          (r.real ? '<div class="note ok" style="margin-top:16px">The real address is <b class="mono">' +
+            SP.esc(r.real) + '</b>. Open that, or better, open the organisation\u2019s own app.</div>' : '') +
+          '<div class="note" style="margin-top:16px">' +
+            '<b>What this page cannot see.</b> It never contacts the internet, so it cannot know whether ' +
+            'a domain has been registered for one day, whether it is serving a phishing kit tonight, or ' +
+            'whether a real domain has been compromised. Those need a live feed — the honest list of what ' +
+            'would be required is on the <a href="about.html">capability page</a>.' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    SP.session.set('domCount', (SP.session.get('domCount', 0) || 0) + 1);
+    SP.renderSession();
+    SP.progressBar();
+  }
+
+  /* Show the reader how the string was split — this is the educational half. */
+  function breakdown(raw, r) {
+    var cleaned = raw.replace(/^https?:\/\//i, '').replace(/^www\./i, '').split(/[/?#]/)[0].toLowerCase();
+    var labels = cleaned.split('.');
+    var reg = labels.slice(-2).join('.');
+    var sub = labels.slice(0, -2);
+
+    var rows = [];
+    rows.push(['Scheme in the link', /^https:/i.test(raw) ? 'https — encrypted in transit. A padlock means the connection is private, never that the owner is honest.' : (raw.indexOf('http://') === 0 ? 'http — no encryption at all. Treat anything typed into it as public.' : 'none given; the browser will assume http.')]);
+    if (sub.length) rows.push(['Sub-domain', '<span class="mono">' + SP.esc(sub.join('.')) + '.</span> — free to invent. An attacker can put <span class="mono">sbi.</span> in front of a domain they own and it reads correctly at a glance.']);
+    rows.push(['Registered domain (the only part you can verify)', '<span class="mono">' + SP.esc(reg) + '</span>']);
+    rows.push(['Path', cleaned === raw.replace(/^https?:\/\//i, '') ? 'none' : SP.esc('/' + raw.replace(/^https?:\/\//i, '').split('/').slice(1).join('/'))]);
+
+    return '<div style="margin-top:16px"><table><tbody>' + rows.map(function (x) {
+      return '<tr><td style="width:38%;font-size:12.5px;color:var(--muted)">' + x[0] + '</td>' +
+             '<td style="font-size:13px">' + x[1] + '</td></tr>';
+    }).join('') + '</tbody></table></div>';
+  }
+
+  SP.$('#go').addEventListener('click', go);
+  SP.$('#u').addEventListener('keydown', function (e) { if (e.key === 'Enter') go(); });
+
+  /* Run the sharpest example on load so the page is never a blank form. */
+  SP.$('#u').value = tries[0];
+  go();
+})();
+</script>
+</body>
+</html>

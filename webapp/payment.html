@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0081f2">
+<meta name="description" content="Nine fraud signals checked on your device in the seconds before a UPI payment is approved.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/app.css">
+<title>Check a payment</title>
+</head>
+<body>
+
+<h1>Check a payment</h1>
+<p class="lede">
+  Tick what is true right now. Nothing is uploaded — this runs entirely in the
+  page you are looking at, and it keeps working with the network switched off.
+</p>
+
+<div class="cols two" style="margin-top:22px; align-items:start">
+
+  <div class="card pad">
+    <div class="row" style="justify-content:space-between;align-items:baseline">
+      <h3 style="margin:0">What is happening around this payment?</h3>
+      <span class="badge b-partner"><span id="qcount">0</span> of 8 ticked</span>
+    </div>
+    <p class="small faint" style="margin:6px 0 4px">Tick only what you are sure about. Leaving something unticked just means that signal did not fire.</p>
+    <div id="questions" style="margin-top:14px"></div>
+
+    <hr class="rule" style="margin:18px 0 16px">
+
+    <div class="field">
+      <label class="f" for="msg">The message that led to this payment <span class="faint" style="font-weight:400">(optional)</span></label>
+      <textarea id="msg" placeholder="Paste the SMS or WhatsApp message exactly as you got it. Identifiers are masked before anything is shown."></textarea>
+      <div class="hint">Adding this is worth up to +5 points, the heaviest single signal.</div>
+    </div>
+
+    <div class="field">
+      <label class="f" for="payee">Payee as your app shows it <span class="faint" style="font-weight:400">(optional)</span></label>
+      <input type="text" id="payee" placeholder="name@psp">
+      <div class="hint">Used only to check that the part after the @ is a real PSP handle.</div>
+    </div>
+
+    <div class="field">
+      <label class="f" for="amount">Amount <span class="faint" style="font-weight:400">(optional)</span></label>
+      <input type="text" id="amount" inputmode="numeric" placeholder="e.g. 25000">
+    </div>
+
+    <div class="row" style="margin-top:18px">
+      <button class="btn primary" id="run">Check this payment</button>
+      <button class="btn ghost" id="clear">Clear</button>
+    </div>
+  </div>
+
+  <div id="out">
+    <div class="card pad" id="idle">
+      <h3>Nothing checked yet</h3>
+      <p class="small muted" style="margin:0">
+        The result appears here with the full arithmetic: which signals fired,
+        what each one is worth, and what to do instead of paying.
+      </p>
+      <hr class="rule" style="margin:16px 0">
+      <div class="small faint">Tiers used</div>
+      <div class="chips" style="margin-top:8px">
+        <span class="chip">LOW · 0–2</span>
+        <span class="chip">CAUTION · 3–5</span>
+        <span class="chip">HIGH · 6–9</span>
+        <span class="chip">CRITICAL · 10+</span>
+      </div>
+      <p class="small faint" style="margin:14px 0 0">
+        Try the <a href="#" id="demo">worked example</a> — a live call, a first-time
+        payee, a scan-to-receive request and a large amount, all at once.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<h2>Payee memory, without a contact list</h2>
+<p class="lede small">
+  The ledger knows whether you have paid this handle before, and roughly how
+  much you usually send — without storing the handle itself. It keeps a
+  fingerprint, and the fingerprint is useless on its own.
+</p>
+<div class="card" style="margin-top:14px; overflow:hidden">
+  <table>
+    <thead>
+      <tr><th>Payee (as shown)</th><th>Fingerprint kept on device</th><th>Seen before</th><th class="num">Amount</th><th>Signals</th></tr>
+    </thead>
+    <tbody id="ledger"></tbody>
+  </table>
+</div>
+<p class="small faint" style="margin-top:10px">
+  Sample ledger, generated locally so the page has something real to reason
+  about. In the shipped app this table is your own payment history, read from
+  the notification stream on the device.
+</p>
+
+<script src="assets/data.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/chain.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  var answers = {};
+
+  /* ---- questions ---- */
+  SP.$('#questions').innerHTML = SP.CHAIN.signals.map(function (s) {
+    return '<label class="switch" data-id="' + s.id + '" style="margin-bottom:9px">' +
+      '<span class="box">' + SP.icon('check', 12) + '</span>' +
+      '<span style="flex:1;min-width:0">' +
+        '<span class="lab" style="display:block;font-size:13.5px;font-weight:570">' + SP.esc(s.lab) + '</span>' +
+        '<span class="sn" style="font-size:12.5px">' + SP.esc(s.note) + '</span>' +
+      '</span>' +
+      '<span class="badge b-partner" style="flex:0 0 auto">+' + s.w + '</span>' +
+      '<input type="checkbox" data-id="' + s.id + '" hidden>' +
+    '</label>';
+  }).join('');
+
+  SP.$$('#questions .switch').forEach(function (sw) {
+    sw.addEventListener('click', function (e) {
+      e.preventDefault();
+      var cb = sw.querySelector('input');
+      cb.checked = !cb.checked;
+      sw.classList.toggle('on', cb.checked);
+      answers[cb.getAttribute('data-id')] = cb.checked;
+      SP.$('#qcount').textContent = Object.keys(answers).filter(function (k) { return answers[k]; }).length;
+      SP.renderSession();
+    });
+  });
+
+  /* ---- ledger ---- */
+  var stats = SP.ledgerStats(SP.SAMPLE_LEDGER);
+  SP.$('#ledger').innerHTML = stats.rows.map(function (r) {
+    var badge = { ok: 'b-live', warn: 'b-demo', bad: 'b-bad' }[r.level];
+    var word = { ok: 'Clean', warn: 'Check', bad: 'Flagged' }[r.level];
+    return '<tr>' +
+      '<td><span class="mono">' + SP.esc(SP.redact(r.vpa)) + '</span>' +
+        '<div class="small faint">' + SP.esc(r.whose) + ' · ' + SP.esc(r.when) + '</div></td>' +
+      '<td class="mono small muted">' + r.fp + '</td>' +
+      '<td>' + (r.known ? '<span class="badge b-live">yes</span>' : '<span class="badge b-bad">first time</span>') + '</td>' +
+      '<td class="num">' + SP.money(r.amt) + '</td>' +
+      '<td><span class="badge ' + badge + '">' + word + '</span>' +
+        '<div class="small faint" style="margin-top:4px">' + (r.flags.length ? SP.esc(r.flags.join(' · ')) : 'nothing structural') + '</div></td>' +
+    '</tr>';
+  }).join('');
+
+  /* ---- run ---- */
+  var coolTimer = null;
+
+  function run() {
+    var msg = SP.$('#msg').value;
+    var payee = SP.$('#payee').value.trim();
+    var amount = SP.$('#amount').value.replace(/[^\d.]/g, '');
+
+    var extra = Object.assign({}, answers);
+
+    var r = SP.CHAIN.assess(extra, msg);
+
+    /* the payee field feeds the unknown-PSP signal, independently of the tick */
+    var vp = payee ? SP.parseVPA(payee) : null;
+    if (vp && !vp.knownPSP && !extra.psp) {
+      r.hits.push({ id: 'psp', w: 2, lab: 'Payment handle is not a known PSP',
+        note: 'The part after @ in "' + SP.redact(payee) + '" is not on NPCI\u2019s list of PSP codes.' });
+      r.score += 2;
+      r.tier = SP.tierFor(r.score);
+      r.coolSeconds = r.tier.key === 'caution' ? 30 : r.tier.key === 'high' ? 60 : 0;
+      r.canProceed = r.tier.key !== 'critical';
+      r.instead = SP.insteadFor(r.tier.key, r.hits);
+    }
+
+    SP.session.set('lastPayment', {
+      tier: r.tier.name, score: r.score,
+      /* kept so the evidence page can fold the assessment into the record
+         without asking the user to re-enter anything */
+      hits: r.hits.map(function (h) { return { w: h.w, lab: h.lab }; }),
+      canProceed: r.canProceed,
+      summary: r.hits.length + ' signal' + (r.hits.length === 1 ? '' : 's') + ' fired · checked at ' +
+               new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
+    });
+    SP.renderSession();
+
+    render(r, payee, amount, msg);
+  }
+
+  function render(r, payee, amount, msg) {
+    if (coolTimer) { clearInterval(coolTimer); coolTimer = null; }
+
+    var host = SP.$('#out');
+    host.innerHTML =
+      '<div class="verdict ' + r.tier.tone + '">' +
+        '<div class="head">' +
+          SP.gauge(r.score) +
+          '<div style="flex:1;min-width:0">' +
+            '<div class="tier">' + r.tier.name + '</div>' +
+            '<div class="sub">' + r.hits.length + ' signal' + (r.hits.length === 1 ? '' : 's') +
+              ' fired \u00b7 thresholds 3 / 6 / 10</div>' +
+          '</div>' +
+          '<div class="badge ' + (r.canProceed ? 'b-demo' : 'b-bad') + '">' +
+            (r.canProceed ? 'paused, not blocked' : 'pay action withheld') +
+          '</div>' +
+        '</div>' +
+        '<div class="body">' +
+          '<p style="margin:6px 0 2px"><b>' + SP.esc(r.tier.head) + '</b> ' + SP.esc(r.tier.body) + '</p>' +
+          '<div style="margin-top:14px">' + SP.sigList(r.hits) + '</div>' +
+          '<div id="gate" style="margin-top:18px"></div>' +
+          '<h3 style="margin-top:26px">What to do instead</h3>' +
+          '<p class="small muted" style="margin:0 0 4px">A warning with no alternative gets ignored, so each of these still completes the real goal.</p>' +
+          '<div class="steps">' + r.instead.map(function (x) {
+            return '<div class="step"><span class="no"></span><span class="tx"><b>' + SP.esc(x.t) + '</b>' + SP.esc(x.d) + '</span></div>';
+          }).join('') + '</div>' +
+          (vpBlock(payee) || '') +
+          '<div class="row" style="margin-top:22px">' +
+            '<a class="btn primary" href="evidence.html">Build an evidence pack</a>' +
+            '<a class="btn ghost" href="library.html">Read the pattern behind this</a>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    gate(r);
+  }
+
+  function vpBlock(payee) {
+    if (!payee) return '';
+    var p = SP.parseVPA(payee);
+    if (!p) {
+      return '<div class="note warn" style="margin-top:18px">' +
+        'That is not a valid UPI address. A VPA is <span class="mono">name@psp</span> — ' +
+        'one @ sign, no spaces, and the part after it is a short PSP code.</div>';
+    }
+    return '<div class="note ' + (p.knownPSP ? '' : 'bad') + '" style="margin-top:18px">' +
+      'Handle split: <span class="mono">' + SP.esc(p.local.slice(0, 3)) + '•••@' + SP.esc(p.psp) + '</span> — ' +
+      (p.knownPSP
+        ? '<b>' + SP.esc(p.psp) + '</b> is a real PSP code. That only tells you the address is well-formed, not that the person is honest.'
+        : '<b>' + SP.esc(p.psp) + '</b> is not on the NPCI PSP list. A genuine UPI address cannot have an invented suffix — the receiving app would have nowhere to route it.') +
+      (p.brandish ? ' The part before the @ uses a bank name, which does not make the account a bank account.' : '') +
+      '</div>';
+  }
+
+  function gate(r) {
+    var g = SP.$('#gate');
+    if (!g) return;
+
+    if (!r.canProceed) {
+      g.innerHTML =
+        '<div class="note bad">' +
+          '<b>There is no proceed button.</b> At CRITICAL the app does not offer a countdown, ' +
+          'because a countdown implies the payment is available after it. This is withheld until ' +
+          'the situation changes — verify the payee through a channel you opened yourself.' +
+        '</div>';
+      return;
+    }
+
+    if (r.coolSeconds === 0) {
+      g.innerHTML =
+        '<div class="note">Nothing structural fired. Press pay when you are ready — ' +
+        'and check that the name your app shows matches the name you were told.</div>' +
+        '<button class="btn primary" style="margin-top:12px" id="pay">Pay</button>';
+      SP.$('#pay').addEventListener('click', paid);
+      return;
+    }
+
+    var left = r.coolSeconds;
+    g.innerHTML = '<div class="note warn" id="coolNote">Cooling off — ' + left +
+      ' seconds. Read the signals above while you wait. Nothing is wrong with waiting.</div>' +
+      '<button class="btn primary locked" style="margin-top:12px" id="pay" disabled>Pay in ' + left + 's</button>';
+
+    coolTimer = setInterval(function () {
+      left -= 1;
+      var note = SP.$('#coolNote'), btn = SP.$('#pay');
+      if (!note || !btn) { clearInterval(coolTimer); return; }
+      if (left <= 0) {
+        clearInterval(coolTimer);
+        note.className = 'note ok';
+        note.textContent = 'Cooling off finished. The decision is still yours — the signals have not changed.';
+        btn.className = 'btn primary';
+        btn.disabled = false;
+        btn.textContent = 'Pay';
+        btn.addEventListener('click', paid);
+      } else {
+        note.textContent = 'Cooling off — ' + left + ' seconds. Read the signals above while you wait.';
+        btn.textContent = 'Pay in ' + left + 's';
+      }
+    }, 1000);
+  }
+
+  function paid() {
+    SP.$('#gate').innerHTML =
+      '<div class="note ok">Payment released by you, after the pause. ' +
+      'If it turns out to be fraud, the fastest route is 1930 and cybercrime.gov.in — ' +
+      'the first 24 hours are the ones that matter for a hold.</div>';
+  }
+
+  /* ---- controls ---- */
+  SP.$('#run').addEventListener('click', run);
+
+  SP.$('#clear').addEventListener('click', function () {
+    answers = {};
+    SP.$$('#questions .switch').forEach(function (sw) {
+      sw.querySelector('input').checked = false;
+      sw.classList.remove('on');
+    });
+    SP.$('#qcount').textContent = '0';
+    SP.$('#msg').value = ''; SP.$('#payee').value = ''; SP.$('#amount').value = '';
+    if (coolTimer) { clearInterval(coolTimer); coolTimer = null; }
+    SP.$('#out').innerHTML = '<div class="card pad"><h3>Nothing checked yet</h3>' +
+      '<p class="small muted" style="margin:0">Cleared. Tick the questions again to run a fresh check.</p></div>';
+  });
+
+  SP.$('#demo').addEventListener('click', function (e) {
+    e.preventDefault();
+    var want = { call: true, scanrecv: true, first: true, amount: true };
+    SP.$$('#questions .switch').forEach(function (sw) {
+      var on = !!want[sw.getAttribute('data-id')];
+      sw.querySelector('input').checked = on;
+      sw.classList.toggle('on', on);
+      answers[sw.getAttribute('data-id')] = on;
+    });
+    SP.$('#qcount').textContent = Object.keys(want).length;
+    SP.$('#msg').value = SP.SAMPLES[0].t;
+    SP.$('#payee').value = 'sbi.help.desk@okaxis';
+    SP.$('#amount').value = '24999';
+    run();
+  });
+
+  SP.renderSession();
+})();
+</script>
+</body>
+</html>

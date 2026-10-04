@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0081f2">
+<meta name="description" content="Turn what happened into a redacted, structured record you can file at cybercrime.gov.in or give to your bank.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/app.css">
+<title>Evidence pack</title>
+</head>
+<body>
+
+<h1>Evidence pack</h1>
+<p class="lede">
+  Filing is where most people stall. They know something happened, but they
+  cannot say it in the order a portal asks for it, and they are afraid of
+  pasting their account number into a form. This page produces the record —
+  structured, in plain English, and masked.
+</p>
+
+<div class="note warn" style="margin-top:20px">
+  <b>Read this before you use it.</b> This is not a police complaint and it is
+  not legal evidence by itself. It is a structured note of what you saw, in your
+  own words. When you file, attach your bank statement and the original message
+  from your own phone — those are the documents that count.
+</div>
+
+<div class="cols two" style="margin-top:20px; align-items:start">
+  <div class="card pad">
+    <h3>What happened</h3>
+
+    <div class="field" style="margin-top:12px">
+      <label class="f" for="w">When you noticed it</label>
+      <div class="row" style="gap:8px">
+        <input type="text" id="w" placeholder="Date and time, as you remember it" style="flex:1;min-width:180px">
+        <button class="btn sm" id="now">Now</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f" for="p">Payee, as your app showed it</label>
+      <input type="text" id="p" placeholder="name@psp or the name shown">
+    </div>
+
+    <div class="field">
+      <label class="f" for="a">Amount</label>
+      <input type="text" id="a" inputmode="numeric" placeholder="e.g. 24999">
+    </div>
+
+    <div class="field">
+      <label class="f" for="m">The original message <span class="faint" style="font-weight:400">(paste it in full)</span></label>
+      <textarea id="m" placeholder="Copy the whole message here, including the link. Everything identifying is masked in the output."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="f">What you did, in order</label>
+      <div id="acts"></div>
+    </div>
+
+    <div class="field">
+      <label class="f" for="n">Anything else the officer should know</label>
+      <textarea id="n" style="min-height:90px" placeholder="Who you spoke to, what the caller said, whether anyone else was present. Plain sentences are fine."></textarea>
+    </div>
+
+    <div class="row" style="margin-top:18px">
+      <button class="btn primary" id="build">Build the record</button>
+      <button class="btn ghost" id="reset">Clear</button>
+    </div>
+  </div>
+
+  <div id="out">
+    <div class="card pad">
+      <h3>The record appears here</h3>
+      <p class="small muted" style="margin:0">
+        Nothing is sent anywhere. The text is assembled in this page, masked,
+        and shown to you before you copy it.
+      </p>
+      <hr class="rule" style="margin:16px 0">
+      <div class="lbl small faint" style="margin-bottom:8px">Masking applied to every field</div>
+      <div class="chips">
+        <span class="chip">account numbers</span>
+        <span class="chip">card numbers</span>
+        <span class="chip">UPI handles</span>
+        <span class="chip">email addresses</span>
+        <span class="chip">OTP and PIN digits</span>
+      </div>
+      <p class="small faint" style="margin:14px 0 0">
+        Masking keeps the first few characters so the record is still readable
+        and still identifiable to you — enough for an officer to match against
+        your statement, not enough to be reused by someone else.
+      </p>
+    </div>
+  </div>
+</div>
+
+<h2>Filing, step by step</h2>
+<div class="card pad">
+  <div class="steps">
+    <div class="step"><span class="no"></span><span class="tx"><b>Call 1930 first if money has moved.</b>The helpline can request a transaction hold. This is time-sensitive — the same day matters more than a perfect write-up.</span></div>
+    <div class="step"><span class="no"></span><span class="tx"><b>File at cybercrime.gov.in.</b>Choose the financial-fraud category. Keep your bank statement and the original message ready as attachments.</span></div>
+    <div class="step"><span class="no"></span><span class="tx"><b>Tell your bank in writing.</b>Use the fraud number on your card or the bank website. Ask for the complaint reference number and note it down.</span></div>
+    <div class="step"><span class="no"></span><span class="tx"><b>Report the sender.</b>Forward the SMS to <b>1909</b> to get the number blocked for everyone, not just for you.</span></div>
+    <div class="step"><span class="no"></span><span class="tx"><b>Keep everything.</b>Do not delete the message or the chat, even after filing. Do not pay any "recovery agent" who contacts you afterwards — that is the same crime again, aimed at people who have already been hit.</span></div>
+  </div>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/chain.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  var ACTIONS = [
+    'I did not pay',
+    'I paid, then realised',
+    'I shared an OTP or PIN',
+    'I installed a screen-sharing app',
+    'I clicked the link',
+    'I was on a call with the person',
+    'I have already called 1930',
+    'I have told my bank'
+  ];
+
+  SP.$('#acts').innerHTML = ACTIONS.map(function (a, i) {
+    return '<label style="display:flex;gap:9px;align-items:flex-start;padding:5px 0;cursor:pointer;font-size:13.5px">' +
+      '<input type="checkbox" data-a="' + i + '" style="width:16px;height:16px;margin-top:2px;accent-color:#0081f2">' +
+      '<span>' + SP.esc(a) + '</span></label>';
+  }).join('');
+
+  /* Tell the user, before they start typing, that their last check is
+     already on board — otherwise they retype a verdict the app already has. */
+  var last = SP.session.get('lastPayment', null);
+  if (last && last.hits && last.hits.length) {
+    var bar = document.createElement('div');
+    bar.className = 'note ok';
+    bar.style.marginTop = '16px';
+    bar.innerHTML = '<b>Your last payment check is included automatically.</b> ' +
+      last.tier + ', ' + last.score + ' points from ' + last.hits.length + ' signal' +
+      (last.hits.length === 1 ? '' : 's') + ' — it will be written into the record without you re-entering it.' +
+      ' <a href="payment.html">Run another check</a>.';
+    SP.$('#out').parentNode.parentNode.insertBefore(bar, SP.$('#out').parentNode.parentNode.querySelector('.cols.two'));
+  }
+
+  SP.$('#now').addEventListener('click', function () {
+    var d = new Date();
+    SP.$('#w').value = d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) +
+      ', ' + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+  });
+
+  SP.$('#build').addEventListener('click', function () {
+    var acts = SP.$$('#acts input:checked').map(function (c) { return ACTIONS[+c.getAttribute('data-a')]; });
+    var amt = SP.$('#a').value.replace(/[^\d.]/g, '');
+
+    /* If a payment was checked earlier in this session, carry that verdict
+       into the record. It is the only part of this page the user does not
+       have to retype, and it is the part an officer reads first. */
+    var last = SP.session.get('lastPayment', null);
+    var assessment = null;
+    if (last && last.hits && last.hits.length) {
+      assessment = {
+        score: last.score,
+        tier: SP.tierFor(last.score),
+        hits: last.hits,
+        canProceed: last.canProceed
+      };
+    }
+
+    var text = SP.evidence({
+      whenText: SP.$('#w').value.trim() || 'not noted',
+      payee: SP.$('#p').value.trim(),
+      amount: amt ? Number(amt) : 0,
+      message: SP.$('#m').value.trim(),
+      actions: acts,
+      notes: SP.$('#n').value.trim(),
+      assessment: assessment
+    });
+
+    var masked = (text.match(/•/g) || []).length;
+
+    SP.$('#out').innerHTML =
+      '<div class="card pad">' +
+        '<div class="row" style="justify-content:space-between; margin-bottom:12px">' +
+          '<div><h3 style="margin:0">The record, ready to paste</h3>' +
+          '<div class="small faint" style="margin-top:3px">' + text.split('\n').length + ' lines · ' +
+          masked + ' identifier' + (masked === 1 ? '' : 's') + ' masked · generated on this device</div></div>' +
+          '<span class="badge b-live">redacted</span>' +
+        '</div>' +
+        '<pre id="rec" class="scroll"></pre>' +
+        '<div class="row" style="margin-top:14px">' +
+          '<button class="btn primary sm" id="copy">Copy for cybercrime.gov.in</button>' +
+          '<button class="btn sm" id="dl">Download as .txt</button>' +
+        '</div>' +
+        '<div class="note" style="margin-top:14px">' +
+          'Paste this into the complaint description field. Attach your bank statement and the ' +
+          'original message from your phone. If an officer asks for the full account number, give it ' +
+          'to them directly — the masking here exists to protect the record while it travels, not to ' +
+          'hide it from the investigation.' +
+        '</div>' +
+      '</div>';
+
+    SP.$('#rec').textContent = text;
+
+    SP.$('#copy').addEventListener('click', function () {
+      navigator.clipboard.writeText(text).then(function () {
+        SP.$('#copy').textContent = 'Copied';
+        setTimeout(function () { SP.$('#copy').textContent = 'Copy for cybercrime.gov.in'; }, 1800);
+      }).catch(function () {
+        var r = document.createRange();
+        r.selectNodeContents(SP.$('#rec'));
+        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        SP.$('#copy').textContent = 'Selected — press Ctrl+C';
+      });
+    });
+
+    SP.$('#dl').addEventListener('click', function () {
+      var blob = new Blob([text], { type: 'text/plain' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'satarkpay-incident-record.txt';
+      a.click();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+    });
+
+    SP.session.set('evidenceBuilt', true);
+    SP.progressBar();
+  });
+
+  SP.$('#reset').addEventListener('click', function () {
+    ['w', 'p', 'a', 'm', 'n'].forEach(function (id) { SP.$('#' + id).value = ''; });
+    SP.$$('#acts input').forEach(function (c) { c.checked = false; });
+    SP.$('#out').innerHTML = '<div class="card pad"><h3>Cleared</h3>' +
+      '<p class="small muted" style="margin:0">Fill in what you can remember — partial is still useful. ' +
+      'The time and the amount matter most.</p></div>';
+  });
+})();
+</script>
+</body>
+</html>

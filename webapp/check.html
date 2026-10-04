@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0081f2">
+<meta name="description" content="Paste a suspicious SMS, WhatsApp or email message and see which fraud patterns it matches.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/app.css">
+<title>Check a message</title>
+</head>
+<body>
+
+<h1>Check a message</h1>
+<p class="lede">
+  Thirteen documented fraud patterns and four legitimacy markers. The markers
+  subtract points, because a genuine debit alert should not be flagged just for
+  containing the word OTP.
+</p>
+
+<div class="cols two" style="margin-top:22px; align-items:start">
+  <div class="card pad">
+    <label class="f" for="t">The message, exactly as you received it</label>
+    <textarea id="t" style="min-height:200px" placeholder="Paste the full message here. Account numbers, card numbers, UPI handles, emails and OTP digits are masked before anything is displayed or copied. The link is deliberately left intact — it is the single most useful thing you can hand an investigator."></textarea>
+    <div class="row" style="margin-top:14px">
+      <button class="btn primary" id="go">Check message</button>
+      <button class="btn ghost" id="wipe">Clear</button>
+    </div>
+    <div class="hint" id="count"></div>
+
+    <hr class="rule" style="margin:20px 0 14px">
+    <div class="small faint" style="margin-bottom:8px">Or load one of these real message shapes:</div>
+    <div id="samples" class="chips"></div>
+  </div>
+
+  <div id="out">
+    <div class="card pad">
+      <h3>How this decides</h3>
+      <p class="small muted" style="margin:0 0 12px">
+        Each rule below is a plain, readable pattern with a fixed weight. The
+        total decides the tier. There is no model and no scoring curve — the
+        arithmetic is the explanation.
+      </p>
+      <div id="rules"></div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/chain.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  /* ---- rule reference ---- */
+  SP.$('#rules').innerHTML = SP.RULES.map(function (r) {
+    return '<div class="sig"><span class="w">+' + r.w + '</span>' +
+      '<span><span class="lab">' + SP.esc(r.lab) + '</span>' +
+      '<span class="sn">' + SP.esc(r.note) + '</span></span></div>';
+  }).join('') +
+  '<div class="sig" style="margin-top:10px;border-top:1px solid var(--line)">' +
+    '<span class="w">–</span><span><span class="lab">Legitimacy markers</span>' +
+    '<span class="sn">Four patterns subtract points: a warning not to share, ' +
+    'a pointer to your own app, a masked account number, or a link on a real domain. ' +
+    'They reduce the score but cannot hide a real risk pattern.</span></span></div>';
+
+  /* ---- samples ---- */
+  SP.$('#samples').innerHTML = SP.SAMPLES.map(function (s, i) {
+    var scam = /^Scam/.test(s.k);
+    return '<button class="chip" data-i="' + i + '" style="cursor:pointer;' +
+      (scam ? 'background:var(--bad-soft);color:var(--bad);border-color:transparent' : '') + '">' +
+      SP.esc(s.k) + '</button>';
+  }).join('');
+
+  SP.$$('#samples .chip').forEach(function (b) {
+    b.addEventListener('click', function () {
+      SP.$('#t').value = SP.SAMPLES[+b.getAttribute('data-i')].t;
+      tally();
+      go();
+    });
+  });
+
+  /* ---- live character/redaction tally ---- */
+  function tally() {
+    var raw = SP.$('#t').value;
+    if (!raw.trim()) { SP.$('#count').textContent = ''; return; }
+    var red = SP.redact(raw);
+    var n = SP._redactions || 0;
+    SP.$('#count').innerHTML = raw.length + ' characters · <b>' + n +
+      '</b> identifier' + (n === 1 ? '' : 's') + ' masked before display. Nothing left this device.';
+  }
+  SP.$('#t').addEventListener('input', tally);
+
+  /* ---- run ---- */
+  function go() {
+    var raw = SP.$('#t').value;
+    if (!raw.trim()) {
+      SP.$('#out').innerHTML = '<div class="card pad"><div class="note warn">Paste a message first — ' +
+        'or pick one of the samples on the left.</div></div>';
+      return;
+    }
+
+    var r = SP.scoreMessage(raw);
+    var red = SP.redact(raw);
+    var risk = r.signals.filter(function (s) { return s.kind === 'risk'; });
+    var good = r.signals.filter(function (s) { return s.kind === 'good'; });
+
+    var verdictLine = {
+      critical: 'This matches a known scam script closely. Do not act on it.',
+      high: 'This carries a strong fraud pattern. Verify through a channel you open yourself.',
+      caution: 'One or two patterns matched. It may be genuine — but check before acting.',
+      low: 'No known fraud pattern matched. That is not proof of safety; judge it on who sent it.'
+    }[r.tier.key];
+
+    SP.$('#out').innerHTML =
+      '<div class="verdict ' + r.tier.tone + '">' +
+        '<div class="head"><div>' +
+          '<div class="tier">' + r.tier.name + '</div>' +
+          '<div class="sub">' + r.score + ' points · ' + risk.length + ' risk pattern' + (risk.length === 1 ? '' : 's') +
+            (good.length ? ' · ' + good.length + ' in your favour' : '') + '</div>' +
+        '</div></div>' +
+        '<div class="body">' +
+          '<p style="margin:14px 0 4px">' + SP.esc(verdictLine) + '</p>' +
+          '<div style="margin-top:12px">' + SP.sigList(r.signals) + '</div>' +
+          (risk.length ? '<h3 style="margin-top:22px">What to do with it</h3>' + nextSteps(risk) : '') +
+        '</div>' +
+      '</div>' +
+
+      '<div class="card pad" style="margin-top:16px">' +
+        '<h3>What was masked</h3>' +
+        '<p class="small faint" style="margin:0 0 12px">This is exactly how the message would be stored or copied. ' +
+        'The masking is the default, not an option.</p>' +
+        '<pre id="red" class="scroll"></pre>' +
+        '<div class="row" style="margin-top:12px">' +
+          '<button class="btn sm" id="copy">Copy the redacted version</button>' +
+          '<a class="btn sm ghost" href="evidence.html">Add to an evidence pack</a>' +
+        '</div>' +
+      '</div>';
+
+    SP.$('#red').textContent = red;
+    SP.$('#copy').addEventListener('click', function () {
+      navigator.clipboard.writeText(red).then(function () {
+        SP.$('#copy').textContent = 'Copied (redacted)';
+      }).catch(function () {
+        SP.$('#copy').textContent = 'Select the text above and copy';
+      });
+    });
+
+    SP.session.set('msgCount', (SP.session.get('msgCount', 0) || 0) + 1);
+    SP.session.set('lastMsg', { tier: r.tier.name, score: r.score });
+    SP.renderSession();
+    SP.progressBar();
+  }
+
+  function nextSteps(risk) {
+    var ids = risk.map(function (s) { return s.id; });
+    var out = [];
+    if (ids.indexOf('credential') > -1 || ids.indexOf('remote') > -1)
+      out.push(['Never share the OTP, PIN or screen', 'No bank, wallet, exchange or helpdesk ever needs any of them. Hang up and call the number printed on your card.']);
+    if (ids.indexOf('link-lure') > -1 || ids.indexOf('link-short') > -1 || ids.indexOf('brand-hyphen') > -1)
+      out.push(['Do not open the link', 'Type the organisation\u2019s address yourself, or use their app. Check the link separately on the <a href="domain.html">link checker</a>.']);
+    if (ids.indexOf('pay-first') > -1 || ids.indexOf('prize') > -1)
+      out.push(['Money that needs money first is not money you are getting', 'No genuine prize, refund, job or clearance requires an advance fee.']);
+    if (ids.indexOf('isolation') > -1)
+      out.push(['Tell someone right now', 'Isolation is the mechanism. Say it out loud to one family member before you do anything else.']);
+    if (ids.indexOf('invest') > -1)
+      out.push(['Check the entity before the money moves', 'Verify the intermediary on the SEBI website. Registered entities cannot promise guaranteed returns in writing.']);
+    if (ids.indexOf('apk') > -1)
+      out.push(['Do not install a file someone sent you', 'An app delivered as an APK over chat is an app that would fail app-store review. Delete the file.']);
+    if (ids.indexOf('aadhaar') > -1)
+      out.push(['Do not send identity documents over chat', 'Aadhaar or PAN in a chat thread feeds impersonation and loan fraud.']);
+    out.push(['If money has already moved', 'Call <b>1930</b> and file at <b>cybercrime.gov.in</b> the same day. The first 24 hours are the ones that matter.']);
+
+    return '<div class="steps">' + out.map(function (x) {
+      return '<div class="step"><span class="no"></span><span class="tx"><b>' + x[0] + '</b>' + x[1] + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  SP.$('#go').addEventListener('click', go);
+  SP.$('#wipe').addEventListener('click', function () {
+    SP.$('#t').value = ''; tally();
+    SP.$('#out').innerHTML = '<div class="card pad"><h3>Cleared</h3>' +
+      '<p class="small muted" style="margin:0">Paste another message, or pick a sample.</p></div>';
+  });
+
+  /* Ctrl/Cmd + Enter runs the check — it is the obvious shortcut here. */
+  SP.$('#t').addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); go(); }
+  });
+})();
+</script>
+</body>
+</html>

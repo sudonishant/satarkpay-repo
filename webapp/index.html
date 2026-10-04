@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2b6bf3">
+<meta name="description" content="SatarkPay checks a UPI payment for fraud signals on your own device, offline, in the sixty seconds before you enter the PIN.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon.svg">
+<link rel="stylesheet" href="assets/app.css">
+<title>Dashboard</title>
+</head>
+<body>
+
+<section class="hero">
+  <div class="eyebrow">SANGYAN 2026 · Fraud resilience</div>
+  <h1>Every fraud tool in India reacts after the money has gone.</h1>
+  <p class="lede">
+    SatarkPay works in the sixty seconds <em>before</em> it goes. Nine signals
+    read on the phone itself, offline, and a verdict that tells you exactly
+    which signal made it worry — not a score you have to trust.
+  </p>
+  <div class="row">
+    <a class="btn primary lg" href="payment.html">Check a payment</a>
+    <a class="btn lg" href="library.html">See the ten patterns</a>
+  </div>
+  <div class="row" style="margin-top:18px;gap:16px">
+    <span class="small faint" style="display:flex;align-items:center;gap:6px" data-icon="lock" data-size="14">Nothing uploaded, ever</span>
+    <span class="small faint" style="display:flex;align-items:center;gap:6px" data-icon="bolt" data-size="14">p95 under 32 ms</span>
+    <span class="small faint" style="display:flex;align-items:center;gap:6px" data-icon="phone" data-size="14">8/8 pages offline</span>
+  </div>
+</section>
+
+<div id="lastCheck"></div>
+
+<div class="cols four" style="margin-top:20px">
+  <div class="card stat">
+    <div class="v"><span data-count="9">0</span></div>
+    <div class="k">Signals per payment</div>
+    <div class="n">Whole-number weights, added in the open</div>
+  </div>
+  <div class="card stat">
+    <div class="v"><span data-count="8">0</span><i>/8</i></div>
+    <div class="k">Pages working offline</div>
+    <div class="n">Verified by cutting the network and reloading each one</div>
+  </div>
+  <div class="card stat">
+    <div class="v"><span data-count="10">0</span></div>
+    <div class="k">Scam patterns documented</div>
+    <div class="n">Each with the physical fact that makes it impossible</div>
+  </div>
+  <div class="card stat">
+    <div class="v"><span data-count="0">0</span></div>
+    <div class="k">Bytes uploaded</div>
+    <div class="n">No account, no server, no analytics, no telemetry</div>
+  </div>
+</div>
+
+<h2>The one idea this is built on</h2>
+<p class="lede" style="margin-bottom:16px">
+  Fraud is not an event. It is a sequence — a call, a new payee, a strange
+  handle, an amount larger than usual, arriving at the worst possible moment.
+  Any one of those alone is survivable. Two or three together is the shape of
+  an active attack, and that shape is visible on the device.
+</p>
+
+<div class="cols two">
+  <div class="card pad">
+    <h3>How a check runs</h3>
+    <div class="steps" style="margin-top:6px">
+      <div class="step"><span class="no"></span><span class="tx"><b>A signal fires</b>You are on a call. The payee is new. The handle is not a real PSP code.</span></div>
+      <div class="step"><span class="no"></span><span class="tx"><b>The weights are added up</b>Whole numbers, so you can do the arithmetic yourself and reach the same tier the app shows.</span></div>
+      <div class="step"><span class="no"></span><span class="tx"><b>A pause appears, or the action is withheld</b>30 seconds at CAUTION, 60 at HIGH. At CRITICAL there is no pay button at all.</span></div>
+      <div class="step"><span class="no"></span><span class="tx"><b>You are offered a different route</b>One that still completes the real goal — verify, split the amount, share instead of scan.</span></div>
+    </div>
+  </div>
+  <div class="card pad">
+    <h3>Tiers, and what each one does</h3>
+    <table style="margin-top:6px">
+      <tbody>
+        <tr>
+          <td style="width:34%"><span class="badge b-live">LOW · 0–2</span></td>
+          <td class="small muted">Nothing structural. Pay when ready — the app still tells you to match the name your app shows against the name you were given.</td>
+        </tr>
+        <tr>
+          <td><span class="badge b-demo">CAUTION · 3–5</span></td>
+          <td class="small muted">A 30-second cooling-off. Long enough to read the signals, short enough to not feel punished.</td>
+        </tr>
+        <tr>
+          <td><span class="badge b-manual">HIGH · 6–9</span></td>
+          <td class="small muted">A 60-second cooling-off and a written alternative route for every signal that fired.</td>
+        </tr>
+        <tr>
+          <td><span class="badge b-bad">CRITICAL · 10+</span></td>
+          <td class="small muted">The pay action is withheld, and no countdown is shown — a countdown would imply it becomes available.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h2>Eight pages</h2>
+<p class="lede" style="margin-bottom:16px">Each one is a single job, and each one works with the network switched off.</p>
+
+<div class="cols two">
+  <a class="card mod lift c-bad" href="payment.html">
+    <span class="ic" data-icon="shield" data-size="18"></span>
+    <span><h3>Check a payment <span data-icon="arrow" data-size="13" data-after="1"></span></h3>
+    <p>Answer up to nine questions and optionally paste the message behind it. Get a tier, a score, the weight of every signal, and a different route to the same goal.</p></span>
+  </a>
+  <a class="card mod lift c-violet" href="check.html">
+    <span class="ic" data-icon="message" data-size="18"></span>
+    <span><h3>Check a message <span data-icon="arrow" data-size="13" data-after="1"></span></h3>
+    <p>Thirteen documented fraud patterns and four legitimacy markers, so a real debit alert is never flagged just for containing the word OTP.</p></span>
+  </a>
+  <a class="card mod lift c-warn" href="domain.html">
+    <span class="ic" data-icon="link" data-size="18"></span>
+    <span><h3>Check a link <span data-icon="arrow" data-size="13" data-after="1"></span></h3>
+    <p>No blacklist — blacklists are stale the day a domain is registered. The link is taken apart and compared against the real domain it is imitating.</p></span>
+  </a>
+  <a class="card mod lift" href="library.html">
+    <span class="ic" data-icon="book" data-size="18"></span>
+    <span><h3>Scam library <span data-icon="arrow" data-size="13" data-after="1"></span></h3>
+    <p>Ten patterns in current circulation: what the attacker wants, the fact that makes the ask impossible, and what to do instead.</p></span>
+  </a>
+  <a class="card mod lift c-ok" href="evidence.html">
+    <span class="ic" data-icon="file" data-size="18"></span>
+    <span><h3>Evidence pack <span data-icon="arrow" data-size="13" data-after="1"></span></h3>
+    <p>Turns what happened into a redacted, structured record you can paste into cybercrime.gov.in or hand to your bank — with the numbers masked and the link kept.</p></span>
+  </a>
+  <a class="card mod lift" href="about.html">
+    <span class="ic" data-icon="check" data-size="18"></span>
+    <span><h3>What works, what cannot <span data-icon="arrow" data-size="13" data-after="1"></span></h3>
+    <p>Thirteen capabilities marked LIVE ON DEVICE, MANUAL INPUT, PARTNER API REQUIRED or BACKEND — each with the specific thing that would make it real.</p></span>
+  </a>
+</div>
+
+<h2>If the money has already gone</h2>
+<div class="card mod lift c-bad" style="display:flex;gap:14px;padding:17px 19px">
+  <span class="ic" data-icon="alert" data-size="18"></span>
+  <span style="flex:1">
+    <h3 style="margin:0 0 4px">Emergency order of action <a href="emergency.html" data-icon="arrow" data-size="13" data-after="1" style="color:var(--accent-ink)"></a></h3>
+    <p style="margin:0;font-size:12.75px;color:var(--muted)">
+      Seven steps in the order that changes the outcome, what to have in your hand when you call,
+      and the two things that will happen next — including the "recovery agent" who will call you.
+    </p>
+  </span>
+</div>
+
+<h2>Privacy, stated as a fact rather than a promise</h2>
+<div class="card pad">
+  <div class="cols two">
+    <div>
+      <h3 style="display:flex;align-items:center;gap:8px"><span data-icon="lock" data-size="15"></span>What stays on the phone</h3>
+      <p class="small muted" style="margin:0">
+        Everything. Messages you paste, links you check, payee handles, amounts,
+        the verdicts. There is no backend to send them to — this is a set of
+        static files running a rules engine in your browser, and it keeps
+        working with the network off.
+      </p>
+    </div>
+    <div>
+      <h3 style="display:flex;align-items:center;gap:8px"><span data-icon="eye" data-size="15"></span>What still gets masked</h3>
+      <p class="small muted" style="margin:0">
+        Even with nothing to upload, identifiers are masked before they reach
+        the screen or your clipboard: account numbers, card numbers, UPI
+        handles, emails, and any OTP or PIN inside pasted text. Links are left
+        intact on purpose — they are the most useful thing you can hand an
+        investigator. <a href="evidence.html">See it working</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="note" style="margin-top:20px">
+  <b>What this build is.</b> A working prototype, not a licensed product. It
+  does not move money, does not connect to your bank, and cannot see your
+  account. Where a capability needs data this build does not have, it says so
+  instead of guessing — the full list is on the
+  <a href="about.html">capability page</a>.
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/chain.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  var host = SP.$('#lastCheck');
+  var last = SP.session.get('lastPayment', null);
+  if (!last) return;
+
+  var tone = { CRITICAL: 'v-critical', HIGH: 'v-high', CAUTION: 'v-caution', LOW: 'v-low' }[last.tier] || 'v-low';
+  var badge = { CRITICAL: 'b-bad', HIGH: 'b-manual', CAUTION: 'b-demo', LOW: 'b-live' }[last.tier];
+  var card = document.createElement('div');
+  card.className = 'card pad';
+  card.style.marginTop = '20px';
+  card.innerHTML =
+    '<div class="row" style="justify-content:space-between; align-items:flex-start">' +
+      '<div><span class="badge ' + badge + '">Last check · ' + SP.esc(last.tier) + '</span>' +
+        '<div class="small muted" style="margin-top:9px">' + SP.esc(last.summary || 'Checked earlier in this session.') + '</div></div>' +
+      '<div class="row" style="gap:8px">' +
+        '<a class="btn sm" href="payment.html">Run another</a>' +
+        '<a class="btn sm primary" href="evidence.html">Build the record</a>' +
+      '</div>' +
+    '</div>';
+  host.appendChild(card);
+})();
+</script>
+</body>
+</html>

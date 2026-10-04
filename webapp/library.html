@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0081f2">
+<meta name="description" content="Ten UPI and financial fraud patterns in current circulation, each with the physical fact that makes it impossible.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/app.css">
+<title>Scam library</title>
+</head>
+<body>
+
+<h1>Ten patterns to know by shape</h1>
+<p class="lede">
+  You will never memorise every scam. You only need to recognise the shape:
+  someone creating urgency, isolating you, and asking you to move money in a
+  direction that makes no sense. Each entry below names the physical fact that
+  makes the ask impossible.
+</p>
+
+<div class="chips" style="margin:22px 0 14px" id="filters"></div>
+
+<div class="card" id="list" style="overflow:hidden"></div>
+
+<div id="alerts"></div>
+
+<script src="assets/data.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/chain.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  /* ---- strip of the three things every one of these shares ---- */
+  var common = document.createElement('div');
+  common.className = 'cols three';
+  common.style.margin = '26px 0 6px';
+  common.innerHTML = [
+    ['Urgency', 'A deadline that did not exist five minutes ago. Urgency is not information — it is a tool for removing your checking time.'],
+    ['Isolation', 'Do not tell anyone, stay on the call, the officer is watching. Anyone who needs you alone is not on your side.'],
+    ['Direction', 'Money should move toward you and never needs a PIN. If the instruction requires a PIN, the money is leaving.']
+  ].map(function (x) {
+    return '<div class="card pad"><h3>' + x[0] + '</h3><p class="small muted" style="margin:0">' + x[1] + '</p></div>';
+  }).join('');
+
+  /* ---- filter chips ---- */
+  var freqs = [];
+  SP.SCAMS.forEach(function (s) { if (freqs.indexOf(s.freq) < 0) freqs.push(s.freq); });
+
+  SP.$('#filters').innerHTML =
+    '<button class="chip" data-f="all" style="cursor:pointer;background:var(--accent-soft);color:var(--accent-ink);border-color:transparent">All 10</button>' +
+    freqs.map(function (f) {
+      return '<button class="chip" data-f="' + SP.esc(f) + '" style="cursor:pointer">' + SP.esc(f) + '</button>';
+    }).join('') +
+    '<button class="chip" data-open="1" style="cursor:pointer">Expand all</button>';
+
+  /* ---- list ---- */
+  function paint(filter) {
+    var list = SP.SCAMS.filter(function (s) { return !filter || filter === 'all' || s.freq === filter; });
+    SP.$('#list').innerHTML = list.map(function (s) {
+      return '<div class="scam" data-id="' + s.id + '">' +
+        '<button class="scam-top">' +
+          '<span class="no">' + s.no + '</span>' +
+          '<span class="ti">' + SP.esc(s.ti) + '</span>' +
+          '<span class="badge ' + (/Highest/.test(s.freq) ? 'b-bad' : /Very|Most/.test(s.freq) ? 'b-manual' : 'b-partner') + '">' + SP.esc(s.freq) + '</span>' +
+          '<span class="ar">&#9656;</span>' +
+        '</button>' +
+        '<div class="scam-body">' +
+          '<p style="margin:6px 0 0;font-size:14px"><b>' + SP.esc(s.line) + '</b></p>' +
+          '<div class="lbl">What the attacker wants you to do</div>' +
+          '<div class="small">' + SP.esc(s.ask) + '</div>' +
+          '<div class="lbl">The fact that makes it impossible</div>' +
+          '<div class="small">' + SP.esc(s.tell) + '</div>' +
+          '<div class="lbl">Signs it is this one</div>' +
+          '<div class="chips">' + s.signs.map(function (x) { return '<span class="chip">' + SP.esc(x) + '</span>'; }).join('') + '</div>' +
+          '<div class="lbl">What to do, in order</div>' +
+          '<div class="steps">' + s.do.map(function (x) {
+            return '<div class="step"><span class="no"></span><span class="tx">' + SP.esc(x) + '</span></div>';
+          }).join('') + '</div>' +
+          '<div class="note" style="margin-top:16px">' + SP.esc(s.hi) + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    SP.$$('#list .scam-top').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        btn.closest('.scam').classList.toggle('open');
+      });
+    });
+  }
+
+  paint('all');
+
+  SP.$$('#filters .chip').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.getAttribute('data-open')) {
+        var any = SP.$$('#list .scam').some(function (s) { return s.classList.contains('open'); });
+        SP.$$('#list .scam').forEach(function (s) { s.classList.toggle('open', !any); });
+        b.textContent = any ? 'Expand all' : 'Collapse all';
+        return;
+      }
+      SP.$$('#filters .chip').forEach(function (x) {
+        if (!x.getAttribute('data-open')) {
+          x.style.background = ''; x.style.color = ''; x.style.borderColor = '';
+        }
+      });
+      b.style.background = 'var(--accent-soft)';
+      b.style.color = 'var(--accent-ink)';
+      b.style.borderColor = 'transparent';
+      paint(b.getAttribute('data-f'));
+    });
+  });
+
+  /* ---- current advisories ---- */
+  var sev = { high: 'b-bad', med: 'b-manual', low: 'b-partner' };
+  SP.$('#alerts').innerHTML =
+    '<h2>Advisory desk</h2>' +
+    '<p class="lede small">Patterns being reported right now, with the action that defeats each one. ' +
+    'These are written from public advisories and the reporting channels below — none of the numbers here are invented.</p>' +
+    '<div class="card" style="margin-top:14px;overflow:hidden">' +
+    SP.INTEL.map(function (a) {
+      return '<div style="padding:15px 18px;border-bottom:1px solid var(--line)">' +
+        '<div class="row" style="gap:9px">' +
+          '<span class="badge ' + sev[a.sev] + '">' + a.sev + '</span>' +
+          '<span class="small faint">' + SP.esc(a.d) + '</span>' +
+        '</div>' +
+        '<h3 style="margin:8px 0 4px">' + SP.esc(a.ti) + '</h3>' +
+        '<p class="small muted" style="margin:0">' + SP.esc(a.b) + '</p>' +
+      '</div>';
+    }).join('') +
+    '</div>' +
+    '<div class="card pad" style="margin-top:16px">' +
+      '<h3>Where to report</h3>' +
+      '<div class="cols three" style="margin-top:10px">' +
+        '<div><div class="small"><b>1930</b></div><div class="small faint">National cyber-fraud financial helpline. Fastest route to a transaction hold.</div></div>' +
+        '<div><div class="small"><b>cybercrime.gov.in</b></div><div class="small faint">National Cyber Crime Reporting Portal — file the complaint and attach the original message.</div></div>' +
+        '<div><div class="small"><b>1909</b></div><div class="small faint">DoT number for reporting spam SMS and calls, to get the sender blocked.</div></div>' +
+      '</div>' +
+    '</div>';
+
+  SP.$('#list').parentNode.insertBefore(common, SP.$('#list'));
+})();
+</script>
+</body>
+</html>

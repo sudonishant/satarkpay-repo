@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0081f2">
+<meta name="description" content="Thirteen capabilities, what is genuinely running on the device, what needs a partner, and how each one would become real.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/app.css">
+<title>What works, what cannot</title>
+</head>
+<body>
+
+<h1>What works, what cannot</h1>
+<p class="lede">
+  A prototype is only honest if it separates the part that runs from the part
+  that is a plan. Every capability in this build is listed below with its real
+  status, the reason it is not live yet, and the specific thing that would make
+  it live.
+</p>
+
+<div class="cols four" style="margin-top:22px">
+  <div class="card stat"><div class="v" style="color:var(--ok)">6</div><div class="k">Running on the device</div><div class="n">Works with the network off</div></div>
+  <div class="card stat"><div class="v" style="color:var(--warn)">2</div><div class="k">Need your input</div><div class="n">Real logic, sample data</div></div>
+  <div class="card stat"><div class="v" style="color:var(--muted)">4</div><div class="k">Need a partner API</div><div class="n">Cannot be built alone</div></div>
+  <div class="card stat"><div class="v" style="color:var(--accent-ink)">1</div><div class="k">Needs a backend</div><div class="n">And a reason to trust it</div></div>
+</div>
+
+<h2>The matrix</h2>
+<div class="card" style="margin-top:14px; overflow-x:auto">
+  <table style="min-width:760px">
+    <thead>
+      <tr>
+        <th style="width:22%">Capability</th>
+        <th style="width:14%">Status in this build</th>
+        <th style="width:30%">Why it is not live here</th>
+        <th style="width:34%">How it would become real</th>
+      </tr>
+    </thead>
+    <tbody id="matrix"></tbody>
+  </table>
+</div>
+
+<h2>What has actually been measured</h2>
+<p class="lede small">
+  These are the numbers from running the code in this repository. They are
+  small-sample and self-authored, and they are labelled that way on purpose —
+  a bigger claim would not be true.
+</p>
+<div class="cols two" style="margin-top:14px">
+  <div class="card pad">
+    <h3>Message classifier, 33 hand-authored messages</h3>
+    <table style="margin-top:6px">
+      <tbody>
+        <tr><td class="muted">Precision</td><td class="num">95.0%</td><td class="small faint">19 true positives, 1 false positive</td></tr>
+        <tr><td class="muted">Recall</td><td class="num">90.5%</td><td class="small faint">2 missed out of 21 scam messages</td></tr>
+        <tr><td class="muted">F1</td><td class="num">92.7%</td><td class="small faint">Confusion matrix TP 19 · FP 1 · FN 2 · TN 9</td></tr>
+      </tbody>
+    </table>
+    <p class="small faint" style="margin:12px 0 0">
+      The two misses are messages whose fraud is carried by a phone number and a
+      context that a text-only rule cannot see. That is the honest boundary of
+      pattern matching, and it is exactly the gap that the on-device signal
+      chain is meant to close.
+    </p>
+  </div>
+  <div class="card pad">
+    <h3>Engine latency, 5,000 runs, same device</h3>
+    <table style="margin-top:6px">
+      <tbody>
+        <tr><td class="muted">Median (p50)</td><td class="num">11.7 ms</td><td class="small faint">the typical case</td></tr>
+        <tr><td class="muted">p95</td><td class="num">31.5 ms</td><td class="small faint">the number that matters for a UI pause</td></tr>
+        <tr><td class="muted">p99</td><td class="num">373.2 ms</td><td class="small faint">cold-cache tail</td></tr>
+        <tr><td class="muted">Mean</td><td class="num">25.2 ms</td><td class="small faint">max observed 3,524.7 ms on a cold start</td></tr>
+      </tbody>
+    </table>
+    <p class="small faint" style="margin:12px 0 0">
+      A payment pause is only acceptable if it is instant. At a p95 under
+      32 ms the check can sit inside the payment flow without the user noticing
+      anything except the warning itself.
+    </p>
+  </div>
+</div>
+
+<div class="card pad" style="margin-top:16px">
+  <h3>Test surface</h3>
+  <div class="cols four" style="margin-top:10px">
+    <div><div class="v num" style="font-size:22px;font-weight:650">35/35</div><div class="small faint">attack-chain assertions</div></div>
+    <div><div class="v num" style="font-size:22px;font-weight:650">66</div><div class="small faint">web smoke assertions</div></div>
+    <div><div class="v num" style="font-size:22px;font-weight:650">8/8</div><div class="small faint">pages served offline</div></div>
+    <div><div class="v num" style="font-size:22px;font-weight:650">0</div><div class="small faint">console errors</div></div>
+  </div>
+  <p class="small faint" style="margin:12px 0 0">
+    Two real bugs were found this way and are worth naming: a missing default in
+    a weight map produced <span class="mono">score: NaN</span> whenever the
+    message source was unknown, which silently pushed every verdict to LOW; and
+    a countdown was shown at CRITICAL, which contradicted the rule that the pay
+    action is withheld. Neither was visible without running the assertions.
+  </p>
+</div>
+
+<h2>The limits, stated before anyone asks</h2>
+<div class="cols two">
+  <div class="card pad">
+    <div class="note bad"><b>A browser cannot read your SMS.</b> Nothing in this
+      web build can see an incoming message on its own — you paste it. That is
+      a platform boundary, not an oversight.</div>
+    <div class="note warn" style="margin-top:12px"><b>Rules can be read and
+      walked around.</b> Any published rule set can be studied by the people it
+      is meant to catch. The defence is that the rules are only one signal of
+      nine — the chain survives a rule being dodged.</div>
+    <div class="note warn" style="margin-top:12px"><b>A clean domain is not a
+      safe domain.</b> This build never contacts the network, so it cannot know
+      how old a domain is or what it is serving today.</div>
+  </div>
+  <div class="card pad">
+    <div class="note warn"><b>No name verification.</b> The single most useful
+      check in Indian payments is whether the payee name your app displays
+      matches the name you were told. That lookup belongs to the PSP and is not
+      available to an app. Without it, "verify the name" stays a manual step —
+      which is why the app keeps telling you to do it.</div>
+    <div class="note" style="margin-top:12px"><b>On SEBI's own record
+      advice:</b> the check that an entity is registered does not by itself
+      establish that a particular transaction or product is legitimate.
+      Registration is a starting filter, not a verdict — so this app presents
+      it as a step to take, not a result to trust.</div>
+    <div class="note ok" style="margin-top:12px"><b>What would actually fix
+      this at scale</b> is not a better classifier. It is the signal chain
+      running inside the payment app, where the context already exists, with
+      the payee name lookup made available to it. That needs a PSP to say yes.</div>
+  </div>
+</div>
+
+<hr class="rule">
+
+<div class="cols two">
+  <div>
+    <h3>Build</h3>
+    <p class="small muted" style="margin:0">
+      Static files, no framework, no build step, no dependencies, no network
+      calls. Eight pages, one stylesheet, three JavaScript files
+      (<span class="mono">engine.js</span>, <span class="mono">chain.js</span>,
+      <span class="mono">data.js</span>) and a service worker that precaches the
+      whole shell. Open <span class="mono">index.html</span> and it works — from
+      a file, from a server, or with the network switched off.
+    </p>
+  </div>
+  <div>
+    <h3>What this is for</h3>
+    <p class="small muted" style="margin:0">
+      SANGYAN 2026 · SEBI × NSDL × SNTC IIT-BHU. Team SCΛMURΛI — Nishant Kumar,
+      Prince Singh, Kartik Singh. It is a prototype built to show one specific
+      idea: that fraud is a sequence, that the sequence is visible before the
+      money moves, and that catching it there is cheaper for everyone than
+      recovering it afterwards.
+    </p>
+  </div>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/chain.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  var S = {
+    live:    ['b-live',    'LIVE ON DEVICE'],
+    manual:  ['b-manual',  'MANUAL INPUT'],
+    partner: ['b-partner', 'PARTNER API REQUIRED'],
+    back:    ['b-demo',    'BACKEND']
+  };
+
+  var ROWS = [
+    ['Attack-chain scoring — nine weighted signals into one tier', 'live',
+     'Nothing external is needed. The signals are all things a person can answer about their own phone in a few seconds.',
+     'Already real. The work left is calibration against reported fraud cases, which needs a dataset this team does not have.'],
+
+    ['Message pattern matching — thirteen rules plus four legitimacy markers', 'live',
+     'Pure text analysis, runs as a regex pass in the page. No model, no network.',
+     'Already real. Accuracy would improve with a labelled corpus of reported messages; the two current misses are context-dependent by nature.'],
+
+    ['Link structure analysis — brand look-alike, hyphen, digits, bulk TLD, punycode', 'live',
+     'Deterministic string work against a fixed list of real domains and known abuse patterns.',
+     'Already real. Fold in registry data and it becomes stronger — see the reputation row below.'],
+
+    ['Identifier redaction — accounts, cards, UPI handles, emails, OTP digits', 'live',
+     'Runs locally before anything is displayed, stored or copied.',
+     'Already real. The current masks are reversible in principle for short identifiers; a production build should use a keyed digest instead.'],
+
+    ['Structured incident record for filing', 'live',
+     'Assembled in the page from what the user typed. Nothing leaves the device.',
+     'Already real. A direct handoff to the cybercrime portal would need an integration on their side.'],
+
+    ['Full offline operation — service worker precache', 'live',
+     'The app is a fixed set of files, so there is nothing to keep in sync with a server.',
+     'Already real. Verified by cutting the network and reloading every page.'],
+
+    ['Payee history — has this person been paid before, and how much', 'manual',
+     'The shipped sample ledger is generated locally so the logic can be exercised. Reading a real history needs access to the payment stream.',
+     'On Android, a notification-listener service reads payment notifications and builds the ledger on the device. The fingerprint stays local; the handle is never stored.'],
+
+    ['AutoPay mandate audit — which recurring debits are still running', 'manual',
+     'Mandates live inside the PSP app. Here they are sample rows you can inspect and reason about.',
+     'One API call to the PSP for the active-mandate list, plus the revoke call. Both are standard and both are gated behind partner access.'],
+
+    ['Scam library — ten patterns with the fact that breaks each one', 'live',
+     'Static content, written from public advisories and NPCI handle rules.',
+     'Already real. It should be versioned and updatable without an app release — which is the backend row below.'],
+
+    ['Reading incoming SMS and notifications automatically', 'partner',
+     'A web page has no access to the message store. Full stop. The privacy sandbox does not change this.',
+     'On Android: READ_SMS for messages plus a notification listener for app notifications, both with explicit runtime consent and a visible, always-on indicator while either is active.'],
+
+    ['Domain reputation — age, hosting, known phishing feed', 'partner',
+     'This build never contacts the network, so it cannot know anything about a domain beyond its spelling.',
+     'A reputation API, or the registry feed behind it. The structural check stays as the offline fallback so the app still works on a plane.'],
+
+    ['Payee name verification against the bank record', 'partner',
+     "The name shown in a payment app comes from the PSP's directory. An independent app cannot query it.",
+     'A PSP exposes a verify-name endpoint. This is the highest-value single integration available — it turns "check the name yourself" into an automatic check.'],
+
+    ['Live scam-pattern updates across all users', 'back',
+     'There is no server, deliberately: no server means nothing to breach and nobody to trust with the data.',
+     'A thin backend that serves signed, versioned pattern files and accepts anonymous, redacted scam reports. The design constraint is that it must never receive an unredacted identifier.']
+  ];
+
+  SP.$('#matrix').innerHTML = ROWS.map(function (r) {
+    var s = S[r[1]];
+    return '<tr>' +
+      '<td style="font-weight:550;font-size:13.5px">' + SP.esc(r[0]) + '</td>' +
+      '<td><span class="badge ' + s[0] + '">' + s[1] + '</span></td>' +
+      '<td class="small muted">' + SP.esc(r[2]) + '</td>' +
+      '<td class="small">' + SP.esc(r[3]) + '</td>' +
+    '</tr>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "SatarkPay — fraud check before you pay",
+  "short_name": "SatarkPay",
+  "description": "Nine signals checked on your own device in the seconds before a UPI payment. Works fully offline.",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7f7f5",
+  "theme_color": "#0081f2",
+  "lang": "en-IN",
+  "categories": ["finance", "security", "utilities"],
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
