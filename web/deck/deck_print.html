@@ -43,7 +43,7 @@
     flex-direction: column;
   }
   .slide {
-    display: none;
+    display: flex;
     width: 100%;
     height: 100%;
     padding: 38px 48px 45px;
@@ -256,6 +256,13 @@
     margin: 0 8px;
     font-family: monospace;
   }
+</style>
+
+<style>
+@page { size: 13.333in 7.5in; margin: 0; }
+body { margin: 0; padding: 0; background: #070b14 !important; }
+.deck-container { width: 13.333in !important; max-width: none !important; height: auto !important; max-height: none !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; }
+.slide { width: 13.333in !important; height: 7.45in !important; page-break-after: always !important; break-after: page !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; background: radial-gradient(circle at 50% 20%, #0e1730 0%, #070b14 85%) !important; box-sizing: border-box !important; }
 </style>
 </head>
 <body>
@@ -719,7 +726,7 @@
 </div>
 
 <!-- Navigation Controls Overlay -->
-<div class="controls">
+<div class="controls" style="display:none">
   <button class="btn" id="prevBtn">◀ Prev</button>
   <span class="counter" id="counter">01 / 12</span>
   <button class="btn" id="nextBtn">Next ▶</button>
