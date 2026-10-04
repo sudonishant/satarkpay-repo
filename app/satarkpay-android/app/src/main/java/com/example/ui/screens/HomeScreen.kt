@@ -93,6 +93,93 @@ fun HomeScreen(
             }
         }
 
+        // HERO: SAFEPAY PRE-PAYMENT BROKER
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(20.dp))
+                .clickable { onNavigate(SatarkScreen.SAFEPAY) }
+                .testTag("hero_safepay_card"),
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(containerColor = SatarkAccentAlpha),
+            border = CardDefaults.outlinedCardBorder().copy(
+                brush = androidx.compose.ui.graphics.SolidColor(SatarkAccent)
+            )
+        ) {
+            Column(
+                modifier = Modifier.padding(18.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Surface(
+                            shape = RoundedCornerShape(12.dp),
+                            color = SatarkAccent,
+                            modifier = Modifier.size(42.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(
+                                    imageVector = Icons.Default.Shield,
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
+                        }
+                        Column {
+                            Text(
+                                text = "SafePay Pre-Payment Broker",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = SatarkInk,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = "Unified Attack Chain & Payee Ledger",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = SatarkDim
+                            )
+                        }
+                    }
+
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        color = SatarkAccent
+                    ) {
+                        Text(
+                            text = "Check VPA",
+                            color = Color.White,
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+                        )
+                    }
+                }
+
+                Text(
+                    text = "Payment karne se pehle UPI ID check karein: Active call, Telegram urgency aur first-time payee correlation.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = SatarkInk,
+                    fontSize = 12.sp
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    QuickBadge("Pre-Payment Gate", SatarkAccent)
+                    QuickBadge("Active Call Check", SatarkDanger)
+                    QuickBadge("VPA Ledger", SatarkOk)
+                }
+            }
+        }
+
         // FEATURE HERO: FAKE APPS & PERMISSION AUDITOR CARD
         val hasFakeApps = permissionSummary.highRiskAppsCount > 0
         Card(
@@ -262,6 +349,16 @@ fun HomeScreen(
 
         // Sleek Clean Module Cards (Compact, short text)
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            CompactNavCard(
+                icon = Icons.Default.Shield,
+                iconTint = SatarkAccent,
+                title = "SafePay Pre-Payment Broker",
+                subtitle = "Unified attack chain, VPA ledger & Intent launch",
+                tag = "Broker",
+                tagColor = SatarkAccent,
+                onClick = { onNavigate(SatarkScreen.SAFEPAY) }
+            )
+
             CompactNavCard(
                 icon = Icons.Default.SecurityUpdateWarning,
                 iconTint = SatarkDanger,

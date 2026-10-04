@@ -63,9 +63,23 @@ data class IntelPatternEntity(
 @Entity(tableName = "check_history")
 data class CheckHistoryEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val checkType: String, // CHAT_PAY, SCREENSHOT, DOMAIN, SANCHALAK
+    val checkType: String, // CHAT_PAY, SCREENSHOT, DOMAIN, SANCHALAK, SAFEPAY
     val summary: String,
     val verdictBucket: String, // SCAM_LIKELY, CAUTION, PAUSE_NAHI_BATA, SEEMS_OK
     val details: String,
     val timestamp: Long = System.currentTimeMillis()
+)
+
+@Entity(tableName = "payee_ledger")
+data class PayeeLedgerEntity(
+    @PrimaryKey val upiId: String,
+    val payeeName: String = "",
+    val firstSeenTimestamp: Long = System.currentTimeMillis(),
+    val lastSeenTimestamp: Long = System.currentTimeMillis(),
+    val paymentCount: Int = 1,
+    val totalAmountPaid: Long = 0L,
+    val isContactSaved: Boolean = false,
+    val isTrustVerified: Boolean = false,
+    val lastRiskVerdict: String = "SAFE",
+    val notes: String = ""
 )

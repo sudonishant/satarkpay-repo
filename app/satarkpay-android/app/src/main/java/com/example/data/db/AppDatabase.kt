@@ -80,15 +80,34 @@ interface CheckHistoryDao {
     suspend fun insertHistory(item: CheckHistoryEntity): Long
 }
 
+@Dao
+interface PayeeLedgerDao {
+    @Query("SELECT * FROM payee_ledger WHERE LOWER(upiId) = LOWER(:upiId) LIMIT 1")
+    suspend fun getPayee(upiId: String): PayeeLedgerEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsertPayee(payee: PayeeLedgerEntity)
+
+    @Query("SELECT * FROM payee_ledger ORDER BY lastSeenTimestamp DESC")
+    fun getAllPayees(): Flow<List<PayeeLedgerEntity>>
+
+    @Query("SELECT COUNT(*) FROM payee_ledger")
+    suspend fun getPayeeCount(): Int
+
+    @Query("UPDATE payee_ledger SET isTrustVerified = :trusted WHERE LOWER(upiId) = LOWER(:upiId)")
+    suspend fun setTrustStatus(upiId: String, trusted: Boolean)
+}
+
 @Database(
     entities = [
         ScamReportEntity::class,
         ScreenshotScanEntity::class,
         MandateAuditEntity::class,
         IntelPatternEntity::class,
-        CheckHistoryEntity::class
+        CheckHistoryEntity::class,
+        PayeeLedgerEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -97,6 +116,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun mandateAuditDao(): MandateAuditDao
     abstract fun intelPatternDao(): IntelPatternDao
     abstract fun checkHistoryDao(): CheckHistoryDao
+    abstract fun payeeLedgerDao(): PayeeLedgerDao
 
     companion object {
         @Volatile

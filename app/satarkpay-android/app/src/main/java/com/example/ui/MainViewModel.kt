@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 enum class SatarkScreen {
     SPLASH,
     HOME,
+    SAFEPAY,
     CHAT_PAY,
     SCREENSHOT_RADAR,
     DOMAIN_TRUST,
@@ -85,6 +86,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val checkHistory: StateFlow<List<CheckHistoryEntity>> = repository.checkHistory
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
+    val allPayees: StateFlow<List<PayeeLedgerEntity>> = repository.allPayees
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    // --- SafePay Pre-Payment Broker State ---
+    val safePayUpi = MutableStateFlow("cybercbi91@okhdfcbank")
+    val safePayName = MutableStateFlow("CBI Digital Cell")
+    val safePayAmount = MutableStateFlow(25000L)
+    val safePayChannel = MutableStateFlow(PaymentSourceChannel.WHATSAPP_UNSAVED)
+    val safePayActiveCall = MutableStateFlow(true)
+    val safePaySnippet = MutableStateFlow("Urgent verification security deposit under CBI Mumbai. Do not disconnect call.")
+    val safePayEvaluation = MutableStateFlow<AttackChainEvaluation?>(null)
+    val safePayIsFirstTime = MutableStateFlow(true)
+    val safePayTxnCount = MutableStateFlow(0)
+    val safePayTrusted = MutableStateFlow(false)
+
     // --- M1: Chat-Before-Pay State ---
     val isContactSaved = MutableStateFlow(false)
     val chatDwellMinutes = MutableStateFlow(12)
@@ -146,6 +162,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             analyzeCurrentDomain("qr-pay.top")
             startEmergencyClock()
             scanDeviceApps()
+            checkPayeeLedgerAndEvaluate()
         }
     }
 
@@ -479,6 +496,134 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         speakText("तुरंत 1930 पर कॉल कीजिए। ट्रांज़ैक्शन आईडी और यूटीआर सामने रखिए।")
         navigateTo(SatarkScreen.EMERGENCY_CONFIRM)
+    }
+
+    // --- SafePay Pre-Payment Broker Actions ---
+    fun setSafePayUpi(upi: String) {
+        safePayUpi.value = upi.trim()
+        checkPayeeLedgerAndEvaluate()
+    }
+
+    fun setSafePayName(name: String) {
+        safePayName.value = name
+        evaluateSafePay()
+    }
+
+    fun setSafePayAmount(amount: Long) {
+        safePayAmount.value = amount
+        evaluateSafePay()
+    }
+
+    fun setSafePayChannel(channel: PaymentSourceChannel) {
+        safePayChannel.value = channel
+        evaluateSafePay()
+    }
+
+    fun toggleSafePayActiveCall() {
+        safePayActiveCall.value = !safePayActiveCall.value
+        evaluateSafePay()
+    }
+
+    fun setSafePaySnippet(snippet: String) {
+        safePaySnippet.value = snippet
+        evaluateSafePay()
+    }
+
+    fun checkPayeeLedgerAndEvaluate() {
+        viewModelScope.launch {
+            val clean = safePayUpi.value.lowercase().trim()
+            val payee = repository.getPayee(clean)
+            if (payee != null) {
+                safePayIsFirstTime.value = payee.paymentCount <= 0
+                safePayTxnCount.value = payee.paymentCount
+                safePayTrusted.value = payee.isTrustVerified
+                if (safePayName.value.isBlank() && payee.payeeName.isNotBlank()) {
+                    safePayName.value = payee.payeeName
+                }
+            } else {
+                safePayIsFirstTime.value = true
+                safePayTxnCount.value = 0
+                safePayTrusted.value = false
+            }
+            evaluateSafePay()
+        }
+    }
+
+    fun evaluateSafePay() {
+        val hasRat = scannedApps.value.any { it.riskLevel == SensitiveRiskLevel.HIGH_RISK }
+        val eval = UnifiedAttackChainEngine.evaluate(
+            payeeUpi = safePayUpi.value,
+            payeeName = safePayName.value,
+            amount = safePayAmount.value,
+            isFirstTimePayee = safePayIsFirstTime.value,
+            knownPayeeTxnCount = safePayTxnCount.value,
+            isTrustVerified = safePayTrusted.value,
+            sourceChannel = safePayChannel.value,
+            isActiveCall = safePayActiveCall.value,
+            chatTextSnippet = safePaySnippet.value,
+            hasRatOrAccessibilityTool = hasRat,
+            highRiskAppsCount = permissionSummary.value.highRiskAppsCount
+        )
+        safePayEvaluation.value = eval
+    }
+
+    fun loadSafePayPreset(
+        upi: String,
+        name: String,
+        amount: Long,
+        channel: PaymentSourceChannel,
+        activeCall: Boolean,
+        snippet: String
+    ) {
+        safePayUpi.value = upi
+        safePayName.value = name
+        safePayAmount.value = amount
+        safePayChannel.value = channel
+        safePayActiveCall.value = activeCall
+        safePaySnippet.value = snippet
+        checkPayeeLedgerAndEvaluate()
+    }
+
+    fun markCurrentPayeeTrusted() {
+        viewModelScope.launch {
+            repository.setPayeeTrustStatus(safePayUpi.value.lowercase().trim(), true)
+            safePayTrusted.value = true
+            evaluateSafePay()
+            speakText("इस खाते को सत्यापित सूची में जोड़ दिया गया है।")
+        }
+    }
+
+    fun executeSafePayment(context: android.content.Context) {
+        val eval = safePayEvaluation.value
+        if (eval?.blockPayment == true) {
+            speakText("चेतावनी! सुरक्षा खतरे के कारण यह भुगतान रोका गया है। कृपया पहले सुरक्षा निर्देशों का पालन करें।")
+            return
+        }
+
+        viewModelScope.launch {
+            repository.recordSuccessfulPayment(
+                upiId = safePayUpi.value.lowercase().trim(),
+                name = safePayName.value,
+                amount = safePayAmount.value,
+                riskVerdict = eval?.riskTier?.name ?: "SAFE"
+            )
+            checkPayeeLedgerAndEvaluate()
+        }
+
+        try {
+            val encodedName = android.net.Uri.encode(safePayName.value)
+            val upiUri = android.net.Uri.parse("upi://pay?pa=${safePayUpi.value}&pn=$encodedName&am=${safePayAmount.value}&cu=INR")
+            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, upiUri).apply {
+                flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            val chooser = android.content.Intent.createChooser(intent, "Pay via UPI App").apply {
+                flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            context.startActivity(chooser)
+            speakText("पेमेंट ऐप खोला जा रहा है। सावधानी बरतें।")
+        } catch (e: Exception) {
+            speakText("फोन में कोई UPI पेमेंट ऐप नहीं मिला। विवरण जांचें।")
+        }
     }
 
     override fun onCleared() {

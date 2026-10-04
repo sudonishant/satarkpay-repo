@@ -70,6 +70,18 @@ class MainActivity : ComponentActivity() {
             val suspectContact by viewModel.activeSuspectContact.collectAsStateWithLifecycle()
             val complaintNumber by viewModel.activeComplaintNumber.collectAsStateWithLifecycle()
 
+            // SafePay Pre-Payment Broker State
+            val safePayUpi by viewModel.safePayUpi.collectAsStateWithLifecycle()
+            val safePayName by viewModel.safePayName.collectAsStateWithLifecycle()
+            val safePayAmount by viewModel.safePayAmount.collectAsStateWithLifecycle()
+            val safePayChannel by viewModel.safePayChannel.collectAsStateWithLifecycle()
+            val safePayActiveCall by viewModel.safePayActiveCall.collectAsStateWithLifecycle()
+            val safePaySnippet by viewModel.safePaySnippet.collectAsStateWithLifecycle()
+            val safePayEvaluation by viewModel.safePayEvaluation.collectAsStateWithLifecycle()
+            val safePayIsFirstTime by viewModel.safePayIsFirstTime.collectAsStateWithLifecycle()
+            val safePayTxnCount by viewModel.safePayTxnCount.collectAsStateWithLifecycle()
+            val safePayTrusted by viewModel.safePayTrusted.collectAsStateWithLifecycle()
+
             // App Security & Permission State
             val scannedApps by viewModel.scannedApps.collectAsStateWithLifecycle()
             val permissionSummary by viewModel.permissionSummary.collectAsStateWithLifecycle()
@@ -111,9 +123,9 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 val navItems = listOf(
                                     Triple(SatarkScreen.HOME, "Home", Icons.Default.Home),
-                                    Triple(SatarkScreen.APP_SECURITY, "Apps", Icons.Default.SecurityUpdateWarning),
+                                    Triple(SatarkScreen.SAFEPAY, "SafePay", Icons.Default.Shield),
                                     Triple(SatarkScreen.SANCHALAK_CHAT, "Sanchalak", Icons.Default.Chat),
-                                    Triple(SatarkScreen.CHAT_PAY, "Gate", Icons.Default.Shield),
+                                    Triple(SatarkScreen.APP_SECURITY, "Apps", Icons.Default.SecurityUpdateWarning),
                                     Triple(SatarkScreen.REPORT_EVIDENCE, "Reports", Icons.Default.FolderZip)
                                 )
 
@@ -173,6 +185,40 @@ class MainActivity : ComponentActivity() {
                                 onConfirmFraudQuick = {
                                     viewModel.confirmFraudAndTriggerEmergency()
                                 }
+                            )
+
+                            SatarkScreen.SAFEPAY -> SafePayScreen(
+                                upiId = safePayUpi,
+                                onUpiChange = { viewModel.setSafePayUpi(it) },
+                                payeeName = safePayName,
+                                onNameChange = { viewModel.setSafePayName(it) },
+                                amount = safePayAmount,
+                                onAmountChange = { viewModel.setSafePayAmount(it) },
+                                sourceChannel = safePayChannel,
+                                onChannelChange = { viewModel.setSafePayChannel(it) },
+                                isActiveCall = safePayActiveCall,
+                                onToggleActiveCall = { viewModel.toggleSafePayActiveCall() },
+                                chatSnippet = safePaySnippet,
+                                onSnippetChange = { viewModel.setSafePaySnippet(it) },
+                                evaluation = safePayEvaluation,
+                                isFirstTimePayee = safePayIsFirstTime,
+                                txnCount = safePayTxnCount,
+                                isTrusted = safePayTrusted,
+                                onMarkTrusted = { viewModel.markCurrentPayeeTrusted() },
+                                highRiskAppsCount = permissionSummary.highRiskAppsCount,
+                                onExecutePayment = { ctx -> viewModel.executeSafePayment(ctx) },
+                                onTriggerEmergency = {
+                                    viewModel.confirmFraudAndTriggerEmergency(safePayAmount, safePayUpi)
+                                },
+                                onStartCooling = {
+                                    viewModel.startCoolingTimer()
+                                    viewModel.navigateTo(SatarkScreen.CHAT_PAY)
+                                },
+                                onLoadPreset = { upi, name, amt, ch, call, snip ->
+                                    viewModel.loadSafePayPreset(upi, name, amt, ch, call, snip)
+                                },
+                                onSpeakText = { viewModel.speakText(it) },
+                                onBack = { viewModel.navigateBack() }
                             )
 
                             SatarkScreen.APP_SECURITY -> AppSecurityScreen(

@@ -100,4 +100,66 @@ class ExampleUnitTest {
         assertEquals(1, summary.appsWithOverlayCount)
         assertEquals(1, summary.highRiskAppsCount)
     }
+
+    @Test
+    fun testUnifiedAttackChainDigitalArrestBlocked() {
+        val result = UnifiedAttackChainEngine.evaluate(
+            payeeUpi = "cybercbi91@okhdfcbank",
+            payeeName = "CBI Digital Account",
+            amount = 25000L,
+            isFirstTimePayee = true,
+            knownPayeeTxnCount = 0,
+            isTrustVerified = false,
+            sourceChannel = PaymentSourceChannel.WHATSAPP_UNSAVED,
+            isActiveCall = true,
+            chatTextSnippet = "Transfer security deposit immediately under CBI Mumbai arrest warrant",
+            hasRatOrAccessibilityTool = false,
+            highRiskAppsCount = 0
+        )
+        assertEquals(AttackChainRiskTier.CRITICAL_BLOCKED, result.riskTier)
+        assertTrue(result.blockPayment)
+        assertTrue(result.score >= 90)
+        assertTrue(result.signals.any { it.provenance == "LIVE ON DEVICE" })
+        assertTrue(result.signals.any { it.provenance == "PAYEE LEDGER" })
+    }
+
+    @Test
+    fun testUnifiedAttackChainTelegramTaskScam() {
+        val result = UnifiedAttackChainEngine.evaluate(
+            payeeUpi = "prepaidtask@paytm",
+            payeeName = "Telegram VIP Group",
+            amount = 5000L,
+            isFirstTimePayee = true,
+            knownPayeeTxnCount = 0,
+            isTrustVerified = false,
+            sourceChannel = PaymentSourceChannel.TELEGRAM,
+            isActiveCall = false,
+            chatTextSnippet = "Recharge ₹5,000 for YouTube VIP task bonus",
+            hasRatOrAccessibilityTool = false,
+            highRiskAppsCount = 0
+        )
+        assertEquals(AttackChainRiskTier.HIGH_RISK, result.riskTier)
+        assertFalse(result.blockPayment)
+        assertTrue(result.score >= 75)
+    }
+
+    @Test
+    fun testUnifiedAttackChainKnownPayeeSafe() {
+        val result = UnifiedAttackChainEngine.evaluate(
+            payeeUpi = "sharma.kirana@icici",
+            payeeName = "Sharma General Store",
+            amount = 450L,
+            isFirstTimePayee = false,
+            knownPayeeTxnCount = 11,
+            isTrustVerified = true,
+            sourceChannel = PaymentSourceChannel.DIRECT_SHOP_QR,
+            isActiveCall = false,
+            chatTextSnippet = "Groceries",
+            hasRatOrAccessibilityTool = false,
+            highRiskAppsCount = 0
+        )
+        assertEquals(AttackChainRiskTier.LOW_SAFE, result.riskTier)
+        assertFalse(result.blockPayment)
+        assertTrue(result.score <= 25)
+    }
 }

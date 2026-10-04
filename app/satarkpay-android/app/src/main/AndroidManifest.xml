@@ -11,6 +11,10 @@
         <intent>
             <action android:name="android.intent.action.MAIN" />
         </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="upi" />
+        </intent>
         <package android:name="com.anydesk.anydeskandroid" />
         <package android:name="com.teamviewer.quicksupport.market" />
         <package android:name="com.rustdesk.rustdesk" />
