@@ -1,5 +1,6 @@
 package com.example.network
 
+import com.example.engine.RuleEngine
 import android.util.Base64
 import android.util.Log
 import com.example.BuildConfig
@@ -111,7 +112,7 @@ object GeminiService {
             currentTurn.put("role", "user")
             val currentParts = JSONArray()
             val currentPart = JSONObject()
-            currentPart.put("text", userMessage)
+            currentPart.put("text", RuleEngine.redactPII(userMessage).redactedText)
             currentParts.put(currentPart)
             currentTurn.put("parts", currentParts)
             contents.put(currentTurn)

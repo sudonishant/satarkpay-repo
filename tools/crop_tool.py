@@ -23,7 +23,7 @@ case_evidence/
 Usage
 -----
 python3 crop_tool.py --raw /home/user/scam_evidence/raw --out /home/user/case_evidence \
-        [--mask "+91 9073803705" --mask "Ekta"]
+        [--mask "+91 9XXXXXXXXX" --mask "Ekta"]
 """
 from __future__ import annotations
 import argparse, json, re, sys
@@ -36,7 +36,7 @@ try:
 except ImportError:
     cv2 = None
 
-OCR_JSON = Path('/home/user/evidence_toolkit/ocr/ocr_all.json')
+OCR_JSON = Path(os.environ.get('SATARK_OCR_JSON', Path.home()/'satarkpay'/'ocr'/'ocr_all.json'))
 NAV_LABELS = {'calls', 'messages', 'scams', 'premium', 'voicemail', 'chats', 'updates', 'communities'}
 
 
@@ -175,8 +175,8 @@ def contact_sheet(items, out_path, cols=5, tile_w=380, title=''):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--raw', default='/home/user/scam_evidence/raw')
-    ap.add_argument('--out', default='/home/user/case_evidence')
+    ap.add_argument('--raw', default=os.getcwd())
+    ap.add_argument('--out', default=str(Path.cwd()/'crops'))
     ap.add_argument('--mask', action='append', default=[],
                     help='extra string blur karne ke liye (repeat kar sakte ho)')
     a = ap.parse_args()

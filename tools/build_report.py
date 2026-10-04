@@ -14,9 +14,9 @@ from datetime import datetime
 from email.message import EmailMessage
 from pathlib import Path
 
-TOOL = Path('/home/user/evidence_toolkit')
-CASE = Path('/home/user/case_evidence')
-RAW = Path('/home/user/scam_evidence/raw')
+TOOL = Path(os.environ.get('SATARK_TOOLKIT', Path.cwd()/'toolkit'))
+CASE = Path(os.environ.get('SATARK_CASE', Path.cwd()/'crops'))
+RAW = Path(os.environ.get('SATARK_RAW', Path.cwd()/'raw'))
 OCR = TOOL / 'ocr'
 SUBJECT_PREFIX = '[CYBER FRAUD COMPLAINT]'
 

@@ -5,8 +5,8 @@ from pathlib import Path
 from rapidocr_onnxruntime import RapidOCR
 from PIL import Image
 
-RAW = Path('/home/user/scam_evidence/raw')
-OUT = Path('/home/user/evidence_toolkit/ocr'); OUT.mkdir(parents=True, exist_ok=True)
+RAW = Path(os.environ.get('SATARK_RAW', Path.cwd()/'raw'))
+OUT = Path(os.environ.get('SATARK_OCR', Path.cwd()/'toolkit'/'ocr')); OUT.mkdir(parents=True, exist_ok=True)
 ocr = RapidOCR()
 allj = {}
 files = sorted(RAW.glob('*.jpg'))

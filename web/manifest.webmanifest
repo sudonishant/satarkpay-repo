@@ -1,0 +1,46 @@
+{
+  "name": "SatarkPay — UPI Fraud Interception",
+  "short_name": "SatarkPay",
+  "description": "पैसे भेजने से पहले 60 सेकंड। Paisa bhejne se pehle 60 second — on-device UPI fraud interception. 100% offline, zero cloud.",
+  "start_url": "./satarkpay_m2.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0f19",
+  "theme_color": "#0b0f19",
+  "lang": "hi-IN",
+  "dir": "ltr",
+  "categories": ["finance", "security", "utilities"],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Message check karo",
+      "short_name": "Check",
+      "url": "./satarkpay_m2.html#m2"
+    },
+    {
+      "name": "1930 Emergency",
+      "short_name": "1930",
+      "url": "./satarkpay_m2.html#m7"
+    }
+  ]
+}

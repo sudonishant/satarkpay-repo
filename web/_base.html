@@ -306,6 +306,8 @@ html{scroll-behavior:smooth}
   footer{font-size:11.5px; margin-top:18px}
 }
 </style>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="theme-color" content="#0b0f19">
 </head>
 <body>
 
@@ -596,4 +598,9 @@ html{scroll-behavior:smooth}
 })();
 </script>
 
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js").catch(function(e){ console.warn("SW:", e); });
+}
+</script>
 </body></html>

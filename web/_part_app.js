@@ -995,7 +995,7 @@ const EVAL_SET=[
  {t:'Maine galti se ₹2,000 bhej diye, aap ₹20,000 wapas bhej do', y:'scam'},
  {t:'Sir main SEBI registered advisor hoon, Reg: SEBI12345, guaranteed 300% profit, VIP group join karo', y:'scam'},
  {t:'Join VIP group, guaranteed 30% monthly returns on SME IPO, WhatsApp 9876543210', y:'scam'},
- {t:'Your account just received Rs 3,000 as a special VIP gift! Withdraw instantly: cutt.ly/Ats3kaUt', y:'scam'},
+ {t:'Your account just received Rs 3,000 as a special VIP gift! Withdraw instantly: cutt.ly/DEMO-0000', y:'scam'},
  {t:'Sir aapka parcel customs me atka hai, verification ke liye ₹12,000 is UPI par bhejo: quickearn-pro@ybl', y:'scam'},
  {t:'SBI KYC update: http://sbi.onlinekyc-update.top/verify par apna account verify karo warna block ho jayega', y:'scam'},
  {t:'Aapke naam par loan approved hai, registration fee ₹375 UPI karo, baad me 3.5 lakh milega', y:'scam'},
