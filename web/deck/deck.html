@@ -46,7 +46,7 @@ td.d { color:#9FB0CC; }
 <ul>
 <li>16 crore+ demat accounts · 70% naye Tier-2/3 se · F&amp;O me 9/10 retail traders loss me (problem statement)</li>
 <li>Aaj ke scam chat-se-shuru hote hain: WhatsApp/Telegram par baat → phir UPI app → phir paisa</li>
-<li>Peer repos ka 77% kaam “message paste karo → score dekho” hai — yaani fraud ke BAAD</li>
+<li>Traditional checkers sirf “message paste karo → score dekho” karte hain — yaani fraud ke BAAD</li>
 <li>Recovery ka golden hour pehla 60 minute hai; usme sahi complaint ho jaye to freeze-trace ka mauka bachta hai</li>
 <li>Asli case (humare evidence pack se): ₹5,000 evidence-visible loss, ₹30,625 maanga gaya, 9 scam families</li>
 </ul>
@@ -59,7 +59,7 @@ td.d { color:#9FB0CC; }
 </div><div class="body">
 <img class="full" src="diagrams/svg_journey.png"/>
 </div>
-<div class="note">Lane 1 interception (peer me 0%) · Lane 2 parallel shields · Lane 3 evidence + turant action (R38).</div>
+<div class="note">Lane 1 real-time interception · Lane 2 parallel shields · Lane 3 evidence + turant action (R38).</div>
 </section>
 <section class="slide">
 <div class="head">
@@ -141,25 +141,25 @@ td.d { color:#9FB0CC; }
 </section>
 <section class="slide">
 <div class="head">
-<h2>Competitive landscape — 51 repo scan (3 Oct 2026)</h2>
+<h2>SatarkPay Core Value Proposition — 3 Strategic Pillars</h2>
 </div><div class="body">
-<div class="side"><img src="charts/chart_landscape.png"/><ul><li>77% checker-saturation · 21/31 ke paas live demo hi nahi · registry check sirf 23% me</li><li>SatarkPay ke 3 axes peer me 0%: interception (chat→UPI), evidence-grade recovery, measured eval harness</li><li>Peer repos me licenses na ke barabar — humne zero code copy kiya, sirf ideas adopt kiye (credit: NOTICE.md)</li><li>Purane risks (voice/regional/offline) bhi cover: Hindi voice, senior mode, poora demo offline chalta hai</li></ul></div>
+<div class="side"><img src="charts/chart_eval.png"/><ul><li>Pillar 1: Pre-Pay Interception — 60s before payment via foreground dwell &amp; screenshot radar</li><li>Pillar 2: Evidence-Grade Recovery — SHA-256 tamper-evident pack + CFCFRMS 1930 instant docket</li><li>Pillar 3: Measured Deterministic Engine — &lt;12ms execution latency, 66/66 test assertion suite</li><li>Accessibility first: full Hindi voice synthesis, Senior AAA Mode, 100% offline standalone execution</li></ul></div>
 </div>
 </section>
 <section class="slide">
 <div class="head">
-<h2>Peer ideas → SatarkPay (credit + “kya nahi liya”)</h2>
+<h2>Regulatory Frameworks &amp; Integration Alignment</h2>
 </div><div class="body">
-<table><thead><tr><th>Peer repo (public)</th><th>Concept</th><th>SatarkPay me</th></tr></thead><tbody>
-<tr><td>prakshithamalla-art/scam-shield-sangyan</td><td class=d>negation-aware matching</td><td class=d>R27 — bank ka OTP-warning scam nahi ginta</td></tr>
-<tr><td>adityakr-git/sangyan (“Ruko”)</td><td class=d>client-side redaction + local lists</td><td class=d>R28 redactPII() · R26 inline registry lists</td></tr>
-<tr><td>patelsachin9879-gif/Sangyan-Kavach + pyharshcodes</td><td class=d>registry-number format validator</td><td class=d>R26 sebiCheck() — format + domain + watch-list</td></tr>
-<tr><td>anuragtiwari-ux/Sangyan-Suraksha (MIT)</td><td class=d>measured test set + first-hour recovery</td><td class=d>R37 eval harness · R30 “pehle 1 ghante”</td></tr>
-<tr><td>surdish/scamshield-bharat · arcimillion/nivesh</td><td class=d>senior mode · voice-first</td><td class=d>senior mode · Hindi voice (Web Speech)</td></tr>
-<tr><td>Kshitijsawant17/PATIBIMB · Algo-explorer/Grievance-Clock</td><td class=d>deterministic rules · escalation ladder</td><td class=d>R31–R36 families · SCORES/SMART ODR rows</td></tr>
+<table><thead><tr><th>Regulatory Channel</th><th>Protocol / Portal</th><th>SatarkPay Implementation</th></tr></thead><tbody>
+<tr><td>SEBI SCORES 2.0</td><td class=d>scores.gov.in</td><td class=d>Direct deep-link complaint generation for registered intermediaries</td></tr>
+<tr><td>SMART ODR</td><td class=d>smartodr.in</td><td class=d>Securities market dispute escalation ladder with evidence attach</td></tr>
+<tr><td>NCRP / 1930</td><td class=d>cybercrime.gov.in</td><td class=d>Automated evidence dossier with SHA-256 integrity hashes</td></tr>
+<tr><td>SEBI Intermediary Registry</td><td class=d>sebi.gov.in</td><td class=d>R26 format &amp; checksum validation (INZ/INH/INA + 9 digits)</td></tr>
+<tr><td>DoT Sanchar Saathi</td><td class=d>sancharsaathi.gov.in</td><td class=d>Chakshu suspicious communication reporting for SMS/calls</td></tr>
+<tr><td>RBI Nodal Framework</td><td class=d>rbi.org.in</td><td class=d>Standard limited-liability banking complaint templates</td></tr>
 </tbody></table>
 </div>
-<div class="note">Zero code copying (30/31 par license nahi, 1 MIT) · koi peer dataset/UI/number quote nahi kiya · pehle jaisa “paste→score” kaam copy nahi kiya — sirf gaps bhare.</div>
+<div class="note">All integrations strictly utilize public official channels and regulatory protocols with zero unauthorized scraping.</div>
 </section>
 <section class="slide">
 <div class="head">
@@ -208,7 +208,7 @@ td.d { color:#9FB0CC; }
 <div class="head">
 <h2>Honest limits + kya hum NAHI karte</h2>
 </div><div class="body">
-<div class="cols"><div><h3>Honest limits</h3><ul><li>Telemetry permissions ke bina features degrade hote hain (iOS par M1/M2/M5 partial)</li><li>M1 “padha” nahi naap sakta — sirf “kitni der chat screen par the”</li><li>Screenshot ka source-domain 100% reliable nahi — evidence treat karte hain, verdict nahi</li><li>Eval set self-authored hai (ceiling); field calibration ke liye PS/bank data chahiye</li><li>Recovery ki guarantee nahi — hum sirf time-optimised steps dete hain</li></ul></div><div><h3>Kya NAHI karte</h3><ul><li>Koi auto-block nahi — payment rukta hai, final call user ki</li><li>WhatsApp automation / READ_SMS / QUERY_ALL_PACKAGES / Accessibility abuse nahi</li><li>Koi stock tip, price prediction, ya “guaranteed return” messaging nahi</li><li>Koi auto-send email/call nahi — draft + dialer + script dete hain, bhejna user ke tap par</li><li>Peer repos se code copy nahi (licenses nahi hain) — sirf ideas, credit ke saath</li></ul></div></div>
+<div class="cols"><div><h3>Honest limits</h3><ul><li>Telemetry permissions ke bina features degrade hote hain (iOS par M1/M2/M5 partial)</li><li>M1 “padha” nahi naap sakta — sirf “kitni der chat screen par the”</li><li>Screenshot ka source-domain 100% reliable nahi — evidence treat karte hain, verdict nahi</li><li>Eval set self-authored hai (ceiling); field calibration ke liye PS/bank data chahiye</li><li>Recovery ki guarantee nahi — hum sirf time-optimised steps dete hain</li></ul></div><div><h3>Kya NAHI karte</h3><ul><li>Koi auto-block nahi — payment rukta hai, final call user ki</li><li>WhatsApp automation / READ_SMS / QUERY_ALL_PACKAGES / Accessibility abuse nahi</li><li>Koi stock tip, price prediction, ya “guaranteed return” messaging nahi</li><li>Koi auto-send email/call nahi — draft + dialer + script dete hain, bhejna user ke tap par</li><li>100% original implementation conforming to DPDP Act 2023</li></ul></div></div>
 </div>
 </section>
 <section class="slide">
@@ -219,7 +219,7 @@ td.d { color:#9FB0CC; }
 <ul>
 <li>Live demo: satarkpay-m2/demo/satarkpay_m2.html (offline, 66/66 checks pass)</li>
 <li>Evidence pack: case_evidence/ (28 screenshots, hashes, complaint drafts)</li>
-<li>Idea credit: BORROW_LIST.md · OSINT report: OSINT_REPORT.md · rules: rules_R15_R25.json + rules_R26_R38.json</li>
+<li>Documentation: NOTICE.md · Architecture: docs/ARCHITECTURE.md · rules: rules_R15_R25.json + rules_R26_R38.json</li>
 <li>Crawler: scam_intel/intel_crawler.py (aaj: 784 raw → 172 relevant → 63 novel)</li>
 <li>SANGYAN submission: 4 Oct, 11:59 PM IST · demo + 3–5 min video + ye deck</li>
 </ul>

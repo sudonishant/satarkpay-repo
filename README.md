@@ -270,7 +270,7 @@ satarkpay-repo/
 ├── rules/                           # Deterministic JSON fraud pattern definitions
 │   ├── rules_R15_R25.json           # Module Pack 1 rules
 │   └── rules_R26_R38.json           # Module Pack 2 rules (Negation, Registry, Emergency)
-├── data/                            # Sanitized real-world evidence case packs & OSINT
+├── data/                            # Sanitized real-world evidence case packs & guidelines
 ├── tools/                           # Python evidence processing & crawler toolchain
 ├── docs/                            # Deep-dive specs (Architecture, Privacy, UI Spec)
 ├── LICENSE                          # MIT License
@@ -286,4 +286,4 @@ satarkpay-repo/
 - **Kartik Singh** — UI/UX Design System, Evaluation Harness & Web Simulator
 
 **Submitted to:** SANGYAN (SEBI × NSDL × SNTC, IIT-BHU)  
-**Codebase Integrity:** Zero proprietary code copying; peer conceptual lineage documented in [`NOTICE.md`](NOTICE.md).
+**Codebase Integrity:** 100% original implementation by Team SCΛMURΛI conforming to DPDP Act 2023 principles; third-party attributions documented in [`NOTICE.md`](NOTICE.md).

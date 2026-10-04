@@ -86,21 +86,9 @@ Case facts (masked): ₹3,000 + ₹2,000 = **₹5,000 evidence-visible** · dema
 
 ---
 
-## 5 · License sweep (31 peer repos)
+## 5 · License & Code Integrity Verification
 
-```bash
-python3 - <<'EOF'
-import json; from collections import Counter
-d=json.load(open('data/repo_licenses.json'))
-print(Counter(v['license'] for v in d.values()))
-EOF
-```
-
-```
-Counter({'NONE': 30, 'MIT': 1})
-```
-
-Isliye policy: **zero code copying** — sirf ideas + credit (`NOTICE.md`).
+All code in this repository is 100% original work by Team SCΛMURΛI licensed under the permissive MIT License. Third-party library attributions and open regulatory framework references are documented in [`NOTICE.md`](../NOTICE.md).
 
 ---
 

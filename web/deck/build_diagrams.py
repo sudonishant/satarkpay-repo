@@ -43,7 +43,7 @@ def d_journey():
     W, H = 1420, 720
     o = svg_open(W, H, 'SatarkPay — chat se payment tak, aur fraud ke baad: 7 modules + R38') + DEFS
     # lane labels
-    o += f'<text x="26" y="80" class="d" font-size="12">LANE 1 · PRE-PAYMENT (interception — peer me 0%)</text>'
+    o += f'<text x="26" y="80" class="d" font-size="12">LANE 1 · PRE-PAYMENT (real-time pre-pay interception)</text>'
     o += f'<text x="26" y="330" class="d" font-size="12">LANE 2 · SAATH-SAATH CHALNE WALE SHIELDS (parallel guards)</text>'
     o += f'<text x="26" y="555" class="d" font-size="12">LANE 3 · FRAUD KE BAAD (evidence + turant action)</text>'
     y1 = 100
@@ -106,8 +106,8 @@ def d_m1():
          'analyst callback ≤5 min · rule R1 attach'], stroke=DANGER, fill=PANEL2)
     o += box(22, y0, 286, 185, 'Timer kaise chalta hai', ['· sirf foreground dwell (chat screen)', '· app chhod ke 5 s me wapas = credit nahi',
         '· fast path bhi 24h me ek baar (per-payee)', '· “It\'s me” se notification nahi khulta'], lsize=11, stroke='#3b4a67')
-    o += box(22, y0+chh+20, 286, 230, 'Kya naya hai (peer me 0%)',
-        ['peers 77% “paste msg → score” karte', 'hain — yaani fraud ho jaane ke BAAD.', '',
+    o += box(22, y0+chh+20, 286, 230, 'SatarkPay Unique Advantage',
+        ['Traditional tools sirf post-scam check karte', 'hain — yaani fraud ho jaane ke BAAD.', '',
          'SatarkPay payment se PEHLE intercept', 'karta hai: app-switch + chat-length +', 'contact-tier — sab on-device.', '',
          'Block kuch nahi hota: payment rukta hai,', 'final call user ki.'], lsize=11, stroke=ACC)
     o += '</svg>'

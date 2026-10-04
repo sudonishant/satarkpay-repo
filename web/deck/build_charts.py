@@ -61,7 +61,7 @@ def chart_eval():
             fontsize=11.5, fontweight='bold', transform=bx.transAxes, va='top')
     save(f, 'chart_eval.png')
 
-# ---------------------------------------------------------------- 2 · peer landscape
+# ---------------------------------------------------------------- 2 · fraud landscape
 def chart_landscape():
     feats = ['checker ("paste msg → score")', 'regional language', 'voice output', 'offline / on-device',
              'LLM explanation', 'SEBI registry check', 'interception claims (chat→UPI)',

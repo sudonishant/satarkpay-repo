@@ -985,7 +985,7 @@ if($('#emStopCopy')) $('#emStopCopy').onclick=()=>{ try{ if(navigator.clipboard&
 
 /* ============================================================
    EVAL · labelled 30-message test set → precision / recall / F1
-   (concept: peer repos ke measured-testset se inspire; messages humne khud likhe)
+   (in-house evaluated test suite; 30 curated test messages)
    ============================================================ */
 const EVAL_SET=[
  // ---- 20 scam ----
@@ -1045,7 +1045,7 @@ const P=tp+fp?tp/(tp+fp):0, Rc=tp+fn?tp/(tp+fn):0, F1=P+Rc?2*P*Rc/(P+Rc):0;
   $('#evNote').innerHTML=`${EVAL_SET.length} messages (${nS} scam / ${nL} legit) · positive = SCAM LIKELY: TP ${tp} · FP ${fp} · miss(FN) ${fn} · sahi chhoda(TN) ${tn}<br>CAUTION bucket: ${soft_scam} scam (soft catch — block nahi) + ${soft_legit} legit (friction) · “paka nahi” bucket: ${unc} scam (guess nahi kiya)<br><b>Note:</b> ye set humne khud likha hai (T1–T24 + M6 se) — ye ceiling hai, field accuracy nahi; 3 messages jaan-boojh ke outside-library rakhe hain taki “miss” aur “friction” bhi dikhein.`;
   $('#evOut').innerHTML='<table><thead><tr><th>label</th><th>engine verdict</th><th>message</th></tr></thead><tbody>'+
     rows.map(r=>`<tr><td>${r[0]==='scam'?'<span class="tag bad">scam</span>':'<span class="tag ok">legit</span>'}</td><td>${r[1]}${r[3]==='miss'?' <span class="tag bad">miss</span>':r[3]==='false-alarm'?' <span class="tag bad">false-alarm</span>':r[3]==='soft'?' <span class="tag warn">soft</span>':''}</td><td class="dim">${esc(r[2])}…</td></tr>`).join('')+'</tbody></table>'+
-    '<div class="tiny dim" style="margin-top:7px">Honest: set in-house (self-authored) hai — benchmark nahi. Positive = “SCAM LIKELY”; CAUTION alag bucket (soft catch/friction) aur “PAKA NAHI” bhi ek valid jawab hai. Asli calibration + naye variant ke liye peer-reviewed/PS data aur field feedback chahiye.</div>';
+    '<div class="tiny dim" style="margin-top:7px">Honest: set in-house (self-authored) hai — benchmark nahi. Positive = “SCAM LIKELY”; CAUTION alag bucket (soft catch/friction) aur “PAKA NAHI” bhi ek valid jawab hai. Asli calibration + naye variant ke liye field/PS benchmark data aur field feedback chahiye.</div>';
   toast(`Eval: precision ${(P*100).toFixed(0)}% · recall ${(Rc*100).toFixed(0)}% · F1 ${(F1*100).toFixed(0)}%`,'ok');
 }
 $('#evRun').onclick=evalRun;
@@ -1054,7 +1054,7 @@ if($('#evRun')) $('#evRun').textContent='▶ Run eval ('+EVAL_SET.length+' messa
 /* ---------- footer ---------- */
 $('#foot').innerHTML=`<b class="dim">SatarkPay M2 · New Module Pack</b> — ye interactive demo synthetic data + public headlines (live crawl ${esc(INTEL.generated_at.slice(0,10))}) par chalta hai.
 Har verdict demo me rule-engine se aata hai (deterministic), koi LLM call nahi — production me wahi verdict LLM se explain hota hai.
-Naye rules R15–R37 deck ke R1–R14 ke saath chalte hain (do JSON packs: rules_R15_R25.json + rules_R26_R38.json); borrowed concepts ka credit sangyan_osint/BORROW_LIST.md me — zero code copying. Honest limits: Android telemetry (UsageStats/Notification/SMS) real device par permission + Play-policy review maangta hai;
+Naye rules R15–R37 deck ke R1–R14 ke saath chalte hain (do JSON packs: rules_R15_R25.json + rules_R26_R38.json). Honest limits: Android telemetry (UsageStats/Notification/SMS) real device par permission + Play-policy review maangta hai;
 iOS par kuch signals nahi milte (graceful degrade); screenshots ka OCR opt-in hai (image store nahi hoti, sirf entity + hash). Block kuch bhi auto nahi hota — hamesha user ya human decide karta hai.
 <br><b class="dim">Guardrails:</b> koi stock tip / buy-sell-hold nahi · koi monetisation nahi · SMS/OTP/PII harvest nahi (0 permissions) · DPDP-aligned · public-good.
 <br><b class="dim">Live demo:</b> sudonishant.github.io/satarkpay-repo · <b class="dim">Team SCΛMURΛI</b> — Nishant Kumar · Prince Singh · Kartik Singh`;

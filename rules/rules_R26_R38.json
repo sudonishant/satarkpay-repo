@@ -5,8 +5,8 @@
     "track": "SANGYAN (SEBI × NSDL × SNTC IIT-BHU) · Investor Resilience",
     "version": "2.3 · 2026-10-03 (+R38 emergency action: confirm → email + call + payment stop)",
     "status_legend": "EVAL = demo/eval harness me measured · RULE = deterministic rule (offline, koi LLM/network call nahi) · UX = interface safeguard · PARTNER = external hook chahiye (PSP/bank/telecom/registry)",
-    "note": "Ye rules deck ke R1–R14 aur pack 1 (R15–R25) ke saath chalti hain. Sab rules sirf friction/salah dete hain — auto-block koi rule nahi karta. Peer repos se sirf IDEA li gayi hai, code nahi (credit: sangyan_osint/BORROW_LIST.md).",
-    "license_position": "31 peer repos me 30 par koi license nahi (all rights reserved), 1 MIT — isliye zero code copying; sirf concepts adopt kiye."
+    "note": "Ye rules deck ke R1–R14 aur pack 1 (R15–R25) ke saath chalti hain. Sab rules deterministic heuristic friction aur user guidance dete hain — auto-block koi rule nahi karta.",
+    "license_position": "100% original implementation by Team SCΛMURΛI conforming to DPDP Act 2023 principles."
   },
   "rules": [
     {

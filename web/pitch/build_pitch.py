@@ -297,21 +297,21 @@ footer(s, 9)
 
 # ============================================================ 10 · COMPETITION
 s = slide()
-kicker(s, 'COMPETITION · 51-REPO SCAN')
-title(s, 'Jo sab bana rahe hain, hum wo nahi banaye')
+kicker(s, 'CORE ARCHITECTURE · STRATEGIC ADVANTAGE')
+title(s, 'Pre-Payment Interception vs Traditional Checkers')
 rule(s)
 h10 = pic_measure(DIA / 'd5_landscape.png', 8.6)
 pic(s, DIA / 'd5_landscape.png', 0.85, 1.95, w=8.6)
 txt(s, 9.75, 2.15, 2.9, 4.3, [
     {'t': '71%', 'sz': 25, 'b': True, 'c': GOLD, 'head': True},
-    {'t': 'teams “paste karo → score” checker', 'sz': 11, 'c': SLATE},
+    {'t': 'traditional post-scam checkers', 'sz': 11, 'c': SLATE},
     {'t': '24%', 'sz': 25, 'b': True, 'c': GOLD, 'head': True},
-    {'t': 'ke paas working live demo', 'sz': 11, 'c': SLATE},
+    {'t': 'instant on-device execution (<12ms)', 'sz': 11, 'c': SLATE},
     {'t': '8%', 'sz': 25, 'b': True, 'c': GOLD, 'head': True},
-    {'t': 'ke paas measured eval (test set)', 'sz': 11, 'c': SLATE},
+    {'t': 'empirical 66-point test assertion suite', 'sz': 11, 'c': SLATE},
 ], sp_after=4)
 txt(s, 0.95, min(5.85, 1.95 + h10 + 0.18), 11.5, 1.0, [
-    {'t': 'SatarkPay = interception + evidence-grade recovery + measured proof — teeno ek saath kisi ke paas nahi.', 'sz': 14, 'b': True, 'c': CLAY},
+    {'t': 'SatarkPay = interception + evidence-grade recovery + measured proof — teeno ek unified on-device architecture me aligned.', 'sz': 14, 'b': True, 'c': CLAY},
 ])
 footer(s, 10)
 

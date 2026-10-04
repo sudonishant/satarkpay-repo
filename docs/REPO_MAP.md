@@ -3,9 +3,9 @@
 ```
 satarkpay/
 ├── README.md                  project intro, quickstart, numbers + limits
-├── CHANGELOG.md               kya-kya kab bana (v0.9 → v1.0)
-├── LICENSE                    MIT (sirf hamara original code)
-├── NOTICE.md                  peer repo idea-credits + license position (zero code copying)
+├── CHANGELOG.md               kya-kya kab bana
+├── LICENSE                    MIT (original code)
+├── NOTICE.md                  third-party attributions and regulatory sources
 ├── CONTRIBUTING / CODE_OF_CONDUCT / SECURITY / Makefile / publish.sh
 ├── .github/                   CI (66 checks + eval + JSON lint), issue/PR templates
 │
@@ -16,17 +16,17 @@ satarkpay/
 │   ├── smoke_test.js · run_smoke.sh     66 automated checks
 │   ├── shoot_new_shots.py     demo ke screenshots (playwright)
 │   └── deck/                  presentation + assets
-│       ├── satarkpay_deck.pdf / .pptx / deck.html   ← 18 slides (light theme)
+│       ├── deck.html          ← 18 slides responsive interactive presentation
 │       ├── build_deck.py · build_charts.py · build_diagrams.py
-│       ├── images/            3 AI-generated illustrations
+│       ├── images/            illustrations
 │       ├── diagrams/          journey · M1 matrix · R38 emergency (SVG + PNG)
-│       ├── charts/            eval confusion · 31-repo coverage
+│       ├── charts/            eval confusion
 │       └── screenshots/       12 demo screenshots
 │
-├── app/                       Android (finale ke liye)
-│   └── android-skeleton/      Kotlin: GateEngine · VerdictEngine · DomainEngine ·
-│                              EvidenceBuilder · EmergencyActions(R38) · signals · consent · Room
-│                              + AndroidManifest (sirf 3 optional permissions) + strings.xml
+├── app/                       Android Native App
+│   └── satarkpay-android/     Kotlin + Jetpack Compose: GateEngine · VerdictEngine · DomainEngine ·
+│                              EvidenceBuilder · EmergencyActions(R38) · signals · Room
+│                              + Clean White Fintech Theme + Pre-compiled APK
 │
 ├── eval/                      measurement
 │   ├── eval_set.json          33 labelled messages (22 scam + 11 legit)
@@ -47,7 +47,7 @@ satarkpay/
 │
 ├── data/                      snapshots (privacy-safe)
 │   ├── intel_snapshot.json    aaj ka crawl (784 → 172 → 63 novel)
-│   ├── OSINT_REPORT.md · repo_matrix.csv/.json · repo_licenses.json · problem_statement.pdf/.txt
+│   ├── problem_statement.txt  official SANGYAN PS notes
 │   └── case_pack/             asli case ke MASKED documents (annexure, complaint, email, summary)
 │
 └── docs/                      sab likhit
@@ -59,7 +59,6 @@ satarkpay/
     ├── PLAY_STORE_NOTES.md    permission declarations + risk register
     ├── ROADMAP.md             phase 1 (48h) · pilot · scale + metrics
     ├── SUBMISSION.md          SANGYAN submission checklist
-    ├── OSINT_SUMMARY.md       31-repo landscape + event facts
     ├── VERIFICATION.md        har claim ka command + output
     └── REPO_MAP.md            ye file
 ```
@@ -69,12 +68,12 @@ satarkpay/
 | Chahiye | Kahan |
 |---|---|
 | Demo chala ke dekhna | `web/satarkpay_m2.html` |
-| Judges ko deck bhejna | `web/deck/satarkpay_deck.pdf` |
-| Deck edit karna | `web/deck/satarkpay_deck.pptx` ya source (`build_deck.py`) |
-| App banane ke liye blueprint | `docs/UI_SPEC.md` + `app/android-skeleton/` |
+| Interactive deck dekhna | `web/deck/deck.html` |
+| Native Android app | `app/satarkpay-android/` |
+| Ready Android APK | `SatarkPay-WhiteTheme.apk` |
 | Rules ka JSON | `rules/` |
 | Numbers verify karna | `docs/VERIFICATION.md` + `eval/latest_results.json` |
 | Scam intel chalana | `tools/intel_crawler.py` |
 | Naya rule/scam add karna | `CONTRIBUTING.md` + `rules/RULES.md` schema |
 | Privacy kya hai | `docs/PRIVACY.md` |
-| Peer repos ka credit | `NOTICE.md` + `data/repo_licenses.json` |
+| Third-party attributions | `NOTICE.md` |

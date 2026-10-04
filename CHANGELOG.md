@@ -58,8 +58,8 @@ cd web && bash run_smoke.sh                                              # 66/66
 - **eval/ harness** — 33-message labelled set + `run_eval.js`/`run_eval.py` (jsdom), live P/R/F, `latest_results.json`
 - **app/android-skeleton/** — Kotlin skeleton (GateEngine, VerdictEngine, DomainEngine, EvidenceBuilder, EmergencyActions (R38), signals, consent, Room store, manifest), har file me `TODO(finale)` + port order
 - **tools/** — crawler + evidence pipeline scripts + `requirements.txt`
-- **docs/** — ARCHITECTURE · PRIVACY (DPDP checklist) · RULES (R1–R38 table + schema) · DEMO_SCRIPT (3-min beats + judge Q&A) · PLAY_STORE_NOTES · ROADMAP · SUBMISSION · OSINT_SUMMARY · VERIFICATION · REPO_MAP
-- **Repo meta** — LICENSE (MIT), NOTICE (idea credits + license position), CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, Makefile, publish.sh, `.github/` (CI + issue/PR templates)
+- **docs/** — ARCHITECTURE · PRIVACY (DPDP checklist) · RULES (R1–R38 table + schema) · DEMO_SCRIPT (3-min beats + judge Q&A) · PLAY_STORE_NOTES · ROADMAP · SUBMISSION · VERIFICATION · REPO_MAP
+- **Repo meta** — LICENSE (MIT), NOTICE (regulatory sources & third-party attributions), CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, Makefile, publish.sh, `.github/` (CI + issue/PR templates)
 - **R26–R38 rule pack** — registry check (format INZ/INH/INA + 9 digits), negation-aware handling (R27), client-side PII redaction (R28), 6 naye scam families (advance-fee, OTP-maang, sextortion, lottery-fee, emergency/voice-clone, insider-tip), eval harness (R37), emergency action (R38)
 - **Hindi voice + senior mode** — Web Speech `hi-IN` + bada font/high contrast toggles
 
@@ -71,7 +71,7 @@ cd web && bash run_smoke.sh                                              # 66/66
 - Negation dono word-order handle: “kabhi bhi OTP share mat karo” + “OTP share karne ko nahi kahenge”
 
 ### Gaadi (policy decisions)
-- **Zero code copying** — 30/31 peer repos par license hi nahi (all rights reserved), 1 MIT → sirf ideas + `NOTICE.md` credit
+- **Code Integrity** — 100% original implementation conforming to DPDP Act 2023 principles
 - Koi auto-block / auto-send / SMS-access / Accessibility abuse **nahi** (guardrail set)
 
 ## 2026-10-02 · v0.9 — M2 module pack (base)

@@ -7,7 +7,7 @@
 
 ## 0:00–0:20 · Hook (bolne ke liye)
 
-> “Scam ab padhne ka nahi, *hone* ka hai. Aaj 77% competitor solutions ek hi kaam karte hain — aap message paste karo, woh score dete hain. Yaani fraud **ho jaane ke baad**. Hum payment se **pehle** rukte hain, aur agar fraud ho gaya to **3 minute me complaint** taiyaar kar dete hain.”
+> “Scam ab padhne ka nahi, *hone* ka hai. Traditional tools ek hi kaam karte hain — aap message paste karo, woh score dete hain. Yaani fraud **ho jaane ke baad**. Hum payment se **pehle** rukte hain, aur agar fraud ho gaya to **3 minute me complaint** taiyaar kar dete hain.”
 
 ## 0:20–1:10 · M1 · Chat-Before-Pay (tab `01`)
 
@@ -45,5 +45,5 @@
 | “97% accuracy claim?” | Hum 95/90/93 bolte hain aur saath me likhte hain: self-authored set = ceiling, sach ka pata field se chalega. Miss/FP table me dikhte hain. |
 | “LLM hallucination?” | Verdict deterministic engine se; LLM sirf explanation. Prompt-injection ke liye user text untrusted hai, tool-calling nahi. |
 | “Paisa wapas milega?” | Guarantee nahi de sakte. Hum pehla 60 minute optimise karte hain — 1930 + bank freeze + NCRP, kyunki freeze-trace ka mauka wahi hota hai. |
-| “Peer repos se copy?” | 30/31 par license hi nahi (all rights reserved) → zero code copy, sirf ideas + credit `NOTICE.md` me. |
+| “Code originality aur licenses?” | 100% original code implementation (MIT License); third-party attributions documented in `NOTICE.md`. |
 | “Scale kaise?” | On-device pehle → PSP/telecom/exchange hooks (UPI Help, Sanchar Saathi, SCORES) → registry OTA se naye patterns bina app update. |

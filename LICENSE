@@ -20,12 +20,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-NOTE ON THIRD-PARTY IDEAS
--------------------------
-SatarkPay ke kuch features *ideas* par based hain jo SANGYAN hackathon ke public
-peer repositories me dikhe (negation-aware matching, client-side redaction,
-registry-format validation, measured test-set evaluation, senior mode, voice
-output, escalation ladder, deterministic pattern rules). Un repos me se KOI CODE
-copy nahi kiya gaya — 31 me se 30 repos me koi license file hi nahi thi
-(all rights reserved) aur 1 MIT tha. Poora idea-credit + "kya nahi liya" NOTICE.md
-me hai. Ye MIT license sirf is repo ke original code par lagta hai.

@@ -12,7 +12,7 @@ Shukriya! SatarkPay par contribution ke 4 aasan rules:
 
 ## 2 · Kya NAHI kar sakte
 
-- Peer repos ka code copy (30/31 par license nahi hai) — **idea le sakte ho, code nahi**; NOTICE.md update karo.
+- Third-party code bina valid permissive license copy karna mana hai — all contributions must be original work.
 - Koi buy/sell/hold/price prediction/trading algo, ya broker/instrument promotion.
 - Real user ka evidence (screenshots, UPI ids, numbers) bina written consent.
 - `READ_SMS`, `QUERY_ALL_PACKAGES`, mandatory Accessibility — ye guardrail set hai, isko todne wala PR reject hoga.
