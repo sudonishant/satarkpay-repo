@@ -1058,3 +1058,140 @@ Naye rules R15–R37 deck ke R1–R14 ke saath chalte hain (do JSON packs: rules
 iOS par kuch signals nahi milte (graceful degrade); screenshots ka OCR opt-in hai (image store nahi hoti, sirf entity + hash). Block kuch bhi auto nahi hota — hamesha user ya human decide karta hai.
 <br><b class="dim">Guardrails:</b> koi stock tip / buy-sell-hold nahi · koi monetisation nahi · SMS/OTP/PII harvest nahi (0 permissions) · DPDP-aligned · public-good.
 <br><b class="dim">Live demo:</b> sudonishant.github.io/satarkpay-repo · <b class="dim">Team SCΛMURΛI</b> — Nishant Kumar · Prince Singh · Kartik Singh`;
+
+/* ============================================================
+   M8 · Scam Library — 10 common UPI/bank/wallet scams (Hindi)
+   Data: data/scam_library_hi.json (build time par inline hota hai)
+   ============================================================ */
+(function () {
+  var LIB = null;
+  try { LIB = __SCAM_LIBRARY__; } catch (e) { LIB = {}; }
+  if (!LIB || typeof LIB !== 'object') LIB = {};
+  var S = LIB.scams || [];
+
+  function el(tag, cls, txt) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt != null) n.textContent = txt;
+    return n;
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  var SEV = { critical: 'bad', high: 'warn', medium: 'ok' };
+
+  function renderCards() {
+    var g = document.getElementById('m8grid');
+    if (!g) return;
+    g.innerHTML = '';
+    if (!S.length) { g.innerHTML = '<div class="tiny dim">Library load nahi hui.</div>'; return; }
+
+    S.forEach(function (sc) {
+      var card = el('div', 'sheet');
+      card.style.cssText = 'margin:0;padding:12px;cursor:pointer';
+
+      var head = el('div', 'spread');
+      var left = el('div');
+      left.appendChild(el('div', 'tiny dim', sc.id + ' · ' + (sc.family || []).join(', ')));
+      var t = el('div', '', sc.name);
+      t.style.cssText = 'font-weight:700;font-size:14px;margin-top:2px';
+      left.appendChild(t);
+      head.appendChild(left);
+      var sev = el('span', 'tag ' + (SEV[sc.severity] || 'ok'), sc.severity || 'info');
+      head.appendChild(sev);
+      card.appendChild(head);
+
+      var body = el('div');
+      body.style.cssText = 'display:none;margin-top:8px;line-height:1.65;font-size:12.5px';
+
+      var how = el('div');
+      how.innerHTML = '<b>कैसे होता है:</b> ' + esc(sc.kaise);
+      how.style.marginBottom = '6px';
+      body.appendChild(how);
+
+      var solT = el('div');
+      solT.innerHTML = '<b>तुरंत समाधान:</b>';
+      body.appendChild(solT);
+
+      var ul = el('ul');
+      ul.style.cssText = 'margin:4px 0 8px 18px;padding:0';
+      (sc.solution || []).forEach(function (x) { ul.appendChild(el('li', '', x)); });
+      body.appendChild(ul);
+
+      var rf = el('div', 'tiny dim', '🚩 ' + (sc.redFlags || []).join(' · '));
+      body.appendChild(rf);
+      card.appendChild(body);
+
+      card.onclick = function () {
+        body.style.display = (body.style.display === 'none') ? 'block' : 'none';
+      };
+      g.appendChild(card);
+    });
+
+    var c = document.getElementById('m8count');
+    if (c) c.textContent = S.length + ' scams';
+  }
+
+  function renderEmergency() {
+    var ol = document.getElementById('m8e7');
+    if (!ol) return;
+    ol.innerHTML = '';
+    ((LIB.emergency7 || {}).steps || []).forEach(function (s, i) {
+      var li = el('li', '', s);
+      if (i === 0) li.style.fontWeight = '700';
+      ol.appendChild(li);
+    });
+    var n = document.getElementById('m8e7note');
+    if (n) n.textContent = (LIB.emergency7 || {}).note || '';
+  }
+
+  function renderService() {
+    var box = document.getElementById('m8svc');
+    var tag = document.getElementById('m8tag');
+    var m = LIB.serviceModel || {};
+    if (tag) tag.textContent = m.tagline || '';
+    if (!box) return;
+    box.innerHTML = '';
+    (m.modules || []).forEach(function (mod) {
+      var c = el('div', 'sheet');
+      c.style.cssText = 'margin:0;padding:11px';
+      var h = el('div', '', mod.name);
+      h.style.cssText = 'font-weight:700;font-size:13.5px;margin-bottom:4px';
+      c.appendChild(h);
+      if (mod.description) c.appendChild(el('div', 'tiny dim', mod.description));
+      var items = mod.checklist || mod.features || mod.returns || mod.fields || [];
+      var ul = el('ul');
+      ul.style.cssText = 'margin:5px 0 0 17px;padding:0;font-size:12px;line-height:1.6';
+      items.forEach(function (x) { ul.appendChild(el('li', '', x)); });
+      c.appendChild(ul);
+      if (mod.guardrail) {
+        var g = el('div', 'tiny', '⚠️ ' + mod.guardrail);
+        g.style.cssText = 'margin-top:7px;font-weight:600';
+        c.appendChild(g);
+      }
+      box.appendChild(c);
+    });
+  }
+
+  function renderCitations() {
+    var c = document.getElementById('m8cite');
+    if (!c) return;
+    c.innerHTML = 'संदर्भ: ' + (LIB.citations || []).map(function (x) {
+      return '[' + x.id + '] ' + esc(x.source);
+    }).join(' · ');
+  }
+
+  function init() {
+    renderCards(); renderEmergency(); renderService(); renderCitations();
+    // m7 (Intel Desk) ke baad m8 bhi offline render ho jaye
+    var tabBtn = document.querySelector('[data-m="m8"]');
+    if (tabBtn && window.EVAL_SET) return; // tab wiring app ke paas hai
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+})();

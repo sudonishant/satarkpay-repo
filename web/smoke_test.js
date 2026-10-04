@@ -20,7 +20,7 @@ const t=(name,cond,extra='')=>{cond?(pass++,console.log('  ✓',name)):(fail++,c
 (async()=>{
  console.log('== load ==');
  t('no load errors', errors.length===0, errors.join(' | '));
- t('7 modules present', $$('.module').length===7, $$('.module').length);
+ t('8 modules present', $$('.module').length===8, $$('.module').length);
  t('intel list rendered', $$('#m6list .item').length>0, $$('#m6list .item').length);
  t('m6 stats from crawl', $('#m6raw').textContent==='784' && $('#m6rel').textContent==='172');
 

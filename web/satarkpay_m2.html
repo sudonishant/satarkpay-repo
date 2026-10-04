@@ -6,24 +6,38 @@
 <title>SatarkPay · M2 New Module Pack (7 modules)</title>
 <style>
 :root{
-  --bg:#060a12; --bg2:#09101d; --panel:#0d1527; --panel2:#121d36; --panel3:#182647;
-  --line:rgba(255,255,255,0.08); --line2:rgba(255,255,255,0.14);
-  --txt:#f1f5f9; --dim:#94a3b8; --dim2:#64748b;
-  --ok:#2fb59a; --warn:#d9a441; --bad:#d15b5b; --accent:#4a8fe7; --teal:#4bb5c9; --violet:#8b7fd4;
-  --gold:#c9a86a; --sand:#e6d3ac; --jade:#2fb59a;
-  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Inter", "Noto Sans", sans-serif;
+--bg:#f6f8fb;
+--panel:#ffffff;
+--panel2:#f0f4f9;
+--line:rgba(15,23,42,0.10);
+--line2:rgba(15,23,42,0.06);
+--txt:#0f172a;
+--dim:#5a6b85;
+--ok:#0f9b7a;
+--warn:#b7791f;
+--bad:#c0392b;
+--accent:#2563eb;
+--teal:#0e7490;
+--violet:#6d5bd0;
+--gold:#a67c00;
+--sand:#8a6d3b;
+--jade:#0f9b7a;
+--shadow:0 1px 2px rgba(15,23,42,0.06),0 4px 12px rgba(15,23,42,0.06);
+--mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+--sans: system-ui, -apple-system, "Segoe UI", Roboto, "Inter", "Noto Sans", sans-serif;
 }
+
+
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
 ::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:#070b14}
-::-webkit-scrollbar-thumb{background:#1e293b;border-radius:99px}
-::-webkit-scrollbar-thumb:hover{background:#334155}
+::-webkit-scrollbar-track{background:#f1f3f8}
+::-webkit-scrollbar-thumb{background:#2f456a;border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:#364963}
 
 html,body{margin:0;padding:0;background:
-  radial-gradient(1200px 700px at 80% -10%, #1b2a44 0%, transparent 60%),
-  radial-gradient(1000px 600px at 0% 0%, #0f172a 0%, transparent 55%),
-  radial-gradient(800px 600px at 50% 100%, #16233f 0%, transparent 60%), var(--bg);
+  radial-gradient(1200px 700px at 80% -10%, #264273 0%, transparent 60%),
+  radial-gradient(1000px 600px at 0% 0%, #f1f3f8 0%, transparent 55%),
+  radial-gradient(800px 600px at 50% 100%, #213d78 0%, transparent 60%), var(--bg);
   color:var(--txt); font-family:var(--sans); font-size:14px; line-height:1.55;
   -webkit-font-smoothing:antialiased}
 body{padding-bottom:60px}
@@ -31,19 +45,19 @@ h1,h2,h3,h4{margin:0; font-weight:700; letter-spacing:-0.02em}
 a{color:var(--accent); text-decoration:none}
 a:hover{text-decoration:underline}
 button{font-family:inherit; font-size:13px; font-weight:550; cursor:pointer; border-radius:10px; border:1px solid var(--line2);
-  background:linear-gradient(180deg, #162238, #0e1728); color:var(--txt); padding:8px 13px; transition:all .18s ease;
-  box-shadow:0 2px 4px rgba(0,0,0,0.2)}
-button:hover{background:linear-gradient(180deg, #223050, #132038); border-color:rgba(255,255,255,0.22); transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+  background:linear-gradient(180deg, #254174, #f1f4f8); color:var(--txt); padding:8px 13px; transition:all .18s ease;
+  box-shadow:0 2px 4px rgba(15,23,42,0.11000000000000001)}
+button:hover{background:linear-gradient(180deg, #283e71, #203f79); border-color:rgba(15,23,42,0.253); transform:translateY(-1px); box-shadow:0 4px 12px rgba(15,23,42,0.165)}
 button:active{transform:translateY(0)}
-button.primary{background:linear-gradient(180deg,#41699e,#35567f); border-color:#7a9cc9; box-shadow:0 4px 14px -3px rgba(84,132,196,0.42)}
-button.primary:hover{background:linear-gradient(180deg,#5484c4,#41699e); border-color:#a8bfdc; box-shadow:0 6px 20px -3px rgba(84,132,196,0.55)}
-button.danger{background:linear-gradient(180deg,#84463c,#5c332c); border-color:#d98a80; color:#ecd7d1; box-shadow:0 4px 14px -3px rgba(168,90,78,0.34)}
-button.danger:hover{background:linear-gradient(180deg,#a85a4e,#84463c)}
+button.primary{background:linear-gradient(180deg,#2e5588,#274872); border-color:#416da8; box-shadow:0 4px 14px -3px rgba(84,132,196,0.42)}
+button.primary:hover{background:linear-gradient(180deg,#315d98,#2e5588); border-color:#5886bf; box-shadow:0 6px 20px -3px rgba(84,132,196,0.55)}
+button.danger{background:linear-gradient(180deg,#72362c,#6c362d); border-color:#c34636; color:#4f2b21; box-shadow:0 4px 14px -3px rgba(168,90,78,0.34)}
+button.danger:hover{background:linear-gradient(180deg,#904539,#72362c)}
 button.ghost{background:transparent; box-shadow:none; border-color:transparent}
-button.ghost:hover{background:rgba(255,255,255,0.06); border-color:var(--line2)}
+button.ghost:hover{background:rgba(15,23,42,0.06899999999999999); border-color:var(--line2)}
 button:disabled{opacity:.45; cursor:not-allowed; transform:none !important; box-shadow:none !important}
 button.sm{padding:5px 10px; font-size:12px; border-radius:8px}
-input,textarea{font-family:inherit; font-size:13px; color:var(--txt); background:#070d18;
+input,textarea{font-family:inherit; font-size:13px; color:var(--txt); background:#f1f4f8;
   border:1px solid var(--line2); border-radius:10px; padding:10px 12px; width:100%; transition:all .18s ease}
 input:focus,textarea:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 3px rgba(75,181,201,0.14)}
 .mono{font-family:var(--mono)}
@@ -51,16 +65,16 @@ input:focus,textarea:focus{outline:none; border-color:var(--teal); box-shadow:0 
 .tiny{font-size:11.5px; line-height:1.5}
 .tag{display:inline-flex; align-items:center; font-size:10.5px; font-weight:600; padding:2px 8px; border-radius:999px;
   border:1px solid var(--line2); background:rgba(13,23,41,0.7); color:var(--dim); letter-spacing:.02em; backdrop-filter:blur(4px)}
-.tag.ok{color:#8fd4bd; border-color:rgba(47,181,154,0.34); background:rgba(31,80,66,0.3)}
-.tag.warn{color:#e3c98f; border-color:rgba(201,168,106,0.34); background:rgba(94,74,32,0.28)}
-.tag.bad{color:#e0a49c; border-color:rgba(176,101,79,0.34); background:rgba(92,44,36,0.28)}
-.tag.info{color:#a8bfdc; border-color:rgba(122,147,178,0.32); background:rgba(44,60,84,0.3)}
-.tag.v{color:#c3b8e3; border-color:rgba(139,127,212,0.32); background:rgba(58,50,92,0.28)}
+.tag.ok{color:#44bb94; border-color:rgba(47,181,154,0.34); background:rgba(31,80,66,0.3)}
+.tag.warn{color:#d2a238; border-color:rgba(201,168,106,0.34); background:rgba(94,74,32,0.28)}
+.tag.bad{color:#ca5748; border-color:rgba(176,101,79,0.34); background:rgba(92,44,36,0.28)}
+.tag.info{color:#5886bf; border-color:rgba(122,147,178,0.32); background:rgba(44,60,84,0.3)}
+.tag.v{color:#7358c1; border-color:rgba(139,127,212,0.32); background:rgba(58,50,92,0.28)}
 
 /* ---------- layout ---------- */
 header.top{position:sticky; top:0; z-index:50; display:flex; align-items:center; gap:14px; flex-wrap:wrap;
   padding:12px 24px; background:rgba(6,10,18,0.85); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line); box-shadow:0 4px 20px -2px rgba(0,0,0,0.6)}
+  border-bottom:1px solid var(--line); box-shadow:0 4px 20px -2px rgba(15,23,42,0.22)}
 .brand{display:flex; align-items:center; gap:11px; font-weight:750; font-size:16.5px; letter-spacing:-0.01em}
 .brand svg{filter:drop-shadow(0 0 8px rgba(201,168,106,0.38))}
 .brand .sub{font-weight:450; font-size:11.5px; color:var(--dim)}
@@ -76,8 +90,8 @@ header.top{position:sticky; top:0; z-index:50; display:flex; align-items:center;
 .threat-ticker{display:flex; align-items:center; gap:12px; background:rgba(10,16,29,0.92);
   border-bottom:1px solid var(--line); padding:6px 20px; font-size:11.5px; overflow:hidden; white-space:nowrap}
 .ticker-badge{display:inline-flex; align-items:center; gap:5px; font-family:var(--mono); font-size:10px; font-weight:700;
-  letter-spacing:.06em; padding:2px 7px; border-radius:5px; background:rgba(176,101,79,0.16); border:1px solid rgba(176,101,79,0.34); color:#e0a49c; flex-shrink:0}
-.ticker-track{display:flex; align-items:center; overflow:hidden; mask-image:linear-gradient(90deg, transparent 0, #000 30px, #000 calc(100% - 30px), transparent 100%)}
+  letter-spacing:.06em; padding:2px 7px; border-radius:5px; background:rgba(176,101,79,0.16); border:1px solid rgba(176,101,79,0.34); color:#ca5748; flex-shrink:0}
+.ticker-track{display:flex; align-items:center; overflow:hidden; mask-image:linear-gradient(90deg, transparent 0, #f6f8fb 30px, #f6f8fb calc(100% - 30px), transparent 100%)}
 .ticker-content{display:inline-flex; align-items:center; gap:36px; animation:marquee 34s linear infinite; padding-left:100%}
 .threat-ticker:hover .ticker-content{animation-play-state:paused}
 @keyframes marquee{0%{transform:translateX(0)} 100%{transform:translateX(-100%)}}
@@ -93,7 +107,7 @@ header.top{position:sticky; top:0; z-index:50; display:flex; align-items:center;
   border-radius:12px; padding:10px 14px; display:flex; flex-direction:column; gap:2px; transition:border-color .2s}
 .kpi-card::before{content:""; display:block; height:2px; border-radius:2px; margin:-2px -2px 8px;
   background:linear-gradient(90deg, var(--gold), rgba(201,168,106,0.12))}
-.kpi-card:hover{border-color:rgba(255,255,255,0.18)}
+.kpi-card:hover{border-color:rgba(15,23,42,0.207)}
 .kpi-val{font-family:var(--mono); font-weight:700; font-size:13.5px; letter-spacing:0.02em}
 .kpi-lbl{font-size:11px; color:var(--dim); line-height:1.35}
 
@@ -102,9 +116,9 @@ nav.tabs button{display:flex; align-items:center; gap:8px; padding:9px 13px; fon
   background:rgba(15,22,38,0.7); border:1px solid var(--line); backdrop-filter:blur(8px)}
 nav.tabs button .n{font-family:var(--mono); font-size:11px; color:var(--dim2)}
 nav.tabs button:hover{background:rgba(24,37,65,0.85); border-color:rgba(79,140,255,0.3)}
-nav.tabs button.on{background:linear-gradient(180deg,rgba(37,99,235,0.22),rgba(15,23,42,0.8)); border-color:#5484c4;
-  color:#fff; box-shadow:0 6px 20px -6px rgba(59,130,246,0.6); font-weight:600}
-nav.tabs button.on .n{color:#a8bfdc}
+nav.tabs button.on{background:linear-gradient(180deg,rgba(37,99,235,0.22),rgba(15,23,42,0.8)); border-color:#315d98;
+  color:#0f172a; box-shadow:0 6px 20px -6px rgba(59,130,246,0.6); font-weight:600}
+nav.tabs button.on .n{color:#5886bf}
 
 main{max-width:1500px; margin:0 auto; padding:16px 20px 0}
 .module{display:none; grid-template-columns:auto minmax(0,1fr); gap:24px; align-items:start}
@@ -112,8 +126,8 @@ main{max-width:1500px; margin:0 auto; padding:16px 20px 0}
 @media (max-width:1080px){ .module.on{grid-template-columns:1fr} }
 .card{background:linear-gradient(180deg,rgba(16,26,46,0.85),rgba(10,16,28,0.92));
   border:1px solid var(--line); border-radius:18px; padding:18px; backdrop-filter:blur(10px);
-  box-shadow:0 8px 30px -10px rgba(0,0,0,0.5); transition:border-color .2s, box-shadow .2s}
-.card:hover{border-color:rgba(255,255,255,0.14)}
+  box-shadow:0 8px 30px -10px rgba(15,23,42,0.22); transition:border-color .2s, box-shadow .2s}
+.card:hover{border-color:rgba(15,23,42,0.161)}
 .card + .card{margin-top:14px}
 .card h3{font-size:14.5px; display:flex; align-items:center; gap:8px}
 .card h3 .tag{margin-left:auto}
@@ -121,16 +135,16 @@ main{max-width:1500px; margin:0 auto; padding:16px 20px 0}
 .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
 .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
 @media (max-width:640px){ .grid2,.grid3{grid-template-columns:1fr} }
-.kv{display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,0.08); font-size:12.5px}
+.kv{display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px dashed rgba(15,23,42,0.092); font-size:12.5px}
 .kv:last-child{border-bottom:none}
 .kv b{font-weight:600; font-family:var(--mono); font-size:12.5px}
 .sig{display:flex; align-items:center; gap:10px; padding:9px 12px; border:1px solid var(--line); border-radius:10px;
   background:rgba(11,19,34,0.7); margin-bottom:7px; transition:border-color .15s}
-.sig:hover{border-color:rgba(255,255,255,0.16)}
+.sig:hover{border-color:rgba(15,23,42,0.184)}
 .sig .lbl{flex:1; font-size:12.5px}
 .sig .v{font-family:var(--mono); font-size:12px; color:var(--dim)}
-.bar{height:7px; border-radius:99px; background:#101a2d; overflow:hidden; margin-top:7px; box-shadow:inset 0 1px 2px rgba(0,0,0,0.5)}
-.bar>i{display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#c9a86a,#5484c4); transition:width .3s ease}
+.bar{height:7px; border-radius:99px; background:#f1f4f8; overflow:hidden; margin-top:7px; box-shadow:inset 0 1px 2px rgba(15,23,42,0.22)}
+.bar>i{display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#b68935,#315d98); transition:width .3s ease}
 .note{font-size:12px; color:var(--dim); border-left:3px solid var(--accent); padding:3px 0 3px 11px; background:rgba(59,130,246,0.05); border-radius:0 8px 8px 0}
 .warnbox{border:1px solid rgba(245,158,11,0.35); background:linear-gradient(180deg,rgba(44,32,9,0.7),rgba(32,24,10,0.85)); border-radius:12px; padding:12px; box-shadow:0 4px 14px -4px rgba(245,158,11,0.15)}
 .badbox{border:1px solid rgba(239,68,68,0.35); background:linear-gradient(180deg,rgba(44,16,21,0.7),rgba(32,13,17,0.85)); border-radius:12px; padding:12px; box-shadow:0 4px 14px -4px rgba(239,68,68,0.15)}
@@ -143,34 +157,34 @@ main{max-width:1500px; margin:0 auto; padding:16px 20px 0}
 /* ---------- phone mock (titanium chassis + dynamic island) ---------- */
 .phonewrap{position:sticky; top:76px}
 .phone{width:356px; max-width:88vw; border-radius:44px; padding:11px;
-  background:linear-gradient(145deg, #2b3952, #121927);
-  box-shadow:0 30px 70px -20px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 0 1px rgba(255,255,255,0.1);
-  border:1px solid #33415f; position:relative}
-.screen{border-radius:34px; background:#070c16; min-height:608px; overflow:hidden; position:relative;
-  border:1px solid rgba(255,255,255,0.06); display:flex; flex-direction:column;
-  box-shadow:inset 0 0 20px rgba(0,0,0,0.8)}
+  background:linear-gradient(145deg, #304569, #f1f4f8);
+  box-shadow:0 30px 70px -20px rgba(15,23,42,0.22), inset 0 1px 0 rgba(15,23,42,0.22999999999999998), 0 0 0 1px rgba(15,23,42,0.11499999999999999);
+  border:1px solid #314368; position:relative}
+.screen{border-radius:34px; background:#f1f4f8; min-height:608px; overflow:hidden; position:relative;
+  border:1px solid rgba(15,23,42,0.06899999999999999); display:flex; flex-direction:column;
+  box-shadow:inset 0 0 20px rgba(15,23,42,0.22)}
 .screen::after{content:''; position:absolute; top:0; right:0; width:100%; height:45%;
-  background:linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 60%); pointer-events:none}
-.phone-island{width:90px; height:22px; background:#000; border-radius:99px; margin:7px auto 0;
-  display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 2px 6px rgba(0,0,0,0.6); z-index:10; flex-shrink:0}
-.phone-lens{width:8px; height:8px; border-radius:50%; background:#0b192c; box-shadow:inset 0 0 2px #c9a86a}
+  background:linear-gradient(135deg, rgba(15,23,42,0.034499999999999996) 0%, transparent 60%); pointer-events:none}
+.phone-island{width:90px; height:22px; background:#f6f8fb; border-radius:99px; margin:7px auto 0;
+  display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 2px 6px rgba(15,23,42,0.22); z-index:10; flex-shrink:0}
+.phone-lens{width:8px; height:8px; border-radius:50%; background:#f1f4f8; box-shadow:inset 0 0 2px #b68935}
 .sbar{display:flex; align-items:center; gap:6px; padding:3px 18px 5px; font-family:var(--mono); font-size:11px; color:var(--dim)}
 .sbar .sp{margin-left:auto}
-.appbar{display:flex; align-items:center; gap:10px; padding:10px 15px 12px; border-bottom:1px solid rgba(255,255,255,0.07); background:rgba(8,13,24,0.6)}
-.appbar .av{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:700;color:#04121a;
-  background:linear-gradient(180deg,#8fd0c5,#3e9bab); box-shadow:0 2px 8px rgba(75,181,201,0.3)}
+.appbar{display:flex; align-items:center; gap:10px; padding:10px 15px 12px; border-bottom:1px solid rgba(15,23,42,0.0805); background:rgba(8,13,24,0.6)}
+.appbar .av{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:700;color:#f1f6f8;
+  background:linear-gradient(180deg,#48b5a2,#2b717d); box-shadow:0 2px 8px rgba(75,181,201,0.3)}
 .appbar .t{font-size:13px; font-weight:650; line-height:1.25}
 .appbar .t small{display:block; font-weight:400; color:var(--dim); font-size:10.5px}
 .scrbody{padding:13px; display:flex; flex-direction:column; gap:11px; flex:1}
 .bub{max-width:82%; padding:9px 12px; border-radius:14px; font-size:12.5px; line-height:1.45}
-.bub.in{background:#152138; border:1px solid rgba(255,255,255,0.08); border-bottom-left-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.25)}
-.bub.out{background:#16302a; border:1px solid rgba(16,185,129,0.3); align-self:flex-end; border-bottom-right-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.25)}
+.bub.in{background:#234076; border:1px solid rgba(15,23,42,0.092); border-bottom-left-radius:4px; box-shadow:0 2px 6px rgba(15,23,42,0.1375)}
+.bub.out{background:#2b6e5f; border:1px solid rgba(16,185,129,0.3); align-self:flex-end; border-bottom-right-radius:4px; box-shadow:0 2px 6px rgba(15,23,42,0.1375)}
 .bub .who{font-size:10.5px; color:var(--dim); margin-bottom:3px}
-.notif{border:1px solid #5484c4; background:linear-gradient(180deg,#1b2a44,#0f172a); border-radius:14px; padding:11px 13px;
-  box-shadow:0 12px 28px -10px rgba(0,0,0,0.7), 0 0 15px rgba(59,130,246,0.25); animation:pop .35s cubic-bezier(0.16,1,0.3,1)}
+.notif{border:1px solid #315d98; background:linear-gradient(180deg,#264273,#f1f3f8); border-radius:14px; padding:11px 13px;
+  box-shadow:0 12px 28px -10px rgba(15,23,42,0.22), 0 0 15px rgba(59,130,246,0.25); animation:pop .35s cubic-bezier(0.16,1,0.3,1)}
 @keyframes pop{from{transform:translateY(-8px); opacity:0}to{transform:none; opacity:1}}
-.sheet{margin-top:auto; background:linear-gradient(180deg,#121d33,#0c1322); border:1px solid rgba(255,255,255,0.1); border-radius:18px; padding:14px;
-  box-shadow:0 -6px 20px rgba(0,0,0,0.4)}
+.sheet{margin-top:auto; background:linear-gradient(180deg,#f1f4f8,#f1f4f8); border:1px solid rgba(15,23,42,0.11499999999999999); border-radius:18px; padding:14px;
+  box-shadow:0 -6px 20px rgba(15,23,42,0.22)}
 .sheet h4{font-size:13.5px; margin-bottom:5px}
 .sheet .big{font-family:var(--mono); font-size:26px; letter-spacing:-.02em}
 .row{display:flex; gap:9px; align-items:center}
@@ -187,28 +201,28 @@ main{max-width:1500px; margin:0 auto; padding:16px 20px 0}
 .banner.g{background:rgba(14,42,30,0.85); border:1px solid rgba(16,185,129,0.45)}
 .banner.i{background:rgba(13,26,48,0.85); border:1px solid rgba(59,130,246,0.45)}
 .gal{display:grid; grid-template-columns:1fr 1fr; gap:9px}
-.shot{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#0b1322; transition:border-color .18s}
-.shot:hover{border-color:rgba(255,255,255,0.18)}
+.shot{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#f1f4f8; transition:border-color .18s}
+.shot:hover{border-color:rgba(15,23,42,0.207)}
 .shot .thumb{height:78px; background:
-  repeating-linear-gradient(135deg,#12203a 0 8px,#0f1a30 8px 16px); display:grid; place-items:center; font-size:20px; position:relative}
+  repeating-linear-gradient(135deg,#1d3e7c 0 8px,#f1f4f8 8px 16px); display:grid; place-items:center; font-size:20px; position:relative}
 .shot .thumb .badge{position:absolute; top:5px; right:5px}
 .shot .meta{padding:7px 8px; font-size:10.5px; line-height:1.4; color:var(--dim)}
 .shot .meta b{color:var(--txt); font-weight:600; font-size:11px; display:block}
 .chat{display:flex; flex-direction:column; gap:9px; max-height:300px; overflow:auto; padding-right:2px}
-.chat .m{max-width:88%; padding:9px 12px; border-radius:14px; font-size:12.5px; white-space:pre-wrap; box-shadow:0 2px 6px rgba(0,0,0,0.2)}
-.chat .u{align-self:flex-end; background:#22314c; border:1px solid rgba(122,147,178,0.32)}
-.chat .a{align-self:flex-start; background:#0f1c32; border:1px solid rgba(255,255,255,0.1)}
-.verdict{border-radius:12px; padding:11px; margin-top:8px; font-size:12px; border:1px solid var(--line2); background:#0b1322}
+.chat .m{max-width:88%; padding:9px 12px; border-radius:14px; font-size:12.5px; white-space:pre-wrap; box-shadow:0 2px 6px rgba(15,23,42,0.11000000000000001)}
+.chat .u{align-self:flex-end; background:#2a436f; border:1px solid rgba(122,147,178,0.32)}
+.chat .a{align-self:flex-start; background:#f1f4f8; border:1px solid rgba(15,23,42,0.11499999999999999)}
+.verdict{border-radius:12px; padding:11px; margin-top:8px; font-size:12px; border:1px solid var(--line2); background:#f1f4f8}
 .list{display:flex; flex-direction:column; gap:8px}
 .item{display:flex; gap:11px; align-items:flex-start; padding:11px; border:1px solid var(--line); border-radius:13px; background:rgba(11,19,34,0.6); transition:border-color .15s}
-.item:hover{border-color:rgba(255,255,255,0.16)}
-.item .ic{width:32px;height:32px;border-radius:9px; display:grid; place-items:center; font-size:14px; background:#16223a; border:1px solid var(--line2); flex:0 0 auto}
+.item:hover{border-color:rgba(15,23,42,0.184)}
+.item .ic{width:32px;height:32px;border-radius:9px; display:grid; place-items:center; font-size:14px; background:#243f75; border:1px solid var(--line2); flex:0 0 auto}
 .item .bd{flex:1; min-width:0}
 .item .ti{font-size:12.8px; font-weight:600}
 .item .su{font-size:11.3px; color:var(--dim); margin-top:2px; line-height:1.45}
-.ic.ok{background:#142b24;border-color:#2fb59a} .ic.warn{background:#2a2318;border-color:#d9a441} .ic.bad{background:#2a1a18;border-color:#c96a5f}
+.ic.ok{background:#2c6d59;border-color:#1d9e84} .ic.warn{background:#655234;border-color:#cf8f19} .ic.bad{background:#f6f8fb;border-color:#a23f33}
 table{width:100%; border-collapse:collapse; font-size:12.3px}
-th,td{text-align:left; padding:8px 10px; border-bottom:1px solid rgba(255,255,255,0.06); vertical-align:top}
+th,td{text-align:left; padding:8px 10px; border-bottom:1px solid rgba(15,23,42,0.06899999999999999); vertical-align:top}
 th{color:var(--dim); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.05em}
 tr:last-child td{border-bottom:none}
 .console{margin-top:18px; grid-column:1/-1}
@@ -217,10 +231,10 @@ tr:last-child td{border-bottom:none}
 .conshead .t{font-size:13px; font-weight:600}
 .stepper{display:flex; gap:8px; flex-wrap:wrap}
 .step{display:flex; align-items:center; gap:7px; font-size:12px; padding:7px 12px; border-radius:999px;
-  border:1px solid var(--line); background:#0d1626; cursor:pointer; color:var(--dim); transition:all .15s}
+  border:1px solid var(--line); background:#f1f4f8; cursor:pointer; color:var(--dim); transition:all .15s}
 .step b{font-family:var(--mono); color:var(--accent)}
-.step:hover{border-color:rgba(255,255,255,0.2); color:var(--txt)}
-.step.on{border-color:#5484c4; background:#1b2a44; color:var(--txt); box-shadow:0 0 12px rgba(122,147,178,0.24)}
+.step:hover{border-color:rgba(15,23,42,0.22999999999999998); color:var(--txt)}
+.step.on{border-color:#315d98; background:#264273; color:var(--txt); box-shadow:0 0 12px rgba(122,147,178,0.24)}
 footer{max-width:1500px; margin:26px auto 0; padding:0 20px; font-size:12px; color:var(--dim2); line-height:1.6}
 .senior{font-size:17.5px}
 .senior .tiny{font-size:13.5px} .senior .tiny.dim2{font-size:13px}
@@ -228,12 +242,12 @@ footer{max-width:1500px; margin:26px auto 0; padding:0 20px; font-size:12px; col
 .senior .kv{font-size:14px} .senior .kv b{font-size:14px} .senior .item .ti{font-size:14.5px} .senior .item .su{font-size:13px}
 .senior table{font-size:14px} .senior th{font-size:12.5px} .senior .chip{font-size:13px}
 .senior .sheet .big{font-size:30px} .senior button{font-size:15px; padding:10px 14px}
-.senior :root{--txt:#ffffff; --dim:#c2cfe6}
-body.senior{background:#04060b}
-.speaking{outline:2px solid #5484c4; outline-offset:3px; border-radius:12px; animation:spk 1.2s infinite}
+.senior 
+body.senior{background:#f1f3f8}
+.speaking{outline:2px solid #315d98; outline-offset:3px; border-radius:12px; animation:spk 1.2s infinite}
 @keyframes spk{0%,100%{outline-color:rgba(122,147,178,0.32)}50%{outline-color:rgba(59,130,246,1)}}
-code{font-family:var(--mono); font-size:11.5px; background:rgba(13,23,41,0.9); border:1px solid var(--line2); padding:1px 6px; border-radius:5px; color:#a8bfdc}
-.spin{display:inline-block; width:12px;height:12px;border-radius:50%; border:2px solid rgba(255,255,255,0.25); border-top-color:#fff; animation:sp .7s linear infinite}
+code{font-family:var(--mono); font-size:11.5px; background:rgba(13,23,41,0.9); border:1px solid var(--line2); padding:1px 6px; border-radius:5px; color:#5886bf}
+.spin{display:inline-block; width:12px;height:12px;border-radius:50%; border:2px solid rgba(15,23,42,0.2875); border-top-color:#0f172a; animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 
 /* ===== UI pass (3 Oct) — mobile density + judge-friendly ===== */
@@ -277,7 +291,7 @@ html{scroll-behavior:smooth}
   .brand .sub{display:block; margin-top:2px}
   .hdr-right{margin-left:0; width:100%; flex-wrap:nowrap; overflow-x:auto;
     gap:6px; padding:2px 0 6px; scrollbar-width:none; -webkit-overflow-scrolling:touch;
-    mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 22px), transparent 100%)}
+    mask-image:linear-gradient(90deg, #f6f8fb 0, #f6f8fb calc(100% - 22px), transparent 100%)}
   .hdr-right::-webkit-scrollbar{display:none}
   .hdr-right .sm, .hdr-right .tag{flex:0 0 auto}
   /* phone ko cap karo — scenario chips + Run button bhi pehli screen par dikhein */
@@ -288,7 +302,7 @@ html{scroll-behavior:smooth}
   .sm{padding:9px 12px !important; font-size:12.5px !important}
   button{min-height:38px}
   /* scroll hints */
-  .kpi-strip{mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 26px), transparent 100%)}
+  .kpi-strip{mask-image:linear-gradient(90deg, #f6f8fb 0, #f6f8fb calc(100% - 26px), transparent 100%)}
   footer{font-size:11.5px; margin-top:18px}
 }
 </style>
@@ -297,7 +311,7 @@ html{scroll-behavior:smooth}
 
 <header class="top">
   <div class="brand">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2.5 4 6v6.2c0 4.7 3.3 8.6 8 9.8 4.7-1.2 8-5.1 8-9.8V6l-8-3.5Z" stroke="#c9a86a" stroke-width="1.8"/><path d="m8.6 12.2 2.3 2.3 4.5-4.6" stroke="#e6d3ac" stroke-width="2.1" stroke-linecap="round"/></svg>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2.5 4 6v6.2c0 4.7 3.3 8.6 8 9.8 4.7-1.2 8-5.1 8-9.8V6l-8-3.5Z" stroke="#b68935" stroke-width="1.8"/><path d="m8.6 12.2 2.3 2.3 4.5-4.6" stroke="#c08f2b" stroke-width="2.1" stroke-linecap="round"/></svg>
     SatarkPay <span class="sub">SANGYAN · SEBI × NSDL × IIT (BHU) <span class="dim2">·</span> Track A + B · 7 modules</span>
   </div>
   <div class="hdr-right">
@@ -355,6 +369,7 @@ html{scroll-behavior:smooth}
   <button data-m="m5"><span class="n">05</span> Wallet Audit</button>
   <button data-m="m6"><span class="n">06</span> Intel Desk</button>
   <button data-m="m7"><span class="n">07</span> Auto-Report</button>
+  <button data-m="m8"><span class="n">08</span> Scam Library</button>
 </nav>
 
 <main>
@@ -413,8 +428,8 @@ html{scroll-behavior:smooth}
           <div class="tiny dim" style="margin-bottom:6px">GATE (live)</div>
           <div class="sheet" style="padding:11px">
             <div class="ring" id="m1ring">
-              <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" stroke="#1b2740" stroke-width="8" fill="none"/>
-              <circle id="m1arc" cx="50" cy="50" r="44" stroke="#c9a86a" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="276"/></svg>
+              <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" stroke="#284071" stroke-width="8" fill="none"/>
+              <circle id="m1arc" cx="50" cy="50" r="44" stroke="#b68935" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="276"/></svg>
               <div class="lbl"><div style="font-size:19px" id="m1clock">--:--</div><div class="tiny dim" id="m1phase">idle</div></div>
             </div>
             <div class="tiny dim" style="text-align:center; margin-top:6px" id="m1hint">Scenario select karke Run dabao</div>
@@ -547,6 +562,29 @@ html{scroll-behavior:smooth}
   </div>
 </section>
 
+<style>
+:root{
+--bg:#f6f8fb;
+--panel:#ffffff;
+--panel2:#f0f4f9;
+--line:rgba(15,23,42,0.10);
+--line2:rgba(15,23,42,0.06);
+--txt:#0f172a;
+--dim:#5a6b85;
+--ok:#0f9b7a;
+--warn:#b7791f;
+--bad:#c0392b;
+--accent:#2563eb;
+--teal:#0e7490;
+--violet:#6d5bd0;
+--gold:#a67c00;
+--sand:#8a6d3b;
+--jade:#0f9b7a;
+--shadow:0 1px 2px rgba(15,23,42,0.06),0 4px 12px rgba(15,23,42,0.06);
+--mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+--sans: system-ui, -apple-system, "Segoe UI", Roboto, "Inter", "Noto Sans", sans-serif;
+}
+</style>
 <!-- ============================ M3 · DOMAIN TRUST ============================ -->
 <section class="module" id="m3">
   <div class="phonewrap">
@@ -665,7 +703,7 @@ html{scroll-behavior:smooth}
       <div class="phone-island"><div class="phone-lens"></div></div>
       <div class="sbar"><span>9:49</span><span class="sp">5G ▪▪▪ 78%</span></div>
       <div class="appbar">
-        <div class="av" style="background:linear-gradient(180deg,#a99bd6,#8877c9); color:#141226">AI</div>
+        <div class="av" style="background:linear-gradient(180deg,#694fbb,#553fa7); color:#f2f1f8">AI</div>
         <div class="t">Sanchalak — Poochho<small>“Ye legit hai ya nahi?” · HI/EN · 12 languages</small></div>
       </div>
       <div class="scrbody">
@@ -772,7 +810,7 @@ Main batata hoon: legit hai, caution, ya scam-likely — aur <b>kyun</b> (3 reas
       <div class="phone-island"><div class="phone-lens"></div></div>
       <div class="sbar"><span>9:52</span><span class="sp">5G ▪▪▪ 77%</span></div>
       <div class="appbar">
-        <div class="av" style="background:linear-gradient(180deg,#9fc9dd,#6fb3cf); color:#04121a">👛</div>
+        <div class="av" style="background:linear-gradient(180deg,#4e9ec4,#368caf); color:#f1f6f8">👛</div>
         <div class="t">Wallet + AutoPay Audit<small>kaunse app juda hai · kya auto-debit chal raha hai</small></div>
       </div>
       <div class="scrbody">
@@ -842,7 +880,7 @@ Main batata hoon: legit hai, caution, ya scam-likely — aur <b>kyun</b> (3 reas
       <div class="phone-island"><div class="phone-lens"></div></div>
       <div class="sbar"><span>9:55</span><span class="sp">5G ▪▪▪ 76%</span></div>
       <div class="appbar">
-        <div class="av" style="background:linear-gradient(180deg,#e0a49c,#d98a80); color:#281917">📡</div>
+        <div class="av" style="background:linear-gradient(180deg,#ca5748,#c34636); color:#f6f8fb">📡</div>
         <div class="t">Naya Scam Alert<small>Intel Desk · internet crawl · <span id="m6time">aaj</span></small></div>
       </div>
       <div class="scrbody">
@@ -911,7 +949,7 @@ Main batata hoon: legit hai, caution, ya scam-likely — aur <b>kyun</b> (3 reas
       <div class="phone-island"><div class="phone-lens"></div></div>
       <div class="sbar"><span>9:58</span><span class="sp">5G ▪▪▪ 74%</span></div>
       <div class="appbar">
-        <div class="av" style="background:linear-gradient(180deg,#e0a49c,#d98a80); color:#281917">📄</div>
+        <div class="av" style="background:linear-gradient(180deg,#ca5748,#c34636); color:#f6f8fb">📄</div>
         <div class="t">Auto-Report (1930 pack)<small>asli case · numbers masked · SatarkPay par</small></div>
       </div>
       <div class="scrbody">
@@ -929,7 +967,7 @@ Main batata hoon: legit hai, caution, ya scam-likely — aur <b>kyun</b> (3 reas
           <button class="primary sm" id="m7build">📦 1930 / NCRP pack banao</button>
           <button class="sm" id="m7mask">👁 mask toggle</button>
         </div>
-        <button class="primary sm" id="m7confirm" style="width:100%;margin-top:8px;background:linear-gradient(180deg,#cd7a6e,#b5564a);border-color:#e0a49c;color:#fff">🚨 Fraud CONFIRM hai — turant complaint + payment stop</button>
+        <button class="primary sm" id="m7confirm" style="width:100%;margin-top:8px;background:linear-gradient(180deg,#ab4637,#9c4035);border-color:#ca5748;color:#0f172a">🚨 Fraud CONFIRM hai — turant complaint + payment stop</button>
         <div class="tiny dim2" style="margin-top:5px">Ye dabate hi: cyber cell ko email pack + 1930/helpline call + bank se payment stop request — sab ek screen par.</div>
         <div id="m7out"></div>
         <div class="tiny dim2">Bank/PSP ko bhejne se pehle: apna naam, account, aur masked numbers ke full digits daalna zaroori hai.</div>
@@ -1031,10 +1069,78 @@ Main batata hoon: legit hai, caution, ya scam-likely — aur <b>kyun</b> (3 reas
       <div class="tiny dim" style="margin-top:8px">Note: Sabhi escalation procedures aur portals official government v public guidelines (NCRP 1930, SEBI SCORES, SMART ODR) par based hain.</div>
     </div>
 
+<section class="module" id="m8">
+  <div class="sheet" style="margin-top:0">
+    <div class="spread">
+      <div>
+        <div class="tiny dim">M8 · PUBLIC SAFETY LIBRARY</div>
+        <div class="big">10 सबसे आम UPI / बैंक / वॉलेट स्कैम</div>
+      </div>
+      <div class="tag ok" id="m8count">10 scams</div>
+    </div>
+    <div class="tiny dim" style="margin-top:6px">
+      NPCI · RBI · I4C · Sanchar Saathi की सार्वजनिक सलाह पर आधारित।
+      किसी भी scam में <b class="mono">1930</b> पर तुरंत कॉल करें।
+    </div>
+  </div>
+
+  <div class="grid" id="m8grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:10px"></div>
+
+  <div class="sheet" style="margin-top:12px">
+    <div class="spread"><div class="big" style="font-size:15px">🚨 अगर पैसा चला गया है — 7 काम</div></div>
+    <ol id="m8e7" style="margin:8px 0 0 18px;padding:0;line-height:1.75;font-size:13px"></ol>
+    <div class="tiny dim" style="margin-top:8px" id="m8e7note"></div>
+  </div>
+
+  <div class="sheet" style="margin-top:12px">
+    <div class="spread">
+      <div>
+        <div class="tiny dim">SERVICE MODEL</div>
+        <div class="big" style="font-size:16px">🛡️ UPI Suraksha Saathi</div>
+      </div>
+      <div class="tag ok">public good</div>
+    </div>
+    <div class="tiny dim" style="margin:6px 0 10px" id="m8tag"></div>
+    <div class="grid" id="m8svc" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px"></div>
+  </div>
+
+  <div class="tiny dim" style="margin-top:10px" id="m8cite"></div>
+</section>
+
 
 </main>
 
 <footer id="foot"></footer>
+
+
+<script>
+/* SatarkPay — theme toggle (light default, dark optional) */
+(function(){
+  var KEY='satark-theme';
+  function apply(t){
+    document.documentElement.setAttribute('data-theme', t);
+    var b=document.getElementById('themeToggle');
+    if(b) b.textContent = (t==='dark') ? '\u2600\ufe0f Light' : '\uD83C\uDF19 Dark';
+  }
+  var saved=null;
+  try{ saved=localStorage.getItem(KEY); }catch(e){}
+  apply(saved==='dark' ? 'dark' : 'light');
+  document.addEventListener('DOMContentLoaded', function(){
+    var b=document.createElement('button');
+    b.id='themeToggle';
+    b.setAttribute('aria-label','Toggle theme');
+    b.style.cssText='position:fixed;right:14px;bottom:14px;z-index:9999;padding:9px 14px;'
+      +'border-radius:999px;border:1px solid rgba(15,23,42,.14);background:#fff;color:#0f172a;'
+      +'font:600 12px/1 system-ui,sans-serif;cursor:pointer;'
+      +'box-shadow:0 2px 8px rgba(15,23,42,.14)';
+    b.onclick=function(){
+      var cur=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+      apply(cur); try{ localStorage.setItem(KEY,cur); }catch(e){}
+    };
+    document.body.appendChild(b);
+  });
+})();
+</script>
 
 <script>
 /* ============================================================
@@ -2292,6 +2398,348 @@ Naye rules R15–R37 deck ke R1–R14 ke saath chalte hain (do JSON packs: rules
 iOS par kuch signals nahi milte (graceful degrade); screenshots ka OCR opt-in hai (image store nahi hoti, sirf entity + hash). Block kuch bhi auto nahi hota — hamesha user ya human decide karta hai.
 <br><b class="dim">Guardrails:</b> koi stock tip / buy-sell-hold nahi · koi monetisation nahi · SMS/OTP/PII harvest nahi (0 permissions) · DPDP-aligned · public-good.
 <br><b class="dim">Live demo:</b> sudonishant.github.io/satarkpay-repo · <b class="dim">Team SCΛMURΛI</b> — Nishant Kumar · Prince Singh · Kartik Singh`;
+
+/* ============================================================
+   M8 · Scam Library — 10 common UPI/bank/wallet scams (Hindi)
+   Data: data/scam_library_hi.json (build time par inline hota hai)
+   ============================================================ */
+(function () {
+  var LIB = null;
+  try { LIB = {
+  "_meta": {
+    "title": "10 सबसे आम UPI / बैंक / वॉलेट स्कैम",
+    "version": "1.0",
+    "language": "hi",
+    "source": "Team SCΛMURΛI · SatarkPay · SANGYAN (SEBI × NSDL × IIT-BHU)",
+    "note": "यह जानकारी सार्वजनिक सुरक्षा जागरूकता के लिए है। NPCI, RBI, I4C और Sanchar Saathi की सार्वजनिक सलाह पर आधारित।"
+  },
+
+  "scams": [
+    {
+      "id": "S01",
+      "name": "फर्जी बैंक अधिकारी या KYC कॉल",
+      "family": ["F2", "F1"],
+      "kaise": "कोई व्यक्ति बैंक अधिकारी बनकर कहता है कि आपका KYC, PAN, खाता या कार्ड बंद होने वाला है। फिर OTP, UPI PIN, कार्ड नंबर या लिंक माँगता है।",
+      "solution": [
+        "कॉल काट दें।",
+        "बैंक की आधिकारिक वेबसाइट या कार्ड के पीछे दिए नंबर पर स्वयं कॉल करें।",
+        "OTP, PIN, CVV या पासवर्ड कभी न बताएं।",
+        "पैसा चला गया हो तो तुरंत बैंक और 1930 पर शिकायत करें।"
+      ],
+      "redFlags": ["KYC बंद होगा", "OTP माँगना", "तुरंत कार्रवाई का दबाव"],
+      "severity": "high"
+    },
+    {
+      "id": "S02",
+      "name": "UPI Collect Request स्कैम",
+      "family": ["COLLECT"],
+      "kaise": "धोखेबाज कहता है कि आपको पैसे भेज रहा हूँ, लेकिन असल में आपके UPI ऐप पर Collect Request भेजता है। उसे स्वीकार करने और PIN डालने पर पैसा आपके खाते से कट जाता है।",
+      "solution": [
+        "अनजान Collect Request को Reject करें।",
+        "पैसा प्राप्त करने के लिए UPI PIN की जरूरत नहीं होती।",
+        "संदिग्ध UPI ID को ब्लॉक और रिपोर्ट करें।"
+      ],
+      "redFlags": ["Collect Request", "पैसे पाने के लिए PIN", "अनजान UPI ID"],
+      "severity": "high"
+    },
+    {
+      "id": "S03",
+      "name": "QR Code से पैसा प्राप्त करने का झूठ",
+      "family": ["F4"],
+      "kaise": "कोई कहता है, “इस QR को स्कैन करें, आपको पैसे मिलेंगे।” QR स्कैन करके UPI PIN डालने पर पैसा आपके खाते से निकल जाता है।",
+      "solution": [
+        "QR Code सामान्यतः भुगतान करने के लिए स्कैन किया जाता है, पैसा लेने के लिए नहीं।",
+        "QR स्कैन करने से पहले स्क्रीन पर दिखने वाला नाम और राशि देखें।",
+        "NPCI के अनुसार QR Code केवल भुगतान के लिए स्कैन करें।"
+      ],
+      "redFlags": ["QR स्कैन करो", "पैसे मिलेंगे", "cashback"],
+      "severity": "high"
+    },
+    {
+      "id": "S04",
+      "name": "OTP, UPI PIN और कार्ड विवरण चोरी",
+      "family": ["F2", "F1"],
+      "kaise": "फर्जी बैंक, बिजली विभाग, पुलिस, रिश्तेदार या ग्राहक सेवा बनकर OTP, PIN, CVV या कार्ड नंबर माँगा जाता है।",
+      "solution": [
+        "OTP या UPI PIN किसी को न बताएं।",
+        "अगर विवरण साझा हो गया है तो तुरंत कार्ड और UPI ब्लॉक करें।",
+        "नेट बैंकिंग पासवर्ड बदलें।",
+        "बैंक से शिकायत संख्या और acknowledgement लें।"
+      ],
+      "redFlags": ["OTP बताओ", "CVV", "कार्ड नंबर"],
+      "severity": "critical"
+    },
+    {
+      "id": "S05",
+      "name": "फर्जी Customer Care नंबर",
+      "family": ["F1", "F2"],
+      "kaise": "लोग Google या सोशल मीडिया पर बैंक, Paytm, PhonePe, बिजली या कुरियर का customer-care नंबर खोजते हैं। कई नंबर धोखेबाजों के होते हैं।",
+      "solution": [
+        "नंबर केवल बैंक/ऐप की आधिकारिक वेबसाइट से लें।",
+        "WhatsApp पर मिले customer-care नंबर पर भरोसा न करें।",
+        "कोई भी customer-care कर्मचारी AnyDesk, screen sharing या OTP नहीं माँगता।"
+      ],
+      "redFlags": ["Google से नंबर", "customer care", "screen sharing"],
+      "severity": "high"
+    },
+    {
+      "id": "S06",
+      "name": "Remote Access या Screen Sharing App",
+      "family": ["F2"],
+      "kaise": "धोखेबाज AnyDesk, TeamViewer, QuickSupport या कोई APK डाउनलोड करवाता है। मोबाइल स्क्रीन देखकर वह OTP, PIN या बैंकिंग जानकारी चुरा सकता है।",
+      "solution": [
+        "अनजान व्यक्ति के कहने पर कोई app डाउनलोड न करें।",
+        "ऐप डाउनलोड हो गया हो तो इंटरनेट बंद करें और uninstall करें।",
+        "बैंकिंग ऐप, UPI PIN और पासवर्ड दूसरे सुरक्षित फोन से बदलें।",
+        "NPCI screen-sharing apps से सावधान रहने को कहता है।"
+      ],
+      "redFlags": ["AnyDesk", "TeamViewer", "QuickSupport", "APK install"],
+      "severity": "critical"
+    },
+    {
+      "id": "S07",
+      "name": "Refund, Cashback और गलत Payment का स्कैम",
+      "family": ["F4"],
+      "kaise": "धोखेबाज कहता है कि गलती से आपके खाते में पैसा भेज दिया गया है या cashback/refund लेने के लिए QR स्कैन करें।",
+      "solution": [
+        "पैसा वापस करने के लिए खुद transaction history देखें।",
+        "किसी के भेजे screenshot पर भरोसा न करें।",
+        "Refund हमेशा उसी payment method में होना चाहिए; PIN डालकर refund लेने की जरूरत नहीं होती।"
+      ],
+      "redFlags": ["refund लेने के लिए PIN", "गलती से पैसे भेजे", "cashback"],
+      "severity": "high"
+    },
+    {
+      "id": "S08",
+      "name": "SIM Swap या Mobile Number बंद होने का स्कैम",
+      "family": ["SIMSWAP"],
+      "kaise": "धोखेबाज telecom कर्मचारी बनकर SIM upgrade, KYC या network problem का बहाना करता है। SIM duplicate होने के बाद वह OTP और बैंक संदेश प्राप्त कर सकता है।",
+      "solution": [
+        "अचानक मोबाइल नेटवर्क बंद हो जाए तो तुरंत telecom operator से संपर्क करें।",
+        "बैंक को कॉल करके UPI, कार्ड और नेट बैंकिंग अस्थायी रूप से block कराएं।",
+        "Sanchar Saathi पर अपने नाम पर जारी mobile connections जाँचें।"
+      ],
+      "redFlags": ["SIM upgrade", "नेटवर्क बंद", "telecom KYC"],
+      "severity": "critical"
+    },
+    {
+      "id": "S09",
+      "name": "Digital Arrest, Police, CBI, Customs या Courier Scam",
+      "family": ["F1"],
+      "kaise": "वीडियो कॉल या फोन पर कहा जाता है कि आपके नाम से parcel, illegal SIM या money-laundering case मिला है। फिर “जुर्माना” या “security deposit” माँगा जाता है।",
+      "solution": [
+        "भारत में कोई पुलिस या सरकारी एजेंसी वीडियो कॉल पर digital arrest करके payment नहीं करवाती।",
+        "कॉल काट दें और परिवार के किसी व्यक्ति को बताएं।",
+        "कोई पैसा न भेजें।",
+        "नंबर, WhatsApp profile और call recording सुरक्षित रखें।"
+      ],
+      "redFlags": ["digital arrest", "CBI", "video call", "security deposit"],
+      "severity": "critical"
+    },
+    {
+      "id": "S10",
+      "name": "Fake Job, Loan, Investment और Trading Scam",
+      "family": ["F3", "F5"],
+      "kaise": "पहले छोटा profit, salary या loan approval दिखाया जाता है। बाद में registration fee, GST, withdrawal charge या security deposit के नाम पर पैसे माँगे जाते हैं।",
+      "solution": [
+        "Guaranteed profit या बिना जाँच loan से बचें।",
+        "किसी personal UPI ID पर investment fee न भेजें।",
+        "कंपनी, broker और app की वैधता जाँचें।",
+        "धोखाधड़ी हो गई हो तो 1930 पर तुरंत कॉल करें।"
+      ],
+      "redFlags": ["guaranteed profit", "registration fee", "loan approved"],
+      "severity": "high"
+    }
+  ],
+
+  "emergency7": {
+    "title": "अगर पैसा चला गया है तो अभी ये 7 काम करें",
+    "steps": [
+      "तुरंत 1930 पर कॉल करें।",
+      "cybercrime.gov.in पर Financial Fraud शिकायत दर्ज करें।",
+      "बैंक और UPI ऐप के official support पर fraud report करें।",
+      "UPI, कार्ड, नेट बैंकिंग और wallet को block/freeze कराएं।",
+      "Transaction ID, UTR number, फोन नंबर, screenshots और chat सुरक्षित रखें।",
+      "बैंक से complaint number और written acknowledgement लें।",
+      "किसी “recovery agent” को दोबारा पैसा न दें।"
+    ],
+    "note": "I4C के अनुसार, 1930 और National Cybercrime Reporting Portal financial cyber fraud की रिपोर्टिंग के लिए उपलब्ध हैं। शिकायत जल्दी करने से संबंधित बैंक और payment intermediaries को कार्रवाई के लिए सूचना मिलती है, लेकिन refund की गारंटी नहीं होती।"
+  },
+
+  "serviceModel": {
+    "name": "UPI Suraksha Saathi",
+    "tagline": "स्कैम होने से पहले चेतावनी · स्कैम के समय तुरंत सहायता · स्कैम के बाद complaint support",
+    "modules": [
+      {
+        "id": "M-WA",
+        "name": "WhatsApp Scam Checker",
+        "accepts": ["suspicious message", "फोन नंबर", "UPI ID", "payment link", "QR screenshot", "job/loan offer"],
+        "returns": ["किस प्रकार का scam हो सकता है", "अभी क्या न करें", "official complaint कहाँ करें", "bank/app का सही official link"],
+        "guardrail": "ग्राहक से कभी OTP, UPI PIN, CVV, password या पूरा account number न लें।"
+      },
+      {
+        "id": "M-EMG",
+        "name": "10-Minute Emergency Mode",
+        "description": "एक बटन दबाते ही ग्राहक को checklist मिले",
+        "checklist": [
+          "Bank block करने का official नंबर",
+          "UPI app complaint link",
+          "1930 dial करने का विकल्प",
+          "Cybercrime portal link",
+          "evidence collection list",
+          "family member को alert करने का विकल्प"
+        ]
+      },
+      {
+        "id": "M-PKT",
+        "name": "Complaint Packet Generator",
+        "fields": ["घटना की तारीख और समय", "scammer का नंबर", "UPI ID", "transaction ID", "रकम", "screenshots", "बैंक complaint number", "1930 complaint reference"]
+      },
+      {
+        "id": "M-VOICE",
+        "name": "Elderly और गाँवों के लिए Voice Service",
+        "features": ["हिंदी voice call", "स्थानीय भाषा में instructions", "बुजुर्गों के लिए family-alert"]
+      }
+    ]
+  },
+
+  "citations": [
+    { "id": 1, "source": "NPCI — QR Code और screen-sharing apps पर सार्वजनिक सलाह" },
+    { "id": 2, "source": "RBI — अनधिकृत लेनदेन की सूचना बैंक को तुरंत देने की सलाह" },
+    { "id": 3, "source": "Sanchar Saathi (DoT) — अपने नाम पर जारी mobile connections जाँचें" },
+    { "id": 4, "source": "I4C — 1930 helpline और National Cybercrime Reporting Portal" }
+  ]
+}
+; } catch (e) { LIB = {}; }
+  if (!LIB || typeof LIB !== 'object') LIB = {};
+  var S = LIB.scams || [];
+
+  function el(tag, cls, txt) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt != null) n.textContent = txt;
+    return n;
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  var SEV = { critical: 'bad', high: 'warn', medium: 'ok' };
+
+  function renderCards() {
+    var g = document.getElementById('m8grid');
+    if (!g) return;
+    g.innerHTML = '';
+    if (!S.length) { g.innerHTML = '<div class="tiny dim">Library load nahi hui.</div>'; return; }
+
+    S.forEach(function (sc) {
+      var card = el('div', 'sheet');
+      card.style.cssText = 'margin:0;padding:12px;cursor:pointer';
+
+      var head = el('div', 'spread');
+      var left = el('div');
+      left.appendChild(el('div', 'tiny dim', sc.id + ' · ' + (sc.family || []).join(', ')));
+      var t = el('div', '', sc.name);
+      t.style.cssText = 'font-weight:700;font-size:14px;margin-top:2px';
+      left.appendChild(t);
+      head.appendChild(left);
+      var sev = el('span', 'tag ' + (SEV[sc.severity] || 'ok'), sc.severity || 'info');
+      head.appendChild(sev);
+      card.appendChild(head);
+
+      var body = el('div');
+      body.style.cssText = 'display:none;margin-top:8px;line-height:1.65;font-size:12.5px';
+
+      var how = el('div');
+      how.innerHTML = '<b>कैसे होता है:</b> ' + esc(sc.kaise);
+      how.style.marginBottom = '6px';
+      body.appendChild(how);
+
+      var solT = el('div');
+      solT.innerHTML = '<b>तुरंत समाधान:</b>';
+      body.appendChild(solT);
+
+      var ul = el('ul');
+      ul.style.cssText = 'margin:4px 0 8px 18px;padding:0';
+      (sc.solution || []).forEach(function (x) { ul.appendChild(el('li', '', x)); });
+      body.appendChild(ul);
+
+      var rf = el('div', 'tiny dim', '🚩 ' + (sc.redFlags || []).join(' · '));
+      body.appendChild(rf);
+      card.appendChild(body);
+
+      card.onclick = function () {
+        body.style.display = (body.style.display === 'none') ? 'block' : 'none';
+      };
+      g.appendChild(card);
+    });
+
+    var c = document.getElementById('m8count');
+    if (c) c.textContent = S.length + ' scams';
+  }
+
+  function renderEmergency() {
+    var ol = document.getElementById('m8e7');
+    if (!ol) return;
+    ol.innerHTML = '';
+    ((LIB.emergency7 || {}).steps || []).forEach(function (s, i) {
+      var li = el('li', '', s);
+      if (i === 0) li.style.fontWeight = '700';
+      ol.appendChild(li);
+    });
+    var n = document.getElementById('m8e7note');
+    if (n) n.textContent = (LIB.emergency7 || {}).note || '';
+  }
+
+  function renderService() {
+    var box = document.getElementById('m8svc');
+    var tag = document.getElementById('m8tag');
+    var m = LIB.serviceModel || {};
+    if (tag) tag.textContent = m.tagline || '';
+    if (!box) return;
+    box.innerHTML = '';
+    (m.modules || []).forEach(function (mod) {
+      var c = el('div', 'sheet');
+      c.style.cssText = 'margin:0;padding:11px';
+      var h = el('div', '', mod.name);
+      h.style.cssText = 'font-weight:700;font-size:13.5px;margin-bottom:4px';
+      c.appendChild(h);
+      if (mod.description) c.appendChild(el('div', 'tiny dim', mod.description));
+      var items = mod.checklist || mod.features || mod.returns || mod.fields || [];
+      var ul = el('ul');
+      ul.style.cssText = 'margin:5px 0 0 17px;padding:0;font-size:12px;line-height:1.6';
+      items.forEach(function (x) { ul.appendChild(el('li', '', x)); });
+      c.appendChild(ul);
+      if (mod.guardrail) {
+        var g = el('div', 'tiny', '⚠️ ' + mod.guardrail);
+        g.style.cssText = 'margin-top:7px;font-weight:600';
+        c.appendChild(g);
+      }
+      box.appendChild(c);
+    });
+  }
+
+  function renderCitations() {
+    var c = document.getElementById('m8cite');
+    if (!c) return;
+    c.innerHTML = 'संदर्भ: ' + (LIB.citations || []).map(function (x) {
+      return '[' + x.id + '] ' + esc(x.source);
+    }).join(' · ');
+  }
+
+  function init() {
+    renderCards(); renderEmergency(); renderService(); renderCitations();
+    // m7 (Intel Desk) ke baad m8 bhi offline render ho jaye
+    var tabBtn = document.querySelector('[data-m="m8"]');
+    if (tabBtn && window.EVAL_SET) return; // tab wiring app ke paas hai
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+})();
 
 </script>
 </body></html>

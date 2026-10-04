@@ -1,0 +1,205 @@
+{
+  "_meta": {
+    "title": "10 सबसे आम UPI / बैंक / वॉलेट स्कैम",
+    "version": "1.0",
+    "language": "hi",
+    "source": "Team SCΛMURΛI · SatarkPay · SANGYAN (SEBI × NSDL × IIT-BHU)",
+    "note": "यह जानकारी सार्वजनिक सुरक्षा जागरूकता के लिए है। NPCI, RBI, I4C और Sanchar Saathi की सार्वजनिक सलाह पर आधारित।"
+  },
+
+  "scams": [
+    {
+      "id": "S01",
+      "name": "फर्जी बैंक अधिकारी या KYC कॉल",
+      "family": ["F2", "F1"],
+      "kaise": "कोई व्यक्ति बैंक अधिकारी बनकर कहता है कि आपका KYC, PAN, खाता या कार्ड बंद होने वाला है। फिर OTP, UPI PIN, कार्ड नंबर या लिंक माँगता है।",
+      "solution": [
+        "कॉल काट दें।",
+        "बैंक की आधिकारिक वेबसाइट या कार्ड के पीछे दिए नंबर पर स्वयं कॉल करें।",
+        "OTP, PIN, CVV या पासवर्ड कभी न बताएं।",
+        "पैसा चला गया हो तो तुरंत बैंक और 1930 पर शिकायत करें।"
+      ],
+      "redFlags": ["KYC बंद होगा", "OTP माँगना", "तुरंत कार्रवाई का दबाव"],
+      "severity": "high"
+    },
+    {
+      "id": "S02",
+      "name": "UPI Collect Request स्कैम",
+      "family": ["COLLECT"],
+      "kaise": "धोखेबाज कहता है कि आपको पैसे भेज रहा हूँ, लेकिन असल में आपके UPI ऐप पर Collect Request भेजता है। उसे स्वीकार करने और PIN डालने पर पैसा आपके खाते से कट जाता है।",
+      "solution": [
+        "अनजान Collect Request को Reject करें।",
+        "पैसा प्राप्त करने के लिए UPI PIN की जरूरत नहीं होती।",
+        "संदिग्ध UPI ID को ब्लॉक और रिपोर्ट करें।"
+      ],
+      "redFlags": ["Collect Request", "पैसे पाने के लिए PIN", "अनजान UPI ID"],
+      "severity": "high"
+    },
+    {
+      "id": "S03",
+      "name": "QR Code से पैसा प्राप्त करने का झूठ",
+      "family": ["F4"],
+      "kaise": "कोई कहता है, “इस QR को स्कैन करें, आपको पैसे मिलेंगे।” QR स्कैन करके UPI PIN डालने पर पैसा आपके खाते से निकल जाता है।",
+      "solution": [
+        "QR Code सामान्यतः भुगतान करने के लिए स्कैन किया जाता है, पैसा लेने के लिए नहीं।",
+        "QR स्कैन करने से पहले स्क्रीन पर दिखने वाला नाम और राशि देखें।",
+        "NPCI के अनुसार QR Code केवल भुगतान के लिए स्कैन करें।"
+      ],
+      "redFlags": ["QR स्कैन करो", "पैसे मिलेंगे", "cashback"],
+      "severity": "high"
+    },
+    {
+      "id": "S04",
+      "name": "OTP, UPI PIN और कार्ड विवरण चोरी",
+      "family": ["F2", "F1"],
+      "kaise": "फर्जी बैंक, बिजली विभाग, पुलिस, रिश्तेदार या ग्राहक सेवा बनकर OTP, PIN, CVV या कार्ड नंबर माँगा जाता है।",
+      "solution": [
+        "OTP या UPI PIN किसी को न बताएं।",
+        "अगर विवरण साझा हो गया है तो तुरंत कार्ड और UPI ब्लॉक करें।",
+        "नेट बैंकिंग पासवर्ड बदलें।",
+        "बैंक से शिकायत संख्या और acknowledgement लें।"
+      ],
+      "redFlags": ["OTP बताओ", "CVV", "कार्ड नंबर"],
+      "severity": "critical"
+    },
+    {
+      "id": "S05",
+      "name": "फर्जी Customer Care नंबर",
+      "family": ["F1", "F2"],
+      "kaise": "लोग Google या सोशल मीडिया पर बैंक, Paytm, PhonePe, बिजली या कुरियर का customer-care नंबर खोजते हैं। कई नंबर धोखेबाजों के होते हैं।",
+      "solution": [
+        "नंबर केवल बैंक/ऐप की आधिकारिक वेबसाइट से लें।",
+        "WhatsApp पर मिले customer-care नंबर पर भरोसा न करें।",
+        "कोई भी customer-care कर्मचारी AnyDesk, screen sharing या OTP नहीं माँगता।"
+      ],
+      "redFlags": ["Google से नंबर", "customer care", "screen sharing"],
+      "severity": "high"
+    },
+    {
+      "id": "S06",
+      "name": "Remote Access या Screen Sharing App",
+      "family": ["F2"],
+      "kaise": "धोखेबाज AnyDesk, TeamViewer, QuickSupport या कोई APK डाउनलोड करवाता है। मोबाइल स्क्रीन देखकर वह OTP, PIN या बैंकिंग जानकारी चुरा सकता है।",
+      "solution": [
+        "अनजान व्यक्ति के कहने पर कोई app डाउनलोड न करें।",
+        "ऐप डाउनलोड हो गया हो तो इंटरनेट बंद करें और uninstall करें।",
+        "बैंकिंग ऐप, UPI PIN और पासवर्ड दूसरे सुरक्षित फोन से बदलें।",
+        "NPCI screen-sharing apps से सावधान रहने को कहता है।"
+      ],
+      "redFlags": ["AnyDesk", "TeamViewer", "QuickSupport", "APK install"],
+      "severity": "critical"
+    },
+    {
+      "id": "S07",
+      "name": "Refund, Cashback और गलत Payment का स्कैम",
+      "family": ["F4"],
+      "kaise": "धोखेबाज कहता है कि गलती से आपके खाते में पैसा भेज दिया गया है या cashback/refund लेने के लिए QR स्कैन करें।",
+      "solution": [
+        "पैसा वापस करने के लिए खुद transaction history देखें।",
+        "किसी के भेजे screenshot पर भरोसा न करें।",
+        "Refund हमेशा उसी payment method में होना चाहिए; PIN डालकर refund लेने की जरूरत नहीं होती।"
+      ],
+      "redFlags": ["refund लेने के लिए PIN", "गलती से पैसे भेजे", "cashback"],
+      "severity": "high"
+    },
+    {
+      "id": "S08",
+      "name": "SIM Swap या Mobile Number बंद होने का स्कैम",
+      "family": ["SIMSWAP"],
+      "kaise": "धोखेबाज telecom कर्मचारी बनकर SIM upgrade, KYC या network problem का बहाना करता है। SIM duplicate होने के बाद वह OTP और बैंक संदेश प्राप्त कर सकता है।",
+      "solution": [
+        "अचानक मोबाइल नेटवर्क बंद हो जाए तो तुरंत telecom operator से संपर्क करें।",
+        "बैंक को कॉल करके UPI, कार्ड और नेट बैंकिंग अस्थायी रूप से block कराएं।",
+        "Sanchar Saathi पर अपने नाम पर जारी mobile connections जाँचें।"
+      ],
+      "redFlags": ["SIM upgrade", "नेटवर्क बंद", "telecom KYC"],
+      "severity": "critical"
+    },
+    {
+      "id": "S09",
+      "name": "Digital Arrest, Police, CBI, Customs या Courier Scam",
+      "family": ["F1"],
+      "kaise": "वीडियो कॉल या फोन पर कहा जाता है कि आपके नाम से parcel, illegal SIM या money-laundering case मिला है। फिर “जुर्माना” या “security deposit” माँगा जाता है।",
+      "solution": [
+        "भारत में कोई पुलिस या सरकारी एजेंसी वीडियो कॉल पर digital arrest करके payment नहीं करवाती।",
+        "कॉल काट दें और परिवार के किसी व्यक्ति को बताएं।",
+        "कोई पैसा न भेजें।",
+        "नंबर, WhatsApp profile और call recording सुरक्षित रखें।"
+      ],
+      "redFlags": ["digital arrest", "CBI", "video call", "security deposit"],
+      "severity": "critical"
+    },
+    {
+      "id": "S10",
+      "name": "Fake Job, Loan, Investment और Trading Scam",
+      "family": ["F3", "F5"],
+      "kaise": "पहले छोटा profit, salary या loan approval दिखाया जाता है। बाद में registration fee, GST, withdrawal charge या security deposit के नाम पर पैसे माँगे जाते हैं।",
+      "solution": [
+        "Guaranteed profit या बिना जाँच loan से बचें।",
+        "किसी personal UPI ID पर investment fee न भेजें।",
+        "कंपनी, broker और app की वैधता जाँचें।",
+        "धोखाधड़ी हो गई हो तो 1930 पर तुरंत कॉल करें।"
+      ],
+      "redFlags": ["guaranteed profit", "registration fee", "loan approved"],
+      "severity": "high"
+    }
+  ],
+
+  "emergency7": {
+    "title": "अगर पैसा चला गया है तो अभी ये 7 काम करें",
+    "steps": [
+      "तुरंत 1930 पर कॉल करें।",
+      "cybercrime.gov.in पर Financial Fraud शिकायत दर्ज करें।",
+      "बैंक और UPI ऐप के official support पर fraud report करें।",
+      "UPI, कार्ड, नेट बैंकिंग और wallet को block/freeze कराएं।",
+      "Transaction ID, UTR number, फोन नंबर, screenshots और chat सुरक्षित रखें।",
+      "बैंक से complaint number और written acknowledgement लें।",
+      "किसी “recovery agent” को दोबारा पैसा न दें।"
+    ],
+    "note": "I4C के अनुसार, 1930 और National Cybercrime Reporting Portal financial cyber fraud की रिपोर्टिंग के लिए उपलब्ध हैं। शिकायत जल्दी करने से संबंधित बैंक और payment intermediaries को कार्रवाई के लिए सूचना मिलती है, लेकिन refund की गारंटी नहीं होती।"
+  },
+
+  "serviceModel": {
+    "name": "UPI Suraksha Saathi",
+    "tagline": "स्कैम होने से पहले चेतावनी · स्कैम के समय तुरंत सहायता · स्कैम के बाद complaint support",
+    "modules": [
+      {
+        "id": "M-WA",
+        "name": "WhatsApp Scam Checker",
+        "accepts": ["suspicious message", "फोन नंबर", "UPI ID", "payment link", "QR screenshot", "job/loan offer"],
+        "returns": ["किस प्रकार का scam हो सकता है", "अभी क्या न करें", "official complaint कहाँ करें", "bank/app का सही official link"],
+        "guardrail": "ग्राहक से कभी OTP, UPI PIN, CVV, password या पूरा account number न लें।"
+      },
+      {
+        "id": "M-EMG",
+        "name": "10-Minute Emergency Mode",
+        "description": "एक बटन दबाते ही ग्राहक को checklist मिले",
+        "checklist": [
+          "Bank block करने का official नंबर",
+          "UPI app complaint link",
+          "1930 dial करने का विकल्प",
+          "Cybercrime portal link",
+          "evidence collection list",
+          "family member को alert करने का विकल्प"
+        ]
+      },
+      {
+        "id": "M-PKT",
+        "name": "Complaint Packet Generator",
+        "fields": ["घटना की तारीख और समय", "scammer का नंबर", "UPI ID", "transaction ID", "रकम", "screenshots", "बैंक complaint number", "1930 complaint reference"]
+      },
+      {
+        "id": "M-VOICE",
+        "name": "Elderly और गाँवों के लिए Voice Service",
+        "features": ["हिंदी voice call", "स्थानीय भाषा में instructions", "बुजुर्गों के लिए family-alert"]
+      }
+    ]
+  },
+
+  "citations": [
+    { "id": 1, "source": "NPCI — QR Code और screen-sharing apps पर सार्वजनिक सलाह" },
+    { "id": 2, "source": "RBI — अनधिकृत लेनदेन की सूचना बैंक को तुरंत देने की सलाह" },
+    { "id": 3, "source": "Sanchar Saathi (DoT) — अपने नाम पर जारी mobile connections जाँचें" },
+    { "id": 4, "source": "I4C — 1930 helpline और National Cybercrime Reporting Portal" }
+  ]
+}
