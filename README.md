@@ -14,11 +14,12 @@
 <br/>
 
 **🔴 Live demo:** **[sudonishant.github.io/satarkpay-repo](https://sudonishant.github.io/satarkpay-repo/)** — offline-capable, no install (phone par kholo) · **[interactive deck](https://sudonishant.github.io/satarkpay-repo/web/deck/deck.html)**
-**🎥 Demo video (3 min):** _(recording pending — yahan link aayega)_
+**🎥 Demo video (3:19, Hinglish):** **[▶ SatarkPay — SANGYAN 2026 Demo](https://sudonishant.github.io/satarkpay-repo/assets/demo/SatarkPay_Demo_Hinglish.mp4)** · [download](assets/demo/SatarkPay_Demo_Hinglish.mp4)
 
 | Artifact | Kahan hai |
 |---|---|
 | 🔴 Live demo (offline bhi chalta hai) | **[sudonishant.github.io/satarkpay-repo](https://sudonishant.github.io/satarkpay-repo/)** |
+| 🎥 **Demo video (3:19, Hinglish · intro → demo → outro)** | **[▶ dekho](https://sudonishant.github.io/satarkpay-repo/assets/demo/SatarkPay_Demo_Hinglish.mp4)** |
 | 📑 **Pitch deck (17 slides, Python-generated)** | [`web/pitch/SANGYAN_SatarkPay_Pitch.pptx`](web/pitch/SANGYAN_SatarkPay_Pitch.pptx) · [PDF](web/pitch/SANGYAN_SatarkPay_Pitch.pdf) |
 | 🖼️ Interactive deck (HTML) | [web/deck/deck.html](https://sudonishant.github.io/satarkpay-repo/web/deck/deck.html) |
 | ✅ Verified numbers + exact commands | [`docs/VERIFICATION.md`](docs/VERIFICATION.md) |
@@ -42,6 +43,13 @@
 
 > *"Paisa bhejne se pehle 60 second — aur fraud ke baad 60 minute. Dono par SatarkPay ka pehra hai."*  
 > **60 Seconds Pre-Pay Interception • 60 Minutes Golden-Hour Post-Fraud Recovery.**
+
+<p align="center">
+  <a href="https://sudonishant.github.io/satarkpay-repo/assets/demo/SatarkPay_Demo_Hinglish.mp4">
+    <img src="assets/demo/video_poster.png" width="72%" alt="SatarkPay demo video (3:19) — click to play" style="border-radius:14px"/>
+  </a>
+</p>
+<p align="center"><b>▶ Demo video (3:19, Hinglish) — click karke dekho</b></p>
 
 <p align="center">
   <img src="web/deck/screenshots/01a_saved_contact_fastpath.png" width="23%"/>

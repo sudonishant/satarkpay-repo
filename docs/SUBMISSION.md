@@ -3,6 +3,7 @@
 ## Kya submit hota hai
 1. **Live demo** — 🔴 **https://sudonishant.github.io/satarkpay-repo/** (GitHub Pages; fallback: `web/satarkpay_m2.html` offline single file)
 2. **3–5 min video** — script: `docs/DEMO_SCRIPT.md`
+   - ✅ **READY:** https://sudonishant.github.io/satarkpay-repo/assets/demo/SatarkPay_Demo_Hinglish.mp4 (3:19, Hinglish)
 3. **PPT** — `web/deck/satarkpay_deck.pptx` (PDF bhi: `satarkpay_deck.pdf`)
 
 ## Pre-submit (aaj hi)

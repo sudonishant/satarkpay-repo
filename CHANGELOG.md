@@ -2,6 +2,12 @@
 
 Sab notable changes, naye se purane. Format: `date · version — kya`.
 
+## 2026-10-04 · v1.4 — 🎬 demo video (3:19, Hinglish)
+
+- **Video ready:** intro branding card → live demo screening (asli clicks, Hinglish explainer VO) → outro card with links. 1920×1080, H.264, 3:19, 21 MB
+- Repo me: `assets/demo/SatarkPay_Demo_Hinglish.mp4` (GitHub Pages se direct playable) + poster `video_poster.png`
+- README me video link + clickable poster
+
 ## 2026-10-03 · v1.3 — premium pass 3 (complete palette) + 17-slide pitch deck + README v3
 
 ### UI — "aur zyada red green lag raha hai" fix
