@@ -5,7 +5,7 @@
    from cache. Update by bumping VERSION.
    ========================================================================== */
 
-var VERSION = 'satarkpay-v5';
+var VERSION = 'satarkpay-v6';
 
 var ASSETS = [
   './',
@@ -23,6 +23,10 @@ var ASSETS = [
   'assets/chain.js',
   'assets/data.js',
   'assets/icon.svg',
+  'assets/scams/digital-arrest.jpg',
+  'assets/scams/kyc-apk.jpg',
+  'assets/scams/qr-refund.jpg',
+  'assets/scams/fake-job.jpg',
   'manifest.webmanifest'
 ];
 

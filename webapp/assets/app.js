@@ -173,6 +173,8 @@ SP.shell = function () {
     '<button id="burger" aria-label="Menu">' + SP.icon('layers', 17) + '</button>' +
     '<div class="crumb">SatarkPay ' + SP.icon('arrow', 12) + ' <b>' + cur.t + '</b></div>' +
     '<div class="right">' +
+      '<button class="toggle-chip" id="voiceToggle" title="Hindi voice — verdicts read aloud">' + SP.icon('message', 14) + ' आवाज़</button>' +
+      '<button class="toggle-chip" id="seniorToggle" title="Senior mode — larger text and tap targets">' + SP.icon('eye', 14) + ' Senior</button>' +
       '<span class="badge b-partner" id="netBadge"><span class="dot"></span><span id="netText">offline ready</span></span>' +
       '<a class="btn sm primary" href="payment.html">' + SP.icon('shield', 14) + ' Check a payment</a>' +
     '</div>';
@@ -184,6 +186,17 @@ SP.shell = function () {
   body.className = 'content';
   authored.forEach(function (n) { body.appendChild(n); });
   main.appendChild(body);
+
+  var foot = document.createElement('footer');
+  foot.className = 'foot';
+  foot.innerHTML =
+    '<b>SatarkPay</b> · सतर्कपे' +
+    '<span class="sep">·</span><span>Runs on your phone. Nothing uploaded.</span>' +
+    '<span class="sep">·</span><a href="emergency.html">1930 emergency steps</a>' +
+    '<span class="sep">·</span><a href="evidence.html">Evidence pack</a>' +
+    '<span class="sep">·</span><a href="about.html">Honest capability matrix</a>' +
+    '<span style="margin-left:auto">SANGYAN 2026 · Team SCΛMURΛI</span>';
+  main.appendChild(foot);
 
   var progress = document.createElement('div');
   progress.id = 'progress';
@@ -210,7 +223,71 @@ SP.shell = function () {
     a.addEventListener('click', function () { document.body.classList.remove('nav-open'); });
   });
 
+  SP.wireToggles();
   SP.progressBar();
+};
+
+/* --------------------------------------------------- voice + senior mode ---
+   The user's "voice service for elderly" idea, on-device: the browser's own
+   speech synthesis reads verdicts and emergency steps in Hindi. Senior mode
+   scales the type up and keeps every target large. Both survive navigation
+   through the same session storage everything else uses. */
+
+SP.toast = function (msg) {
+  var t = SP.$('#spToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'spToast';
+    t.className = 'voice-toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._h);
+  t._h = setTimeout(function () { t.classList.remove('show'); }, 2200);
+};
+
+SP.speak = function (text) {
+  if (!SP.voiceOn || !('speechSynthesis' in window) || !text) return;
+  try {
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(String(text).slice(0, 240));
+    u.lang = 'hi-IN';
+    u.rate = 0.95;
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+};
+
+SP.wireToggles = function () {
+  SP.voiceOn = !!SP.session.get('voiceOn', false);
+  SP.seniorOn = !!SP.session.get('seniorOn', false);
+
+  var v = SP.$('#voiceToggle'), s = SP.$('#seniorToggle');
+  if (SP.seniorOn) document.documentElement.classList.add('senior');
+  if (v) v.classList.toggle('on', SP.voiceOn);
+  if (s) s.classList.toggle('on', SP.seniorOn);
+
+  if (v) v.addEventListener('click', function () {
+    SP.voiceOn = !SP.voiceOn;
+    SP.session.set('voiceOn', SP.voiceOn);
+    v.classList.toggle('on', SP.voiceOn);
+    if (SP.voiceOn) {
+      SP.toast('आवाज़ चालू — नतीजे हिंदी में सुनाए जाएंगे');
+      SP.speak('आवाज़ सेवा चालू है। अब हर नतीजा हिंदी में सुनाया जाएगा।');
+    } else {
+      try { window.speechSynthesis.cancel(); } catch (e) {}
+      SP.toast('Voice off');
+    }
+  });
+
+  if (s) s.addEventListener('click', function () {
+    SP.seniorOn = !SP.seniorOn;
+    SP.session.set('seniorOn', SP.seniorOn);
+    document.documentElement.classList.toggle('senior', SP.seniorOn);
+    s.classList.toggle('on', SP.seniorOn);
+    SP.toast(SP.seniorOn ? 'Senior mode on — text enlarged' : 'Senior mode off');
+    SP.speak(SP.seniorOn ? 'सीनियर मोड चालू। अक्षर बड़े हो गए हैं।' : 'सीनियर मोड बंद।');
+  });
 };
 
 SP.progressBar = function () {

@@ -84,3 +84,24 @@ cd web && bash run_smoke.sh                                              # 66/66
 - M1 Chat-Before-Pay (4-cell matrix), M2 Screenshot Radar + R22 staircase, M3 Domain Trust ladder, M4 AI Sanchalak, M5 Wallet/AutoPay audit, M6 Intel Desk (live crawler), M7 Auto-Report (crop/OCR/QR/redact/hash → NCRP + email pack)
 - Asli fraud case par evidence pipeline (28 files, hashes, complaint drafts)
 - Rules R15–R25 + deck ke R1–R14
+
+## [Unreleased] — 2026-10-04
+
+### Added
+- **Premium web UI v6** — glass topbar/sidebar, gradient hero with live phone
+  mockup, refined stat cards, scam screenshot gallery (`webapp/assets/scams/`),
+  polished buttons/notes/verdicts across all 8 pages. 139/139 tests still pass.
+- **Hindi voice mode + senior mode** on the webapp (topbar toggles, session-
+  remembered, `speechSynthesis` `hi-IN`) — the "voice service for elderly" idea.
+- **`SatarkPay_SANGYAN_Final.pptx`** — 10-slide hackathon deck with the scam
+  screenshots and fresh web/android demo shots (`tools/generate_final_deck.py`).
+- **`assets/demo/SatarkPay_Demo.mp4`** — ~7 min Hindi demo video, intro →
+  problem → web walkthrough → support → android → outro
+  (`tools/make_demo_video.py`, script in `docs/DEMO_VIDEO_SCRIPT_HI.md`).
+- **Android README** + theme aligned to the web palette (`#2F6BF6` family).
+- Fresh webapp screenshots in `web/deck/screenshots_webapp/`.
+
+### Changed
+- `web/satarkpay_m2.html` — muddy navy background washes replaced with clean
+  light gradients; buttons restyled to the premium palette.
+- `webapp/sw.js` precache bumped to v6 (new scam images included).

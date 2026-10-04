@@ -14,21 +14,40 @@
 <body>
 
 <section class="hero">
-  <div class="eyebrow">SANGYAN 2026 · Fraud resilience</div>
-  <h1>Every fraud tool in India reacts after the money has gone.</h1>
-  <p class="lede">
-    SatarkPay works in the sixty seconds <em>before</em> it goes. Nine signals
-    read on the phone itself, offline, and a verdict that tells you exactly
-    which signal made it worry — not a score you have to trust.
-  </p>
-  <div class="row">
-    <a class="btn primary lg" href="payment.html">Check a payment</a>
-    <a class="btn lg" href="library.html">See the ten patterns</a>
-  </div>
-  <div class="row" style="margin-top:18px;gap:16px">
-    <span class="small faint" style="display:flex;align-items:center;gap:6px" data-icon="lock" data-size="14">Nothing uploaded, ever</span>
-    <span class="small faint" style="display:flex;align-items:center;gap:6px" data-icon="bolt" data-size="14">p95 under 32 ms</span>
-    <span class="small faint" style="display:flex;align-items:center;gap:6px" data-icon="phone" data-size="14">8/8 pages offline</span>
+  <div class="hero-split">
+    <div>
+      <div class="eyebrow">SANGYAN 2026 · Fraud resilience</div>
+      <h1>Ruk jaiye. <em>60 second</em> pehle — paisa jaane se pehle.</h1>
+      <p class="lede">
+        Every fraud tool in India reacts after the money has gone. SatarkPay works
+        in the sixty seconds <em>before</em> it goes — nine signals read on the phone
+        itself, offline, and a verdict that shows the exact arithmetic behind it.
+      </p>
+      <div class="row">
+        <a class="btn primary lg" href="payment.html">Check a payment</a>
+        <a class="btn lg" href="emergency.html">Money already gone?</a>
+        <a class="btn lg ghost" href="library.html">See the ten patterns</a>
+      </div>
+      <div class="row" style="margin-top:20px;gap:14px">
+        <span class="small faint" style="display:flex;align-items:center;gap:6px" data-icon="lock" data-size="14">Nothing uploaded, ever</span>
+        <span class="small faint" style="display:flex;align-items:center;gap:6px" data-icon="bolt" data-size="14">p95 under 32 ms</span>
+        <span class="small faint" style="display:flex;align-items:center;gap:6px" data-icon="phone" data-size="14">8/8 pages offline</span>
+        <span class="small faint" style="display:flex;align-items:center;gap:6px" data-icon="users" data-size="14">Hindi voice + senior mode</span>
+      </div>
+    </div>
+    <div class="hero-vis" aria-hidden="true">
+      <div class="float-chip fc-1"><span class="badge b-bad">CRITICAL</span>&nbsp;Pay withheld</div>
+      <div class="phone">
+        <div class="screen">
+          <div class="pill" style="background:var(--bad-soft);color:var(--bad)">● CRITICAL · 23 pts</div>
+          <div class="mini-card"><b>On a call while paying</b><span>+4 · the moment pressure converges</span></div>
+          <div class="mini-card"><b>“Scan this to receive money”</b><span>+4 · a QR can only debit</span></div>
+          <div class="mini-card"><b>First time paying this payee</b><span>+3 · no history to compare</span></div>
+          <div class="mini-card" style="background:linear-gradient(135deg,#fdecec,#fdf3f2);border-color:#f6c9c9"><b style="color:var(--bad)">Pay action withheld</b><span style="color:#9b1c1c">No countdown — it does not become available</span></div>
+        </div>
+      </div>
+      <div class="float-chip fc-2">🛡️ 0 bytes uploaded</div>
+    </div>
   </div>
 </section>
 
@@ -146,6 +165,28 @@
       and the two things that will happen next — including the "recovery agent" who will call you.
     </p>
   </span>
+</div>
+
+<h2>The ten scams this is built against</h2>
+<p class="lede" style="margin-bottom:16px">Real fraud conversations, documented as screenshots — each one mapped to a
+pattern in the library and a signal in the engine.</p>
+<div class="shots">
+  <figure class="shot" style="margin:0">
+    <img src="assets/scams/digital-arrest.jpg" alt="Fake digital arrest video call scam screenshot">
+    <figcaption class="cap"><b>Digital arrest</b><span>“CBI case — pay a security deposit now.” No agency arrests over video call.</span></figcaption>
+  </figure>
+  <figure class="shot" style="margin:0">
+    <img src="assets/scams/kyc-apk.jpg" alt="Fake KYC APK loan app scam screenshot">
+    <figcaption class="cap"><b>KYC / fake APK</b><span>“Install this app to update KYC.” The APK is the attack, not the message.</span></figcaption>
+  </figure>
+  <figure class="shot" style="margin:0">
+    <img src="assets/scams/qr-refund.jpg" alt="Fake refund QR code scam screenshot">
+    <figcaption class="cap"><b>Refund QR</b><span>“Scan to receive your refund.” A QR scan can only debit — never credit.</span></figcaption>
+  </figure>
+  <figure class="shot" style="margin:0">
+    <img src="assets/scams/fake-job.jpg" alt="Fake job offer scam screenshot">
+    <figcaption class="cap"><b>Fake job / loan</b><span>“Pay registration fee via UPI.” Salary is never collected in advance.</span></figcaption>
+  </figure>
 </div>
 
 <h2>Privacy, stated as a fact rather than a promise</h2>

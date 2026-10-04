@@ -14,6 +14,11 @@ money moves**. That is the entire idea this project is built on.
 **[▶ Open the live app](https://sudonishant.github.io/satarkpay-repo/webapp/)** —
 no install, no account, works with the network switched off.
 
+**Also in this repo:** [the 10-slide hackathon deck](SatarkPay_SANGYAN_Final.pptx) ·
+the demo video (`assets/demo/SatarkPay_Demo.mp4`) ·
+[the native Android app](app/satarkpay-android/) ·
+[the offline single-file demo](web/satarkpay_m2.html)
+
 ---
 
 ## What it does
@@ -85,11 +90,19 @@ Neither was visible without running the assertions against a real browser.
 
 ## The UI
 
-Light, calm, one accent, three shadows. Nothing decorative that does not carry
-meaning: `#f5f7fa` canvas, `#2b6bf3` accent, `#0a0d14` ink, 16 px card radius,
-hairline borders, a 2 px top progress bar on navigation, a count-up on the
-numbers that are the point, and a filled arc gauge that puts the risk score next
-to three threshold ticks so the reader can see *how far past HIGH* a score is.
+Premium light, calm, one accent family. Nothing decorative that does not carry
+meaning: `#f3f6fb` canvas, `#2f6bf6 → #7a5af8` accent family, `#0c1424` ink,
+glass topbar and sidebar, hairline borders, a 3 px gradient progress bar on
+navigation, a hero with a live phone mockup of a CRITICAL verdict, count-up on
+the numbers that are the point, and a filled arc gauge that puts the risk score
+next to three threshold ticks so the reader can see *how far past HIGH* a score
+is. Real fraud screenshots from `web/deck/scam_shots/` ship inside the library.
+
+**Two accessibility features, on by choice:** a **Hindi voice mode** (the
+browser reads verdicts and emergency steps aloud, `hi-IN`) and a **senior
+mode** (type scaled up, targets large) — both toggled from the topbar and
+remembered for the session. This is the "voice service for the elderly" idea,
+running fully on-device.
 
 No framework. No build step. No dependencies. Three scripts:
 
@@ -109,8 +122,20 @@ webapp/
 │   ├── engine.js       redaction, VPA parsing, domain ladder, 13 rules + 4 markers
 │   ├── chain.js        nine signals → score → tier → gate → evidence text
 │   └── data.js         domains, PSP list, ten scams, samples, advisories
-├── sw.js               precache the shell (v5)
+├── assets/scams/       four real fraud screenshots (library gallery)
+├── sw.js               precache the shell (v6)
 └── manifest.webmanifest
+```
+
+### The demo pack
+
+```
+SatarkPay_SANGYAN_Final.pptx    10-slide hackathon deck (scam shots + demo shots)
+assets/demo/SatarkPay_Demo.mp4  ~7 min guided demo — Hindi narration, intro → walkthrough → outro
+assets/demo/slides/             the 11 video slides (rebuildable)
+docs/DEMO_VIDEO_SCRIPT_HI.md    the narration script, beat by beat
+tools/generate_final_deck.py    rebuild the deck
+tools/make_demo_video.py        rebuild slides + assemble the video
 ```
 
 ### Run it
