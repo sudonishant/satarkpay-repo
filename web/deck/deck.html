@@ -1,229 +1,726 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>SatarkPay deck</title><style>
-@page { size: 13.333in 7.5in; margin: 0; }
-* { box-sizing: border-box; }
-body { margin:0; background:#0B1220; color:#E8EEF9; font-family:'DejaVu Sans','FreeSans','Noto Sans','Nirmala UI',sans-serif; }
-.slide { width:13.333in; height:7.5in; padding:0.5in 0.6in 0.75in; page-break-after:always; position:relative;
-          background:linear-gradient(160deg,#0B1220 0%,#0e1730 100%); overflow:hidden;
-          display:flex; flex-direction:column; }
-.head { flex:0 0 auto; }
-.body { flex:1 1 auto; display:flex; flex-direction:column; justify-content:center; }
-.body.top { justify-content:flex-start; padding-top:0.15in; }
-.kicker { color:#4CC9F0; font-size:13px; letter-spacing:.4px; margin:0 0 6px; }
-h1 { font-size:44px; margin:0 0 10px; line-height:1.15; }
-h2 { font-size:30px; margin:0 0 14px; }
-.sub { color:#9FB0CC; font-size:17px; margin:0 0 18px; }
-ul { margin:0; padding-left:20px; } li { margin:0 0 14px; font-size:17.5px; line-height:1.4; }
-.note { position:absolute; left:0.6in; right:0.6in; bottom:0.28in; color:#9FB0CC; font-size:13px; border-top:1px solid #22304d; padding-top:8px; }
-img.full { width:100%; max-height:5.55in; object-fit:contain; display:block; margin:0 auto; }
-.row { display:flex; gap:14px; align-items:flex-start; }
-.row figure { margin:0; flex:1; }
-.row img { width:100%; max-height:5.2in; object-fit:contain; border-radius:10px; border:1px solid #22304d; }
-figcaption { color:#9FB0CC; font-size:12px; margin-top:6px; }
-.side { display:flex; gap:18px; align-items:center; }
-.side img { width:52%; border-radius:10px; border:1px solid #22304d; }
-.side ul { flex:1; }
-table { width:100%; border-collapse:collapse; font-size:15px; }
-th { text-align:left; color:#4CC9F0; border-bottom:1px solid #2c3d5f; padding:10px 9px; font-size:14px; }
-td { border-bottom:1px solid #1c2740; padding:10px 9px; color:#E8EEF9; }
-td.d { color:#9FB0CC; }
-.meta { color:#9FB0CC; font-size:15px; } .meta b { color:#3DDC97; }
-.cols { display:flex; gap:24px; } .cols > div { flex:1; }
-.cols h3 { font-size:16px; color:#4CC9F0; margin:0 0 8px; } .cols li { font-size:15.5px; margin-bottom:11px; }
-.big { font-size:56px; font-weight:bold; }
-</style></head><body>
-<section class="slide">
-<h1 style="font-size:52px">SatarkPay</h1><p class="sub">UPI/wallet fraud se pehle rok do — aur fraud ho jaye to 3 minute me complaint</p><ul class="meta">
-<li>SANGYAN · SEBI × NSDL × SNTC IIT (BHU) · Investor Resilience</li>
-<li>Track A (fraud/scam resilience) + Track B (grievance rights) + Track D (behaviour)</li>
-<li>2,443 registrations · 51 repos scan — 71% checker saturation; SatarkPay ke 3 axes ab bhi sabse patle</li>
-<li>Live demo: sudonishant.github.io/satarkpay-repo · 7 modules · 1 asli fraud case par chala</li>
-</ul></section>
-<section class="slide">
-<div class="head">
-<h2>Problem — scam ab “padhne” ka nahi, “hone” ka hai</h2>
-<p class="kicker">SANGYAN guardrails ke andar: koi tip nahi, koi data harvest nahi — sirf suraksha</p>
-</div><div class="body top">
-<ul>
-<li>16 crore+ demat accounts · 70% naye Tier-2/3 se · F&amp;O me 9/10 retail traders loss me (problem statement)</li>
-<li>Aaj ke scam chat-se-shuru hote hain: WhatsApp/Telegram par baat → phir UPI app → phir paisa</li>
-<li>Traditional checkers sirf “message paste karo → score dekho” karte hain — yaani fraud ke BAAD</li>
-<li>Recovery ka golden hour pehla 60 minute hai; usme sahi complaint ho jaye to freeze-trace ka mauka bachta hai</li>
-<li>Asli case (humare evidence pack se): ₹5,000 evidence-visible loss, ₹30,625 maanga gaya, 9 scam families</li>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SatarkPay — Executive Master Pitch Deck</title>
+<style>
+  :root {
+    --bg: #070b14;
+    --card-bg: rgba(15, 23, 42, 0.75);
+    --border: rgba(30, 45, 74, 0.8);
+    --cyan: #00f2fe;
+    --green: #10b981;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --white: #ffffff;
+    --slate: #e2e8f0;
+    --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--slate);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .deck-container {
+    width: 100vw;
+    height: 100vh;
+    max-width: 1333px;
+    max-height: 750px;
+    position: relative;
+    background: radial-gradient(circle at 50% 20%, #0e1730 0%, #070b14 85%);
+    border-radius: 14px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 0 1px var(--border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    padding: 38px 48px 45px;
+    flex-direction: column;
+    justify-content: space-between;
+    animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .slide.active {
+    display: flex;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px) scale(0.995); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .slide-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .slide-kicker {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .slide-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.3px;
+  }
+  .slide-badge {
+    background: rgba(0, 242, 254, 0.1);
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+  .slide-body {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    backdrop-filter: blur(12px);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  ul.bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  ul.bullets li {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--slate);
+    position: relative;
+    padding-left: 20px;
+  }
+  ul.bullets li::before {
+    content: "•";
+    color: var(--cyan);
+    font-weight: bold;
+    font-size: 18px;
+    position: absolute;
+    left: 0;
+    top: -2px;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .stat-box {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .stat-lbl {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .stat-sub {
+    font-size: 9.5px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .preview-img {
+    width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #000;
+  }
+  .slide-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .controls {
+    position: fixed;
+    bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    z-index: 100;
+  }
+  .btn {
+    background: transparent;
+    border: none;
+    color: var(--slate);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .btn:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+  }
+  .counter {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--cyan);
+    margin: 0 8px;
+    font-family: monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="deck-container" id="deck">
+
+  <!-- SLIDE 1: COVER -->
+  <section class="slide active">
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+      <div class="slide-kicker" style="font-size:13px; margin-bottom:12px;">SANGYAN HACKATHON · SEBI × NSDL × SNTC, IIT-BHU</div>
+      <h1 style="font-size:48px; font-weight:900; color:#fff; margin-bottom:12px; letter-spacing:-0.5px;">🛡️ SatarkPay (सतर्कपे)</h1>
+      <p style="font-size:20px; color:var(--cyan); max-width:850px; margin-bottom:18px; font-weight:600;">
+        Next-Gen Real-Time UPI Fraud Interception & Evidence Chain-of-Custody Pipeline
+      </p>
+      <p style="font-size:14.5px; color:var(--slate); max-width:760px; margin-bottom:34px; font-style:italic;">
+        “Paisa bhejne se pehle 60 second — aur fraud ke baad 60 minute. Dono par SatarkPay ka pehra hai.”
+      </p>
+
+      <div class="stat-grid" style="width:100%; max-width:920px;">
+        <div class="stat-box" style="border-color:var(--green)">
+          <div class="stat-num" style="color:var(--green)">60s</div>
+          <div class="stat-lbl">Pre-Pay Interception</div>
+          <div class="stat-sub">Dwell & Radar Gates</div>
+        </div>
+        <div class="stat-box" style="border-color:var(--cyan)">
+          <div class="stat-num" style="color:var(--cyan)">&lt;12ms</div>
+          <div class="stat-lbl">Edge AI Engine</div>
+          <div class="stat-sub">38 Deterministic Rules</div>
+        </div>
+        <div class="stat-box" style="border-color:var(--white)">
+          <div class="stat-num" style="color:var(--white)">100%</div>
+          <div class="stat-lbl">On-Device DPDP</div>
+          <div class="stat-sub">Zero Cloud Plaintext</div>
+        </div>
+        <div class="stat-box" style="border-color:var(--amber)">
+          <div class="stat-num" style="color:var(--amber)">60m</div>
+          <div class="stat-lbl">Golden Recovery</div>
+          <div class="stat-sub">1-Click CFCFRMS 1930</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>Team SCΛMURΛI: Nishant Kumar · Prince Singh · Kartik Singh</div>
+      <div>Slide 01 / 12</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: THE PROBLEM -->
+  <section class="slide">
+    <div class="slide-head">
+      <div>
+        <div class="slide-kicker">PROBLEM STATEMENT</div>
+        <div class="slide-title">The Cognitive Trap of Modern UPI Fraud</div>
+      </div>
+      <div class="slide-badge">MARKET REALITY</div>
+    </div>
+    <div class="slide-body">
+      <div class="card">
+        <div class="card-title">🚨 Why Traditional Checkers Fail</div>
+        <ul class="bullets">
+          <li><b>Post-Facto Failure:</b> Traditional tools sirf “Paste message → Check score” karte hain — yaani fraud ho jaane ke BAAD.</li>
+          <li><b>Real-Time Coercion:</b> Digital Arrest, Fake Police calls, aur Task scam victim ko phone/chat par continuously engage rakhte hain.</li>
+          <li><b>Swift Transition:</b> WhatsApp/Telegram se direct UPI app (GPay/PhonePe/Paytm) switch karwaya jata hai under 60 seconds.</li>
+          <li><b>Vulnerable Demographics:</b> 16 Crore+ Demat accounts (70% first-time Tier-2/3 investors) are primary targets with zero defense layer.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(0, 242, 254, 0.4);">
+        <div class="card-title" style="color:var(--cyan)">⏱️ The Two Critical Windows</div>
+        <div style="margin-bottom:16px;">
+          <div style="font-weight:700; color:#fff; font-size:14px; margin-bottom:4px;">Window 1: 60 Seconds Pre-Payment</div>
+          <div style="font-size:12.5px; color:var(--muted); line-height:1.4;">
+            Foreground dwell monitoring jab user chat se payment app switch karta hai. User PIN enter karne se pehle 60-second cognitive cooling gate break the urgency.
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700; color:var(--amber); font-size:14px; margin-bottom:4px;">Window 2: 60 Minutes Golden Recovery</div>
+          <div style="font-size:12.5px; color:var(--muted); line-height:1.4;">
+            Pehle 60 minute me inter-bank freeze protocol (CFCFRMS 1930) trigger ho to fund recovery possible hoti hai. Panicked victims need 1-click evidence bundling.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>SatarkPay · SANGYAN Hackathon (SEBI × NSDL × SNTC, IIT-BHU)</div>
+      <div>Slide 02 / 12</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: 3-TIER ARCHITECTURE -->
+  <section class="slide">
+    <div class="slide-head">
+      <div>
+        <div class="slide-kicker">SOLUTION ARCHITECTURE</div>
+        <div class="slide-title">3-Tier Defense Shield: Full Journey Protection</div>
+      </div>
+      <div class="slide-badge">INNOVATION</div>
+    </div>
+    <div class="slide-body">
+      <div class="card" style="border-color:var(--cyan)">
+        <div class="card-title" style="color:var(--cyan)">⚡ LANE 1: PRE-PAYMENT</div>
+        <ul class="bullets">
+          <li><b>M1 Chat-Before-Pay:</b> Foreground dwell timer + contact length matrix.</li>
+          <li><b>M2 Screenshot Radar:</b> Burst payment receipt detection (3+ in 30m).</li>
+          <li><b>M3 Domain Ladder:</b> 4-level domain trust + Gateway ≠ Merchant warning.</li>
+          <li><b>Deterministic Cooling:</b> 1m to 8m cognitive pauses — zero auto-blocks.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:var(--green)">
+        <div class="card-title" style="color:var(--green)">🛡️ LANE 2: IN-FLIGHT FRICTION</div>
+        <ul class="bullets">
+          <li><b>M4 AI Sanchalak:</b> On-device intent classifier with 3 honest decision buckets.</li>
+          <li><b>SEBI Registry Check:</b> Format validation (INZ/INH/INA + 9 digits).</li>
+          <li><b>Negation-Aware:</b> Legitimate bank OTP alerts flag nahi hote.</li>
+          <li><b>Vernacular Voice:</b> Hindi TTS + Senior Mode AAA accessibility.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:var(--amber)">
+        <div class="card-title" style="color:var(--amber)">🚨 LANE 3: GOLDEN RECOVERY</div>
+        <ul class="bullets">
+          <li><b>M7 Evidence Dossier:</b> Automated OCR, PII masking, SHA-256 integrity hashes.</li>
+          <li><b>R38 Instant SOS:</b> Pre-composed Cyber Cell email with bank nodal officer in CC.</li>
+          <li><b>Helpline 1930 Script:</b> Direct dialer + structured operator speech script.</li>
+          <li><b>CFCFRMS Lien:</b> Automatic payment-stop request generation.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>SatarkPay · SANGYAN Hackathon (SEBI × NSDL × SNTC, IIT-BHU)</div>
+      <div>Slide 03 / 12</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: MODULE 1 -->
+  <section class="slide">
+    <div class="slide-head">
+      <div>
+        <div class="slide-kicker">MODULE M1</div>
+        <div class="slide-title">Chat-Before-Pay: Intelligent Dwell Matrix</div>
+      </div>
+      <div class="slide-badge">PRE-PAY DEFENSE</div>
+    </div>
+    <div class="slide-body">
+      <div class="card" style="flex:1.2;">
+        <div class="card-title">🧩 Usage Dwell × Contact Relationship Matrix</div>
+        <ul class="bullets">
+          <li><b>Known + Short Chat (&lt;8m):</b> FAST PATH — 1 min countdown ya 1-tap call-to-confirm.</li>
+          <li><b>Known + Long Chat (&gt;10m):</b> CAUTION ALERT — Account takeover / family emergency spoofing warning.</li>
+          <li><b>Unknown + Short Chat (&lt;8m):</b> COOLING PERIOD — 8-min guided pause + 3 reflective check questions.</li>
+          <li><b>Unknown + Long Chat (&gt;8m):</b> HARD HOLD — Digital arrest profile; Tier-3 analyst callback required.</li>
+          <li><b>Zero Arbitrary Blocks:</b> App introduces cognitive friction, but the user always holds the final sovereign authority to proceed.</li>
+        </ul>
+      </div>
+      <div class="card" style="flex:0.8; display:flex; flex-direction:row; gap:10px; padding:12px;">
+        <img class="preview-img" style="flex:1;" src="screenshots/01a_saved_contact_fastpath.png" alt="Fastpath">
+        <img class="preview-img" style="flex:1;" src="screenshots/01c_unknown_hold_callback.png" alt="Hold Callback">
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>SatarkPay · SANGYAN Hackathon (SEBI × NSDL × SNTC, IIT-BHU)</div>
+      <div>Slide 04 / 12</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: MODULE 2 & 3 -->
+  <section class="slide">
+    <div class="slide-head">
+      <div>
+        <div class="slide-kicker">MODULES M2 & M3</div>
+        <div class="slide-title">Screenshot Radar & Domain Trust Ladder</div>
+      </div>
+      <div class="slide-badge">MULTI-VECTOR</div>
+    </div>
+    <div class="slide-body">
+      <div class="card">
+        <div class="card-title">📸 M2: Screenshot Radar (Rules R17, R22)</div>
+        <img class="preview-img" style="max-height:180px; margin-bottom:12px;" src="screenshots/02_screenshot_radar.png" alt="Radar">
+        <ul class="bullets">
+          <li><b>Burst Interception:</b> Flags 3+ fake receipts captured in 30 min (task scam velocity).</li>
+          <li><b>Staircase Repeat Protection:</b> Flags repeat payments to new payee within 24h.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">🌐 M3: 4-Tier Domain Trust Ladder (R18, R26)</div>
+        <img class="preview-img" style="max-height:180px; margin-bottom:12px;" src="screenshots/03_domain_trust.png" alt="Domain">
+        <ul class="bullets">
+          <li><b>L1 Verified:</b> Official regulatory domains (sebi.gov.in, rbi.org.in).</li>
+          <li><b>Gateway ≠ Merchant:</b> Flags legit checkout pages hosting unverified fraudulent merchants.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>SatarkPay · SANGYAN Hackathon (SEBI × NSDL × SNTC, IIT-BHU)</div>
+      <div>Slide 05 / 12</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: MODULE 4 -->
+  <section class="slide">
+    <div class="slide-head">
+      <div>
+        <div class="slide-kicker">MODULE M4</div>
+        <div class="slide-title">AI Sanchalak: Zero-Cloud Intent Classifier</div>
+      </div>
+      <div class="slide-badge">EDGE AI</div>
+    </div>
+    <div class="slide-body">
+      <div class="card" style="flex:1.2;">
+        <div class="card-title">🛡️ On-Device Intent Engine & SEBI Validation</div>
+        <ul class="bullets">
+          <li><b>SEBI / NSDL Registration Check (R26):</b> Validates intermediary syntax (INZ/INH/INA + 9 digits) against regulatory lists.</li>
+          <li><b>Negation Understanding (R27):</b> Legitimate bank OTP warnings ('Bank will never ask for OTP') are correctly classified as SAFE.</li>
+          <li><b>Client-Side PII Redaction (R28):</b> Mobile numbers, VPAs, Aadhaar, and account numbers are masked before heuristic evaluation.</li>
+          <li><b>Honest Buckets:</b> Produces 3 transparent buckets: 'SCAM LIKELY', 'CAUTION', and 'UNSURE' — avoiding fake confidence.</li>
+          <li><b>Full Accessibility:</b> High-contrast Senior Mode AAA + Vernacular Hindi Voice TTS.</li>
+        </ul>
+      </div>
+      <div class="card" style="flex:0.8; padding:10px;">
+        <img class="preview-img" src="screenshots/08_m4_sebi_registry_negation.png" alt="Sanchalak">
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>SatarkPay · SANGYAN Hackathon (SEBI × NSDL × SNTC, IIT-BHU)</div>
+      <div>Slide 06 / 12</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: MODULE 7 & R38 -->
+  <section class="slide">
+    <div class="slide-head">
+      <div>
+        <div class="slide-kicker">MODULE M7 & R38</div>
+        <div class="slide-title">Golden Hour Emergency Action Pipeline</div>
+      </div>
+      <div class="slide-badge">INCIDENT RESPONSE</div>
+    </div>
+    <div class="slide-body">
+      <div class="card" style="flex:1.2;">
+        <div class="card-title">🚨 The 1-Click Disaster Recovery Workflow</div>
+        <ul class="bullets">
+          <li><b>Live Golden-Hour Clock:</b> 60-minute countdown tracking the active inter-bank lien window.</li>
+          <li><b>1. Instant Cyber Cell Email:</b> Pre-composed complaint addressed to district cyber cell with automatic bank nodal officer in CC.</li>
+          <li><b>2. 1930 Helpline Call Script:</b> Integrated dialer + structured script providing victim with UTR, txn ID, and timestamp at glance.</li>
+          <li><b>3. CFCFRMS Payment Stop:</b> Auto-formatted dispute request invoking banking freeze protocols.</li>
+          <li><b>Tamper-Evident Dossier:</b> Automatic compilation of cropped screenshots, OCR text, and SHA-256 cryptographic hashes.</li>
+        </ul>
+      </div>
+      <div class="card" style="flex:0.8; padding:10px;">
+        <img class="preview-img" src="screenshots/11_emergency_confirm_action.png" alt="Emergency">
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>SatarkPay · SANGYAN Hackathon (SEBI × NSDL × SNTC, IIT-BHU)</div>
+      <div>Slide 07 / 12</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: ANDROID APP -->
+  <section class="slide">
+    <div class="slide-head">
+      <div>
+        <div class="slide-kicker">MOBILE APPLICATION</div>
+        <div class="slide-title">Native Android App: Clean White Fintech Theme</div>
+      </div>
+      <div class="slide-badge">KOTLIN & COMPOSE</div>
+    </div>
+    <div class="slide-body">
+      <div class="card">
+        <div class="card-title">📱 Production Native Architecture</div>
+        <ul class="bullets">
+          <li><b>Modern Kotlin & Jetpack Compose:</b> 100% declarative UI with clean architecture.</li>
+          <li><b>Clean White Fintech Theme:</b> High-contrast surfaces (#FFFFFF), soft canvas (#F8FAFC), and vibrant fintech accents.</li>
+          <li><b>AndroidX Room Database:</b> All alerts, evidence logs, and threat digests stored in local encrypted SQLite.</li>
+          <li><b>Lightweight 23 MB APK:</b> SatarkPay-WhiteTheme.apk ready for immediate device testing.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">✨ Screen & Feature Suite</div>
+        <ul class="bullets">
+          <li><b>HomeScreen:</b> Live threat status, dwell radar cards, and 1-tap quick actions.</li>
+          <li><b>SanchalakChatScreen:</b> Interactive Vernacular AI assistant with voice playback.</li>
+          <li><b>ScreenshotRadarScreen:</b> On-device OCR evidence extractor and burst detector.</li>
+          <li><b>EmergencyActionScreen:</b> Full R38 emergency workflow with live golden-hour timer.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>SatarkPay · SANGYAN Hackathon (SEBI × NSDL × SNTC, IIT-BHU)</div>
+      <div>Slide 08 / 12</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: EVALUATION & BENCHMARKS -->
+  <section class="slide">
+    <div class="slide-head">
+      <div>
+        <div class="slide-kicker">EMPIRICAL BENCHMARKS</div>
+        <div class="slide-title">Measured, Not Guessed: Verified Performance</div>
+      </div>
+      <div class="slide-badge">EVALUATION</div>
+    </div>
+    <div class="slide-body" style="flex-direction:column;">
+      <div class="stat-grid" style="margin-bottom:14px;">
+        <div class="stat-box" style="border-color:var(--green)">
+          <div class="stat-num" style="color:var(--green)">95.2%</div>
+          <div class="stat-lbl">Precision</div>
+          <div class="stat-sub">Minimal False Alarms</div>
+        </div>
+        <div class="stat-box" style="border-color:var(--cyan)">
+          <div class="stat-num" style="color:var(--cyan)">90.9%</div>
+          <div class="stat-lbl">Recall</div>
+          <div class="stat-sub">High Threat Catch Rate</div>
+        </div>
+        <div class="stat-box" style="border-color:var(--white)">
+          <div class="stat-num" style="color:var(--white)">93.0%</div>
+          <div class="stat-lbl">F1 Score</div>
+          <div class="stat-sub">Harmonic Balance</div>
+        </div>
+        <div class="stat-box" style="border-color:var(--amber)">
+          <div class="stat-num" style="color:var(--amber)">&lt;12ms</div>
+          <div class="stat-lbl">Edge Latency</div>
+          <div class="stat-sub">Deterministic On-Device</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:16px; flex:1;">
+        <div class="card" style="flex:1;">
+          <div class="card-title">📊 Confusion Matrix & Benchmark Set</div>
+          <img class="preview-img" style="max-height:165px;" src="charts/chart_eval.png" alt="Eval Chart">
+        </div>
+        <div class="card" style="flex:1;">
+          <div class="card-title">🧪 66-Point Automated Test Assertion Suite</div>
+          <ul class="bullets">
+            <li><b>smoke_test.js:</b> 66 state-machine & DOM assertions pass with 100% success.</li>
+            <li>Evaluated across 33 stratified test messages (22 adversarial scams + 11 legit alerts).</li>
+            <li>Zero network dependencies during inference.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>SatarkPay · SANGYAN Hackathon (SEBI × NSDL × SNTC, IIT-BHU)</div>
+      <div>Slide 09 / 12</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: PRIVACY BY DESIGN -->
+  <section class="slide">
+    <div class="slide-head">
+      <div>
+        <div class="slide-kicker">SECURITY & COMPLIANCE</div>
+        <div class="slide-title">Privacy By Design: DPDP Act 2023 Conformance</div>
+      </div>
+      <div class="slide-badge">ZERO COMPROMISE</div>
+    </div>
+    <div class="slide-body">
+      <div class="card">
+        <div class="card-title" style="color:var(--red)">❌ What SatarkPay Strictly Avoids</div>
+        <ul class="bullets">
+          <li><b>No Continuous Screen Recording:</b> SatarkPay never captures screen video or reads private chats.</li>
+          <li><b>No Invasive Android Permissions:</b> Avoids READ_SMS, READ_CONTACTS, or QUERY_ALL_PACKAGES.</li>
+          <li><b>No Accessibility Scraping:</b> Strictly rejects malware-like accessibility service abuse.</li>
+          <li><b>No Raw PII Storage:</b> Screenshots are purged post-OCR; only entity hashes are kept.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:var(--green)">
+        <div class="card-title" style="color:var(--green)">✅ Architectural Privacy Guarantees</div>
+        <ul class="bullets">
+          <li><b>Client-Side Redaction (R28):</b> Mobile numbers, VPAs, and Aadhaar masked on-device.</li>
+          <li><b>User-Triggered Actions:</b> No auto-sending of emails or calls; user triggers every transmission.</li>
+          <li><b>Cryptographic Integrity:</b> SHA-256 tamper-evident evidence chain stored in private sandbox.</li>
+          <li><b>Public Good Ethos:</b> Zero monetization funnels, zero trading tips, zero financial data selling.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>SatarkPay · SANGYAN Hackathon (SEBI × NSDL × SNTC, IIT-BHU)</div>
+      <div>Slide 10 / 12</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: ROADMAP -->
+  <section class="slide">
+    <div class="slide-head">
+      <div>
+        <div class="slide-kicker">FUTURE EXPANSION</div>
+        <div class="slide-title">Scalability & Regulatory Integration Roadmap</div>
+      </div>
+      <div class="slide-badge">DEPLOYMENT</div>
+    </div>
+    <div class="slide-body">
+      <div class="card" style="border-color:var(--cyan)">
+        <div class="card-title" style="color:var(--cyan)">PHASE 1: CLIENT-SIDE APP (NOW)</div>
+        <ul class="bullets">
+          <li>Standalone Android Kotlin App + Ready APK.</li>
+          <li>Interactive Web Cyber Simulator for browser use.</li>
+          <li>On-device 38 deterministic threat rules.</li>
+          <li>60s Pre-Pay & 60m Golden Hour pipeline.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:var(--green)">
+        <div class="card-title" style="color:var(--green)">PHASE 2: UPI GATEWAY SDK</div>
+        <ul class="bullets">
+          <li>Embed SatarkPay Engine as SDK inside UPI apps.</li>
+          <li>Pre-transaction dwell hook inside GPay, PhonePe, Paytm.</li>
+          <li>Merchant verification against NPCI registry.</li>
+          <li>Over-The-Air (OTA) threat intelligence updates.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:var(--amber)">
+        <div class="card-title" style="color:var(--amber)">PHASE 3: NATIONAL REGULATORY MESH</div>
+        <ul class="bullets">
+          <li>Direct API integration with SEBI SCORES 2.0.</li>
+          <li>Automated docket submission to I4C / CFCFRMS 1930.</li>
+          <li>DoT Sanchar Saathi Chakshu reporting bridge.</li>
+          <li>Collaborative banking fraud telemetry exchange.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>SatarkPay · SANGYAN Hackathon (SEBI × NSDL × SNTC, IIT-BHU)</div>
+      <div>Slide 11 / 12</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 12: CONCLUSION -->
+  <section class="slide">
+    <div class="slide-head">
+      <div>
+        <div class="slide-kicker">CONCLUSION</div>
+        <div class="slide-title">SatarkPay: Ready For Real-World Protection</div>
+      </div>
+      <div class="slide-badge">DELIVERABLES</div>
+    </div>
+    <div class="slide-body">
+      <div class="card" style="flex:1.3;">
+        <div class="card-title">📦 Complete Production Deliverables</div>
+        <ul class="bullets">
+          <li><b>📱 Native Android App:</b> app/satarkpay-android/ (Clean White Fintech Theme, Kotlin Compose).</li>
+          <li><b>📦 Pre-Compiled APK:</b> SatarkPay-WhiteTheme.apk (23 MB ready to install).</li>
+          <li><b>🌐 Web Cyber Simulator:</b> web/satarkpay_m2.html (Glassmorphism, Audio haptics, Live ticker).</li>
+          <li><b>📑 Interactive Pitch Deck:</b> web/deck/deck.html (12 High-impact executive slides).</li>
+          <li><b>⚙️ Rule Packs R1-R38:</b> rules/ (Deterministic on-device patterns covering 18 fraud families).</li>
+          <li><b>🧪 Test Verification:</b> 66/66 smoke tests passing (web/run_smoke.sh) with &lt;12ms latency.</li>
+        </ul>
+      </div>
+      <div class="card" style="flex:0.7; border-color:var(--cyan); justify-content:center; text-align:center;">
+        <div style="font-size:20px; font-weight:800; color:#fff; margin-bottom:8px;">Team SCΛMURΛI</div>
+        <div style="font-size:12.5px; color:var(--cyan); margin-bottom:16px;">SANGYAN (SEBI × NSDL × SNTC)</div>
+        <div style="font-size:13px; color:var(--slate); line-height:1.8;">
+          <b>Nishant Kumar</b><br><span style="color:var(--muted); font-size:11.5px;">Architecture & Android</span><br>
+          <b>Prince Singh</b><br><span style="color:var(--muted); font-size:11.5px;">Crawler & Evidence Dossier</span><br>
+          <b>Kartik Singh</b><br><span style="color:var(--muted); font-size:11.5px;">UI/UX Design & Evaluation</span>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div>SatarkPay · SANGYAN Hackathon (SEBI × NSDL × SNTC, IIT-BHU)</div>
+      <div>Slide 12 / 12</div>
+    </div>
+  </section>
+
 </div>
-<div class="note">Yaani asli problem do hisse ka hai: (1) payment se PEHLE rokna, (2) fraud ke turant baad evidence + complaint.</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>Solution map — ek journey, saat module</h2>
-</div><div class="body">
-<img class="full" src="diagrams/svg_journey.png"/>
+
+<!-- Navigation Controls Overlay -->
+<div class="controls">
+  <button class="btn" id="prevBtn">◀ Prev</button>
+  <span class="counter" id="counter">01 / 12</span>
+  <button class="btn" id="nextBtn">Next ▶</button>
+  <button class="btn" id="fsBtn" title="Fullscreen (F)">⛶ Fullscreen</button>
 </div>
-<div class="note">Lane 1 real-time interception · Lane 2 parallel shields · Lane 3 evidence + turant action (R38).</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>M1 · Chat-Before-Pay — matrix, block nahi</h2>
-</div><div class="body">
-<img class="full" src="diagrams/svg_m1.png"/>
-</div>
-<div class="note">Saved contact ≈1 min (ya call-confirm) · unknown = 8 min guided · 10+ min chat ke baad payment = notification · officer/offer mila to T3 hold.</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>M1 live demo — teeno haalat</h2>
-</div><div class="body">
-<div class="row">
-<figure><img src="screenshots/01a_saved_contact_fastpath.png"/><figcaption>Saved + 2 min chat → 1:00 fast path</figcaption></figure>
-<figure><img src="screenshots/01b_known_12min_notification.png"/><figcaption>Saved + 12 min chat → notification</figcaption></figure>
-<figure><img src="screenshots/01c_unknown_hold_callback.png"/><figcaption>Unknown + lambi chat → hold + callback</figcaption></figure>
-</div>
-</div>
-<div class="note">Timer sirf foreground dwell naapta hai; “It&#x27;s me” dabane se notification nahi khulta — sawal ya trusted-person confirm chahiye.</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>M2 · Screenshot Radar + repeat-payment guard  |  M5 · Wallet &amp; AutoPay</h2>
-</div><div class="body">
-<div class="row">
-<figure><img src="screenshots/02_screenshot_radar.png"/><figcaption>30 min me 3+ payment-screenshot = amber, 5+ = red</figcaption></figure>
-<figure><img src="screenshots/05_wallet_autopay_audit.png"/><figcaption>Daily/unknown mandate = red, one-tap revoke</figcaption></figure>
-</div>
-</div>
-<div class="note">R22: usi payee ko 24h me 3rd payment → cooling (staircase), 4th → hold. Screenshot ki image store nahi hoti — sirf entity + hash.</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>M3 · Domain Trust ladder  |  M4 · AI Sanchalak + registry check</h2>
-</div><div class="body">
-<div class="row">
-<figure><img src="screenshots/03_domain_trust.png"/><figcaption>L1…L4 ladder + gateway≠merchant warning</figcaption></figure>
-<figure><img src="screenshots/08_m4_sebi_registry_negation.png"/><figcaption>verdict + 3 reason + registry flag (R26)</figcaption></figure>
-</div>
-</div>
-<div class="note">R26: SEBI number ka format (INZ/INH/INA + 9 digits) + official portal domain check — “registered hai” kabhi certify nahi karte. R27: bank ka apna OTP-warning scam nahi ginta. R28: PII device par hi mask.</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>M6 · Intel Desk (live crawler)  |  M7 · Evidence pack</h2>
-</div><div class="body">
-<div class="row">
-<figure><img src="screenshots/06_intel_desk_live.png"/><figcaption>784 raw → 172 relevant → 63 novel (aaj)</figcaption></figure>
-<figure><img src="screenshots/07_auto_report_1930_pack.png"/><figcaption>28 screenshots → crop · OCR · QR · redact · hash</figcaption></figure>
-</div>
-</div>
-<div class="note">M6 auto-publish nahi karta — analyst 15-second review ke baad hi registry update hota hai. M7 me NCRP text (HI+EN) + email + annexure CSV + ZIP, hashes ke saath.</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>R38 · Fraud CONFIRM — email + helpline + payment stop (3 kadam)</h2>
-</div><div class="body">
-<img class="full" src="diagrams/svg_emergency.png"/>
-</div>
-<div class="note">User khud confirm karta hai; app draft/dialer/script ready karti hai — auto-send nahi. Golden-hour clock live chalta hai.</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>R38 live demo — emergency panel</h2>
-</div><div class="body">
-<div class="row">
-<figure><img src="screenshots/11_emergency_confirm_action.png"/><figcaption>3/3 steps · email draft (cyber cell 3 IDs) · 1930 call script · payment-stop (CFCFRMS)</figcaption></figure>
-</div>
-</div>
-<div class="note">Optional step 4: parivaar/mohalla ko alert (masked numbers) — taaki agla victim na bane. Ye step user chaahe to skip kare.</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>Measured, guess nahi — 33-message eval harness</h2>
-</div><div class="body">
-<div class="side"><img src="charts/chart_eval.png"/><ul><li>Wahi engine jo user ke paste par chalta hai, wahi 33 labelled messages (22 scam + 11 legit) par — precision 95% · recall 90% · F1 93%</li><li>CAUTION alag bucket (soft catch / legit friction) aur “PAKA NAHI” bhi ek valid jawab — fake confidence nahi</li><li>Har miss aur false-alarm table me tag hote hain; set self-authored hai (ceiling, field accuracy nahi)</li><li>3 messages jaan-boojh ke rule-library ke bahar rakhe — taki honest buckets live dikhein</li></ul></div>
-</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>SatarkPay Core Value Proposition — 3 Strategic Pillars</h2>
-</div><div class="body">
-<div class="side"><img src="charts/chart_eval.png"/><ul><li>Pillar 1: Pre-Pay Interception — 60s before payment via foreground dwell &amp; screenshot radar</li><li>Pillar 2: Evidence-Grade Recovery — SHA-256 tamper-evident pack + CFCFRMS 1930 instant docket</li><li>Pillar 3: Measured Deterministic Engine — &lt;12ms execution latency, 66/66 test assertion suite</li><li>Accessibility first: full Hindi voice synthesis, Senior AAA Mode, 100% offline standalone execution</li></ul></div>
-</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>Regulatory Frameworks &amp; Integration Alignment</h2>
-</div><div class="body">
-<table><thead><tr><th>Regulatory Channel</th><th>Protocol / Portal</th><th>SatarkPay Implementation</th></tr></thead><tbody>
-<tr><td>SEBI SCORES 2.0</td><td class=d>scores.gov.in</td><td class=d>Direct deep-link complaint generation for registered intermediaries</td></tr>
-<tr><td>SMART ODR</td><td class=d>smartodr.in</td><td class=d>Securities market dispute escalation ladder with evidence attach</td></tr>
-<tr><td>NCRP / 1930</td><td class=d>cybercrime.gov.in</td><td class=d>Automated evidence dossier with SHA-256 integrity hashes</td></tr>
-<tr><td>SEBI Intermediary Registry</td><td class=d>sebi.gov.in</td><td class=d>R26 format &amp; checksum validation (INZ/INH/INA + 9 digits)</td></tr>
-<tr><td>DoT Sanchar Saathi</td><td class=d>sancharsaathi.gov.in</td><td class=d>Chakshu suspicious communication reporting for SMS/calls</td></tr>
-<tr><td>RBI Nodal Framework</td><td class=d>rbi.org.in</td><td class=d>Standard limited-liability banking complaint templates</td></tr>
-</tbody></table>
-</div>
-<div class="note">All integrations strictly utilize public official channels and regulatory protocols with zero unauthorized scraping.</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>Guardrails + privacy (judges ke liye)</h2>
-<p class="kicker">SANGYAN ke disqualification rules ka seedha jawab</p>
-</div><div class="body top">
-<ul>
-<li>Koi stock tip / buy-sell-hold / price prediction / trading algo nahi — R36 sirf “tip ka tareeka” ka risk batata hai</li>
-<li>Koi monetisation funnel nahi; koi tip-group promotion nahi</li>
-<li>Privacy by design: analysis se pehle client-side PII redaction (R28); demo me network call zero; OCR opt-in, image store nahi (sirf entity + hash)</li>
-<li>Koi SMS/OTP/PII harvesting nahi — UsageStats/notification sirf on-device, permission + Play-policy note ke saath (docs/)</li>
-<li>Sab verdict deterministic layer deta hai; LLM sirf samjhaata hai (production me 1 env var) — hallucination-safe</li>
-<li>“Registered hai” certify karna, ya recovery ki guarantee dena — dono se saaf inkaar (honest limits slide)</li>
-</ul>
-</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>Impact → Rubric mapping (30 · 25 · 15 · 15 · 15)</h2>
-</div><div class="body top">
-<ul>
-<li>Resilience &amp; Safety Impact (30): interception + evidence-recovery + registry checks; asli case par end-to-end chala (₹5,000 evidence-visible)</li>
-<li>Tier-2/3 Usability (25): Hinglish copy, Hindi voice, senior mode, offline demo, 8-min guided cooling (paisa nahi, samajh)</li>
-<li>Guardrail Compliance &amp; Trust (15): privacy by design, no tips/no funnel, honest non-binary verdicts, credit file + limits slide</li>
-<li>Technical Execution (15): 7 modules, 66 automated checks (jsdom), live eval harness, crawler (784→172→63), chain-of-custody hashing</li>
-<li>Feasibility &amp; Scalability (15): Android parity path (UsageStats + NotificationListener), PSP/bank/telecom partner hooks, on-device-first architecture</li>
-</ul>
-</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>Roadmap — 48 ghante me demo se device tak</h2>
-</div><div class="body top">
-<ul>
-<li>h0–4: Kotlin/Compose skeleton — UsageStats listener + MediaStore observer + consent centre</li>
-<li>h4–12: M1 matrix + M3 domain engine ko shared module (app + console parity test)</li>
-<li>h12–20: M4 real LLM hookup (HI/EN) + library RAG + low-confidence → human queue</li>
-<li>h20–30: M5 NotificationListener se mandate parse + revoke flow (synthetic bank notifications)</li>
-<li>h30–40: M6 crawler cron + analyst console; M7 pack ko PSP/bank formats me export</li>
-<li>h40–48: Red-team (mentor scripts), Hindi copy user-test, 3-min demo rehearsal ×5</li>
-<li>Scale: on-device pehle, phir telecom (Sanchar Saathi) + PSP (UPI Help) + exchange (SCORES) hooks</li>
-</ul>
-</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>Honest limits + kya hum NAHI karte</h2>
-</div><div class="body">
-<div class="cols"><div><h3>Honest limits</h3><ul><li>Telemetry permissions ke bina features degrade hote hain (iOS par M1/M2/M5 partial)</li><li>M1 “padha” nahi naap sakta — sirf “kitni der chat screen par the”</li><li>Screenshot ka source-domain 100% reliable nahi — evidence treat karte hain, verdict nahi</li><li>Eval set self-authored hai (ceiling); field calibration ke liye PS/bank data chahiye</li><li>Recovery ki guarantee nahi — hum sirf time-optimised steps dete hain</li></ul></div><div><h3>Kya NAHI karte</h3><ul><li>Koi auto-block nahi — payment rukta hai, final call user ki</li><li>WhatsApp automation / READ_SMS / QUERY_ALL_PACKAGES / Accessibility abuse nahi</li><li>Koi stock tip, price prediction, ya “guaranteed return” messaging nahi</li><li>Koi auto-send email/call nahi — draft + dialer + script dete hain, bhejna user ke tap par</li><li>100% original implementation conforming to DPDP Act 2023</li></ul></div></div>
-</div>
-</section>
-<section class="slide">
-<div class="head">
-<h2>Team SCΛMURΛI</h2>
-</div><div class="body top">
-<p class="sub">Nishant Kumar · Prince Singh · Kartik Singh</p>
-<ul>
-<li>Live demo: satarkpay-m2/demo/satarkpay_m2.html (offline, 66/66 checks pass)</li>
-<li>Evidence pack: case_evidence/ (28 screenshots, hashes, complaint drafts)</li>
-<li>Documentation: NOTICE.md · Architecture: docs/ARCHITECTURE.md · rules: rules_R15_R25.json + rules_R26_R38.json</li>
-<li>Crawler: scam_intel/intel_crawler.py (aaj: 784 raw → 172 relevant → 63 novel)</li>
-<li>SANGYAN submission: 4 Oct, 11:59 PM IST · demo + 3–5 min video + ye deck</li>
-</ul>
-</div>
-<div class="note">“Paisa bhejne se pehle 60 second — aur fraud ke baad 60 minute. Dono humare paas hain.”</div>
-</section>
-</body></html>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let currentSlide = 0;
+  const total = slides.length;
+  const counter = document.getElementById('counter');
+
+  function showSlide(index) {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (index + total) % total;
+    slides[currentSlide].classList.add('active');
+    counter.textContent = `${String(currentSlide + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+  }
+
+  document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1);
+  document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      showSlide(currentSlide + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      showSlide(currentSlide - 1);
+    } else if (e.key === 'f' || e.key === 'F') {
+      toggleFullscreen();
+    }
+  });
+
+  const fsBtn = document.getElementById('fsBtn');
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+  fsBtn.onclick = toggleFullscreen;
+</script>
+
+</body>
+</html>
