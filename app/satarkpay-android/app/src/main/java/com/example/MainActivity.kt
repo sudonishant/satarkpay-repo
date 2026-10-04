@@ -123,11 +123,11 @@ class MainActivity : ComponentActivity() {
                                 tonalElevation = 8.dp
                             ) {
                                 val navItems = listOf(
-                                    Triple(SatarkScreen.HOME, "होम", Icons.Default.Home),
-                                    Triple(SatarkScreen.SAFEPAY, "सुरक्षित पे", Icons.Default.Shield),
-                                    Triple(SatarkScreen.SANCHALAK_CHAT, "AI साथी", Icons.Default.Chat),
-                                    Triple(SatarkScreen.APP_SECURITY, "ऐप्स", Icons.Default.SecurityUpdateWarning),
-                                    Triple(SatarkScreen.REPORT_EVIDENCE, "शिकायत", Icons.Default.FolderZip)
+                                    Triple(SatarkScreen.HOME, "Home", Icons.Default.Home),
+                                    Triple(SatarkScreen.SAFEPAY, "SafePay", Icons.Default.Shield),
+                                    Triple(SatarkScreen.SANCHALAK_CHAT, "AI Advisor", Icons.Default.Chat),
+                                    Triple(SatarkScreen.APP_SECURITY, "Device Shield", Icons.Default.SecurityUpdateWarning),
+                                    Triple(SatarkScreen.REPORT_EVIDENCE, "Reports", Icons.Default.FolderZip)
                                 )
 
                                 navItems.forEach { (screen, label, icon) ->

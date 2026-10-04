@@ -20,6 +20,7 @@ data class AttackChainEvaluation(
     val headline: String,
     val explanation: String,
     val hindiVoiceSummary: String,
+    val englishVoiceSummary: String,
     val signals: List<AttackChainSignal>,
     val recommendedAction: String,
     val correlationSignature: String,
@@ -28,10 +29,10 @@ data class AttackChainEvaluation(
 )
 
 enum class PaymentSourceChannel(val label: String) {
-    DIRECT_SHOP_QR("Direct Shop QR / POS"),
-    SAVED_CONTACT("Saved Phonebook Contact"),
+    DIRECT_SHOP_QR("Physical POS / Shop QR"),
+    SAVED_CONTACT("Saved Contact"),
     WHATSAPP_UNSAVED("WhatsApp (Unsaved Number)"),
-    TELEGRAM("Telegram Group / Bot"),
+    TELEGRAM("Telegram Group / Channel"),
     UNKNOWN_SMS("Unknown SMS Alert")
 }
 
@@ -67,8 +68,8 @@ object UnifiedAttackChainEngine {
             baseScore += 35
             signals.add(
                 AttackChainSignal(
-                    title = "First-Time Payee VPA",
-                    description = "Ye UPI ID ($payeeUpi) aapke local ledger me pehli baar dekhi gayi hai. Past zero transactions recorded.",
+                    title = "First-Time Payee (New VPA)",
+                    description = "This UPI ID ($payeeUpi) was not found in your trusted transaction history. Zero past transfers.",
                     severity = AttackChainRiskTier.CAUTION,
                     provenance = "PAYEE LEDGER"
                 )
@@ -77,8 +78,8 @@ object UnifiedAttackChainEngine {
             baseScore -= 15
             signals.add(
                 AttackChainSignal(
-                    title = "Known Historical Payee",
-                    description = "$knownPayeeTxnCount previous successful payments recorded. Trust history established.",
+                    title = "Known & Verified Payee",
+                    description = "$knownPayeeTxnCount previous successful payments recorded. Trust history verified on-device.",
                     severity = AttackChainRiskTier.LOW_SAFE,
                     provenance = "PAYEE LEDGER"
                 )
@@ -90,8 +91,8 @@ object UnifiedAttackChainEngine {
             baseScore += 45
             signals.add(
                 AttackChainSignal(
-                    title = "Active Phone / Video Call In Progress",
-                    description = "Aap call par hain aur simultaneously payment ho rahi hai. 87% Digital Arrest fraud live call par psychological pressure banakar karwaye jaate hain.",
+                    title = "Ongoing Voice / Video Call",
+                    description = "You are currently on a call while initiating this transfer. 87% of Digital Arrest frauds involve live call pressure.",
                     severity = AttackChainRiskTier.CRITICAL_BLOCKED,
                     provenance = "LIVE ON DEVICE"
                 )
@@ -104,7 +105,7 @@ object UnifiedAttackChainEngine {
             signals.add(
                 AttackChainSignal(
                     title = "Device Security Risk / Remote Tool Present",
-                    description = "Phone me high-risk permissions ya screen-sharing / accessibility tools detected hain.",
+                    description = "Screen-sharing, remote access tool, or high-risk accessibility permissions detected on device.",
                     severity = AttackChainRiskTier.HIGH_RISK,
                     provenance = "LIVE ON DEVICE"
                 )
@@ -118,7 +119,7 @@ object UnifiedAttackChainEngine {
                 signals.add(
                     AttackChainSignal(
                         title = "Telegram Origin Payment",
-                        description = "Payment link ya QR Telegram group/bot se mila hai. SEBI & MHA advisory: Telegram based investment & task groups have 94% fraud incidence.",
+                        description = "Payment request originated from Telegram. SEBI & MHA advise that prepaid task and crypto channels carry extreme fraud risk.",
                         severity = AttackChainRiskTier.HIGH_RISK,
                         provenance = "COMMUNICATION CONTEXT"
                     )
@@ -129,7 +130,7 @@ object UnifiedAttackChainEngine {
                 signals.add(
                     AttackChainSignal(
                         title = "Unsaved WhatsApp Sender",
-                        description = "Chat unverified aur unsaved contact se aayi hai. Official entities personal WhatsApp par payment link nahi bhejte.",
+                        description = "Chat originated from an unsaved number. Government and banks never send payment links over personal WhatsApp.",
                         severity = AttackChainRiskTier.CAUTION,
                         provenance = "COMMUNICATION CONTEXT"
                     )
@@ -139,8 +140,8 @@ object UnifiedAttackChainEngine {
                 baseScore += 25
                 signals.add(
                     AttackChainSignal(
-                        title = "Unknown SMS Alert",
-                        description = "SMS me shortener ya unverified bank warning ke bagair direct payment ki maang ki gayi hai.",
+                        title = "Unverified SMS Alert",
+                        description = "Direct payment request via SMS without standard bank verification headers.",
                         severity = AttackChainRiskTier.CAUTION,
                         provenance = "COMMUNICATION CONTEXT"
                     )
@@ -150,8 +151,8 @@ object UnifiedAttackChainEngine {
                 baseScore -= 10
                 signals.add(
                     AttackChainSignal(
-                        title = "Physical POS / Trusted Source",
-                        description = "Direct physical merchant ya saved contact verification.",
+                        title = "Physical POS / Saved Contact",
+                        description = "Direct physical merchant QR or saved contact verification.",
                         severity = AttackChainRiskTier.LOW_SAFE,
                         provenance = "COMMUNICATION CONTEXT"
                     )
@@ -164,8 +165,8 @@ object UnifiedAttackChainEngine {
             baseScore += 25
             signals.add(
                 AttackChainSignal(
-                    title = "Scam Threat Keywords Detected",
-                    description = "Keywords found: ${matchedUrgencyWords.joinToString(", ")}. Fake authority coercion detected.",
+                    title = "Coercion / Urgency Keywords Detected",
+                    description = "Detected trigger words: ${matchedUrgencyWords.joinToString(", ")}. Fake authority pressure detected.",
                     severity = AttackChainRiskTier.HIGH_RISK,
                     provenance = "POLICY ENGINE"
                 )
@@ -178,7 +179,7 @@ object UnifiedAttackChainEngine {
             signals.add(
                 AttackChainSignal(
                     title = "High Value Transfer to Unknown VPA",
-                    description = "₹$amount transfer to an unverified first-time beneficiary exceeds standard low-risk threshold.",
+                    description = "₹$amount transfer to an unverified first-time beneficiary exceeds safety threshold.",
                     severity = AttackChainRiskTier.CAUTION,
                     provenance = "POLICY ENGINE"
                 )
@@ -194,9 +195,10 @@ object UnifiedAttackChainEngine {
                 AttackChainEvaluation(
                     riskTier = AttackChainRiskTier.CRITICAL_BLOCKED,
                     score = clampedScore.coerceAtLeast(92),
-                    headline = "🚨 Active Call + First-Time Payee (Digital Arrest Trap)",
-                    explanation = "Scammer aapko live call par daara kar ya jaldbazi me anjaan UPI ID ($payeeUpi) par paise transfer karwa raha hai. Phone turant kaatein!",
-                    hindiVoiceSummary = "चेतावनी! लाइव कॉल पर किसी अनजान खाते में पैसे ना भेजें। यह डिजिटल अरेस्ट या पुलिस फ्रॉड हो सकता है। तुरंत कॉल काटें।",
+                    headline = "🚨 Digital Arrest Trap: Active Call + Unknown Payee",
+                    explanation = "An unknown caller is coercing you to transfer money to an unfamiliar UPI account ($payeeUpi) during a live call. Disconnect the call immediately and do not transfer funds!",
+                    hindiVoiceSummary = "चेतावनी! लाइव कॉल पर किसी अनजान खाते में पैसे ना भेजें। तुरंत कॉल काटें।",
+                    englishVoiceSummary = "Warning! Do not transfer funds to an unknown account during an active call. Hang up immediately.",
                     signals = signals,
                     recommendedAction = "IMMEDIATE_CANCEL_1930",
                     correlationSignature = "Active Call + First-Time Payee + High Coercion",
@@ -210,9 +212,10 @@ object UnifiedAttackChainEngine {
                 AttackChainEvaluation(
                     riskTier = AttackChainRiskTier.HIGH_RISK,
                     score = clampedScore.coerceAtLeast(78),
-                    headline = "⚠️ Unverified Online Source + Unknown Payee",
-                    explanation = "Telegram task, impersonation ya urgency coercion match hua hai. Is payee ($payeeUpi) ko payment karne se pehle 15 minute ka cooling zaroori hai.",
-                    hindiVoiceSummary = "सावधान! टेलीग्राम या अनजान चैट से मिले इस यूपीआई पर फ्रॉड का भारी खतरा है। 15 मिनट रुकें।",
+                    headline = "⚠️ Unverified Online Source + Unknown Beneficiary",
+                    explanation = "This payment matches prepaid task or utility disconnection scam patterns. Take a 15-minute cooling period before proceeding.",
+                    hindiVoiceSummary = "सावधान! ऑनलाइन चैट से मिले इस खाते पर फ्रॉड का खतरा है। 15 मिनट रुकें।",
+                    englishVoiceSummary = "Caution! High fraud risk detected from unverified chat link. A 15-minute cooling delay is recommended.",
                     signals = signals,
                     recommendedAction = "COOLING_15MIN",
                     correlationSignature = "Unsaved Source + Urgency Pressure + First-Time Payee",
@@ -227,8 +230,9 @@ object UnifiedAttackChainEngine {
                     riskTier = AttackChainRiskTier.CRITICAL_BLOCKED,
                     score = clampedScore.coerceAtLeast(90),
                     headline = "🚨 Screen-Sharing / Remote Access Threat",
-                    explanation = "Aapke device par remote control ya accessibility app active hai aur unknown payee ko payment ki ja rahi hai. Scammer OTP ya screen dekh sakta hai.",
+                    explanation = "A remote access tool or high-risk accessibility app is active while attempting an unverified transfer. A fraudster may be viewing your screen or OTP.",
                     hindiVoiceSummary = "खतरा! आपके फोन में स्क्रीन शेयर या रिमोट ऐप चालू है। पेमेंट तुरंत रोकें।",
+                    englishVoiceSummary = "Danger! Remote screen sharing app detected. Stop payment immediately to prevent fund theft.",
                     signals = signals,
                     recommendedAction = "AUDIT_DEVICE_APPS",
                     correlationSignature = "Remote RAT App + First-Time Payee",
@@ -242,9 +246,10 @@ object UnifiedAttackChainEngine {
                 AttackChainEvaluation(
                     riskTier = AttackChainRiskTier.CAUTION,
                     score = clampedScore.coerceIn(35, 60),
-                    headline = "🟡 First-Time Payee Verification Required",
-                    explanation = "Aap is UPI ID ($payeeUpi) par pehli baar paise bhej rahe hain. Kripya receiver ka naam aur details dhyan se check karein.",
+                    headline = "🟡 First-Time Beneficiary Verification Required",
+                    explanation = "You have never paid this UPI ID ($payeeUpi) before. Please double-check the recipient name and account details.",
                     hindiVoiceSummary = "आप इस खाते में पहली बार पैसे भेज रहे हैं। नाम और नंबर की जांच अवश्य करें।",
+                    englishVoiceSummary = "First-time payee. Please verify the account holder name before proceeding.",
                     signals = signals,
                     recommendedAction = "VERIFY_2MIN",
                     correlationSignature = "First-Time Payee Ledger Warning",
@@ -259,8 +264,9 @@ object UnifiedAttackChainEngine {
                     riskTier = AttackChainRiskTier.LOW_SAFE,
                     score = clampedScore.coerceAtMost(25),
                     headline = "✅ Safe & Verified Beneficiary",
-                    explanation = "Payee ($payeeUpi) aapke local ledger me maujood hai ($knownPayeeTxnCount past payments). Device aur context clean hain.",
+                    explanation = "Payee ($payeeUpi) exists in your trusted local ledger ($knownPayeeTxnCount past payments). Device and communication channels are secure.",
                     hindiVoiceSummary = "यह एक पुराना और सुरक्षित खाता है। आप सुरक्षित भुगतान कर सकते हैं।",
+                    englishVoiceSummary = "Trusted beneficiary confirmed. It is safe to proceed with this payment.",
                     signals = signals,
                     recommendedAction = "PAY_SAFELY",
                     correlationSignature = "Trusted Ledger Record + Clean Device",

@@ -80,8 +80,8 @@ fun HomeScreen(
                             }
                         }
                         Column {
-                            Text("सुरक्षा विराम: ${coolingSeconds} सेकंड", fontWeight = FontWeight.Bold, color = SatarkWarn, fontSize = 14.sp)
-                            Text("जल्दबाजी में भुगतान न करें, चैट की जांच करें", color = SatarkInk, fontSize = 11.sp)
+                            Text("Cooling Period Active: ${coolingSeconds}s", fontWeight = FontWeight.Bold, color = SatarkWarn, fontSize = 14.sp)
+                            Text("High-risk chat pause active. Avoid hurried transfers.", color = SatarkInk, fontSize = 11.sp)
                         }
                     }
                     Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, tint = SatarkWarn, modifier = Modifier.size(18.dp))
@@ -89,7 +89,7 @@ fun HomeScreen(
             }
         }
 
-        // 1. FRIENDLY DEVICE STATUS BANNER
+        // 1. DEVICE PROTECTION STATUS BANNER
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(14.dp),
@@ -119,15 +119,15 @@ fun HomeScreen(
                     Column {
                         Text(
                             text = if (permissionSummary.highRiskAppsCount > 0)
-                                "⚠️ फोन में ${permissionSummary.highRiskAppsCount} संदिग्ध ऐप मिलीं"
+                                "⚠️ ${permissionSummary.highRiskAppsCount} Sensitive Apps Found"
                             else
-                                "🟢 आपका फोन सुरक्षित है",
+                                "🟢 Device Protected • Clean",
                             fontWeight = FontWeight.Bold,
                             fontSize = 13.sp,
                             color = SatarkInk
                         )
                         Text(
-                            text = "स्क्रीन शेयर व जासूसी ऐप से सुरक्षा चालू है",
+                            text = "Screen-sharing & Remote RAT protection active",
                             fontSize = 11.sp,
                             color = SatarkDim
                         )
@@ -136,7 +136,7 @@ fun HomeScreen(
 
                 TextButton(onClick = { onNavigate(SatarkScreen.APP_SECURITY) }) {
                     Text(
-                        text = if (permissionSummary.highRiskAppsCount > 0) "जांचें" else "स्कैन करें",
+                        text = if (permissionSummary.highRiskAppsCount > 0) "Review" else "Scan",
                         color = if (permissionSummary.highRiskAppsCount > 0) SatarkDanger else SatarkAccent,
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp
@@ -145,7 +145,7 @@ fun HomeScreen(
             }
         }
 
-        // 2. HERO: "पैसे भेजने से पहले जांचें" (PRE-PAYMENT CHECK BROKER)
+        // 2. HERO: "VERIFY BEFORE YOU PAY" PRE-PAYMENT BROKER
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -176,8 +176,8 @@ fun HomeScreen(
                             }
                         }
                         Column {
-                            Text("पैसे भेजने से पहले जांचें", fontWeight = FontWeight.ExtraBold, fontSize = 16.sp, color = SatarkInk)
-                            Text("SafePay • फ्रॉड अलर्ट और खाता सुरक्षा", fontSize = 11.sp, color = SatarkDim)
+                            Text("Verify Before You Pay", fontWeight = FontWeight.ExtraBold, fontSize = 16.sp, color = SatarkInk)
+                            Text("SafePay • Pre-Payment Scam Prevention", fontSize = 11.sp, color = SatarkDim)
                         }
                     }
 
@@ -186,7 +186,7 @@ fun HomeScreen(
                         color = SatarkOkAlpha
                     ) {
                         Text(
-                            text = "AI शील्ड",
+                            text = "LIVE SHIELD",
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             color = SatarkOk,
@@ -196,32 +196,32 @@ fun HomeScreen(
                 }
 
                 Text(
-                    text = "किसी भी अनजान UPI ID या QR कोड पर पैसे भेजने से पहले यहाँ जांचें। यदि कोई कॉल पर दबाव बना रहा है या अनजान खाते में पैसे मांग रहा है, तो सतर्कपे तुरंत रोकेगा।",
+                    text = "Check any unfamiliar UPI ID or QR code before transferring funds. SatarkPay blocks active call coercion, first-time VPA traps, and unverified chat origins.",
                     fontSize = 12.sp,
                     color = SatarkInk,
                     lineHeight = 17.sp
                 )
 
-                // Quick Demo Test Chips (Easy for any user to test)
-                Text("डेमो फ्रॉड चेक करके देखें:", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = SatarkDim)
+                // Quick Demo Scenario Chips
+                Text("Test Demo Attack Chains:", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = SatarkDim)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     DemoChip(
-                        label = "🚨 डिजिटल अरेस्ट",
+                        label = "🚨 Digital Arrest",
                         color = SatarkDanger,
                         onClick = { onNavigate(SatarkScreen.SAFEPAY) },
                         modifier = Modifier.weight(1f)
                     )
                     DemoChip(
-                        label = "📲 टेलीग्राम टास्क",
+                        label = "📲 Telegram Task",
                         color = SatarkWarn,
                         onClick = { onNavigate(SatarkScreen.SAFEPAY) },
                         modifier = Modifier.weight(1f)
                     )
                     DemoChip(
-                        label = "🛒 राशन दुकान",
+                        label = "🛒 Local Grocery",
                         color = SatarkOk,
                         onClick = { onNavigate(SatarkScreen.SAFEPAY) },
                         modifier = Modifier.weight(1f)
@@ -239,14 +239,14 @@ fun HomeScreen(
                 ) {
                     Icon(Icons.Default.QrCodeScanner, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("UPI ID या QR कोड चेक करें", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text("Check UPI ID / Scan QR Code", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                 }
             }
         }
 
-        // 3. CORE 4-SERVICES (CLEAN 2x2 CONSUMER TILES)
+        // 3. CORE SECURITY CONTROLS (2x2 GRID)
         Text(
-            text = "प्रमुख सुरक्षा सेवाएं",
+            text = "SECURITY CONTROLS",
             style = MaterialTheme.typography.labelSmall,
             color = SatarkDim,
             fontWeight = FontWeight.Bold,
@@ -261,9 +261,9 @@ fun HomeScreen(
                 modifier = Modifier.weight(1f),
                 icon = Icons.AutoMirrored.Filled.Chat,
                 iconColor = SatarkAccent,
-                title = "AI संचालक",
-                subtitle = "संदिग्ध मैसेज या कॉल पूछें",
-                badge = "सहायक",
+                title = "AI Cyber Advisor",
+                subtitle = "Analyze suspicious SMS & chats",
+                badge = "Gemini AI",
                 badgeColor = SatarkAccent,
                 onClick = { onNavigate(SatarkScreen.SANCHALAK_CHAT) }
             )
@@ -273,9 +273,9 @@ fun HomeScreen(
                 modifier = Modifier.weight(1f),
                 icon = Icons.Default.SecurityUpdateWarning,
                 iconColor = if (hasAppsRisk) SatarkDanger else SatarkOk,
-                title = "ऐप सुरक्षा",
-                subtitle = if (hasAppsRisk) "${permissionSummary.highRiskAppsCount} खतरनाक ऐप मिलीं" else "सभी ऐप सुरक्षित हैं",
-                badge = if (hasAppsRisk) "खतरा" else "सुरक्षित",
+                title = "App Security",
+                subtitle = if (hasAppsRisk) "${permissionSummary.highRiskAppsCount} Sensitive Apps" else "All Apps Clean",
+                badge = if (hasAppsRisk) "Review" else "Safe",
                 badgeColor = if (hasAppsRisk) SatarkDanger else SatarkOk,
                 onClick = { onNavigate(SatarkScreen.APP_SECURITY) }
             )
@@ -289,9 +289,9 @@ fun HomeScreen(
                 modifier = Modifier.weight(1f),
                 icon = Icons.Default.AccountBalanceWallet,
                 iconColor = SatarkOk,
-                title = "सुरक्षित खाते",
-                subtitle = "आपके पहचाने हुए UPI खाते",
-                badge = "खाता डायरी",
+                title = "Trusted Payees",
+                subtitle = "Verified account directory",
+                badge = "On-Device",
                 badgeColor = SatarkOk,
                 onClick = { onNavigate(SatarkScreen.SAFEPAY) }
             )
@@ -300,15 +300,15 @@ fun HomeScreen(
                 modifier = Modifier.weight(1f),
                 icon = Icons.Default.Warning,
                 iconColor = SatarkDanger,
-                title = "🚨 पैसे कट गए?",
-                subtitle = "1930 साइबर हेल्पलाइन",
-                badge = "आपातकालीन",
+                title = "🚨 Lost Money?",
+                subtitle = "Call 1930 & Freeze Bank",
+                badge = "Emergency",
                 badgeColor = SatarkDanger,
                 onClick = onConfirmFraudQuick
             )
         }
 
-        // 4. VERIFIED BENEFICIARY DIARY SNAPSHOT
+        // 4. VERIFIED BENEFICIARY DIRECTORY
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -326,18 +326,17 @@ fun HomeScreen(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         Icon(Icons.Default.BookmarkBorder, contentDescription = null, tint = SatarkOk, modifier = Modifier.size(16.dp))
-                        Text("पहचाने हुए खाते (सुरक्षित)", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = SatarkInk)
+                        Text("Verified Payee Directory", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = SatarkInk)
                     }
-                    Text("फ़ोन में सुरक्षित", fontSize = 10.sp, color = SatarkDim)
+                    Text("Encrypted Locally", fontSize = 10.sp, color = SatarkDim)
                 }
 
-                // 3 familiar records
-                BeneficiaryRow("माँ (सुनीता देवी)", "mother.family@oksbi", "24 बार भुगतान हुआ")
-                BeneficiaryRow("शर्मा किराना स्टोर", "sharma.kirana@icici", "11 बार भुगतान हुआ")
-                BeneficiaryRow("बिजली बिल भुगतान", "sbpdcl.billpay@sbi", "4 बार भुगतान हुआ")
+                BeneficiaryRow("Mom (Sunita Devi)", "mother.family@oksbi", "24 payments • Verified")
+                BeneficiaryRow("Sharma General Store", "sharma.kirana@icici", "11 payments • Verified")
+                BeneficiaryRow("Electricity Bill Utility", "sbpdcl.billpay@sbi", "4 payments • Verified")
 
                 Text(
-                    text = "💡 जब भी कोई बिल्कुल नया या अनजान खाता आएगा, सतर्कपे आपको तुरंत सावधान करेगा।",
+                    text = "💡 SatarkPay automatically detects when a transfer is attempted to a brand new, unverified VPA and initiates safety checks.",
                     fontSize = 11.sp,
                     color = SatarkDim,
                     lineHeight = 15.sp
@@ -345,7 +344,7 @@ fun HomeScreen(
             }
         }
 
-        // 5. COLLAPSIBLE ADVANCED TOOLS (FOR HACKATHON JURY & EVALUATORS)
+        // 5. COLLAPSIBLE SPECIALIZED DEFENSE TOOLS
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
@@ -362,7 +361,7 @@ fun HomeScreen(
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Icon(Icons.Default.Build, contentDescription = null, tint = SatarkDim, modifier = Modifier.size(16.dp))
                     Text(
-                        text = if (showExtraTools) "विशेषज्ञ टूल्स छुपाएं" else "अन्य टूल्स (स्क्रीनशॉट रडार, वेबसाइट जांच, मैंडेट)",
+                        text = if (showExtraTools) "Hide Specialized Tools" else "More Security Tools (Radar, Domains, Mandates)",
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.SemiBold,
                         color = SatarkInk
@@ -380,32 +379,32 @@ fun HomeScreen(
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 ExtraToolRow(
                     icon = Icons.Default.PhotoCamera,
-                    title = "स्क्रीनशॉट रडार",
-                    subtitle = "तेजी से बार-बार पैसे कटने की जांच",
+                    title = "Screenshot Velocity Radar",
+                    subtitle = "Detect rapid burst payment attempts & mule staircase",
                     onClick = { onNavigate(SatarkScreen.SCREENSHOT_RADAR) }
                 )
                 ExtraToolRow(
                     icon = Icons.Default.Link,
-                    title = "वेबसाइट व लिंक जांच",
-                    subtitle = "फर्जी सरकारी व बैंक वेबसाइट पहचानें",
+                    title = "Domain & Payment Link Trust",
+                    subtitle = "L1-L4 ladder & fake gateway spoof detection",
                     onClick = { onNavigate(SatarkScreen.DOMAIN_TRUST) }
                 )
                 ExtraToolRow(
                     icon = Icons.Default.AccountBalanceWallet,
-                    title = "ऑटोपे मैंडेट ऑडिट",
-                    subtitle = "छुपे हुए मासिक/दैनिक कटने वाले चार्ज रोकें",
+                    title = "AutoPay Mandate Audit",
+                    subtitle = "Inspect and revoke hidden recurring debit charges",
                     onClick = { onNavigate(SatarkScreen.WALLET_AUDIT) }
                 )
                 ExtraToolRow(
                     icon = Icons.Default.FolderZip,
-                    title = "साइबर सेल रिपोर्ट पैक",
-                    subtitle = "NCRP शिकायत ड्राफ्ट व सबूत तैयार करें",
+                    title = "Cyber Cell Evidence Pack",
+                    subtitle = "NCRP complaint draft & SHA256 forensic hashes",
                     onClick = { onNavigate(SatarkScreen.REPORT_EVIDENCE) }
                 )
                 ExtraToolRow(
                     icon = Icons.Default.AdminPanelSettings,
-                    title = "एनालिस्ट कंसोल",
-                    subtitle = "थ्रेट रजिस्ट्री व रिव्यू कतार",
+                    title = "Threat Analyst Console",
+                    subtitle = "SLA triage queue & threat registry review",
                     onClick = { onNavigate(SatarkScreen.ANALYST_CONSOLE) }
                 )
             }

@@ -1,5 +1,6 @@
 package com.example.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -46,7 +47,7 @@ fun TopBarHeader(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // App Identity (Clean, Trustworthy)
+            // App Brand
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -79,7 +80,9 @@ fun TopBarHeader(
                             color = if (guardOn) SatarkOkAlpha else SatarkDangerAlpha
                         ) {
                             Row(
-                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                                modifier = Modifier
+                                    .clickable { onToggleGuard() }
+                                    .padding(horizontal = 6.dp, vertical = 2.dp),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(3.dp)
                             ) {
@@ -87,10 +90,10 @@ fun TopBarHeader(
                                     modifier = Modifier
                                         .size(5.dp)
                                         .clip(CircleShape)
-                                        .clickable { onToggleGuard() }
+                                        .background(if (guardOn) SatarkOk else SatarkDanger)
                                 )
                                 Text(
-                                    text = if (guardOn) "सुरक्षित" else "सतर्क",
+                                    text = if (guardOn) "Protected" else "Alert",
                                     fontSize = 9.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = if (guardOn) SatarkOk else SatarkDanger
@@ -99,7 +102,7 @@ fun TopBarHeader(
                         }
                     }
                     Text(
-                        text = "UPI पेमेंट सुरक्षा एवं फ्रॉड शील्ड",
+                        text = "Real-Time UPI Scam Protection",
                         style = MaterialTheme.typography.bodySmall,
                         color = SatarkDim,
                         fontSize = 10.5.sp
@@ -107,7 +110,7 @@ fun TopBarHeader(
                 }
             }
 
-            // Quick Actions (Voice Mute/Unmute & Settings)
+            // Quick Actions: Voice Readout & Settings
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -120,7 +123,7 @@ fun TopBarHeader(
                 ) {
                     Icon(
                         imageVector = if (voiceHindiOn) Icons.AutoMirrored.Filled.VolumeUp else Icons.Default.VolumeMute,
-                        contentDescription = "Voice Assistant",
+                        contentDescription = "Voice Readout",
                         tint = if (voiceHindiOn) SatarkAccent else SatarkDim,
                         modifier = Modifier.size(20.dp)
                     )
