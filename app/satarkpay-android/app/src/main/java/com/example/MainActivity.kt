@@ -81,6 +81,7 @@ class MainActivity : ComponentActivity() {
             val safePayIsFirstTime by viewModel.safePayIsFirstTime.collectAsStateWithLifecycle()
             val safePayTxnCount by viewModel.safePayTxnCount.collectAsStateWithLifecycle()
             val safePayTrusted by viewModel.safePayTrusted.collectAsStateWithLifecycle()
+            val allPayees by viewModel.allPayees.collectAsStateWithLifecycle()
 
             // App Security & Permission State
             val scannedApps by viewModel.scannedApps.collectAsStateWithLifecycle()
@@ -122,11 +123,11 @@ class MainActivity : ComponentActivity() {
                                 tonalElevation = 8.dp
                             ) {
                                 val navItems = listOf(
-                                    Triple(SatarkScreen.HOME, "Home", Icons.Default.Home),
-                                    Triple(SatarkScreen.SAFEPAY, "SafePay", Icons.Default.Shield),
-                                    Triple(SatarkScreen.SANCHALAK_CHAT, "Sanchalak", Icons.Default.Chat),
-                                    Triple(SatarkScreen.APP_SECURITY, "Apps", Icons.Default.SecurityUpdateWarning),
-                                    Triple(SatarkScreen.REPORT_EVIDENCE, "Reports", Icons.Default.FolderZip)
+                                    Triple(SatarkScreen.HOME, "होम", Icons.Default.Home),
+                                    Triple(SatarkScreen.SAFEPAY, "सुरक्षित पे", Icons.Default.Shield),
+                                    Triple(SatarkScreen.SANCHALAK_CHAT, "AI साथी", Icons.Default.Chat),
+                                    Triple(SatarkScreen.APP_SECURITY, "ऐप्स", Icons.Default.SecurityUpdateWarning),
+                                    Triple(SatarkScreen.REPORT_EVIDENCE, "शिकायत", Icons.Default.FolderZip)
                                 )
 
                                 navItems.forEach { (screen, label, icon) ->
@@ -181,6 +182,7 @@ class MainActivity : ComponentActivity() {
                                 burstScreenshots = burstScreenshots,
                                 intelCount = approvedIntel.size,
                                 permissionSummary = permissionSummary,
+                                payees = allPayees,
                                 onNavigate = { viewModel.navigateTo(it) },
                                 onConfirmFraudQuick = {
                                     viewModel.confirmFraudAndTriggerEmergency()

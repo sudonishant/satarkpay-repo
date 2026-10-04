@@ -2,7 +2,6 @@ package com.example.ui.screens
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -11,6 +10,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -68,7 +69,7 @@ fun SafePayScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        // Top Nav & Provenance Header
+        // Top Nav Header
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -79,51 +80,45 @@ fun SafePayScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 IconButton(onClick = onBack, modifier = Modifier.size(36.dp)) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = SatarkInk)
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = SatarkInk)
                 }
                 Column {
                     Text(
-                        text = "SafePay Pre-Payment Broker",
+                        text = "पेमेंट सुरक्षा जांच (SafePay)",
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = SatarkInk
+                        fontWeight = FontWeight.ExtraBold,
+                        color = SatarkInk,
+                        fontSize = 16.sp
                     )
                     Text(
-                        text = "Unified Attack Chain & Payee Ledger",
+                        text = "पैसे भेजने से पहले खाते की जांच",
                         style = MaterialTheme.typography.bodySmall,
-                        color = SatarkDim
+                        color = SatarkDim,
+                        fontSize = 11.sp
                     )
                 }
             }
 
             Surface(
                 shape = RoundedCornerShape(8.dp),
-                color = SatarkOkAlpha,
-                border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(SatarkOk))
+                color = SatarkOkAlpha
             ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Box(modifier = Modifier.size(6.dp).background(SatarkOk, CircleShape))
-                    Text(
-                        text = "LIVE ON DEVICE",
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = SatarkOk
-                    )
-                }
+                Text(
+                    text = "सुरक्षा सक्रिय",
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = SatarkOk,
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                )
             }
         }
 
-        // Quick Demo Scenarios Row
+        // Demo Presets (Easy testing for ordinary users / reviewers)
         Text(
-            text = "DEMO ATTACK CHAIN SCENARIOS",
+            text = "चेक करने के लिए कोई विकल्प चुनें:",
             style = MaterialTheme.typography.labelSmall,
             color = SatarkDim,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 1.sp
+            fontWeight = FontWeight.Bold
         )
 
         Row(
@@ -131,12 +126,12 @@ fun SafePayScreen(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             PresetChip(
-                label = "🚨 Digital Arrest",
+                label = "🚨 डिजिटल अरेस्ट (CBI)",
                 isSelected = upiId.contains("cbi", ignoreCase = true),
                 onClick = {
                     onLoadPreset(
                         "cybercbi91@okhdfcbank",
-                        "CBI Digital Cell",
+                        "CBI Security Cell",
                         25000L,
                         PaymentSourceChannel.WHATSAPP_UNSAVED,
                         true,
@@ -145,7 +140,7 @@ fun SafePayScreen(
                 }
             )
             PresetChip(
-                label = "📲 Telegram Task",
+                label = "📲 टेलीग्राम टास्क फ्रॉड",
                 isSelected = upiId.contains("task", ignoreCase = true) || upiId.contains("vip", ignoreCase = true),
                 onClick = {
                     onLoadPreset(
@@ -154,12 +149,12 @@ fun SafePayScreen(
                         5000L,
                         PaymentSourceChannel.TELEGRAM,
                         false,
-                        "Prepaid task recharge ₹5,000 for ₹7,500 withdrawal bonus."
+                        "Prepaid task recharge ₹5,000 for ₹7,500 bonus."
                     )
                 }
             )
             PresetChip(
-                label = "🛒 Local Kirana",
+                label = "🛒 राशन दुकान",
                 isSelected = upiId.contains("kirana", ignoreCase = true),
                 onClick = {
                     onLoadPreset(
@@ -174,7 +169,7 @@ fun SafePayScreen(
             )
         }
 
-        // Payee & Payment Input Card
+        // Payment Input Card
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -185,37 +180,21 @@ fun SafePayScreen(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Payment Beneficiary Details",
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = SatarkInk
-                    )
-                    Text(
-                        text = "[MANUAL / QR]",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = SatarkDim,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                Text(
+                    text = "किसको पैसे भेज रहे हैं? (UPI विवरण)",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = SatarkInk
+                )
 
                 OutlinedTextField(
                     value = upiId,
                     onValueChange = onUpiChange,
-                    label = { Text("Receiver UPI ID (VPA)") },
-                    placeholder = { Text("e.g. name@okhdfcbank") },
+                    label = { Text("UPI ID (VPA) डालें") },
+                    placeholder = { Text("जैसे: naam@okhdfcbank") },
                     leadingIcon = { Icon(Icons.Default.AccountBalanceWallet, contentDescription = null, tint = SatarkAccent) },
                     modifier = Modifier.fillMaxWidth().testTag("safepay_upi_input"),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = SatarkAccent,
-                        unfocusedBorderColor = SatarkBorder
-                    )
+                    shape = RoundedCornerShape(12.dp)
                 )
 
                 Row(
@@ -225,14 +204,10 @@ fun SafePayScreen(
                     OutlinedTextField(
                         value = payeeName,
                         onValueChange = onNameChange,
-                        label = { Text("Payee Name") },
-                        placeholder = { Text("Account Holder") },
+                        label = { Text("नाम (वैकल्पिक)") },
+                        placeholder = { Text("खाताधारक का नाम") },
                         modifier = Modifier.weight(1.3f).testTag("safepay_name_input"),
-                        shape = RoundedCornerShape(12.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = SatarkAccent,
-                            unfocusedBorderColor = SatarkBorder
-                        )
+                        shape = RoundedCornerShape(12.dp)
                     )
 
                     OutlinedTextField(
@@ -241,20 +216,16 @@ fun SafePayScreen(
                             val parsed = str.filter { it.isDigit() }.toLongOrNull() ?: 0L
                             onAmountChange(parsed)
                         },
-                        label = { Text("Amount (₹)") },
+                        label = { Text("रकम (₹)") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.weight(1f).testTag("safepay_amount_input"),
-                        shape = RoundedCornerShape(12.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = SatarkAccent,
-                            unfocusedBorderColor = SatarkBorder
-                        )
+                        shape = RoundedCornerShape(12.dp)
                     )
                 }
             }
         }
 
-        // First-Time Payee Ledger Status Card
+        // Payee Ledger Warning (First-time vs Known)
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -272,7 +243,8 @@ fun SafePayScreen(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    modifier = Modifier.weight(1f)
                 ) {
                     Surface(
                         shape = CircleShape,
@@ -289,28 +261,17 @@ fun SafePayScreen(
                         }
                     }
                     Column {
-                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text(
-                                text = if (isFirstTimePayee) "FIRST-TIME PAYEE" else "KNOWN BENEFICIARY",
-                                style = MaterialTheme.typography.titleSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = if (isFirstTimePayee) SatarkWarn else SatarkOk
-                            )
-                            Surface(shape = RoundedCornerShape(4.dp), color = SatarkBorder) {
-                                Text(
-                                    text = "LEDGER",
-                                    fontSize = 9.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = SatarkDim,
-                                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-                                )
-                            }
-                        }
+                        Text(
+                            text = if (isFirstTimePayee) "⚠️ यह बिल्कुल नया UPI खाता है" else "🟢 जाना-पहचाना सुरक्षित खाता",
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = if (isFirstTimePayee) SatarkWarn else SatarkOk
+                        )
                         Text(
                             text = if (isFirstTimePayee)
-                                "Past transactions: 0 · Unfamiliar VPA"
+                                "आपने इस UPI ID पर पहले कभी पैसे नहीं भेजे हैं।"
                             else
-                                "Past transactions: $txnCount · Recorded in local ledger",
+                                "पहले $txnCount बार सुरक्षित भुगतान हो चुका है।",
                             style = MaterialTheme.typography.bodySmall,
                             color = SatarkInk
                         )
@@ -319,13 +280,13 @@ fun SafePayScreen(
 
                 if (isFirstTimePayee) {
                     TextButton(onClick = onMarkTrusted) {
-                        Text("Trust", color = SatarkAccent, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                        Text("सुरक्षित मानें", color = SatarkAccent, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                     }
                 }
             }
         }
 
-        // Live Context & Communication Correlation
+        // Live Call & Channel Context
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -336,29 +297,14 @@ fun SafePayScreen(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Correlated Threat Context",
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = SatarkInk
-                    )
-                    Surface(shape = RoundedCornerShape(4.dp), color = SatarkBorder) {
-                        Text(
-                            text = "DEVICE + CHANNEL",
-                            fontSize = 9.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = SatarkDim,
-                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-                        )
-                    }
-                }
+                Text(
+                    text = "भुगतान की स्थिति",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = SatarkInk
+                )
 
-                // Active Call Toggle (Digital Arrest trigger)
+                // Active Call Switch
                 Surface(
                     shape = RoundedCornerShape(12.dp),
                     color = if (isActiveCall) SatarkDangerAlpha else SatarkBg,
@@ -380,13 +326,13 @@ fun SafePayScreen(
                             )
                             Column {
                                 Text(
-                                    text = if (isActiveCall) "Active Phone / Video Call ON" else "No Active Call",
+                                    text = if (isActiveCall) "फोन कॉल या वीडियो कॉल चालू है" else "कोई कॉल चालू नहीं है",
                                     style = MaterialTheme.typography.bodyMedium,
                                     fontWeight = FontWeight.Bold,
                                     color = if (isActiveCall) SatarkDanger else SatarkInk
                                 )
                                 Text(
-                                    text = if (isActiveCall) "Digital Arrest trap indicator active" else "Normal background state",
+                                    text = if (isActiveCall) "सावधान! कॉल पर दबाव बनाकर पैसे मांगे जा रहे हैं?" else "सामान्य स्थिति",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = SatarkDim
                                 )
@@ -400,80 +346,58 @@ fun SafePayScreen(
                     }
                 }
 
-                // Channel Selector
-                Text("Payment Origin / Chat Channel:", style = MaterialTheme.typography.bodySmall, color = SatarkDim)
+                // Channel
+                Text("पैसे मांगने का माध्यम (कहाँ से मिला QR/लिंक):", style = MaterialTheme.typography.bodySmall, color = SatarkDim)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     ChannelChip(
-                        label = "WhatsApp",
+                        label = "व्हाट्सएप",
                         isSelected = sourceChannel == PaymentSourceChannel.WHATSAPP_UNSAVED,
                         onClick = { onChannelChange(PaymentSourceChannel.WHATSAPP_UNSAVED) },
                         modifier = Modifier.weight(1f)
                     )
                     ChannelChip(
-                        label = "Telegram",
+                        label = "टेलीग्राम",
                         isSelected = sourceChannel == PaymentSourceChannel.TELEGRAM,
                         onClick = { onChannelChange(PaymentSourceChannel.TELEGRAM) },
                         modifier = Modifier.weight(1f)
                     )
                     ChannelChip(
-                        label = "SMS",
+                        label = "एसएमएस",
                         isSelected = sourceChannel == PaymentSourceChannel.UNKNOWN_SMS,
                         onClick = { onChannelChange(PaymentSourceChannel.UNKNOWN_SMS) },
                         modifier = Modifier.weight(1f)
                     )
                     ChannelChip(
-                        label = "Shop POS",
+                        label = "दुकान QR",
                         isSelected = sourceChannel == PaymentSourceChannel.DIRECT_SHOP_QR,
                         onClick = { onChannelChange(PaymentSourceChannel.DIRECT_SHOP_QR) },
                         modifier = Modifier.weight(1f)
                     )
                 }
-
-                // Device Scanner Signal info
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Icon(Icons.Default.Security, contentDescription = null, tint = SatarkAccent, modifier = Modifier.size(16.dp))
-                        Text(
-                            text = "Device Shield Scan: ${if (highRiskAppsCount > 0) "$highRiskAppsCount High-Risk Apps" else "Clean"}",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = if (highRiskAppsCount > 0) SatarkDanger else SatarkOk,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                    Text(
-                        text = "PM Sandbox",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = SatarkDim
-                    )
-                }
             }
         }
 
-        // UNIFIED ATTACK CHAIN VERDICT CARD
+        // VERDICT CARD (EXPLAINABLE TO COMMON CITIZEN)
         evaluation?.let { eval ->
-            val tierColor = when (eval.riskTier) {
-                AttackChainRiskTier.LOW_SAFE -> SatarkOk
-                AttackChainRiskTier.CAUTION -> SatarkWarn
-                AttackChainRiskTier.HIGH_RISK -> SatarkWarn
-                AttackChainRiskTier.CRITICAL_BLOCKED -> SatarkDanger
+            val isDanger = eval.riskTier == AttackChainRiskTier.CRITICAL_BLOCKED
+            val isWarning = eval.riskTier == AttackChainRiskTier.HIGH_RISK || eval.riskTier == AttackChainRiskTier.CAUTION
+            val tierColor = when {
+                isDanger -> SatarkDanger
+                isWarning -> SatarkWarn
+                else -> SatarkOk
             }
 
             Card(
                 modifier = Modifier.fillMaxWidth().testTag("attack_chain_verdict_card"),
                 shape = RoundedCornerShape(18.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = when (eval.riskTier) {
-                        AttackChainRiskTier.LOW_SAFE -> SatarkOkAlpha
-                        AttackChainRiskTier.CAUTION -> SatarkWarnAlpha
-                        AttackChainRiskTier.HIGH_RISK -> SatarkWarnAlpha
-                        AttackChainRiskTier.CRITICAL_BLOCKED -> SatarkDangerAlpha
+                    containerColor = when {
+                        isDanger -> SatarkDangerAlpha
+                        isWarning -> SatarkWarnAlpha
+                        else -> SatarkOkAlpha
                     }
                 ),
                 border = CardDefaults.outlinedCardBorder().copy(
@@ -484,7 +408,6 @@ fun SafePayScreen(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    // Headline & Score Row
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -492,87 +415,63 @@ fun SafePayScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = eval.riskTier.label,
-                                style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = tierColor,
-                                letterSpacing = 1.sp
-                            )
-                            Text(
-                                text = eval.headline,
+                                text = when (eval.riskTier) {
+                                    AttackChainRiskTier.CRITICAL_BLOCKED -> "🔴 तुरंत रुकें! भारी खतरा"
+                                    AttackChainRiskTier.HIGH_RISK -> "🟠 सावधान! फ्रॉड का शक"
+                                    AttackChainRiskTier.CAUTION -> "🟡 जांच आवश्यक है"
+                                    AttackChainRiskTier.LOW_SAFE -> "🟢 सुरक्षित भुगतान"
+                                },
                                 style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = SatarkInk
+                                fontWeight = FontWeight.ExtraBold,
+                                color = tierColor
                             )
                         }
 
-                        // Score Dial / Badge
                         Surface(
                             shape = CircleShape,
                             color = tierColor,
-                            modifier = Modifier.size(46.dp)
+                            modifier = Modifier.size(44.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
                                 Text(
-                                    text = "${eval.score}",
+                                    text = "${eval.score}%",
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp
+                                    fontSize = 14.sp
                                 )
                             }
                         }
                     }
 
-                    // Explanation
                     Text(
                         text = eval.explanation,
                         style = MaterialTheme.typography.bodyMedium,
                         color = SatarkInk
                     )
 
-                    // Hindi Voice Prompt Button
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(SatarkPanel)
-                            .clickable { onSpeakText(eval.hindiVoiceSummary) }
-                            .padding(horizontal = 10.dp, vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                    // Hindi Voice Button
+                    Surface(
+                        shape = RoundedCornerShape(10.dp),
+                        color = SatarkPanel,
+                        modifier = Modifier.fillMaxWidth().clickable { onSpeakText(eval.hindiVoiceSummary) }
                     ) {
-                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Icon(Icons.Default.VolumeUp, contentDescription = null, tint = SatarkAccent, modifier = Modifier.size(18.dp))
+                        Row(
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = null, tint = SatarkAccent, modifier = Modifier.size(20.dp))
                             Text(
-                                text = "सुनिए (Hindi Voice Advisory)",
+                                text = "आवाज़ में सुनें: ${eval.hindiVoiceSummary}",
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.Bold,
-                                color = SatarkAccent
+                                color = SatarkAccent,
+                                maxLines = 2
                             )
                         }
-                        Icon(Icons.Default.PlayArrow, contentDescription = null, tint = SatarkAccent, modifier = Modifier.size(18.dp))
                     }
 
-                    HorizontalDivider(color = SatarkBorder)
-
-                    // Attack Chain Correlated Signals List
-                    Text(
-                        text = "CORRELATED ATTACK SIGNALS (${eval.signals.size})",
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = SatarkDim,
-                        letterSpacing = 1.sp
-                    )
-
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        eval.signals.forEach { signal ->
-                            SignalRow(signal)
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(4.dp))
-
-                    // ACTION BUTTONS BASED ON RISK TIER
+                    // Action buttons
                     when (eval.riskTier) {
                         AttackChainRiskTier.CRITICAL_BLOCKED -> {
                             Button(
@@ -584,9 +483,10 @@ fun SafePayScreen(
                                 Icon(Icons.Default.CallEnd, contentDescription = null, tint = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    "🚨 Call Kaatein & 1930 Cyber Cell Alert Karein",
+                                    "कॉल काटें और 1930 पर शिकायत करें",
                                     color = Color.White,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 14.sp
                                 )
                             }
                         }
@@ -599,16 +499,14 @@ fun SafePayScreen(
                                     shape = RoundedCornerShape(12.dp),
                                     colors = ButtonDefaults.buttonColors(containerColor = SatarkWarn)
                                 ) {
-                                    Icon(Icons.Default.HourglassTop, contentDescription = null, tint = Color.White)
-                                    Spacer(modifier = Modifier.width(6.dp))
-                                    Text("15m Cooling Active", color = Color.White, fontWeight = FontWeight.Bold)
+                                    Text("15 मिनट रुकें (Cooling)", color = Color.White, fontWeight = FontWeight.Bold)
                                 }
                                 OutlinedButton(
                                     onClick = onTriggerEmergency,
                                     modifier = Modifier.weight(1f).height(48.dp),
                                     shape = RoundedCornerShape(12.dp)
                                 ) {
-                                    Text("Report Scam", color = SatarkDanger, fontWeight = FontWeight.Bold)
+                                    Text("फ्रॉड रिपोर्ट", color = SatarkDanger, fontWeight = FontWeight.Bold)
                                 }
                             }
                         }
@@ -621,14 +519,14 @@ fun SafePayScreen(
                                     shape = RoundedCornerShape(12.dp),
                                     colors = ButtonDefaults.buttonColors(containerColor = SatarkWarn)
                                 ) {
-                                    Text("Verified & Pay ₹$amount", color = Color.White, fontWeight = FontWeight.Bold)
+                                    Text("सत्यापित है, ₹$amount भेजें", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                                 }
                                 OutlinedButton(
                                     onClick = onMarkTrusted,
                                     modifier = Modifier.weight(1f).height(48.dp),
                                     shape = RoundedCornerShape(12.dp)
                                 ) {
-                                    Text("Trust Payee", color = SatarkAccent, fontWeight = FontWeight.Bold)
+                                    Text("पहचानें", color = SatarkAccent, fontWeight = FontWeight.Bold)
                                 }
                             }
                         }
@@ -643,10 +541,10 @@ fun SafePayScreen(
                                 Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    "Proceed to UPI App (₹$amount)",
+                                    "UPI ऐप खोलें (₹$amount का सुरक्षित भुगतान)",
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold,
-                                    fontSize = 15.sp
+                                    fontSize = 14.sp
                                 )
                             }
                         }
@@ -673,10 +571,10 @@ private fun PresetChip(
     ) {
         Text(
             text = label,
-            fontSize = 12.sp,
+            fontSize = 11.sp,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
             color = if (isSelected) SatarkAccent else SatarkInk,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 7.dp)
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 7.dp)
         )
     }
 }
@@ -702,65 +600,6 @@ private fun ChannelChip(
                 fontSize = 11.sp,
                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                 color = if (isSelected) SatarkAccent else SatarkInk
-            )
-        }
-    }
-}
-
-@Composable
-private fun SignalRow(signal: AttackChainSignal) {
-    val badgeColor = when (signal.severity) {
-        AttackChainRiskTier.LOW_SAFE -> SatarkOk
-        AttackChainRiskTier.CAUTION -> SatarkWarn
-        AttackChainRiskTier.HIGH_RISK -> SatarkWarn
-        AttackChainRiskTier.CRITICAL_BLOCKED -> SatarkDanger
-    }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(SatarkPanel)
-            .padding(10.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.Top
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(top = 4.dp)
-                .size(8.dp)
-                .background(badgeColor, CircleShape)
-        )
-        Column(modifier = Modifier.weight(1f)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = signal.title,
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Bold,
-                    color = SatarkInk
-                )
-                Surface(
-                    shape = RoundedCornerShape(4.dp),
-                    color = SatarkBorder
-                ) {
-                    Text(
-                        text = signal.provenance,
-                        fontSize = 8.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = SatarkDim,
-                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-                    )
-                }
-            }
-            Text(
-                text = signal.description,
-                style = MaterialTheme.typography.bodySmall,
-                color = SatarkDim,
-                fontSize = 11.sp
             )
         }
     }

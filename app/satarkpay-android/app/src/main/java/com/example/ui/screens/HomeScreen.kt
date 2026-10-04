@@ -9,19 +9,21 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.data.model.PayeeLedgerEntity
 import com.example.engine.PermissionAuditSummary
 import com.example.ui.SatarkScreen
 import com.example.ui.theme.*
@@ -33,11 +35,13 @@ fun HomeScreen(
     burstScreenshots: Int,
     intelCount: Int,
     permissionSummary: PermissionAuditSummary,
+    payees: List<PayeeLedgerEntity> = emptyList(),
     onNavigate: (SatarkScreen) -> Unit,
     onConfirmFraudQuick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
+    var showExtraTools by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -45,23 +49,24 @@ fun HomeScreen(
             .background(SatarkBg)
             .verticalScroll(scrollState)
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Active Cooling Alert
+        // Active Cooling Alert (if triggered)
         if (isCoolingActive) {
-            Card(
+            Surface(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clip(RoundedCornerShape(14.dp))
                     .clickable { onNavigate(SatarkScreen.CHAT_PAY) }
                     .testTag("active_cooling_banner"),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = SatarkWarnAlpha),
-                border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(SatarkWarn))
+                shape = RoundedCornerShape(14.dp),
+                color = SatarkWarnAlpha,
+                border = CardDefaults.outlinedCardBorder().copy(
+                    brush = androidx.compose.ui.graphics.SolidColor(SatarkWarn)
+                )
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(14.dp),
+                    modifier = Modifier.padding(14.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -71,29 +76,76 @@ fun HomeScreen(
                     ) {
                         Surface(shape = CircleShape, color = SatarkWarn, modifier = Modifier.size(32.dp)) {
                             Box(contentAlignment = Alignment.Center) {
-                                Icon(Icons.Default.HourglassTop, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
+                                Icon(Icons.Default.HourglassTop, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
                             }
                         }
                         Column {
-                            Text(
-                                text = "Cooling Active: ${coolingSeconds}s",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = SatarkWarn,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Text(
-                                text = "Chat review zaroori hai",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = SatarkInk
-                            )
+                            Text("सुरक्षा विराम: ${coolingSeconds} सेकंड", fontWeight = FontWeight.Bold, color = SatarkWarn, fontSize = 14.sp)
+                            Text("जल्दबाजी में भुगतान न करें, चैट की जांच करें", color = SatarkInk, fontSize = 11.sp)
                         }
                     }
-                    Icon(Icons.Default.ChevronRight, contentDescription = null, tint = SatarkWarn)
+                    Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, tint = SatarkWarn, modifier = Modifier.size(18.dp))
                 }
             }
         }
 
-        // HERO: SAFEPAY PRE-PAYMENT BROKER
+        // 1. FRIENDLY DEVICE STATUS BANNER
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(14.dp),
+            color = SatarkPanelCard,
+            border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(SatarkBorder))
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Surface(
+                        shape = CircleShape,
+                        color = if (permissionSummary.highRiskAppsCount > 0) SatarkDangerAlpha else SatarkOkAlpha,
+                        modifier = Modifier.size(32.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = if (permissionSummary.highRiskAppsCount > 0) Icons.Default.Warning else Icons.Default.CheckCircle,
+                                contentDescription = null,
+                                tint = if (permissionSummary.highRiskAppsCount > 0) SatarkDanger else SatarkOk,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
+                    }
+                    Column {
+                        Text(
+                            text = if (permissionSummary.highRiskAppsCount > 0)
+                                "⚠️ फोन में ${permissionSummary.highRiskAppsCount} संदिग्ध ऐप मिलीं"
+                            else
+                                "🟢 आपका फोन सुरक्षित है",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 13.sp,
+                            color = SatarkInk
+                        )
+                        Text(
+                            text = "स्क्रीन शेयर व जासूसी ऐप से सुरक्षा चालू है",
+                            fontSize = 11.sp,
+                            color = SatarkDim
+                        )
+                    }
+                }
+
+                TextButton(onClick = { onNavigate(SatarkScreen.APP_SECURITY) }) {
+                    Text(
+                        text = if (permissionSummary.highRiskAppsCount > 0) "जांचें" else "स्कैन करें",
+                        color = if (permissionSummary.highRiskAppsCount > 0) SatarkDanger else SatarkAccent,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp
+                    )
+                }
+            }
+        }
+
+        // 2. HERO: "पैसे भेजने से पहले जांचें" (PRE-PAYMENT CHECK BROKER)
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -101,100 +153,167 @@ fun HomeScreen(
                 .clickable { onNavigate(SatarkScreen.SAFEPAY) }
                 .testTag("hero_safepay_card"),
             shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = SatarkAccentAlpha),
-            border = CardDefaults.outlinedCardBorder().copy(
-                brush = androidx.compose.ui.graphics.SolidColor(SatarkAccent)
-            )
+            colors = CardDefaults.cardColors(containerColor = SatarkPanelCard),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
             Column(
                 modifier = Modifier.padding(18.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         Surface(
                             shape = RoundedCornerShape(12.dp),
                             color = SatarkAccent,
                             modifier = Modifier.size(42.dp)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
-                                Icon(
-                                    imageVector = Icons.Default.Shield,
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                    modifier = Modifier.size(24.dp)
-                                )
+                                Icon(Icons.Default.VerifiedUser, contentDescription = null, tint = Color.White, modifier = Modifier.size(24.dp))
                             }
                         }
                         Column {
-                            Text(
-                                text = "SafePay Pre-Payment Broker",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = SatarkInk,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Text(
-                                text = "Unified Attack Chain & Payee Ledger",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = SatarkDim
-                            )
+                            Text("पैसे भेजने से पहले जांचें", fontWeight = FontWeight.ExtraBold, fontSize = 16.sp, color = SatarkInk)
+                            Text("SafePay • फ्रॉड अलर्ट और खाता सुरक्षा", fontSize = 11.sp, color = SatarkDim)
                         }
                     }
 
                     Surface(
                         shape = RoundedCornerShape(8.dp),
-                        color = SatarkAccent
+                        color = SatarkOkAlpha
                     ) {
                         Text(
-                            text = "Check VPA",
-                            color = Color.White,
-                            style = MaterialTheme.typography.labelSmall,
+                            text = "AI शील्ड",
+                            fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+                            color = SatarkOk,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                         )
                     }
                 }
 
                 Text(
-                    text = "Payment karne se pehle UPI ID check karein: Active call, Telegram urgency aur first-time payee correlation.",
-                    style = MaterialTheme.typography.bodySmall,
+                    text = "किसी भी अनजान UPI ID या QR कोड पर पैसे भेजने से पहले यहाँ जांचें। यदि कोई कॉल पर दबाव बना रहा है या अनजान खाते में पैसे मांग रहा है, तो सतर्कपे तुरंत रोकेगा।",
+                    fontSize = 12.sp,
                     color = SatarkInk,
-                    fontSize = 12.sp
+                    lineHeight = 17.sp
                 )
 
+                // Quick Demo Test Chips (Easy for any user to test)
+                Text("डेमो फ्रॉड चेक करके देखें:", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = SatarkDim)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    QuickBadge("Pre-Payment Gate", SatarkAccent)
-                    QuickBadge("Active Call Check", SatarkDanger)
-                    QuickBadge("VPA Ledger", SatarkOk)
+                    DemoChip(
+                        label = "🚨 डिजिटल अरेस्ट",
+                        color = SatarkDanger,
+                        onClick = { onNavigate(SatarkScreen.SAFEPAY) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    DemoChip(
+                        label = "📲 टेलीग्राम टास्क",
+                        color = SatarkWarn,
+                        onClick = { onNavigate(SatarkScreen.SAFEPAY) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    DemoChip(
+                        label = "🛒 राशन दुकान",
+                        color = SatarkOk,
+                        onClick = { onNavigate(SatarkScreen.SAFEPAY) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                // Primary CTA button
+                Button(
+                    onClick = { onNavigate(SatarkScreen.SAFEPAY) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = SatarkAccent)
+                ) {
+                    Icon(Icons.Default.QrCodeScanner, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("UPI ID या QR कोड चेक करें", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                 }
             }
         }
 
-        // FEATURE HERO: FAKE APPS & PERMISSION AUDITOR CARD
-        val hasFakeApps = permissionSummary.highRiskAppsCount > 0
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(18.dp))
-                .clickable { onNavigate(SatarkScreen.APP_SECURITY) }
-                .testTag("hero_app_security_card"),
-            shape = RoundedCornerShape(18.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = if (hasFakeApps) SatarkDangerAlpha else SatarkPanelCard
-            ),
-            border = CardDefaults.outlinedCardBorder().copy(
-                brush = androidx.compose.ui.graphics.SolidColor(if (hasFakeApps) SatarkDanger else SatarkAccent)
+        // 3. CORE 4-SERVICES (CLEAN 2x2 CONSUMER TILES)
+        Text(
+            text = "प्रमुख सुरक्षा सेवाएं",
+            style = MaterialTheme.typography.labelSmall,
+            color = SatarkDim,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = 1.sp
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            ConsumerCard(
+                modifier = Modifier.weight(1f),
+                icon = Icons.AutoMirrored.Filled.Chat,
+                iconColor = SatarkAccent,
+                title = "AI संचालक",
+                subtitle = "संदिग्ध मैसेज या कॉल पूछें",
+                badge = "सहायक",
+                badgeColor = SatarkAccent,
+                onClick = { onNavigate(SatarkScreen.SANCHALAK_CHAT) }
             )
+
+            val hasAppsRisk = permissionSummary.highRiskAppsCount > 0
+            ConsumerCard(
+                modifier = Modifier.weight(1f),
+                icon = Icons.Default.SecurityUpdateWarning,
+                iconColor = if (hasAppsRisk) SatarkDanger else SatarkOk,
+                title = "ऐप सुरक्षा",
+                subtitle = if (hasAppsRisk) "${permissionSummary.highRiskAppsCount} खतरनाक ऐप मिलीं" else "सभी ऐप सुरक्षित हैं",
+                badge = if (hasAppsRisk) "खतरा" else "सुरक्षित",
+                badgeColor = if (hasAppsRisk) SatarkDanger else SatarkOk,
+                onClick = { onNavigate(SatarkScreen.APP_SECURITY) }
+            )
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            ConsumerCard(
+                modifier = Modifier.weight(1f),
+                icon = Icons.Default.AccountBalanceWallet,
+                iconColor = SatarkOk,
+                title = "सुरक्षित खाते",
+                subtitle = "आपके पहचाने हुए UPI खाते",
+                badge = "खाता डायरी",
+                badgeColor = SatarkOk,
+                onClick = { onNavigate(SatarkScreen.SAFEPAY) }
+            )
+
+            ConsumerCard(
+                modifier = Modifier.weight(1f),
+                icon = Icons.Default.Warning,
+                iconColor = SatarkDanger,
+                title = "🚨 पैसे कट गए?",
+                subtitle = "1930 साइबर हेल्पलाइन",
+                badge = "आपातकालीन",
+                badgeColor = SatarkDanger,
+                onClick = onConfirmFraudQuick
+            )
+        }
+
+        // 4. VERIFIED BENEFICIARY DIARY SNAPSHOT
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = SatarkPanelCard),
+            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
@@ -205,265 +324,126 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Surface(
-                            shape = RoundedCornerShape(10.dp),
-                            color = if (hasFakeApps) SatarkDanger else SatarkAccent,
-                            modifier = Modifier.size(36.dp)
-                        ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Icon(
-                                    imageVector = if (hasFakeApps) Icons.Default.Warning else Icons.Default.Security,
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                        }
-                        Column {
-                            Text(
-                                text = "Fake App & Permission Scan",
-                                style = MaterialTheme.typography.titleSmall,
-                                color = SatarkInk,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Text(
-                                text = if (hasFakeApps) "🚨 ${permissionSummary.highRiskAppsCount} High-Risk Apps Mili!" else "Screen, SMS & Location Safe",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = if (hasFakeApps) SatarkDanger else SatarkOk,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        }
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Icon(Icons.Default.BookmarkBorder, contentDescription = null, tint = SatarkOk, modifier = Modifier.size(16.dp))
+                        Text("पहचाने हुए खाते (सुरक्षित)", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = SatarkInk)
                     }
-
-                    Surface(
-                        shape = RoundedCornerShape(8.dp),
-                        color = if (hasFakeApps) SatarkDanger else SatarkAccent
-                    ) {
-                        Text(
-                            text = if (hasFakeApps) "Clean Now" else "Audit",
-                            color = Color.White,
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)
-                        )
-                    }
+                    Text("फ़ोन में सुरक्षित", fontSize = 10.sp, color = SatarkDim)
                 }
 
-                // Mini Permission Badges
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    QuickBadge("High Risk: ${permissionSummary.highRiskAppsCount}", if (hasFakeApps) SatarkDanger else SatarkOk)
-                    QuickBadge("SMS/OTP: ${permissionSummary.appsWithSmsCount}", SatarkPurple)
-                    QuickBadge("Location: ${permissionSummary.appsWithLocationCount}", SatarkAccent)
-                    QuickBadge("Accessibility: ${permissionSummary.appsWithAccessibilityCount}", SatarkWarn)
+                // 3 familiar records
+                BeneficiaryRow("माँ (सुनीता देवी)", "mother.family@oksbi", "24 बार भुगतान हुआ")
+                BeneficiaryRow("शर्मा किराना स्टोर", "sharma.kirana@icici", "11 बार भुगतान हुआ")
+                BeneficiaryRow("बिजली बिल भुगतान", "sbpdcl.billpay@sbi", "4 बार भुगतान हुआ")
+
+                Text(
+                    text = "💡 जब भी कोई बिल्कुल नया या अनजान खाता आएगा, सतर्कपे आपको तुरंत सावधान करेगा।",
+                    fontSize = 11.sp,
+                    color = SatarkDim,
+                    lineHeight = 15.sp
+                )
+            }
+        }
+
+        // 5. COLLAPSIBLE ADVANCED TOOLS (FOR HACKATHON JURY & EVALUATORS)
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
+                .clickable { showExtraTools = !showExtraTools },
+            shape = RoundedCornerShape(12.dp),
+            color = SatarkPanel
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Icon(Icons.Default.Build, contentDescription = null, tint = SatarkDim, modifier = Modifier.size(16.dp))
+                    Text(
+                        text = if (showExtraTools) "विशेषज्ञ टूल्स छुपाएं" else "अन्य टूल्स (स्क्रीनशॉट रडार, वेबसाइट जांच, मैंडेट)",
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color = SatarkInk
+                    )
                 }
+                Icon(
+                    imageVector = if (showExtraTools) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = null,
+                    tint = SatarkDim
+                )
             }
         }
 
-        // 4 Quick Threat Metric Tiles (Short & Punchy!)
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            HomeStatTile(
-                modifier = Modifier.weight(1f),
-                title = "Threats",
-                value = "$intelCount",
-                badge = "Live",
-                badgeColor = SatarkDanger,
-                onClick = { onNavigate(SatarkScreen.INTEL_FEED) }
-            )
-            HomeStatTile(
-                modifier = Modifier.weight(1f),
-                title = "Radar",
-                value = "$burstScreenshots",
-                badge = if (burstScreenshots >= 3) "Burst" else "Clean",
-                badgeColor = if (burstScreenshots >= 3) SatarkWarn else SatarkOk,
-                onClick = { onNavigate(SatarkScreen.SCREENSHOT_RADAR) }
-            )
-            HomeStatTile(
-                modifier = Modifier.weight(1f),
-                title = "Links",
-                value = "L4",
-                badge = "Spoof",
-                badgeColor = SatarkAccent,
-                onClick = { onNavigate(SatarkScreen.DOMAIN_TRUST) }
-            )
-            HomeStatTile(
-                modifier = Modifier.weight(1f),
-                title = "Mandates",
-                value = "4",
-                badge = "Audit",
-                badgeColor = SatarkWarn,
-                onClick = { onNavigate(SatarkScreen.WALLET_AUDIT) }
-            )
-        }
-
-        // Two Primary Action Buttons
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            Button(
-                onClick = { onNavigate(SatarkScreen.SANCHALAK_CHAT) },
-                modifier = Modifier
-                    .weight(1f)
-                    .height(48.dp)
-                    .testTag("sanchalak_quick_button"),
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = SatarkAccent)
-            ) {
-                Icon(Icons.Default.Chat, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
-                Spacer(modifier = Modifier.width(6.dp))
-                Text("AI Sanchalak", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+        AnimatedVisibility(visible = showExtraTools) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                ExtraToolRow(
+                    icon = Icons.Default.PhotoCamera,
+                    title = "स्क्रीनशॉट रडार",
+                    subtitle = "तेजी से बार-बार पैसे कटने की जांच",
+                    onClick = { onNavigate(SatarkScreen.SCREENSHOT_RADAR) }
+                )
+                ExtraToolRow(
+                    icon = Icons.Default.Link,
+                    title = "वेबसाइट व लिंक जांच",
+                    subtitle = "फर्जी सरकारी व बैंक वेबसाइट पहचानें",
+                    onClick = { onNavigate(SatarkScreen.DOMAIN_TRUST) }
+                )
+                ExtraToolRow(
+                    icon = Icons.Default.AccountBalanceWallet,
+                    title = "ऑटोपे मैंडेट ऑडिट",
+                    subtitle = "छुपे हुए मासिक/दैनिक कटने वाले चार्ज रोकें",
+                    onClick = { onNavigate(SatarkScreen.WALLET_AUDIT) }
+                )
+                ExtraToolRow(
+                    icon = Icons.Default.FolderZip,
+                    title = "साइबर सेल रिपोर्ट पैक",
+                    subtitle = "NCRP शिकायत ड्राफ्ट व सबूत तैयार करें",
+                    onClick = { onNavigate(SatarkScreen.REPORT_EVIDENCE) }
+                )
+                ExtraToolRow(
+                    icon = Icons.Default.AdminPanelSettings,
+                    title = "एनालिस्ट कंसोल",
+                    subtitle = "थ्रेट रजिस्ट्री व रिव्यू कतार",
+                    onClick = { onNavigate(SatarkScreen.ANALYST_CONSOLE) }
+                )
             }
-
-            Button(
-                onClick = onConfirmFraudQuick,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(48.dp)
-                    .testTag("emergency_quick_button"),
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = SatarkDanger)
-            ) {
-                Icon(Icons.Default.Warning, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
-                Spacer(modifier = Modifier.width(6.dp))
-                Text("🚨 Paisa Gaya?", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-            }
-        }
-
-        Text(
-            text = "DEFENSE MODULES",
-            style = MaterialTheme.typography.labelSmall,
-            color = SatarkDim,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 1.sp
-        )
-
-        // Sleek Clean Module Cards (Compact, short text)
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            CompactNavCard(
-                icon = Icons.Default.Shield,
-                iconTint = SatarkAccent,
-                title = "SafePay Pre-Payment Broker",
-                subtitle = "Unified attack chain, VPA ledger & Intent launch",
-                tag = "Broker",
-                tagColor = SatarkAccent,
-                onClick = { onNavigate(SatarkScreen.SAFEPAY) }
-            )
-
-            CompactNavCard(
-                icon = Icons.Default.SecurityUpdateWarning,
-                iconTint = SatarkDanger,
-                title = "Fake App & Permission Scanner",
-                subtitle = "Remote control tools, Screen & SMS permissions",
-                tag = "${permissionSummary.highRiskAppsCount} Threats",
-                tagColor = if (hasFakeApps) SatarkDanger else SatarkOk,
-                onClick = { onNavigate(SatarkScreen.APP_SECURITY) }
-            )
-
-            CompactNavCard(
-                icon = Icons.Default.ChatBubbleOutline,
-                iconTint = SatarkAccent,
-                title = "M1 · Chat-Before-Pay Gate",
-                subtitle = "Payment dwell timer & 3 safety questions",
-                tag = "Active",
-                tagColor = SatarkOk,
-                onClick = { onNavigate(SatarkScreen.CHAT_PAY) }
-            )
-
-            CompactNavCard(
-                icon = Icons.Default.PhotoCamera,
-                iconTint = SatarkWarn,
-                title = "M2 · Screenshot Radar",
-                subtitle = "Burst payment & repeat payee staircase",
-                tag = "$burstScreenshots Scans",
-                tagColor = SatarkWarn,
-                onClick = { onNavigate(SatarkScreen.SCREENSHOT_RADAR) }
-            )
-
-            CompactNavCard(
-                icon = Icons.Default.Link,
-                iconTint = SatarkAccent,
-                title = "M3 · Domain & Link Trust",
-                subtitle = "L1-L4 ladder & Razorpay gateway spoof test",
-                tag = "L4 Fake",
-                tagColor = SatarkDanger,
-                onClick = { onNavigate(SatarkScreen.DOMAIN_TRUST) }
-            )
-
-            CompactNavCard(
-                icon = Icons.Default.AccountBalanceWallet,
-                iconTint = SatarkPurple,
-                title = "M5 · AutoPay Mandates",
-                subtitle = "Recurring daily traps & instant revocation",
-                tag = "4 Active",
-                tagColor = SatarkPurple,
-                onClick = { onNavigate(SatarkScreen.WALLET_AUDIT) }
-            )
-
-            CompactNavCard(
-                icon = Icons.Default.FolderZip,
-                iconTint = SatarkOk,
-                title = "M7 · Report & Evidence Pack",
-                subtitle = "NCRP complaint, email draft & SHA256 hashes",
-                tag = "Evidence",
-                tagColor = SatarkOk,
-                onClick = { onNavigate(SatarkScreen.REPORT_EVIDENCE) }
-            )
-
-            CompactNavCard(
-                icon = Icons.Default.Emergency,
-                iconTint = SatarkDanger,
-                title = "🚨 Emergency (R38 Golden Hour)",
-                subtitle = "Cyber Cell Email + 1930 Call + CFCFRMS Freeze",
-                tag = "Action",
-                tagColor = SatarkDanger,
-                onClick = { onNavigate(SatarkScreen.EMERGENCY_CONFIRM) }
-            )
-
-            CompactNavCard(
-                icon = Icons.Default.AdminPanelSettings,
-                iconTint = SatarkDim,
-                title = "Analyst Console (C1–C4)",
-                subtitle = "SLA queues, OTA threat registry & reviews",
-                tag = "Admin",
-                tagColor = SatarkDim,
-                onClick = { onNavigate(SatarkScreen.ANALYST_CONSOLE) }
-            )
         }
     }
 }
 
 @Composable
-private fun QuickBadge(text: String, color: Color) {
+private fun DemoChip(
+    label: String,
+    color: Color,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Surface(
-        shape = RoundedCornerShape(6.dp),
-        color = color.copy(alpha = 0.12f),
-        border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(color.copy(alpha = 0.4f)))
+        shape = RoundedCornerShape(8.dp),
+        color = color.copy(alpha = 0.1f),
+        border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(color.copy(alpha = 0.5f))),
+        modifier = modifier.clickable { onClick() }
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelSmall,
-            color = color,
-            fontWeight = FontWeight.Bold,
-            fontSize = 10.sp,
-            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-        )
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp)) {
+            Text(
+                text = label,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
+                color = color,
+                maxLines = 1
+            )
+        }
     }
 }
 
 @Composable
-private fun HomeStatTile(
+private fun ConsumerCard(
+    icon: ImageVector,
+    iconColor: Color,
     title: String,
-    value: String,
+    subtitle: String,
     badge: String,
     badgeColor: Color,
     onClick: () -> Unit,
@@ -471,98 +451,122 @@ private fun HomeStatTile(
 ) {
     Card(
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(16.dp))
             .clickable { onClick() },
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = SatarkPanelCard),
-        border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(SatarkBorder))
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
-            modifier = Modifier.padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(2.dp)
+            modifier = Modifier.padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(text = title, style = MaterialTheme.typography.bodySmall, color = SatarkDim, fontSize = 11.sp)
-            Text(text = value, style = MaterialTheme.typography.titleMedium, color = SatarkInk, fontWeight = FontWeight.Bold)
-            Surface(shape = RoundedCornerShape(4.dp), color = badgeColor.copy(alpha = 0.15f)) {
-                Text(
-                    text = badge,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = badgeColor,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 9.sp,
-                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
-                )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = iconColor.copy(alpha = 0.12f),
+                    modifier = Modifier.size(34.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(18.dp))
+                    }
+                }
+                Surface(
+                    shape = RoundedCornerShape(6.dp),
+                    color = badgeColor.copy(alpha = 0.12f)
+                ) {
+                    Text(
+                        text = badge,
+                        color = badgeColor,
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                    )
+                }
             }
+
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold,
+                color = SatarkInk
+            )
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = SatarkDim,
+                fontSize = 11.sp,
+                maxLines = 1
+            )
         }
     }
 }
 
 @Composable
-private fun CompactNavCard(
+private fun BeneficiaryRow(name: String, vpa: String, tag: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .background(SatarkPanel)
+            .padding(horizontal = 10.dp, vertical = 7.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column {
+            Text(name, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, color = SatarkInk)
+            Text(vpa, fontSize = 10.sp, color = SatarkDim)
+        }
+        Surface(shape = RoundedCornerShape(4.dp), color = SatarkOkAlpha) {
+            Text(
+                text = tag,
+                color = SatarkOk,
+                fontSize = 9.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun ExtraToolRow(
     icon: ImageVector,
-    iconTint: Color,
     title: String,
     subtitle: String,
-    tag: String,
-    tagColor: Color,
     onClick: () -> Unit
 ) {
-    Card(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .clickable { onClick() },
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = SatarkPanelCard),
+        color = SatarkPanelCard,
         border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(SatarkBorder))
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 10.dp),
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Surface(
                 shape = RoundedCornerShape(8.dp),
-                color = iconTint.copy(alpha = 0.15f),
-                modifier = Modifier.size(34.dp)
+                color = SatarkAccentAlpha,
+                modifier = Modifier.size(32.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
-                    Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(18.dp))
+                    Icon(icon, contentDescription = null, tint = SatarkAccent, modifier = Modifier.size(16.dp))
                 }
             }
-
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = SatarkInk,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 13.5.sp
-                )
-                Text(
-                    text = subtitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = SatarkDim,
-                    fontSize = 11.5.sp,
-                    maxLines = 1
-                )
+            Column {
+                Text(title, fontWeight = FontWeight.Bold, fontSize = 13.sp, color = SatarkInk)
+                Text(subtitle, fontSize = 11.sp, color = SatarkDim)
             }
-
-            Surface(shape = RoundedCornerShape(6.dp), color = tagColor.copy(alpha = 0.15f)) {
-                Text(
-                    text = tag,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = tagColor,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 10.sp,
-                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                )
-            }
-
-            Icon(Icons.Default.ChevronRight, contentDescription = null, tint = SatarkDim, modifier = Modifier.size(18.dp))
         }
     }
 }
