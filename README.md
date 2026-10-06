@@ -1,4 +1,4 @@
-# SatarkPay (सतर्कपे)
+# SatarkPay 
 
 **Fraud detection that runs in the sixty seconds before the PIN, not after the loss.**
 
