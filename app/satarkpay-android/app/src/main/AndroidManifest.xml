@@ -5,12 +5,16 @@
     <!-- Permissions Documentation:
          - INTERNET: Gemini AI security advisor & cyber advisories
          - RECORD_AUDIO: Voice interaction in AI advisor (user-triggered mic only)
+         - CAMERA: Live optical QR scanner for UPI payment verification
          - VIBRATE: Haptic alerts on critical threat detection
          - REQUEST_DELETE_PACKAGES: Triggers system user confirmation prompt for uninstalling dangerous apps -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <queries>
         <intent>

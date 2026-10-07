@@ -23,6 +23,7 @@ enum class SatarkScreen {
     SPLASH,
     HOME,
     SAFEPAY,
+    QR_SCANNER,
     CHAT_PAY,
     SCREENSHOT_RADAR,
     DOMAIN_TRUST,
@@ -597,6 +598,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         safePayActiveCall.value = activeCall
         safePaySnippet.value = snippet
         checkPayeeLedgerAndEvaluate()
+    }
+
+    fun onQrScannedResult(parsed: com.example.util.ParsedUpiData) {
+        if (parsed.upiId.isNotBlank()) {
+            safePayUpi.value = parsed.upiId
+        }
+        if (parsed.payeeName.isNotBlank()) {
+            safePayName.value = parsed.payeeName
+        }
+        if (parsed.amount != null && parsed.amount > 0) {
+            safePayAmount.value = parsed.amount
+        }
+        safePayChannel.value = PaymentSourceChannel.DIRECT_SHOP_QR
+        checkPayeeLedgerAndEvaluate()
+        navigateTo(SatarkScreen.SAFEPAY)
     }
 
     fun markCurrentPayeeTrusted() {

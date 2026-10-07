@@ -55,6 +55,7 @@ fun SafePayScreen(
     onStartCooling: () -> Unit,
     onLoadPreset: (String, String, Long, PaymentSourceChannel, Boolean, String) -> Unit,
     onSpeakText: (String) -> Unit,
+    onScanQr: () -> Unit = {},
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -195,6 +196,11 @@ fun SafePayScreen(
                     label = { Text("Receiver UPI ID (VPA)") },
                     placeholder = { Text("e.g. name@okhdfcbank") },
                     leadingIcon = { Icon(Icons.Default.AccountBalanceWallet, contentDescription = null, tint = SatarkAccent) },
+                    trailingIcon = {
+                        IconButton(onClick = onScanQr, modifier = Modifier.testTag("safepay_scan_qr_button")) {
+                            Icon(Icons.Default.QrCodeScanner, contentDescription = "Scan QR", tint = SatarkAccent)
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth().testTag("safepay_upi_input"),
                     shape = RoundedCornerShape(12.dp)
                 )

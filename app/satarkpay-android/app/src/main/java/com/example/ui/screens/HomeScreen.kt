@@ -229,18 +229,38 @@ fun HomeScreen(
                     )
                 }
 
-                // Primary CTA button
-                Button(
-                    onClick = { onNavigate(SatarkScreen.SAFEPAY) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = SatarkAccent)
+                // Primary Action Buttons: Live QR Camera + Manual UPI Entry
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Icon(Icons.Default.QrCodeScanner, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Check UPI ID / Scan QR Code", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Button(
+                        onClick = { onNavigate(SatarkScreen.QR_SCANNER) },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(48.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = SatarkAccent)
+                    ) {
+                        Icon(Icons.Default.QrCodeScanner, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text("Scan UPI QR", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    }
+
+                    OutlinedButton(
+                        onClick = { onNavigate(SatarkScreen.SAFEPAY) },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(48.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        border = ButtonDefaults.outlinedButtonBorder.copy(
+                            brush = androidx.compose.ui.graphics.SolidColor(SatarkAccent)
+                        )
+                    ) {
+                        Icon(Icons.Default.Keyboard, contentDescription = null, tint = SatarkAccent, modifier = Modifier.size(18.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text("Check UPI ID", color = SatarkAccent, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    }
                 }
             }
         }

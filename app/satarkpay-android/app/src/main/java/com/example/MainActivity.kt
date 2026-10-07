@@ -103,7 +103,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(SatarkBg),
                     topBar = {
-                        if (currentScreen != SatarkScreen.SPLASH) {
+                        if (currentScreen != SatarkScreen.SPLASH && currentScreen != SatarkScreen.QR_SCANNER) {
                             TopBarHeader(
                                 guardOn = guardOn,
                                 onToggleGuard = { viewModel.toggleGuard() },
@@ -118,7 +118,7 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     bottomBar = {
-                        if (currentScreen != SatarkScreen.SPLASH) {
+                        if (currentScreen != SatarkScreen.SPLASH && currentScreen != SatarkScreen.QR_SCANNER) {
                             NavigationBar(
                                 containerColor = SatarkPanel,
                                 tonalElevation = 8.dp
@@ -126,8 +126,8 @@ class MainActivity : ComponentActivity() {
                                 val navItems = listOf(
                                     Triple(SatarkScreen.HOME, "Home", Icons.Default.Home),
                                     Triple(SatarkScreen.SAFEPAY, "SafePay", Icons.Default.Shield),
-                                    Triple(SatarkScreen.SANCHALAK_CHAT, "AI Advisor", Icons.Default.Chat),
-                                    Triple(SatarkScreen.APP_SECURITY, "Device Shield", Icons.Default.SecurityUpdateWarning),
+                                    Triple(SatarkScreen.SANCHALAK_CHAT, "Advisor", Icons.Default.Chat),
+                                    Triple(SatarkScreen.APP_SECURITY, "Shield", Icons.Default.SecurityUpdateWarning),
                                     Triple(SatarkScreen.REPORT_EVIDENCE, "Reports", Icons.Default.FolderZip)
                                 )
 
@@ -228,6 +228,14 @@ class MainActivity : ComponentActivity() {
                                     viewModel.loadSafePayPreset(upi, name, amt, ch, call, snip)
                                 },
                                 onSpeakText = { viewModel.speakText(it) },
+                                onScanQr = { viewModel.navigateTo(SatarkScreen.QR_SCANNER) },
+                                onBack = { viewModel.navigateBack() }
+                            )
+
+                            SatarkScreen.QR_SCANNER -> LiveQrScannerScreen(
+                                onQrScanned = { parsed ->
+                                    viewModel.onQrScannedResult(parsed)
+                                },
                                 onBack = { viewModel.navigateBack() }
                             )
 
