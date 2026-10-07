@@ -48,6 +48,7 @@ fun SanchalakChatScreen(
     onToggleRecordAudio: () -> Unit,
     onSpeakText: (String) -> Unit,
     onEscalateToAnalyst: () -> Unit,
+    onDismissVerdict: () -> Unit = {},
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -223,13 +224,16 @@ fun SanchalakChatScreen(
             }
         }
 
-        // Active Deterministic Verdict Card (if available from last analyzed message)
+        // Active Deterministic Verdict Card (if available and not conversational greeting)
         lastVerdict?.let { verdict ->
-            Box(modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)) {
-                VerdictCard(
-                    verdict = verdict,
-                    onSpeak = { onSpeakText(verdict.hindiVoiceSummary) }
-                )
+            if (!verdict.isConversationalGreeting) {
+                Box(modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)) {
+                    VerdictCard(
+                        verdict = verdict,
+                        onSpeak = { onSpeakText(verdict.hindiVoiceSummary) },
+                        onDismiss = onDismissVerdict
+                    )
+                }
             }
         }
 

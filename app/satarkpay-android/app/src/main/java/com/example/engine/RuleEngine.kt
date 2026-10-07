@@ -24,7 +24,10 @@ data class VerdictResult(
     val karo: List<String>,
     val citation: String,
     val hindiVoiceSummary: String,
-    val isBankOfficialWarning: Boolean = false
+    val isBankOfficialWarning: Boolean = false,
+    val bertScamProbability: Float = 0.5f,
+    val bertAttentionTokens: List<String> = emptyList(),
+    val isConversationalGreeting: Boolean = false
 )
 
 enum class DomainTrustLevel {
@@ -122,9 +125,33 @@ object RuleEngine {
         return safetyKeywords.any { lower.contains(it) }
     }
 
-    // Deterministic Rule Analysis
+    // Deterministic Rule Analysis + Bharat-BERT NLP Engine
     fun analyzeText(input: String): VerdictResult {
-        val lower = input.lowercase()
+        val trimmed = input.trim()
+        val lower = trimmed.lowercase()
+
+        // 0. Bharat-BERT Conversational & Benign Greeting Check (Prevents false positives on "hi")
+        val bertResult = BharatBertScamClassifier.classify(trimmed)
+        if (bertResult.isConversationalGreeting) {
+            return VerdictResult(
+                bucket = VerdictBucket.SEEMS_OK,
+                confidence = 0.99f,
+                familyCode = null,
+                matchedRuleTitle = "Bharat-BERT: Normal Conversation (Benign)",
+                reasons = listOf(
+                    "Ye aam baat-cheet ya greeting hai (e.g. hi/hello)",
+                    "Koi scam, financial threat, ya urgency signal nahi mila",
+                    "Bharat-BERT classification: 0% fraud risk"
+                ),
+                matKaro = "Koi alert ki zarurat nahi hai.",
+                karo = listOf("Aap AI Sanchalak se koi bhi payment fraud ya scam sawal poochh sakte hain."),
+                citation = "Bharat-BERT Intent Classifier (Benign Conversation)",
+                hindiVoiceSummary = "नमस्ते! मैं आपकी क्या सहायता कर सकता हूँ?",
+                isConversationalGreeting = true,
+                bertScamProbability = bertResult.scamProbability,
+                bertAttentionTokens = emptyList()
+            )
+        }
 
         // 1. Check for official bank awareness message first (R27 negation)
         if (isOfficialBankWarning(lower)) {
@@ -322,6 +349,30 @@ object RuleEngine {
             )
         }
 
+        // 9. Bharat-BERT Deep Neural Model Promotion
+        if (bertResult.scamProbability >= 0.75f && bertResult.predictedFamily != null) {
+            return VerdictResult(
+                bucket = VerdictBucket.SCAM_LIKELY,
+                confidence = bertResult.scamProbability,
+                familyCode = bertResult.predictedFamily,
+                matchedRuleTitle = bertResult.predictedFamilyTitle,
+                reasons = listOf(
+                    "Bharat-BERT model ne code-mixed threat triggers detect kiye",
+                    "Attention tokens: ${bertResult.attentionTokens.joinToString(", ")}",
+                    bertResult.analysisExplanation
+                ),
+                matKaro = "Koi bhi payment ya sensitive details share MAT KARO.",
+                karo = listOf(
+                    "Sender ko turant block karein.",
+                    "National Cyber Crime Helpline 1930 par complaint karein."
+                ),
+                citation = "Bharat-BERT Neural Classifier · ${bertResult.predictedFamily}",
+                hindiVoiceSummary = "सतर्क रहें! भारत-बर्ट मॉडल ने इस संदेश में फ्रॉड के लक्षण पाए हैं। कोई भुगतान न करें।",
+                bertScamProbability = bertResult.scamProbability,
+                bertAttentionTokens = bertResult.attentionTokens
+            )
+        }
+
         // Default honest bucket: PAUSE - NAHI BATA SAKTA (honest bucket principle)
         return VerdictResult(
             bucket = VerdictBucket.PAUSE_NAHI_BATA,
@@ -340,7 +391,9 @@ object RuleEngine {
                 "Zarurat padne par Human Analyst review queue me bhejein."
             ),
             citation = "Honest Bucket Principle · Intel Desk Escalation",
-            hindiVoiceSummary = "मैं पक्का नहीं बता सकता। यह कोई नया पैटर्न हो सकता है। कृपया सतर्क रहें और बिना जांचे पैसे न भेजें।"
+            hindiVoiceSummary = "मैं पक्का नहीं बता सकता। यह कोई नया पैटर्न हो सकता है। कृपया सतर्क रहें और बिना जांचे पैसे न भेजें।",
+            bertScamProbability = bertResult.scamProbability,
+            bertAttentionTokens = bertResult.attentionTokens
         )
     }
 

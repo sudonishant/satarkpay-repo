@@ -1,5 +1,6 @@
 package com.example.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,9 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.ui.theme.*
 
 @Composable
@@ -60,23 +63,15 @@ fun TopBarHeader(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                // Shield icon — slightly larger on expanded screens
-                val iconBoxSize = if (win.isExpanded) 42.dp else 36.dp
-                val iconSize    = if (win.isExpanded) 24.dp else 20.dp
-                Surface(
-                    shape = RoundedCornerShape(10.dp),
-                    color = SatarkAccent,
-                    modifier = Modifier.size(iconBoxSize)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = Icons.Default.Security,
-                            contentDescription = "Shield",
-                            tint = Color.White,
-                            modifier = Modifier.size(iconSize)
-                        )
-                    }
-                }
+                // SatarkPay 3D Shield Logo
+                val iconBoxSize = if (win.isExpanded) 40.dp else 34.dp
+                Image(
+                    painter = painterResource(id = R.drawable.satark_logo),
+                    contentDescription = "SatarkPay Logo",
+                    modifier = Modifier
+                        .size(iconBoxSize)
+                        .clip(RoundedCornerShape(8.dp))
+                )
                 Column {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,

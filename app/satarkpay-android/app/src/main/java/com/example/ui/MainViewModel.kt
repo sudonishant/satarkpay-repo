@@ -35,7 +35,9 @@ enum class SatarkScreen {
     GRIEVANCE_LADDER,
     APP_SECURITY,
     SETTINGS,
-    ANALYST_CONSOLE
+    ANALYST_CONSOLE,
+    AIR_GAP_LINK,
+    COMMUNITY
 }
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -333,9 +335,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val redaction = RuleEngine.redactPII(trimmed)
         clientRedactionCount.value += redaction.itemsRedactedCount
 
-        // 2. Deterministic Local Rule Check
+        // 2. Deterministic Local Rule Check + Bharat-BERT
         val deterministicResult = RuleEngine.analyzeText(trimmed)
-        lastVerdict.value = deterministicResult
+        if (deterministicResult.isConversationalGreeting) {
+            lastVerdict.value = null // Clear any prior scam popup card on greetings!
+        } else {
+            lastVerdict.value = deterministicResult
+            speakText(deterministicResult.hindiVoiceSummary)
+        }
 
         // Record in check history
         viewModelScope.launch {
@@ -354,9 +361,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val currentList = chatMessages.value.toMutableList()
         currentList.add(ChatMessage(sender = "user", text = displayUserText))
         chatMessages.value = currentList
-
-        // Read Hindi voice alert if voice is enabled
-        speakText(deterministicResult.hindiVoiceSummary)
 
         // 3. Elevate with Gemini for conversational AI explanation
         viewModelScope.launch {
@@ -384,28 +388,40 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 chatMessages.value = updated
             }.onFailure { err ->
                 // Offline fallback structured reply
-                val fallbackMsg = ChatMessage(
-                    sender = "model",
-                    text = """
-                        【Deterministic Engine Verdict: ${deterministicResult.bucket.name}】
-                        Rule: ${deterministicResult.matchedRuleTitle}
-                        
-                        • ${deterministicResult.reasons.joinToString("\n• ")}
-                        
-                        ⛔ MAT KARO: ${deterministicResult.matKaro}
-                        
-                        ✅ KARO:
-                        • ${deterministicResult.karo.joinToString("\n• ")}
-                        
-                        [Citation: ${deterministicResult.citation}]
-                        ${if (!GeminiService.hasValidApiKey()) "(Offline rule engine active — Add Gemini API key in Secrets panel for dynamic AI insights)" else "(Network offline, using on-device threat library)"}
-                    """.trimIndent()
-                )
+                val fallbackMsg = if (deterministicResult.isConversationalGreeting) {
+                    ChatMessage(
+                        sender = "model",
+                        text = "Namaste! Main SatarkPay AI Sanchalak hoon — aapka personal cyber-defense & anti-fraud advisor.\n\nAap mujhse kisi bhi sandeh-janak message, suspicious WhatsApp offer, UPI link, fake customer care call, ya loan app dhamki ke baare mein poochh sakte hain. Main turant Bharat-BERT aur 35+ threat patterns se verify karke batata hoon.\n\nAapke saath kya sandeh hua hai?"
+                    )
+                } else {
+                    ChatMessage(
+                        sender = "model",
+                        text = """
+                            【Bharat-BERT & Threat Engine Verdict: ${deterministicResult.bucket.name}】
+                            Rule: ${deterministicResult.matchedRuleTitle}
+                            ${if (deterministicResult.bertScamProbability > 0.05f) "🧠 Bharat-BERT Confidence: ${(deterministicResult.bertScamProbability * 100).toInt()}%" else ""}
+                            
+                            • ${deterministicResult.reasons.joinToString("\n• ")}
+                            
+                            ⛔ MAT KARO: ${deterministicResult.matKaro}
+                            
+                            ✅ KARO:
+                            • ${deterministicResult.karo.joinToString("\n• ")}
+                            
+                            [Citation: ${deterministicResult.citation}]
+                            ${if (!GeminiService.hasValidApiKey()) "(Offline Bharat-BERT engine active — Add Gemini API key in Secrets panel for dynamic AI insights)" else "(Network offline, using on-device threat library)"}
+                        """.trimIndent()
+                    )
+                }
                 val updated = chatMessages.value.toMutableList()
                 updated.add(fallbackMsg)
                 chatMessages.value = updated
             }
         }
+    }
+
+    fun dismissVerdict() {
+        lastVerdict.value = null
     }
 
     // Audio Transcription (gemini-3.5-transcribe)

@@ -22,12 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.engine.VerdictBucket
 import com.example.engine.VerdictResult
+import androidx.compose.material.icons.filled.Close
 import com.example.ui.theme.*
 
 @Composable
 fun VerdictCard(
     verdict: VerdictResult,
     onSpeak: (() -> Unit)? = null,
+    onDismiss: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     val (badgeText, badgeBg, badgeTextColor, badgeIcon) = when (verdict.bucket) {
@@ -67,9 +69,9 @@ fun VerdictCard(
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            // Header Row: Badge + Speak Button
+            // Header Row: Badge + Action Buttons (Speak + Dismiss)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -95,15 +97,60 @@ fun VerdictCard(
                     }
                 }
 
-                if (onSpeak != null) {
-                    IconButton(
-                        onClick = onSpeak,
-                        modifier = Modifier.testTag("speak_verdict_button")
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (onSpeak != null) {
+                        IconButton(
+                            onClick = onSpeak,
+                            modifier = Modifier.testTag("speak_verdict_button")
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.VolumeUp,
+                                contentDescription = "Read verdict in Hindi voice",
+                                tint = SatarkAccent
+                            )
+                        }
+                    }
+                    if (onDismiss != null) {
+                        IconButton(
+                            onClick = onDismiss,
+                            modifier = Modifier.size(32.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Dismiss Verdict",
+                                tint = SatarkDim,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Bharat-BERT Intelligence Bar
+            if (verdict.bertScamProbability > 0.05f) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Surface(
+                        shape = RoundedCornerShape(6.dp),
+                        color = SatarkAccentAlpha
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.VolumeUp,
-                            contentDescription = "Read verdict in Hindi voice",
-                            tint = SatarkAccent
+                        Text(
+                            text = "🧠 Bharat-BERT: ${(verdict.bertScamProbability * 100).toInt()}% Risk",
+                            color = SatarkAccent,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                        )
+                    }
+                    if (verdict.bertAttentionTokens.isNotEmpty()) {
+                        Text(
+                            text = "Triggers: [${verdict.bertAttentionTokens.take(2).joinToString(", ")}]",
+                            color = SatarkDim,
+                            fontSize = 10.5.sp,
+                            maxLines = 1
                         )
                     }
                 }

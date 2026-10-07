@@ -265,6 +265,62 @@ fun HomeScreen(
             }
         }
 
+        // Community & Air-Gap Quick Action Banner
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Card(
+                shape = RoundedCornerShape(14.dp),
+                colors = CardDefaults.cardColors(containerColor = SatarkPanelCard),
+                border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(SatarkBorder)),
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable { onNavigate(SatarkScreen.COMMUNITY) }
+            ) {
+                Row(
+                    modifier = Modifier.padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Surface(shape = RoundedCornerShape(8.dp), color = SatarkAccentAlpha, modifier = Modifier.size(36.dp)) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(Icons.Default.Groups, contentDescription = null, tint = SatarkAccent, modifier = Modifier.size(20.dp))
+                        }
+                    }
+                    Column {
+                        Text("Koo Community", fontWeight = FontWeight.Bold, fontSize = 12.5.sp, color = SatarkInk)
+                        Text("Latest Scam Alerts", fontSize = 10.5.sp, color = SatarkDim)
+                    }
+                }
+            }
+
+            Card(
+                shape = RoundedCornerShape(14.dp),
+                colors = CardDefaults.cardColors(containerColor = SatarkPanelCard),
+                border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(SatarkBorder)),
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable { onNavigate(SatarkScreen.AIR_GAP_LINK) }
+            ) {
+                Row(
+                    modifier = Modifier.padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Surface(shape = RoundedCornerShape(8.dp), color = SatarkOkAlpha, modifier = Modifier.size(36.dp)) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(Icons.Default.VpnLock, contentDescription = null, tint = SatarkOk, modifier = Modifier.size(20.dp))
+                        }
+                    }
+                    Column {
+                        Text("Air-Gap Sandbox", fontWeight = FontWeight.Bold, fontSize = 12.5.sp, color = SatarkInk)
+                        Text("Zero-Risk Link Preview", fontSize = 10.5.sp, color = SatarkDim)
+                    }
+                }
+            }
+        }
+
         // 3. CORE SECURITY CONTROLS (2x2 GRID)
         Text(
             text = "SECURITY CONTROLS",
@@ -444,6 +500,18 @@ fun HomeScreen(
 
         AnimatedVisibility(visible = showExtraTools) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                ExtraToolRow(
+                    icon = Icons.Default.VpnLock,
+                    title = "Air-Gap Link Sandbox",
+                    subtitle = "Zero-risk isolated container for suspicious links",
+                    onClick = { onNavigate(SatarkScreen.AIR_GAP_LINK) }
+                )
+                ExtraToolRow(
+                    icon = Icons.Default.Groups,
+                    title = "Koo Scam Community",
+                    subtitle = "Verified scam cases & chat with Prince, Nishant & Kartik",
+                    onClick = { onNavigate(SatarkScreen.COMMUNITY) }
+                )
                 ExtraToolRow(
                     icon = Icons.Default.PhotoCamera,
                     title = "Screenshot Velocity Radar",

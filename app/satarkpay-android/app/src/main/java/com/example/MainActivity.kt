@@ -305,6 +305,7 @@ class MainActivity : ComponentActivity() {
                                 onToggleRecordAudio = { viewModel.toggleAudioRecording() },
                                 onSpeakText = { viewModel.speakText(it) },
                                 onEscalateToAnalyst = { viewModel.navigateTo(SatarkScreen.ANALYST_CONSOLE) },
+                                onDismissVerdict = { viewModel.dismissVerdict() },
                                 onBack = { viewModel.navigateBack() }
                             )
 
@@ -332,6 +333,8 @@ class MainActivity : ComponentActivity() {
                                 onConfirmFraudTriggerEmergency = {
                                     viewModel.confirmFraudAndTriggerEmergency(reportAmount, reportUpi)
                                 },
+                                onSpeakText = { viewModel.speakText(it) },
+                                onNavigateToAirGap = { viewModel.navigateTo(SatarkScreen.AIR_GAP_LINK) },
                                 onBack = { viewModel.navigateBack() }
                             )
 
@@ -373,6 +376,22 @@ class MainActivity : ComponentActivity() {
 
                             SatarkScreen.ANALYST_CONSOLE -> AnalystConsoleScreen(
                                 onBack = { viewModel.navigateBack() }
+                            )
+
+                            SatarkScreen.AIR_GAP_LINK -> AirGapLinkCheckerScreen(
+                                initialUrl = currentDomainUrl,
+                                onBack = { viewModel.navigateBack() },
+                                onReportTo1930 = { viewModel.confirmFraudAndTriggerEmergency(0L, it) },
+                                onAskSanchalak = {
+                                    viewModel.sendUserChatMessage(it)
+                                    viewModel.navigateTo(SatarkScreen.SANCHALAK_CHAT)
+                                }
+                            )
+
+                            SatarkScreen.COMMUNITY -> CommunityScamAwarenessScreen(
+                                onBack = { viewModel.navigateBack() },
+                                onSpeakText = { viewModel.speakText(it) },
+                                onNavigateToAirGap = { viewModel.navigateTo(SatarkScreen.AIR_GAP_LINK) }
                             )
                         }
                     }
