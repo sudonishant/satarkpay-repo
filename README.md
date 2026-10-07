@@ -1,8 +1,6 @@
 <div align="center">
 
-# 🛡️ SatarkPay (सतर्कपे)
-
-### *“पैसा भेजने से पहले 60 सेकंड — फ्रॉड के बाद 60 मिनट।”*
+# 🛡️ SatarkPay
 ### **⚡ 60 Seconds Before Payment > 60 Minutes After Payment ⏳**
 
 **Real-Time, On-Device UPI Scam Interception & Zero-Trust Defense Matrix**
@@ -22,7 +20,7 @@
 <br/>
 
 > **💡 The Core Philosophy:**  
-> **“पैसा भेजने से पहले 60 सेकंड — फ्रॉड के बाद 60 मिनट।”**  
+ 
 > *(60 Seconds Before Payment > 60 Minutes After Payment)*  
 >
 > A UPI payment takes just one 6-digit PIN and settles irreversibly in under 400 milliseconds. Scammers use intense psychological pressure (Digital Arrest, urgent lottery, fake refund, call coercion) to rush you into entering that PIN within 10 seconds. Spending **60 seconds of cognitive friction before the payment** shatters the attack chain. Once money leaves your account, you are thrown into a desperate 60-minute race against multi-hop mule networks (the post-fraud Golden Hour).  
@@ -43,7 +41,7 @@
 
 ## ⚡ The 60-Second vs 60-Minute Equation
 
-> ### *“पैसा भेजने से पहले 60 सेकंड — फ्रॉड के बाद 60 मिनट।”*  
+
 > **60 Seconds Before Payment > 60 Minutes After Payment**
 
 UPI transactions settle in under 400 milliseconds. Once approved with a 6-digit PIN, reversal is nearly impossible. Indian cybercrime operates on two radically different timescales:
@@ -325,7 +323,7 @@ Registration is a starting filter, not a verdict.
 **SANGYAN 2026** — SEBI × NSDL × SNTC, IIT-BHU
 **Track A** (Fraud Resilience) · **Track B** (Awareness & Grievance Rights) · **Track D** (Habits & Behavioral Security)
 
-**Team SCΛMURΛI** — Nishant Kumar · Prince Singh · Kartik Singh
+**Team SCΛMURΛI** — Nishant Kumar · Prince Kumar Singh · Kartik Singh
 
 ---
 
