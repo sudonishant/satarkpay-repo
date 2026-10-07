@@ -26,6 +26,8 @@ crops_full/
 *.eml.draft
 secrets.env
 .env
+*.pdf
+SatarkPay_Pitch_Document.*
 # android
 *.apk
 *.aab
