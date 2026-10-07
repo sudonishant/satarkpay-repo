@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
@@ -158,13 +159,20 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { innerPadding ->
+                    val win = rememberWindowSizeInfo()
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
-                            .background(SatarkBg)
+                            .background(SatarkBg),
+                        contentAlignment = Alignment.TopCenter
                     ) {
-                        when (currentScreen) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .widthIn(max = if (win.isTabletOrLarger) 880.dp else androidx.compose.ui.unit.Dp.Infinity)
+                        ) {
+                            when (currentScreen) {
                             SatarkScreen.SPLASH -> SplashScreen(
                                 onEnableGuard = {
                                     viewModel.guardOn.value = true
@@ -364,4 +372,5 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
 }

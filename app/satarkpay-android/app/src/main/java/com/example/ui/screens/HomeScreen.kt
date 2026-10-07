@@ -42,13 +42,14 @@ fun HomeScreen(
 ) {
     val scrollState = rememberScrollState()
     var showExtraTools by remember { mutableStateOf(false) }
+    val win = rememberWindowSizeInfo()
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(SatarkBg)
             .verticalScroll(scrollState)
-            .padding(16.dp),
+            .padding(horizontal = win.contentPadding, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Active Cooling Alert (if triggered)
@@ -253,59 +254,105 @@ fun HomeScreen(
             letterSpacing = 1.sp
         )
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            ConsumerCard(
-                modifier = Modifier.weight(1f),
-                icon = Icons.AutoMirrored.Filled.Chat,
-                iconColor = SatarkAccent,
-                title = "AI Cyber Advisor",
-                subtitle = "Analyze suspicious SMS & chats",
-                badge = "Gemini AI",
-                badgeColor = SatarkAccent,
-                onClick = { onNavigate(SatarkScreen.SANCHALAK_CHAT) }
-            )
+        val hasAppsRisk = permissionSummary.highRiskAppsCount > 0
+        if (win.isTabletOrLarger) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                ConsumerCard(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.AutoMirrored.Filled.Chat,
+                    iconColor = SatarkAccent,
+                    title = "AI Cyber Advisor",
+                    subtitle = "Analyze suspicious SMS & chats",
+                    badge = "Gemini AI",
+                    badgeColor = SatarkAccent,
+                    onClick = { onNavigate(SatarkScreen.SANCHALAK_CHAT) }
+                )
+                ConsumerCard(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Default.SecurityUpdateWarning,
+                    iconColor = if (hasAppsRisk) SatarkDanger else SatarkOk,
+                    title = "App Security",
+                    subtitle = if (hasAppsRisk) "${permissionSummary.highRiskAppsCount} Sensitive Apps" else "All Apps Clean",
+                    badge = if (hasAppsRisk) "Review" else "Safe",
+                    badgeColor = if (hasAppsRisk) SatarkDanger else SatarkOk,
+                    onClick = { onNavigate(SatarkScreen.APP_SECURITY) }
+                )
+                ConsumerCard(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Default.AccountBalanceWallet,
+                    iconColor = SatarkOk,
+                    title = "Trusted Payees",
+                    subtitle = "Verified account directory",
+                    badge = "On-Device",
+                    badgeColor = SatarkOk,
+                    onClick = { onNavigate(SatarkScreen.SAFEPAY) }
+                )
+                ConsumerCard(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Default.Warning,
+                    iconColor = SatarkDanger,
+                    title = "🚨 Lost Money?",
+                    subtitle = "Call 1930 & Freeze Bank",
+                    badge = "Emergency",
+                    badgeColor = SatarkDanger,
+                    onClick = onConfirmFraudQuick
+                )
+            }
+        } else {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                ConsumerCard(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.AutoMirrored.Filled.Chat,
+                    iconColor = SatarkAccent,
+                    title = "AI Cyber Advisor",
+                    subtitle = "Analyze suspicious SMS & chats",
+                    badge = "Gemini AI",
+                    badgeColor = SatarkAccent,
+                    onClick = { onNavigate(SatarkScreen.SANCHALAK_CHAT) }
+                )
+                ConsumerCard(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Default.SecurityUpdateWarning,
+                    iconColor = if (hasAppsRisk) SatarkDanger else SatarkOk,
+                    title = "App Security",
+                    subtitle = if (hasAppsRisk) "${permissionSummary.highRiskAppsCount} Sensitive Apps" else "All Apps Clean",
+                    badge = if (hasAppsRisk) "Review" else "Safe",
+                    badgeColor = if (hasAppsRisk) SatarkDanger else SatarkOk,
+                    onClick = { onNavigate(SatarkScreen.APP_SECURITY) }
+                )
+            }
 
-            val hasAppsRisk = permissionSummary.highRiskAppsCount > 0
-            ConsumerCard(
-                modifier = Modifier.weight(1f),
-                icon = Icons.Default.SecurityUpdateWarning,
-                iconColor = if (hasAppsRisk) SatarkDanger else SatarkOk,
-                title = "App Security",
-                subtitle = if (hasAppsRisk) "${permissionSummary.highRiskAppsCount} Sensitive Apps" else "All Apps Clean",
-                badge = if (hasAppsRisk) "Review" else "Safe",
-                badgeColor = if (hasAppsRisk) SatarkDanger else SatarkOk,
-                onClick = { onNavigate(SatarkScreen.APP_SECURITY) }
-            )
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            ConsumerCard(
-                modifier = Modifier.weight(1f),
-                icon = Icons.Default.AccountBalanceWallet,
-                iconColor = SatarkOk,
-                title = "Trusted Payees",
-                subtitle = "Verified account directory",
-                badge = "On-Device",
-                badgeColor = SatarkOk,
-                onClick = { onNavigate(SatarkScreen.SAFEPAY) }
-            )
-
-            ConsumerCard(
-                modifier = Modifier.weight(1f),
-                icon = Icons.Default.Warning,
-                iconColor = SatarkDanger,
-                title = "🚨 Lost Money?",
-                subtitle = "Call 1930 & Freeze Bank",
-                badge = "Emergency",
-                badgeColor = SatarkDanger,
-                onClick = onConfirmFraudQuick
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                ConsumerCard(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Default.AccountBalanceWallet,
+                    iconColor = SatarkOk,
+                    title = "Trusted Payees",
+                    subtitle = "Verified account directory",
+                    badge = "On-Device",
+                    badgeColor = SatarkOk,
+                    onClick = { onNavigate(SatarkScreen.SAFEPAY) }
+                )
+                ConsumerCard(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Default.Warning,
+                    iconColor = SatarkDanger,
+                    title = "🚨 Lost Money?",
+                    subtitle = "Call 1930 & Freeze Bank",
+                    badge = "Emergency",
+                    badgeColor = SatarkDanger,
+                    onClick = onConfirmFraudQuick
+                )
+            }
         }
 
         // 4. VERIFIED BENEFICIARY DIRECTORY

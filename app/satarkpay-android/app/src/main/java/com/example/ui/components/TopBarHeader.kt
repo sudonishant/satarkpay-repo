@@ -35,6 +35,8 @@ fun TopBarHeader(
     onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val win = rememberWindowSizeInfo()
+
     Surface(
         modifier = modifier.fillMaxWidth(),
         color = SatarkPanel,
@@ -43,7 +45,11 @@ fun TopBarHeader(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                // On tablets add more horizontal padding so content is centred
+                .padding(
+                    horizontal = win.contentPadding,
+                    vertical = if (win.isShortHeight) 8.dp else 12.dp
+                ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -52,29 +58,41 @@ fun TopBarHeader(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
+                // Shield icon — slightly larger on expanded screens
+                val iconBoxSize = if (win.isExpanded) 42.dp else 36.dp
+                val iconSize    = if (win.isExpanded) 24.dp else 20.dp
                 Surface(
                     shape = RoundedCornerShape(10.dp),
                     color = SatarkAccent,
-                    modifier = Modifier.size(36.dp)
+                    modifier = Modifier.size(iconBoxSize)
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Icon(
                             imageVector = Icons.Default.Security,
                             contentDescription = "Shield",
                             tint = Color.White,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(iconSize)
                         )
                     }
                 }
                 Column {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        val titleFontSize = when {
+                            win.isExpanded -> 20.sp
+                            win.isMedium   -> 18.sp
+                            else           -> 17.sp
+                        }
                         Text(
                             text = "SatarkPay",
                             style = MaterialTheme.typography.titleMedium,
                             color = SatarkInk,
                             fontWeight = FontWeight.ExtraBold,
-                            fontSize = 17.sp
+                            fontSize = titleFontSize
                         )
+                        // Status pill
                         Surface(
                             shape = CircleShape,
                             color = if (guardOn) SatarkOkAlpha else SatarkDangerAlpha
@@ -101,45 +119,50 @@ fun TopBarHeader(
                             }
                         }
                     }
-                    Text(
-                        text = "Real-Time UPI Scam Protection",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = SatarkDim,
-                        fontSize = 10.5.sp
-                    )
+                    // Hide subtitle on very short screens to save vertical space
+                    if (!win.isShortHeight) {
+                        Text(
+                            text = "Real-Time UPI Scam Protection",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = SatarkDim,
+                            fontSize = 10.5.sp
+                        )
+                    }
                 }
             }
 
-            // Quick Actions: Voice Readout & Settings
+            // Actions row
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
+                val btnSize = if (win.isExpanded) 44.dp else 36.dp
+                val icnSize = if (win.isExpanded) 24.dp else 20.dp
+
                 IconButton(
                     onClick = onToggleVoice,
-                    modifier = Modifier
-                        .size(36.dp)
-                        .testTag("voice_toggle_chip")
+                    modifier = Modifier.size(btnSize).testTag("voice_toggle_chip")
                 ) {
                     Icon(
-                        imageVector = if (voiceHindiOn) Icons.AutoMirrored.Filled.VolumeUp else Icons.Default.VolumeMute,
+                        imageVector = if (voiceHindiOn)
+                            Icons.AutoMirrored.Filled.VolumeUp
+                        else
+                            Icons.Default.VolumeMute,
                         contentDescription = "Voice Readout",
                         tint = if (voiceHindiOn) SatarkAccent else SatarkDim,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(icnSize)
                     )
                 }
 
                 IconButton(
                     onClick = onOpenSettings,
-                    modifier = Modifier
-                        .size(36.dp)
-                        .testTag("settings_button")
+                    modifier = Modifier.size(btnSize).testTag("settings_button")
                 ) {
                     Icon(
                         imageVector = Icons.Default.Settings,
                         contentDescription = "Settings",
                         tint = SatarkDim,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(icnSize)
                     )
                 }
             }

@@ -60,13 +60,14 @@ fun SafePayScreen(
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+    val win = rememberWindowSizeInfo()
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(SatarkBg)
             .verticalScroll(scrollState)
-            .padding(16.dp),
+            .padding(horizontal = win.contentPadding, vertical = 14.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         // Top Nav Header
