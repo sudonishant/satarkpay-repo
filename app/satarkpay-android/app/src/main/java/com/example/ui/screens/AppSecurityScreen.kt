@@ -86,7 +86,7 @@ fun AppSecurityScreen(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "${summary.totalAppsScanned} apps scanned • ${summary.highRiskAppsCount} high risk",
+                    text = "${summary.totalAppsScanned} apps with sensitive permissions • ${summary.highRiskAppsCount} high risk (Targeted Visibility)",
                     style = MaterialTheme.typography.bodySmall,
                     color = if (summary.highRiskAppsCount > 0) SatarkDanger else SatarkOk,
                     fontSize = 11.5.sp
@@ -417,6 +417,15 @@ private fun InstalledAppCard(
                 color = if (isHighRisk) SatarkDanger else SatarkInk,
                 fontSize = 12.sp
             )
+
+            if (app.permissionRationale.isNotBlank()) {
+                Text(
+                    text = "Context: ${app.permissionRationale}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = SatarkDim,
+                    fontSize = 11.sp
+                )
+            }
 
             // Detected Sensitive Permission Tags
             Row(

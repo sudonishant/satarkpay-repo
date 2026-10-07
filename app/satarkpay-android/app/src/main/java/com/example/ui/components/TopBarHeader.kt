@@ -38,7 +38,9 @@ fun TopBarHeader(
     val win = rememberWindowSizeInfo()
 
     Surface(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .statusBarsPadding(),
         color = SatarkPanel,
         tonalElevation = 2.dp
     ) {

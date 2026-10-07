@@ -281,8 +281,12 @@ fun SafePayScreen(
                 }
 
                 if (isFirstTimePayee) {
-                    TextButton(onClick = onMarkTrusted) {
-                        Text("Trust", color = SatarkAccent, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                    OutlinedButton(
+                        onClick = onMarkTrusted,
+                        shape = RoundedCornerShape(8.dp),
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
+                    ) {
+                        Text("Save as Known", color = SatarkAccent, fontWeight = FontWeight.Bold, fontSize = 11.sp)
                     }
                 }
             }

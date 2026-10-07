@@ -120,15 +120,15 @@ fun HomeScreen(
                     Column {
                         Text(
                             text = if (permissionSummary.highRiskAppsCount > 0)
-                                "⚠️ ${permissionSummary.highRiskAppsCount} Sensitive Apps Found"
+                                "⚠️ ${permissionSummary.highRiskAppsCount} High-Risk Screen Tools Found"
                             else
-                                "🟢 Device Protected • Clean",
+                                "🟢 Remote Screen Tool Monitor Active",
                             fontWeight = FontWeight.Bold,
                             fontSize = 13.sp,
                             color = SatarkInk
                         )
                         Text(
-                            text = "Screen-sharing & Remote RAT protection active",
+                            text = "Monitors AnyDesk, TeamViewer & unauthorized remote tools",
                             fontSize = 11.sp,
                             color = SatarkDim
                         )
@@ -197,32 +197,32 @@ fun HomeScreen(
                 }
 
                 Text(
-                    text = "Check any unfamiliar UPI ID or QR code before transferring funds. SatarkPay blocks active call coercion, first-time VPA traps, and unverified chat origins.",
+                    text = "Verify unfamiliar UPI IDs or QR codes before transferring funds. Alerts you to active voice call pressure, unverified chat origins, and first-time VPA traps before you enter your PIN.",
                     fontSize = 12.sp,
                     color = SatarkInk,
                     lineHeight = 17.sp
                 )
 
                 // Quick Demo Scenario Chips
-                Text("Test Demo Attack Chains:", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = SatarkDim)
+                Text("Try Demo Attack Scenarios (Test Simulation):", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = SatarkDim)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     DemoChip(
-                        label = "🚨 Digital Arrest",
+                        label = "🚨 [Demo] Digital Arrest",
                         color = SatarkDanger,
                         onClick = { onNavigate(SatarkScreen.SAFEPAY) },
                         modifier = Modifier.weight(1f)
                     )
                     DemoChip(
-                        label = "📲 Telegram Task",
+                        label = "📲 [Demo] Task Scam",
                         color = SatarkWarn,
                         onClick = { onNavigate(SatarkScreen.SAFEPAY) },
                         modifier = Modifier.weight(1f)
                     )
                     DemoChip(
-                        label = "🛒 Local Grocery",
+                        label = "🛒 [Demo] Grocery",
                         color = SatarkOk,
                         onClick = { onNavigate(SatarkScreen.SAFEPAY) },
                         modifier = Modifier.weight(1f)

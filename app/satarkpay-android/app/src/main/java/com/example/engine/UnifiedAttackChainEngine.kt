@@ -1,8 +1,8 @@
 package com.example.engine
 
 enum class AttackChainRiskTier(val label: String) {
-    LOW_SAFE("SAFE TO PAY"),
-    CAUTION("VERIFY PAYEE"),
+    LOW_SAFE("NO KNOWN RISK SIGNALS"),
+    CAUTION("VERIFY RECIPIENT"),
     HIGH_RISK("HIGH RISK DETECTED"),
     CRITICAL_BLOCKED("ATTACK CHAIN BLOCKED")
 }
@@ -263,13 +263,13 @@ object UnifiedAttackChainEngine {
                 AttackChainEvaluation(
                     riskTier = AttackChainRiskTier.LOW_SAFE,
                     score = clampedScore.coerceAtMost(25),
-                    headline = "✅ Safe & Verified Beneficiary",
-                    explanation = "Payee ($payeeUpi) exists in your trusted local ledger ($knownPayeeTxnCount past payments). Device and communication channels are secure.",
-                    hindiVoiceSummary = "यह एक पुराना और सुरक्षित खाता है। आप सुरक्षित भुगतान कर सकते हैं।",
-                    englishVoiceSummary = "Trusted beneficiary confirmed. It is safe to proceed with this payment.",
+                    headline = "✅ Known Beneficiary • No Known Risk Signals Found",
+                    explanation = "Payee ($payeeUpi) matches your local transaction history ($knownPayeeTxnCount previous transfers). No active coercion signals detected. Always confirm amount and payee name on your bank screen before entering PIN.",
+                    hindiVoiceSummary = "यह एक पुराना परिचित खाता है। पेमेंट से पहले बैंक स्क्रीन पर नाम और राशि अवश्य जांचें।",
+                    englishVoiceSummary = "Known recipient with no scam signals detected. Confirm name and amount before entering your PIN.",
                     signals = signals,
-                    recommendedAction = "PAY_SAFELY",
-                    correlationSignature = "Trusted Ledger Record + Clean Device",
+                    recommendedAction = "VERIFY_AND_PROCEED",
+                    correlationSignature = "Known Payee History + No High-Risk Context",
                     isFirstTimePayee = false,
                     blockPayment = false
                 )

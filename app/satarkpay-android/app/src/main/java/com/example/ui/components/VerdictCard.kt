@@ -32,25 +32,25 @@ fun VerdictCard(
 ) {
     val (badgeText, badgeBg, badgeTextColor, badgeIcon) = when (verdict.bucket) {
         VerdictBucket.SCAM_LIKELY -> Quadruple(
-            "🔴 SCAM LIKELY",
+            "🔴 HIGH SCAM PROBABILITY",
             SatarkDangerAlpha,
             SatarkDanger,
             Icons.Default.Block
         )
         VerdictBucket.CAUTION -> Quadruple(
-            "🟠 CAUTION",
+            "🟠 CAUTION DETECTED",
             SatarkWarnAlpha,
             SatarkWarn,
             Icons.Default.Warning
         )
         VerdictBucket.PAUSE_NAHI_BATA -> Quadruple(
-            "🔵 PAUSE — PAKA NAHI BATA SAKTA",
+            "🔵 INCONCLUSIVE (VERIFY DETAILS)",
             SatarkAccentAlpha,
             SatarkAccent,
             Icons.Default.Info
         )
         VerdictBucket.SEEMS_OK -> Quadruple(
-            "🟢 SEEMS OK",
+            "🟢 NO KNOWN THREAT SIGNALS",
             SatarkOkAlpha,
             SatarkOk,
             Icons.Default.CheckCircle

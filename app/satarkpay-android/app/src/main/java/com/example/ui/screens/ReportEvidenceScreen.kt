@@ -81,21 +81,46 @@ fun ReportEvidenceScreen(
                 modifier = Modifier.padding(14.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "INCIDENT DOSSIER SNAPSHOT",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = SatarkAccent,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
+                    )
+                    Surface(
+                        shape = RoundedCornerShape(4.dp),
+                        color = SatarkWarnAlpha
+                    ) {
+                        Text(
+                            text = "USER-REPORTED",
+                            fontSize = 9.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = SatarkWarn,
+                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                        )
+                    }
+                }
+
                 Text(
-                    text = "EXTRACTED FRAUD EVIDENCE SNAPSHOT",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = SatarkAccent,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 1.sp
+                    text = "Self-reported incident record for 1930 cyber helpline and bank freeze request. Unverified by bank server.",
+                    fontSize = 11.sp,
+                    color = SatarkDim,
+                    lineHeight = 15.sp
                 )
 
-                SigRow(label = "Visible Ingested Loss", value = "₹$amount", tagText = "Verified Payment", tagType = SigTagType.DANGER)
-                SigRow(label = "Total Demanded (Staircase)", value = "₹30,625", tagText = "3 Escalations", tagType = SigTagType.WARN)
-                SigRow(label = "Suspect Beneficiary UPI", value = displayUpi, tagText = "R28 Masked", tagType = SigTagType.INFO)
-                SigRow(label = "Bank UTR Number", value = utr, tagText = "CFCFRMS Key", tagType = SigTagType.OK)
-                SigRow(label = "UPI Transaction ID", value = txnId, tagText = "NPCI Reference", tagType = SigTagType.OK)
-                SigRow(label = "Phishing Shortlink", value = "cutt.ly/sec-upi-pay", tagText = "Evidence URL", tagType = SigTagType.WARN)
-                SigRow(label = "Cryptographic Proof", value = "SHA256: 8a3e7b...92e", tagText = "Immutable", tagType = SigTagType.INFO)
+                SigRow(label = "Reported Disputed Amount", value = "₹$amount", tagText = "Self-Reported", tagType = SigTagType.DANGER)
+                SigRow(label = "Total Demanded by Suspect", value = "₹30,625", tagText = "3 Demands Logged", tagType = SigTagType.WARN)
+                SigRow(label = "Suspect Beneficiary UPI", value = displayUpi, tagText = "Masked for Privacy", tagType = SigTagType.INFO)
+                SigRow(label = "Bank UTR Number", value = utr, tagText = "Provided UTR", tagType = SigTagType.OK)
+                SigRow(label = "UPI Transaction ID", value = txnId, tagText = "Reported Txn ID", tagType = SigTagType.OK)
+                SigRow(label = "Suspect Shortlink", value = "cutt.ly/sec-upi-pay", tagText = "Phishing URL", tagType = SigTagType.WARN)
+                SigRow(label = "Local File Integrity Hash", value = "SHA256: 8a3e7b...92e", tagText = "Export Checksum", tagType = SigTagType.INFO)
             }
         }
 
@@ -111,7 +136,7 @@ fun ReportEvidenceScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = "PACK ME KYA BANEGA (LEGAL EVIDENCE)",
+                    text = "DOSSIER ATTACHMENTS (COMPLAINT EXPORT)",
                     style = MaterialTheme.typography.labelSmall,
                     color = SatarkDim,
                     fontWeight = FontWeight.Bold,

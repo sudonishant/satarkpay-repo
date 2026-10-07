@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions Documentation:
+         - INTERNET: Gemini AI security advisor & cyber advisories
+         - RECORD_AUDIO: Voice interaction in AI advisor (user-triggered mic only)
+         - VIBRATE: Haptic alerts on critical threat detection
+         - REQUEST_DELETE_PACKAGES: Triggers system user confirmation prompt for uninstalling dangerous apps -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -24,7 +29,7 @@
     </queries>
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"

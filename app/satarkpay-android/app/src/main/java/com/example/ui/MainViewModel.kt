@@ -12,10 +12,12 @@ import com.example.network.ChatMessage
 import com.example.network.GeminiService
 import com.example.util.AudioRecorderHelper
 import com.example.util.TtsManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 enum class SatarkScreen {
     SPLASH,
@@ -157,26 +159,39 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val activeComplaintNumber = MutableStateFlow("NCRP-2026-BH-89123")
 
     init {
-        viewModelScope.launch {
-            repository.seedInitialDataIfEmpty()
-            analyzeCurrentDomain("qr-pay.top")
-            startEmergencyClock()
-            scanDeviceApps()
-            checkPayeeLedgerAndEvaluate()
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                repository.seedInitialDataIfEmpty()
+                analyzeCurrentDomain("qr-pay.top")
+                withContext(Dispatchers.Main) {
+                    startEmergencyClock()
+                }
+                scanDeviceApps()
+                checkPayeeLedgerAndEvaluate()
+            } catch (e: Exception) {
+                Log.e("SatarkPay", "Startup initialization failed safely", e)
+            }
         }
     }
 
     fun scanDeviceApps() {
         viewModelScope.launch {
             isScanningApps.value = true
-            delay(400) // Brief animation smooth transition
-            val apps = AppSecurityScanner.scanInstalledApplications(getApplication())
-            scannedApps.value = apps
-            permissionSummary.value = AppSecurityScanner.computeAuditSummary(apps)
-            isScanningApps.value = false
+            try {
+                val apps = withContext(Dispatchers.IO) {
+                    AppSecurityScanner.scanInstalledApplications(getApplication())
+                }
+                val summary = AppSecurityScanner.computeAuditSummary(apps)
+                scannedApps.value = apps
+                permissionSummary.value = summary
 
-            if (permissionSummary.value.highRiskAppsCount > 0) {
-                speakText("सावधान! आपके फोन में संवेदनशील परमिशन या रिमोट कंट्रोल ऐप पाई गई है। कृपया जांच करें।")
+                if (summary.highRiskAppsCount > 0) {
+                    speakText("Alert: High-risk remote control application detected on device. Please inspect.")
+                }
+            } catch (e: Exception) {
+                Log.e("SatarkPay", "App security scan failed gracefully", e)
+            } finally {
+                isScanningApps.value = false
             }
         }
     }

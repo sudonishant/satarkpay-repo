@@ -108,7 +108,7 @@ fun SanchalakChatScreen(
                             }
                         }
                         Text(
-                            text = if (redactionCount > 0) "🔒 client-side redaction: $redactionCount items masked (R28)" else "Zero data upload • On-device PII masking",
+                            text = if (redactionCount > 0) "🔒 $redactionCount sensitive items masked before AI analysis" else "🔒 Pre-upload PII Sanitization active (OTPs & accounts masked)",
                             style = MaterialTheme.typography.bodySmall,
                             color = SatarkOk,
                             fontSize = 11.sp
