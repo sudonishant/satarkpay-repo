@@ -179,6 +179,41 @@ webapp/
 └── manifest.webmanifest
 ```
 
+### 💻 Web App Screenshots (Zero-Install Suite)
+
+The full zero-trust rules engine running 100% offline in modern browsers:
+
+| 🌐 Live Dashboard & Metric Tiers | ⚡ Attack Chain Risk Arithmetic |
+|:---:|:---:|
+| <img src="assets/screenshots/web/01_web_dashboard_hero.png" width="450" alt="SatarkPay Web Dashboard" /> | <img src="assets/screenshots/web/03_web_payment_check_signals.png" width="450" alt="Attack Chain Payment Checker" /> |
+| *8 Pages Offline Pre-Cache & Risk Scoring Engine* | *9 Signals Weighted Arithmetic & Pre-PIN Dwell Gate* |
+
+| 🔍 Message Pattern Matching & Redaction | 🛡️ Link Deconstruction & Look-Alike Phishing |
+|:---:|:---:|
+| <img src="assets/screenshots/web/04_web_message_check_redaction.png" width="450" alt="Message Pattern Check" /> | <img src="assets/screenshots/web/05_web_domain_lookalike_detection.png" width="450" alt="Domain Lookalike Detection" /> |
+| *13 Fraud Patterns + Instant PII Masking* | *Zero-Blacklist Structural Domain Decomposition* |
+
+| 📚 Real-World Scam Gallery & Analysis | 🚨 Golden Hour Emergency Mode & Action Order |
+|:---:|:---:|
+| <img src="assets/screenshots/web/07_web_scam_library_chats.png" width="450" alt="Scam Library Real Chats" /> | <img src="assets/screenshots/web/11_web_emergency_order_of_action.png" width="450" alt="Emergency Action Order" /> |
+| *Authentic Chat Screenshots & Detection Rules* | *7 Immediate Steps to Freeze Bank Accounts* |
+
+<details>
+<summary><b>🔍 View More Web App Screens (Reference Directory, Evidence Filing, Capability Matrix & Benchmarks)</b></summary>
+<br/>
+
+| Real Bank Domain Registry | Structured Evidence Pack Form | Capability Matrix & Offline Benchmarks |
+|:---:|:---:|:---:|
+| <img src="assets/screenshots/web/06_web_domain_reference_directory.png" width="300" /> | <img src="assets/screenshots/web/09_web_evidence_pack_form.png" width="300" /> | <img src="assets/screenshots/web/15_web_benchmarks_and_metrics.png" width="300" /> |
+| *15 Verified Banking Registries* | *Redacted Cyber-Crime Report Generator* | *p50 11.7ms Latency & 95% Precision* |
+
+| 8 Pages Dashboard Grid | Evidence Filing Step-by-Step | Emergency Mode: What To Have |
+|:---:|:---:|:---:|
+| <img src="assets/screenshots/web/02_web_dashboard_pages_grid.png" width="300" /> | <img src="assets/screenshots/web/10_web_evidence_pack_filing_steps.png" width="300" /> | <img src="assets/screenshots/web/12_web_emergency_what_to_have.png" width="300" /> |
+| *Complete Zero-Trust Suite* | *NCRP & 1930 Protocol* | *Bank Reference & Proofs* |
+
+</details>
+
 ### The demo pack
 
 ```
@@ -219,6 +254,36 @@ The native Android app (`app/satarkpay-android/`) brings SatarkPay's attack-chai
   - 📸 **CameraX Live QR Interceptor:** Real-time camera scanner detecting inverted QR codes ("Scan QR to Receive Money") before the user can scan them in their banking app.
   - 📞 **Call & Screen-Share Awareness:** Detects active voice/video calls and AnyDesk / TeamViewer / RustDesk sessions during UPI transactions.
   - 🚨 **Golden Hour 1-Click Dossier:** Generates redacted, timestamped evidence packs ready for 1930 / cybercrime.gov.in in under 10 seconds.
+
+### 📱 Android Native App Screenshots (v2.1)
+
+Experience real-time on-device scam interception, permission auditing, and Koo community intelligence:
+
+| 🛡️ Home & 3D Shield | ⚡ SafePay Pre-Payment Broker | 👥 Koo Scam Community Live Intel |
+|:---:|:---:|:---:|
+| <img src="assets/screenshots/app/01_home_screen_shield.jpg" width="230" alt="SatarkPay Home Screen Shield" /> | <img src="assets/screenshots/app/05_safepay_digital_arrest_coercion.jpg" width="230" alt="SafePay Digital Arrest Simulation" /> | <img src="assets/screenshots/app/08_koo_community_feed_prince.jpg" width="230" alt="Koo Scam Community Feed - Prince Kumar Singh" /> |
+| *Active Remote Tool Monitor & Pre-Pay Interceptor* | *Digital Arrest CBI Coercion & Call State Trigger* | *Verified Case 10 Forensics & Audio Playback* |
+
+| 🧭 AI Sanchalak Cyber Advisor | 🔍 Permission & Overlay Auditor | 🚨 M7 Incident Dossier & Forensics |
+|:---:|:---:|:---:|
+| <img src="assets/screenshots/app/07_ai_sanchalak_cyber_advisor.jpg" width="230" alt="AI Sanchalak Advisor Chat" /> | <img src="assets/screenshots/app/12_permission_auditor_overview.jpg" width="230" alt="Permission Auditor Overview" /> | <img src="assets/screenshots/app/10_m7_evidence_incident_dossier.jpg" width="230" alt="Incident Dossier & Hashes" /> |
+| *On-Device PII-Sanitized Gemini Cyber Assistant* | *230 Apps Audited for SMS, Location & Accessibility* | *Exportable CFCFRMS 1930 Cyber Cell Dossier* |
+
+<details>
+<summary><b>🔍 View More Android App Screens (Payee Ledger, Specialized Tools, Analyst Console, Evidence Attachments)</b></summary>
+<br/>
+
+| Verified Payee Ledger | Specialized Security Tools | Koo Community (Case 13) | Threat Analyst Console |
+|:---:|:---:|:---:|:---:|
+| <img src="assets/screenshots/app/02_home_security_payees.jpg" width="180" /> | <img src="assets/screenshots/app/03_home_specialized_tools.jpg" width="180" /> | <img src="assets/screenshots/app/09_koo_community_feed_nishant_kartik.jpg" width="180" /> | <img src="assets/screenshots/app/14_threat_analyst_console_c1_c4.jpg" width="180" /> |
+| *Encrypted Local Directory* | *Air-Gap, Radar & Mandates* | *Nishant & Kartik Alerts* | *C1-C4 Triage Queue* |
+
+| SafePay Verified Payee | M7 Evidence Attachments | Permission Detail Audit | SafePay Ledger Input |
+|:---:|:---:|:---:|:---:|
+| <img src="assets/screenshots/app/06_safepay_verified_beneficiary.jpg" width="180" /> | <img src="assets/screenshots/app/11_m7_evidence_attachments_emergency.jpg" width="180" /> | <img src="assets/screenshots/app/13_permission_auditor_detail.jpg" width="180" /> | <img src="assets/screenshots/app/04_safepay_broker_input.jpg" width="180" /> |
+| *Sharma Kirana 25% Safe* | *Emergency Action Pack* | *Swiggy SMS Reading Audit* | *Payee & VPA Input* |
+
+</details>
 
 ---
 
