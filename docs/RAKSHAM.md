@@ -25,7 +25,13 @@ Team SCΛMURΛI: Nishant Kumar · Prince Kumar Singh · Kartik Singh · Gourvend
 2. **Kill-chain match.** Each playbook card is an ordered list of stages, a `min_match` and an `anchor` stage. Later stages weigh more (1 + 0.25·i). The card is complete only if the anchor and `min_match` stages are seen. This is a simplified left-to-right HMM; the full probabilistic HMM is a finale task.
 3. **Risk fusion.** `p = σ(−4.6 + 4.2·stage + 1.5·anomaly + 1.6·payee + 2.4·device)`. The weights are hand-set for v3 and will be refit on finale data.
 4. **Floors.** These are rules no model output can override: a complete card's `tier_floor`; fake credit → T3; screen control while paying a non-saved payee → T4; saved payee without takeover → at most T1.
-5. **Tier and budget.** Thresholds are 0.10 / 0.30 / 0.60 / 0.85. T2 questions spend a per-user budget (3 per 30 days). When it is empty, T2 drops to a badge. T3 and T4 are never suppressed.
+5. **Anti-splitting and retry.** Payments to new payees are summed over 72 h before the amount checks. A retry to a new payee within 24 h of a hold is at least T3.
+6. **Tier and budget.** Thresholds are 0.10 / 0.30 / 0.60 / 0.85. T2 questions spend a per-user budget (3 per 30 days). When it is empty, T2 drops to a badge. T3 and T4 are never suppressed.
+
+### Real time and emerging workflows
+
+* `thehro/realtime.py`: an event-driven session tracker. Each event (call_start, screen_share_on, payee_opened, amount_entered, payment_done …) updates the live session, and the engine re-decides on every event. Call length and APK age come from the real clock. The audit log stores only (time, event name, tier).
+* `thehro/radar.py`: the "emerging" part of PS 02. A risky session that matched no complete card becomes a signature (sorted predicate set + amount band). If a signature surges (≥ 5 distinct reporters in 24 h and ≥ 3× its 7-day daily average), the radar drafts a candidate card with status `needs_analyst_approval`. One user spamming reports is not a surge, and a steady signature is not "emerging".
 
 ### Playbook cards (P1 set)
 
@@ -85,18 +91,16 @@ We detect the *workflow* around cloned voices and deepfakes. We do not analyse a
 * `ThehroEngine.kt` and `PlaybookCards.kt` compile with kotlinc 2.0 and give the same tier, p and card as Python on spot checks. `CallStateProbe.kt` and the view-model change use Android APIs and were not compiled in our sandbox; run `./gradlew assembleDebug` before a release. Showing the THEHRO tier on the pay screen is a finale task.
 * The package name is still `com.example`. It will be renamed before any store release.
 
-## Verification status (12 Oct 2026, 21:55 IST)
+## Verification status (12 Oct 2026, 22:10 IST)
 
 | Part | Check | Result |
 |---|---|---|
-| THEHRO engine (Python) | `make thehro-test` | ✅ 10/10 tests pass |
+| THEHRO engine, real-time tracker, radar (Python) | `make thehro-test` | ✅ 23/23 tests pass |
 | Simulated evaluation | `make thehro` | ✅ 46/50 held at T3+, 0 false holds in 200 normal payments (simulated) |
 | JS port vs Python | `make parity` | ✅ 250/250 identical decisions |
-| Web demo `webapp/thehro.html` | jsdom run, all 5 sessions stepped | ✅ no script errors; digital arrest → T4, screen-share → T4, fake credit → T3, both normal → T0 |
-| v2 web app (8 pages) | jsdom load of every page | ✅ no script errors |
-| v2 single-file demo | `make check` | ✅ 66/66 smoke checks |
+| Web checks | `make check` | ✅ 144/144: 66 v2 single-file checks + 78 THEHRO checks (card schema, every card fires, 8 normal payments stay quiet, floors, anti-splitting, retry, 2,000-decision speed, all 9 web pages load with no script errors, demo sessions end at the right tier, offline cache) |
 | GitHub Pages | HTTP check of all pages and assets | ✅ all 200 |
-| Kotlin engine | `kotlinc` 2.0 compile + spot checks vs Python | ✅ same tier, p and card |
+| Kotlin engine | `kotlinc` 2.0 compile + spot checks vs Python | ✅ same tier, p and card (incl. split and retry cases) |
 | Android full build | `./gradlew assembleDebug` | ⚠️ not run (no Android SDK in our sandbox). Run before a release |
 | Android APK release | GitHub Releases | ⚠️ no release published yet |
-| Fixed in this pass | | `run_smoke.sh` and `publish.sh` were not executable · unsourced "87 %" claim removed from the v2 call signal |
+| Fixed in this pass | | unknown stage in a newer card crashed the JS and Python engines (now ignored, like Kotlin) · an unrelated card's reason was shown when only a safety floor fired · `run_smoke.sh` / `publish.sh` not executable · unsourced "87 %" claim removed |

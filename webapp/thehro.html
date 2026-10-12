@@ -52,7 +52,8 @@ footer{max-width:1180px;margin:0 auto;padding:0 18px 30px;color:var(--mu);font-s
     <h2>1 · Pick a session, then step through it</h2>
     <div class="tabs" id="tabs"></div>
     <ol class="steps" id="steps"></ol>
-    <div class="row"><button class="btn g" id="prev">◀ Back</button><button class="btn" id="next">Next event ▶</button><button class="btn g" id="reset">Reset</button></div>
+    <div class="row"><button class="btn g" id="prev">◀ Back</button><button class="btn" id="next">Next event ▶</button><button class="btn g" id="reset">Reset</button><button class="btn" id="live" style="background:#c81e3a">● Live (real time)</button></div>
+    <div class="t" id="clock" style="margin-top:8px"></div>
     <p class="t" style="margin-top:14px">Every step asks the engine: <em>"if the user tried to pay right now, what should happen?"</em>
     Signals are metadata only (call state, screen-share flag, payee age, amount vs the user's own baseline). No SMS text, chat or call audio is read.
     Scenarios are simulated for the demo.</p>
@@ -130,11 +131,19 @@ function render(){
  if(d.tier==="T0")h=`<div class="alert t">No alert. Pay as usual.</div>`;
  $("alert").innerHTML=h;
 }
-document.addEventListener("click",e=>{const b=e.target.closest("[data-n]");if(b){cur=b.dataset.n;k=0;render();}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-n]");if(b){stopLive();cur=b.dataset.n;k=0;render();}
  const l=e.target.closest("[data-i]");if(l){k=+l.dataset.i;render();}});
 $("next").onclick=()=>{k=Math.min(k+1,SC[cur].steps.length-1);render();};
 $("prev").onclick=()=>{k=Math.max(k-1,0);render();};
-$("reset").onclick=()=>{k=0;render();};
+$("reset").onclick=()=>{stopLive();k=0;render();};
+let liveT=null,liveStart=0;
+function stopLive(){if(liveT){clearInterval(liveT);liveT=null;$("live").textContent="● Live (real time)";}}
+$("live").onclick=()=>{if(liveT){stopLive();return;}k=0;render();liveStart=Date.now();$("live").textContent="■ Stop";
+ liveT=setInterval(()=>{const sec=Math.round((Date.now()-liveStart)/1000);
+  const n=Math.min(SC[cur].steps.length-1,Math.floor(sec/3));if(n!==k){k=n;render();}
+  const t0=(typeof performance!=="undefined"?performance.now():0);THEHRO.decide(session(),cards);const dt=((typeof performance!=="undefined"?performance.now():0)-t0).toFixed(2);
+  $("clock").textContent=`Live: ${sec}s since start · a new event every 3 s · engine re-decides on every event (${dt} ms)`;
+  if(n>=SC[cur].steps.length-1&&sec>n*3+4)stopLive();},500);};
 fetch("assets/playbooks.json").then(r=>r.json()).then(j=>{cards=j.cards;render();})
  .catch(()=>{document.body.insertAdjacentHTML("afterbegin","<p style='padding:12px;background:#fdecef'>Could not load playbooks.json. Open this page through a web server (GitHub Pages / python -m http.server).</p>")});
 </script>

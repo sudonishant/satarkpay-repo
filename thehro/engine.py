@@ -50,7 +50,15 @@ DEFAULT_SESSION = {
     "rising_amounts": False,       # last 3 outbound amounts strictly increasing
     "small_inbound_unknown_72h": False,
     "unofficial_helpline": False,  # last dialled number not in official registry
+    "new_payee_sum_72h": 0.0,      # earlier payments to new payees in 72 h (anti-splitting)
+    "held_recently_hours": None,   # hours since this user last saw a T3/T4 hold
 }
+
+
+def eff_amount(s: dict) -> float:
+    """Amount used for checks. Payments to new payees are added up over 72 h,
+    so splitting ₹4.8 lakh into ten ₹48,000 payments does not dodge the check."""
+    return s["amount"] + (s["new_payee_sum_72h"] if s["payee_new"] and not s["payee_saved"] else 0.0)
 
 INVEST_WORDS = ("ipo", "share", "trading", "stock", "invest", "allot")
 FEE_WORDS = ("fee", "processing", "release", "refund charge", "recovery")
@@ -70,8 +78,8 @@ PREDICATES = {
     "fresh_apk": lambda s: s["apk_installed_hours"] is not None and s["apk_installed_hours"] < 72,
     "overlay_service": lambda s: s["overlay_service"],
     "new_payee": lambda s: s["payee_new"] and not s["payee_saved"],
-    "amount_high": lambda s: s["amount"] > 3 * s["baseline_p95"],
-    "amount_very_high": lambda s: s["amount"] > 10 * s["baseline_p95"],
+    "amount_high": lambda s: eff_amount(s) > 3 * s["baseline_p95"],
+    "amount_very_high": lambda s: eff_amount(s) > 10 * s["baseline_p95"],
     "fake_credit": lambda s: s["credit_claim_recent"] and not s["real_credit_found"],
     "qr_recent": lambda s: s["qr_recent"],
     "qr_from_gallery": lambda s: s["qr_from_gallery"],
@@ -143,7 +151,7 @@ def match_cards(s: dict, cards: list[dict]) -> list[Match]:
     out = []
     for c in cards:
         st = c["stages"]
-        hits = [x for x in st if PREDICATES[x](s)]
+        hits = [x for x in st if PREDICATES.get(x, lambda _s: False)(s)]  # unknown stage never fires
         wsum = sum(1 + 0.25 * i for i in range(len(st)))
         prog = sum(1 + 0.25 * i for i, x in enumerate(st) if x in hits) / wsum
         complete = len(hits) >= c["min_match"] and c.get("anchor", st[0]) in hits
@@ -157,7 +165,7 @@ def match_cards(s: dict, cards: list[dict]) -> list[Match]:
 
 def components(s: dict, best: Match | None) -> dict:
     stage = best.progress if best and best.complete else (best.progress * 0.5 if best else 0.0)
-    ratio = max(s["amount"], 1.0) / max(s["baseline_p95"], 1.0)
+    ratio = max(eff_amount(s), 1.0) / max(s["baseline_p95"], 1.0)
     anomaly = min(1.0, max(0.0, math.log10(ratio) / 1.3)) + (0.15 if PREDICATES["odd_hour"](s) else 0.0)
     payee = 0.0
     if not s["payee_saved"]:
@@ -214,6 +222,10 @@ def decide(session: dict, cards: list[dict] | None = None,
     takeover = s["screen_share"] or (PREDICATES["fresh_apk"](s) and s["overlay_service"])
     if takeover and not s["payee_saved"] and _tier_index(tier) < 4:
         tier = "T4"; floors.append("screen control on pay screen -> T4")
+    retry = (s["held_recently_hours"] is not None and s["held_recently_hours"] < 24
+             and s["payee_new"] and not s["payee_saved"])
+    if retry and _tier_index(tier) < 3:
+        tier = "T3"; floors.append("retry to a new payee within 24 h of a hold -> T3")
     if s["payee_saved"] and not takeover and _tier_index(tier) > 1:
         tier = "T1"; floors.append("saved / recurring payee -> never above T1")
     budget_note = None
@@ -222,12 +234,15 @@ def decide(session: dict, cards: list[dict] | None = None,
             tier = "T1"; budget_note = "attention budget used up -> badge instead of question"
         else:
             budget.spend(now)
-    card = best.card if best and (best.complete or tier != "T0") else None
+    anchor_hit = bool(best) and best.card.get("anchor", best.card["stages"][0]) in best.hits
+    card = best.card if best and (best.complete or (tier != "T0" and anchor_hit)) else None
     evidence = best.hits if best else []
     if tier in ("T0", "T1"):
         reason = "Looks like a normal payment." if tier == "T0" else "New payee. Check the name before you pay."
     else:
-        reason = card["reason"] if card else "Unusual payment pattern."
+        reason = card["reason"] if card else (
+            "You were warned about a similar payment today. Scammers often call back and ask again."
+            if retry else "Unusual payment pattern.")
     return Decision(round(p, 4), tier, ACTIONS[tier],
                     card["id"] if card else None, card["name"] if card else None,
                     reason, card["question"] if (card and tier == "T2") else None,

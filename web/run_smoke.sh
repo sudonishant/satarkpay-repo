@@ -11,3 +11,4 @@ if [ ! -d "$JLIB/node_modules/jsdom" ]; then
 fi
 cd "$HERE"
 NODE_PATH="$JLIB/node_modules" node smoke_test.js
+NODE_PATH="$JLIB/node_modules" node thehro_checks.js

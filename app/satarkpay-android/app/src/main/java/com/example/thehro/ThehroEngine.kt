@@ -39,6 +39,8 @@ data class PaymentSession(
     val risingAmounts: Boolean = false,
     val smallInboundUnknown72h: Boolean = false,
     val unofficialHelpline: Boolean = false,
+    val newPayeeSum72h: Double = 0.0,      // anti-splitting: earlier new-payee payments in 72 h
+    val heldRecentlyHours: Double? = null, // hours since last T3/T4 hold
 )
 
 data class Components(val stage: Double, val anomaly: Double, val payee: Double, val device: Double)
@@ -75,6 +77,7 @@ class ThehroEngine(private val cards: List<PlaybookCard> = PlaybookCards.P1) {
     private val invest = listOf("ipo", "share", "trading", "stock", "invest", "allot")
     private val fee = listOf("fee", "processing", "release", "refund charge", "recovery")
     private fun has(r: String, w: List<String>) = w.any { r.lowercase().contains(it) }
+    private fun eff(s: PaymentSession) = s.amount + if (s.payeeNew && !s.payeeSaved) s.newPayeeSum72h else 0.0
 
     fun predicate(name: String, s: PaymentSession): Boolean = when (name) {
         "unknown_caller" -> s.callActive && !s.callerInContacts
@@ -85,8 +88,8 @@ class ThehroEngine(private val cards: List<PlaybookCard> = PlaybookCards.P1) {
         "fresh_apk" -> s.apkInstalledHours != null && s.apkInstalledHours < 72
         "overlay_service" -> s.overlayService
         "new_payee" -> s.payeeNew && !s.payeeSaved
-        "amount_high" -> s.amount > 3 * s.baselineP95
-        "amount_very_high" -> s.amount > 10 * s.baselineP95
+        "amount_high" -> eff(s) > 3 * s.baselineP95
+        "amount_very_high" -> eff(s) > 10 * s.baselineP95
         "fake_credit" -> s.creditClaimRecent && !s.realCreditFound
         "qr_recent" -> s.qrRecent
         "qr_from_gallery" -> s.qrFromGallery
@@ -118,7 +121,7 @@ class ThehroEngine(private val cards: List<PlaybookCard> = PlaybookCards.P1) {
 
     private fun components(s: PaymentSession, best: Match?): Components {
         val stage = if (best == null) 0.0 else if (best.complete) best.progress else best.progress * 0.5
-        val ratio = max(s.amount, 1.0) / max(s.baselineP95, 1.0)
+        val ratio = max(eff(s), 1.0) / max(s.baselineP95, 1.0)
         val anomaly = min(1.0, max(0.0, log10(ratio) / 1.3)) + if (predicate("odd_hour", s)) 0.15 else 0.0
         val payee = if (s.payeeSaved) 0.0 else
             max(s.payeeRisk, (if (s.payeeNew) 0.35 else 0.0) + (if (s.payeeVpaAgeDays < 30) 0.3 else 0.0))
@@ -143,17 +146,19 @@ class ThehroEngine(private val cards: List<PlaybookCard> = PlaybookCards.P1) {
         if (predicate("fake_credit", s) && idx(tier) < 3) { tier = "T3"; floors += "fake credit, no real credit -> T3" }
         val takeover = s.screenShare || (predicate("fresh_apk", s) && s.overlayService)
         if (takeover && !s.payeeSaved && idx(tier) < 4) { tier = "T4"; floors += "screen control on pay screen -> T4" }
+        val retry = s.heldRecentlyHours != null && s.heldRecentlyHours < 24 && s.payeeNew && !s.payeeSaved
+        if (retry && idx(tier) < 3) { tier = "T3"; floors += "retry to a new payee within 24 h of a hold -> T3" }
         if (s.payeeSaved && !takeover && idx(tier) > 1) { tier = "T1"; floors += "saved / recurring payee -> never above T1" }
         var budgetNote: String? = null
         if (tier == "T2" && budget != null) {
             if (budget.remaining(nowMs) <= 0) { tier = "T1"; budgetNote = "attention budget used up -> badge instead of question" }
             else budget.spend(nowMs)
         }
-        val card = if (best != null && (best.complete || tier != "T0")) best.card else null
+        val card = if (best != null && (best.complete || (tier != "T0" && best.anchorHit))) best.card else null
         val reason = when (tier) {
             "T0" -> "Looks like a normal payment."
             "T1" -> "New payee. Check the name before you pay."
-            else -> card?.reason ?: "Unusual payment pattern."
+            else -> card?.reason ?: if (retry) "You were warned about a similar payment today. Scammers often call back and ask again." else "Unusual payment pattern."
         }
         return Decision(Math.round(p * 1e4) / 1e4, tier, ACTIONS.getValue(tier), card?.id, card?.name, reason,
             if (card != null && tier == "T2") card.question else null,

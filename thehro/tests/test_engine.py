@@ -56,6 +56,11 @@ class EngineTests(unittest.TestCase):
         d = decide({})
         self.assertEqual(d.tier, "T0")
 
+    def test_unknown_stage_never_fires(self):
+        card = {"id": "X", "name": "x", "stages": ["future_signal"], "min_match": 1,
+                "anchor": "future_signal", "tier_floor": "T4", "reason": "r", "question": "q?"}
+        self.assertEqual(decide({}, [card]).tier, "T0")
+
     def test_simulation_targets(self):
         r = evaluate()
         self.assertGreaterEqual(r["scams_caught_T3_plus"], 45)

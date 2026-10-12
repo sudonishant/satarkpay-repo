@@ -6,7 +6,7 @@ help:
 	@echo "make parity      → JS port vs Python, 250 sessions"
 	@echo "make serve       → http://localhost:8000/webapp/thehro.html"
 	@echo "make demo   → offline demo browser me kholo (file path print hota hai)"
-	@echo "make check  → 66 automated checks (jsdom)"
+	@echo "make check  → 144 automated checks (66 v2 + 78 THEHRO, jsdom)"
 	@echo "make eval   → 33-message eval harness (P/R/F + latest_results.json)"
 	@echo "make deck   → PPTX + PDF + HTML deck rebuild"
 	@echo "make zip    → submission zip banao"

@@ -9,8 +9,10 @@
     payee_sebi_valid: false, amount: 500, baseline_p95: 2000, credit_claim_recent: false,
     real_credit_found: false, qr_recent: false, qr_from_gallery: false, qr_receive_intent: false,
     recent_fraud_report_days: null, remark: "", new_payees_7d: 0, rising_amounts: false,
-    small_inbound_unknown_72h: false, unofficial_helpline: false
+    small_inbound_unknown_72h: false, unofficial_helpline: false,
+    new_payee_sum_72h: 0, held_recently_hours: null
   };
+  const effAmount = s => s.amount + (s.payee_new && !s.payee_saved ? s.new_payee_sum_72h : 0);
   const INVEST = ["ipo", "share", "trading", "stock", "invest", "allot"];
   const FEE = ["fee", "processing", "release", "refund charge", "recovery"];
   const has = (r, w) => w.some(x => (r || "").toLowerCase().includes(x));
@@ -23,8 +25,8 @@
     fresh_apk: s => s.apk_installed_hours !== null && s.apk_installed_hours < 72,
     overlay_service: s => !!s.overlay_service,
     new_payee: s => s.payee_new && !s.payee_saved,
-    amount_high: s => s.amount > 3 * s.baseline_p95,
-    amount_very_high: s => s.amount > 10 * s.baseline_p95,
+    amount_high: s => effAmount(s) > 3 * s.baseline_p95,
+    amount_very_high: s => effAmount(s) > 10 * s.baseline_p95,
     fake_credit: s => s.credit_claim_recent && !s.real_credit_found,
     qr_recent: s => !!s.qr_recent,
     qr_from_gallery: s => !!s.qr_from_gallery,
@@ -51,7 +53,7 @@
 
   function matchCards(s, cards) {
     const out = cards.map(c => {
-      const st = c.stages, hits = st.filter(x => P[x](s));
+      const st = c.stages, hits = st.filter(x => (P[x] ? P[x](s) : false));  // unknown stage from a newer card never fires
       let wsum = 0, got = 0;
       st.forEach((x, i) => { const w = 1 + 0.25 * i; wsum += w; if (hits.includes(x)) got += w; });
       const complete = hits.length >= c.min_match && hits.includes(c.anchor || st[0]);
@@ -63,7 +65,7 @@
   }
   function components(s, best) {
     const stage = best ? (best.complete ? best.progress : best.progress * 0.5) : 0;
-    const ratio = Math.max(s.amount, 1) / Math.max(s.baseline_p95, 1);
+    const ratio = Math.max(effAmount(s), 1) / Math.max(s.baseline_p95, 1);
     let anomaly = Math.min(1, Math.max(0, Math.log10(ratio) / 1.3)) + (P.odd_hour(s) ? 0.15 : 0);
     let payee = 0;
     if (!s.payee_saved) payee = Math.max(s.payee_risk, (s.payee_new ? 0.35 : 0) + (s.payee_vpa_age_days < 30 ? 0.3 : 0));
@@ -86,10 +88,12 @@
     if (P.fake_credit(s) && ti(tier) < 3) { tier = "T3"; floors.push("fake credit, no real credit -> T3"); }
     const takeover = s.screen_share || (P.fresh_apk(s) && s.overlay_service);
     if (takeover && !s.payee_saved && ti(tier) < 4) { tier = "T4"; floors.push("screen control on pay screen -> T4"); }
+    const retry = s.held_recently_hours !== null && s.held_recently_hours < 24 && s.payee_new && !s.payee_saved;
+    if (retry && ti(tier) < 3) { tier = "T3"; floors.push("retry to a new payee within 24 h of a hold -> T3"); }
     if (s.payee_saved && !takeover && ti(tier) > 1) { tier = "T1"; floors.push("saved / recurring payee -> never above T1"); }
-    const card = best && (best.complete || tier !== "T0") ? best.card : null;
+    const card = best && (best.complete || (tier !== "T0" && best.anchorHit)) ? best.card : null;
     const reason = tier === "T0" ? "Looks like a normal payment." : tier === "T1" ? "New payee. Check the name before you pay."
-      : (card ? card.reason : "Unusual payment pattern.");
+      : (card ? card.reason : (retry ? "You were warned about a similar payment today. Scammers often call back and ask again." : "Unusual payment pattern."));
     const t1 = (typeof performance !== "undefined" ? performance.now() : Date.now());
     return {
       p: Math.round(p * 1e4) / 1e4, tier, action: ACTIONS[tier], card_id: card ? card.id : null,

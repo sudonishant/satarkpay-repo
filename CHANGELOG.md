@@ -2,6 +2,14 @@
 
 Sab notable changes, naye se purane. Format: `date · version — kya`.
 
+## v3.1.0 · 12 Oct 2026 (night) · real time + emerging workflows
+
+- `thehro/realtime.py`: event-driven session tracker, call length from the clock, content-free audit log.
+- `thehro/radar.py`: emerging-workflow radar. A surge of a new signature → draft card that needs analyst approval.
+- Engine: anti-splitting (new-payee payments summed over 72 h), retry-after-hold floor (T3), unknown stages ignored safely. Python, JS and Kotlin kept in sync.
+- Demo: "Live (real time)" mode.
+- Tests: Python 10 → 23. Web checks 66 → 144 (`web/thehro_checks.js` added to `run_smoke.sh`).
+
 ## v3.0.0 · 12 Oct 2026 · RAKSHAM 2026 (IIT Delhi), PS 02
 
 - New THEHRO engine (`thehro/`): 12 P1 playbook cards with anchor stages, kill-chain match, risk fusion, deterministic floors, T0–T4 tiers, attention budget.

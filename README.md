@@ -47,6 +47,10 @@ Most tools check one thing: a message, a link or a number. Scams now arrive as a
 * **Playbook cards** are small signed JSON files. A new scam wave means a new card, pushed over the air. No app update needed. Each card has an `anchor` stage it cannot complete without, so generic signals like "unknown caller + new payee" never trigger a severe card alone.
 * **Deterministic floors:** a fake "credited" SMS with no real credit → at least T3. Screen control on the pay screen → T4. Saved or recurring payee → never above T1.
 * **Attention budget:** questions (T2) are rationed per user. When the budget is spent, T2 becomes a quiet badge. T3 and T4 are never suppressed.
+* **Anti-splitting:** payments to new payees are added up over 72 h, so ₹4.8 lakh split into ten payments is still "40× normal".
+* **Retry after a hold:** if the user was held today and tries again to a new payee, it goes straight to T3. Digital-arrest callers usually call back.
+* **Real time:** `thehro/realtime.py` keeps one live session per payment journey. Events (call start, screen share on, payee opened, amount typed) update it as they happen, and call length comes from the clock.
+* **Emerging workflows:** `thehro/radar.py` reduces risky sessions that matched no card to a content-free signature. When one signature surges (≥ 5 distinct reporters in 24 h and ≥ 3× its 7-day average), it drafts a new card for an analyst to approve. Nothing ships to phones without that approval.
 * **No content read.** No SMS body, chat text or call audio enters the engine. The only text is the short UPI note the user typed for this payment.
 
 ## Results so far (simulated, labelled as such)
@@ -70,7 +74,8 @@ Most tools check one thing: a message, a link or a number. Scams now arrive as a
 # reference engine + tests (Python 3.9+, standard library only)
 python3 -m thehro.engine                                    # one digital-arrest decision as JSON
 python3 -m thehro.simulate                                  # 250-session simulated evaluation
-python3 -m unittest discover -s thehro/tests -t .           # 10 tests
+python3 -m unittest discover -s thehro/tests -t .           # 23 tests (engine, real-time tracker, radar)
+cd web && bash run_smoke.sh                                 # 66 v2 checks + 78 THEHRO checks = 144
 
 # web demo (needs a local server because it fetches playbooks.json)
 python3 -m http.server 8000      # then open http://localhost:8000/webapp/thehro.html
@@ -85,7 +90,7 @@ cd app/satarkpay-android && ./gradlew testDebugUnitTest --tests "com.example.the
 ## Repository map
 
 ```
-thehro/               reference engine, playbook cards, simulator, tests   ← new in v3
+thehro/               engine, real-time tracker, emerging-workflow radar, cards, simulator, tests ← new in v3
 webapp/thehro.html    step-through demo of the engine                      ← new in v3
 webapp/assets/thehro.js   JS port (parity-checked)                         ← new in v3
 app/satarkpay-android/    Android app (Kotlin, Compose)
