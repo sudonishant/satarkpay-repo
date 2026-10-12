@@ -1,0 +1,2308 @@
+{
+  "simulated": true,
+  "seed": 7,
+  "scam_sessions": 50,
+  "normal_sessions": 200,
+  "scams_caught_T2_plus": 49,
+  "scams_caught_T3_plus": 46,
+  "correct_playbook": 47,
+  "precision_T3_plus": 1.0,
+  "interruptions_per_100_normal": 0.0,
+  "normal_tier_mix": {
+    "T0": 188,
+    "T1": 12,
+    "T2": 0,
+    "T3": 0,
+    "T4": 0
+  },
+  "decision_ms_median": 0.029,
+  "decision_ms_p95": 0.039,
+  "missed": [
+    {
+      "label": "scam",
+      "card": "PB-G1",
+      "note": "helpline number from search",
+      "tier": "T1",
+      "p": 0.1063,
+      "matched": "PB-G1",
+      "floors": []
+    }
+  ],
+  "false_alarms_T3_plus": [],
+  "rows": [
+    {
+      "label": "scam",
+      "card": "PB-B1",
+      "note": "video call, long, new payee, big amount + screen share",
+      "tier": "T4",
+      "p": 0.9891,
+      "matched": "PB-B1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-B1",
+      "note": "video call, long, new payee, big amount",
+      "tier": "T4",
+      "p": 0.7564,
+      "matched": "PB-B1",
+      "floors": [
+        "PB-B1 complete -> floor T4"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-B1",
+      "note": "video call, long, new payee, big amount + screen share",
+      "tier": "T4",
+      "p": 0.9894,
+      "matched": "PB-B1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-B1",
+      "note": "video call, long, new payee, big amount",
+      "tier": "T4",
+      "p": 0.7955,
+      "matched": "PB-B1",
+      "floors": [
+        "PB-B1 complete -> floor T4"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-B1",
+      "note": "video call, long, new payee, big amount + screen share",
+      "tier": "T4",
+      "p": 0.9864,
+      "matched": "PB-B1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-B2",
+      "note": "re-victimisation fee",
+      "tier": "T3",
+      "p": 0.65,
+      "matched": "PB-B2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-B2",
+      "note": "re-victimisation fee",
+      "tier": "T3",
+      "p": 0.682,
+      "matched": "PB-B2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-B2",
+      "note": "re-victimisation fee",
+      "tier": "T3",
+      "p": 0.5399,
+      "matched": "PB-B2",
+      "floors": [
+        "PB-B2 complete -> floor T3"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-B2",
+      "note": "re-victimisation fee",
+      "tier": "T3",
+      "p": 0.3114,
+      "matched": "PB-B2",
+      "floors": [
+        "PB-B2 complete -> floor T3"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-A1",
+      "note": "unknown caller, urgent QR",
+      "tier": "T3",
+      "p": 0.769,
+      "matched": "PB-A1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-A1",
+      "note": "unknown caller, urgent QR",
+      "tier": "T3",
+      "p": 0.8202,
+      "matched": "PB-A1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-A1",
+      "note": "unknown caller, urgent QR",
+      "tier": "T2",
+      "p": 0.382,
+      "matched": "PB-A1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-A1",
+      "note": "unknown caller, urgent QR",
+      "tier": "T3",
+      "p": 0.8202,
+      "matched": "PB-A1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-A3",
+      "note": "video call from new number",
+      "tier": "T3",
+      "p": 0.7881,
+      "matched": "PB-A3",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-A3",
+      "note": "video call from new number",
+      "tier": "T3",
+      "p": 0.7424,
+      "matched": "PB-A3",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-A3",
+      "note": "video call from new number",
+      "tier": "T3",
+      "p": 0.6875,
+      "matched": "PB-A3",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-A3",
+      "note": "video call from new number",
+      "tier": "T3",
+      "p": 0.7881,
+      "matched": "PB-A3",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-A4",
+      "note": "fake 'credited' SMS",
+      "tier": "T3",
+      "p": 0.5399,
+      "matched": "PB-A4",
+      "floors": [
+        "PB-A4 complete -> floor T3"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-A4",
+      "note": "fake 'credited' SMS",
+      "tier": "T3",
+      "p": 0.1795,
+      "matched": "PB-A4",
+      "floors": [
+        "PB-A4 complete -> floor T3"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-A4",
+      "note": "fake 'credited' SMS",
+      "tier": "T3",
+      "p": 0.7523,
+      "matched": "PB-A4",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-A4",
+      "note": "fake 'credited' SMS",
+      "tier": "T3",
+      "p": 0.2204,
+      "matched": "PB-A4",
+      "floors": [
+        "PB-A4 complete -> floor T3"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-C1",
+      "note": "rising deposits after small profit",
+      "tier": "T3",
+      "p": 0.7245,
+      "matched": "PB-C1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-C1",
+      "note": "rising deposits after small profit",
+      "tier": "T3",
+      "p": 0.8095,
+      "matched": "PB-C2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-C1",
+      "note": "rising deposits after small profit",
+      "tier": "T3",
+      "p": 0.8095,
+      "matched": "PB-C3",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-C1",
+      "note": "rising deposits after small profit",
+      "tier": "T3",
+      "p": 0.7287,
+      "matched": "PB-C1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-C2",
+      "note": "IPO to non-@valid",
+      "tier": "T3",
+      "p": 0.7881,
+      "matched": "PB-C2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-C2",
+      "note": "IPO to non-@valid",
+      "tier": "T3",
+      "p": 0.7881,
+      "matched": "PB-C2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-C2",
+      "note": "IPO to non-@valid",
+      "tier": "T3",
+      "p": 0.7015,
+      "matched": "PB-C2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-C2",
+      "note": "IPO to non-@valid",
+      "tier": "T3",
+      "p": 0.7015,
+      "matched": "PB-C2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-C3",
+      "note": "task scam deposit",
+      "tier": "T3",
+      "p": 0.8232,
+      "matched": "PB-C3",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-C3",
+      "note": "task scam deposit",
+      "tier": "T3",
+      "p": 0.8232,
+      "matched": "PB-C3",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-C3",
+      "note": "task scam deposit",
+      "tier": "T3",
+      "p": 0.7668,
+      "matched": "PB-C3",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-C3",
+      "note": "task scam deposit",
+      "tier": "T3",
+      "p": 0.699,
+      "matched": "PB-C3",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-D1",
+      "note": "fresh APK with control",
+      "tier": "T4",
+      "p": 0.8889,
+      "matched": "PB-D1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-D1",
+      "note": "fresh APK with control",
+      "tier": "T4",
+      "p": 0.8889,
+      "matched": "PB-D1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-D1",
+      "note": "fresh APK with control",
+      "tier": "T4",
+      "p": 0.8889,
+      "matched": "PB-D1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-D1",
+      "note": "fresh APK with control",
+      "tier": "T4",
+      "p": 0.6641,
+      "matched": "PB-D1",
+      "floors": [
+        "PB-D1 complete -> floor T4"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-D2",
+      "note": "screen share during call",
+      "tier": "T4",
+      "p": 0.9436,
+      "matched": "PB-D2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-D2",
+      "note": "screen share during call",
+      "tier": "T4",
+      "p": 0.9282,
+      "matched": "PB-D2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-D2",
+      "note": "screen share during call",
+      "tier": "T4",
+      "p": 0.9282,
+      "matched": "PB-D2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-D2",
+      "note": "screen share during call",
+      "tier": "T4",
+      "p": 0.9282,
+      "matched": "PB-D2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-D2",
+      "note": "screen share during call",
+      "tier": "T4",
+      "p": 0.5793,
+      "matched": "PB-D2",
+      "floors": [
+        "PB-D2 complete -> floor T4"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-E1",
+      "note": "QR to 'receive' money",
+      "tier": "T3",
+      "p": 0.6026,
+      "matched": "PB-E1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-E1",
+      "note": "QR to 'receive' money",
+      "tier": "T3",
+      "p": 0.2436,
+      "matched": "PB-E1",
+      "floors": [
+        "PB-E1 complete -> floor T3"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-E1",
+      "note": "QR to 'receive' money",
+      "tier": "T3",
+      "p": 0.5399,
+      "matched": "PB-E1",
+      "floors": [
+        "PB-E1 complete -> floor T3"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-E1",
+      "note": "QR to 'receive' money",
+      "tier": "T3",
+      "p": 0.5416,
+      "matched": "PB-E1",
+      "floors": [
+        "PB-E1 complete -> floor T3"
+      ]
+    },
+    {
+      "label": "scam",
+      "card": "PB-G1",
+      "note": "helpline number from search",
+      "tier": "T4",
+      "p": 0.9735,
+      "matched": "PB-D2",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-G1",
+      "note": "helpline number from search",
+      "tier": "T2",
+      "p": 0.562,
+      "matched": "PB-G1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-G1",
+      "note": "helpline number from search",
+      "tier": "T2",
+      "p": 0.4753,
+      "matched": "PB-G1",
+      "floors": []
+    },
+    {
+      "label": "scam",
+      "card": "PB-G1",
+      "note": "helpline number from search",
+      "tier": "T1",
+      "p": 0.1063,
+      "matched": "PB-G1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0473,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1325,
+      "matched": "PB-B1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0204,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.033,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0197,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0511,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1036,
+      "matched": "PB-D1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0145,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.0241,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0197,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.045,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0547,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1036,
+      "matched": "PB-D1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0124,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0145,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.033,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T0",
+      "p": 0.0755,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0124,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0437,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0412,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0501,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T0",
+      "p": 0.0755,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0607,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.014,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0197,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0475,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T0",
+      "p": 0.0755,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0204,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0562,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T0",
+      "p": 0.0755,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0124,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0607,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0426,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.0137,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0197,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T0",
+      "p": 0.0755,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0607,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.0241,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0197,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0408,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1036,
+      "matched": "PB-D1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0124,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0607,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0652,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.0241,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0507,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1036,
+      "matched": "PB-D1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0124,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0607,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.0193,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0197,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1325,
+      "matched": "PB-B1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0124,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0607,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.033,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0197,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0568,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1325,
+      "matched": "PB-B1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0204,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.014,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1036,
+      "matched": "PB-D1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0607,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.014,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0461,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T0",
+      "p": 0.0755,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0607,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.0241,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0197,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1325,
+      "matched": "PB-B1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0204,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.0193,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0416,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T0",
+      "p": 0.0755,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0607,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0604,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.033,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0538,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1325,
+      "matched": "PB-B1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0124,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0607,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.0128,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0393,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.0193,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0427,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0448,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1325,
+      "matched": "PB-B1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0607,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0492,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.0193,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0549,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T0",
+      "p": 0.0755,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0204,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.048,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "merchant_small",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "saved_family",
+      "tier": "T0",
+      "p": 0.01,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "rent_saved",
+      "tier": "T0",
+      "p": 0.0277,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "new_shop",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "call_known_new_payee",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "big_first_time",
+      "tier": "T1",
+      "p": 0.1036,
+      "matched": "PB-D1",
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "late_night_food",
+      "tier": "T0",
+      "p": 0.0486,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "sip_valid",
+      "tier": "T0",
+      "p": 0.0145,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "friend_split",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    },
+    {
+      "label": "normal",
+      "card": null,
+      "note": "refund_real",
+      "tier": "T0",
+      "p": 0.0392,
+      "matched": null,
+      "floors": []
+    }
+  ]
+}

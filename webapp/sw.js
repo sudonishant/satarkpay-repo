@@ -5,7 +5,7 @@
    from cache. Update by bumping VERSION.
    ========================================================================== */
 
-var VERSION = 'satarkpay-v6';
+var VERSION = 'satarkpay-v7-thehro';
 
 var ASSETS = [
   './',
@@ -17,6 +17,9 @@ var ASSETS = [
   'evidence.html',
   'emergency.html',
   'about.html',
+  'thehro.html',
+  'assets/thehro.js',
+  'assets/playbooks.json',
   'assets/app.css',
   'assets/app.js',
   'assets/engine.js',

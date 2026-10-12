@@ -1,6 +1,10 @@
 # SatarkPay · dev shortcuts
-.PHONY: help demo check eval deck zip clean
+.PHONY: help demo check eval deck zip clean thehro thehro-test parity serve
 help:
+	@echo "make thehro      → THEHRO simulated evaluation (RAKSHAM PS 02)"
+	@echo "make thehro-test → THEHRO unit tests"
+	@echo "make parity      → JS port vs Python, 250 sessions"
+	@echo "make serve       → http://localhost:8000/webapp/thehro.html"
 	@echo "make demo   → offline demo browser me kholo (file path print hota hai)"
 	@echo "make check  → 66 automated checks (jsdom)"
 	@echo "make eval   → 33-message eval harness (P/R/F + latest_results.json)"
@@ -26,3 +30,15 @@ zip:
 
 clean:
 	rm -rf web/deck/charts/*.png web/deck/diagrams/*.png eval/latest_results.json
+
+thehro:
+	python3 -m thehro.simulate
+
+thehro-test:
+	python3 -m unittest discover -s thehro/tests -t .
+
+parity:
+	python3 tools/export_parity.py && node tools/parity_check.js
+
+serve:
+	python3 -m http.server 8000

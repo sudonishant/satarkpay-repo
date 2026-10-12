@@ -9,6 +9,11 @@ import com.example.data.model.*
 import com.example.data.repository.SatarkRepository
 import com.example.engine.*
 import com.example.network.ChatMessage
+import com.example.thehro.AttentionBudget
+import com.example.thehro.CallStateProbe
+import com.example.thehro.Decision
+import com.example.thehro.PaymentSession
+import com.example.thehro.ThehroEngine
 import com.example.network.GeminiService
 import com.example.util.AudioRecorderHelper
 import com.example.util.TtsManager
@@ -99,9 +104,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val safePayName = MutableStateFlow("CBI Digital Cell")
     val safePayAmount = MutableStateFlow(25000L)
     val safePayChannel = MutableStateFlow(PaymentSourceChannel.WHATSAPP_UNSAVED)
-    val safePayActiveCall = MutableStateFlow(true)
+    // real call state from AudioManager (was hard-coded true); demo presets can still override it
+    val safePayActiveCall = MutableStateFlow(CallStateProbe.read(application).inCall)
     val safePaySnippet = MutableStateFlow("Urgent verification security deposit under CBI Mumbai. Do not disconnect call.")
     val safePayEvaluation = MutableStateFlow<AttackChainEvaluation?>(null)
+
+    // --- THEHRO v3 (RAKSHAM PS 02): workflow engine + attention budget ---
+    private val thehro = ThehroEngine()
+    private val attentionBudget = AttentionBudget(per30Days = 3)
+    val thehroDecision = MutableStateFlow<Decision?>(null)
     val safePayIsFirstTime = MutableStateFlow(true)
     val safePayTxnCount = MutableStateFlow(0)
     val safePayTrusted = MutableStateFlow(false)
@@ -597,6 +608,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             highRiskAppsCount = permissionSummary.value.highRiskAppsCount
         )
         safePayEvaluation.value = eval
+
+        // THEHRO: same inputs as metadata only (the chat snippet is NOT passed in)
+        val probe = CallStateProbe.read(getApplication())
+        thehroDecision.value = thehro.decide(
+            PaymentSession(
+                callActive = safePayActiveCall.value || probe.inCall,
+                callerInContacts = safePayChannel.value == PaymentSourceChannel.SAVED_CONTACT ||
+                    safePayChannel.value == PaymentSourceChannel.DIRECT_SHOP_QR,
+                callVideoOrVoip = probe.voipOrVideo,
+                screenShare = hasRat,
+                payeeNew = safePayIsFirstTime.value,
+                payeeSaved = safePayTrusted.value || safePayTxnCount.value >= 3,
+                amount = safePayAmount.value.toDouble(),
+                baselineP95 = 5000.0, // TODO finale: user's own p95 from the local payee ledger
+            ),
+            attentionBudget,
+        )
     }
 
     fun loadSafePayPreset(

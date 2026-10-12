@@ -1,0 +1,222 @@
+{
+  "version": "2026.10.12-p1",
+  "note": "Playbook cards for the 12 P1 scam workflows of the RAKSHAM 50-scam catalogue. In production each card is Ed25519-signed by an analyst before it is pushed to devices. Stages are evaluated on metadata only: no message text, no call audio. 'anchor' is the one stage a card cannot complete without, so generic signals (unknown caller + new payee) never complete a severe card on their own.",
+  "cards": [
+    {
+      "id": "PB-B1",
+      "name": "Digital arrest (fake CBI / ED / police on video)",
+      "catalogue": [
+        11
+      ],
+      "stages": [
+        "unknown_caller",
+        "video_or_voip_call",
+        "long_call",
+        "screen_share",
+        "new_payee",
+        "amount_very_high"
+      ],
+      "min_match": 4,
+      "tier_floor": "T4",
+      "reason": "No police or agency arrests anyone on a video call or asks you to move money to 'verify' it.",
+      "question": "Is someone on a call telling you that you are under investigation?",
+      "anchor": "long_call"
+    },
+    {
+      "id": "PB-B2",
+      "name": "Fake recovery agent / fake cyber police (re-victimisation)",
+      "catalogue": [
+        15
+      ],
+      "stages": [
+        "recent_fraud_report",
+        "unknown_caller",
+        "new_payee",
+        "fee_remark"
+      ],
+      "min_match": 3,
+      "tier_floor": "T3",
+      "reason": "Real police and 1930 never charge a fee to recover your money.",
+      "question": "Is someone asking for a fee to get back money you lost?",
+      "anchor": "recent_fraud_report"
+    },
+    {
+      "id": "PB-A1",
+      "name": "Family emergency call (accident / hospital, possibly cloned voice)",
+      "catalogue": [
+        1
+      ],
+      "stages": [
+        "unknown_caller",
+        "new_payee",
+        "amount_high",
+        "qr_recent"
+      ],
+      "min_match": 3,
+      "tier_floor": null,
+      "reason": "Callers who say a family member is in trouble often are not who they claim. Check with the person on their saved number first.",
+      "question": "Is a caller asking you to pay because someone you know is in trouble?",
+      "anchor": "unknown_caller"
+    },
+    {
+      "id": "PB-A3",
+      "name": "Video call from a 'friend or colleague' asking for money",
+      "catalogue": [
+        3
+      ],
+      "stages": [
+        "unknown_caller",
+        "video_or_voip_call",
+        "new_payee",
+        "amount_high"
+      ],
+      "min_match": 3,
+      "tier_floor": null,
+      "reason": "The person on the video may not be who they look like. Confirm on the number you already have saved.",
+      "question": "Did a friend just ask you for money over a video call from a new number?",
+      "anchor": "video_or_voip_call"
+    },
+    {
+      "id": "PB-A4",
+      "name": "Fake 'money credited by mistake' SMS, return it",
+      "catalogue": [
+        4
+      ],
+      "stages": [
+        "fake_credit",
+        "new_payee",
+        "qr_recent"
+      ],
+      "min_match": 2,
+      "tier_floor": "T3",
+      "reason": "No money actually arrived in your account. The 'credited' SMS is fake.",
+      "question": "Are you returning money someone says they sent you by mistake?",
+      "anchor": "fake_credit"
+    },
+    {
+      "id": "PB-C1",
+      "name": "Deepfake celebrity / FM investment ad",
+      "catalogue": [
+        17
+      ],
+      "stages": [
+        "invest_remark",
+        "many_new_payees_7d",
+        "rising_amounts",
+        "small_inbound_credit_unknown",
+        "new_payee"
+      ],
+      "min_match": 3,
+      "tier_floor": null,
+      "reason": "Small 'profits' followed by bigger deposits to new accounts is how investment scams grow.",
+      "question": "Are you investing after seeing an ad or video of a famous person?",
+      "anchor": "invest_remark"
+    },
+    {
+      "id": "PB-C2",
+      "name": "Fake IPO / pre-IPO allotment, fake SEBI advisor",
+      "catalogue": [
+        18
+      ],
+      "stages": [
+        "invest_remark",
+        "payee_not_sebi_valid",
+        "new_payee",
+        "amount_high"
+      ],
+      "min_match": 3,
+      "tier_floor": null,
+      "reason": "SEBI-registered intermediaries collect money only through '@valid' UPI handles. This payee is not one.",
+      "question": "Is this payment for shares, an IPO or a trading tip?",
+      "anchor": "invest_remark"
+    },
+    {
+      "id": "PB-C3",
+      "name": "Telegram prepaid task scam (likes / reviews)",
+      "catalogue": [
+        21
+      ],
+      "stages": [
+        "small_inbound_credit_unknown",
+        "many_new_payees_7d",
+        "rising_amounts",
+        "new_payee"
+      ],
+      "min_match": 3,
+      "tier_floor": null,
+      "reason": "Being paid a little first and then asked to 'deposit to unlock' earnings is the task-scam pattern.",
+      "question": "Are you paying to unlock earnings from an online task?",
+      "anchor": "small_inbound_credit_unknown"
+    },
+    {
+      "id": "PB-D1",
+      "name": "Wedding-invitation / fake APK takeover",
+      "catalogue": [
+        25
+      ],
+      "stages": [
+        "fresh_apk",
+        "overlay_service",
+        "new_payee"
+      ],
+      "min_match": 2,
+      "tier_floor": "T4",
+      "reason": "An app installed in the last 72 hours can read your SMS or control your screen.",
+      "question": "Did you install an app from a link or file in the last few days?",
+      "anchor": "fresh_apk"
+    },
+    {
+      "id": "PB-D2",
+      "name": "Screen-share 'KYC / support' (AnyDesk etc.)",
+      "catalogue": [
+        29
+      ],
+      "stages": [
+        "screen_share",
+        "unknown_caller",
+        "new_payee"
+      ],
+      "min_match": 2,
+      "tier_floor": "T4",
+      "reason": "Someone may be able to see or control your screen right now. No bank asks you to share your screen.",
+      "question": "Is someone helping you on a call while sharing your screen?",
+      "anchor": "screen_share"
+    },
+    {
+      "id": "PB-E1",
+      "name": "'Scan this QR to receive money' (inverted QR)",
+      "catalogue": [
+        32
+      ],
+      "stages": [
+        "qr_from_gallery",
+        "qr_receive_intent",
+        "unknown_caller",
+        "new_payee"
+      ],
+      "min_match": 2,
+      "tier_floor": "T3",
+      "reason": "Scanning a QR and entering your PIN always sends money. You never need a PIN to receive.",
+      "question": "Were you told to scan this QR to receive money?",
+      "anchor": "qr_from_gallery"
+    },
+    {
+      "id": "PB-G1",
+      "name": "Fake customer care from search / AI chatbot answer",
+      "catalogue": [
+        45
+      ],
+      "stages": [
+        "unofficial_helpline",
+        "screen_share",
+        "new_payee",
+        "amount_high"
+      ],
+      "min_match": 2,
+      "tier_floor": null,
+      "reason": "The number you called is not on the company's official list.",
+      "question": "Did you find this helpline number through a search or chatbot?",
+      "anchor": "unofficial_helpline"
+    }
+  ]
+}

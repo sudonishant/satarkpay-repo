@@ -2,6 +2,16 @@
 
 Sab notable changes, naye se purane. Format: `date · version — kya`.
 
+## v3.0.0 · 12 Oct 2026 · RAKSHAM 2026 (IIT Delhi), PS 02
+
+- New THEHRO engine (`thehro/`): 12 P1 playbook cards with anchor stages, kill-chain match, risk fusion, deterministic floors, T0–T4 tiers, attention budget.
+- Simulated evaluation: 50 scam + 200 normal sessions (`python3 -m thehro.simulate`). 46/50 held at T3+, 0 false holds, 0 interruptions per 100 normal payments. These are simulated numbers, not field results.
+- 10 unit tests (`thehro/tests`). JS port parity-checked against Python: 250/250 identical.
+- Web demo `webapp/thehro.html`: step-through digital-arrest, screen-share KYC, fake-credit and two normal sessions.
+- Android: `com.example.thehro` (ThehroEngine, PlaybookCards, CallStateProbe). Call state now comes from AudioManager instead of a hard-coded `true`. The view model computes a THEHRO decision.
+- Docs: new README, `docs/RAKSHAM.md` (criteria map, Build for Trust, proof plan, known limits). The v2 README moved to `docs/README_v2_SANGYAN.md`. "Bharat-BERT" is now described as what it is: a keyword and weight scorer.
+- Team: Gourvendra Kumar Jha added.
+
 ## 2026-10-04 · v1.4 — 🎬 demo video (3:19, Hinglish)
 
 - **Video ready:** intro branding card → live demo screening (asli clicks, Hinglish explainer VO) → outro card with links. 1920×1080, H.264, 3:19, 21 MB
