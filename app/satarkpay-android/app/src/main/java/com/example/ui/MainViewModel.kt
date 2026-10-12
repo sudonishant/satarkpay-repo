@@ -15,7 +15,6 @@ import com.example.thehro.Decision
 import com.example.thehro.PaymentSession
 import com.example.thehro.ThehroEngine
 import com.example.network.GeminiService
-import com.example.util.AudioRecorderHelper
 import com.example.util.TtsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -49,7 +48,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = SatarkRepository(AppDatabase.getInstance(application))
     private val ttsManager = TtsManager(application)
-    private val audioRecorder = AudioRecorderHelper(application)
 
     // --- App Security & Permission Scanner State ---
     val scannedApps = MutableStateFlow<List<InstalledAppPermissionInfo>>(emptyList())
@@ -435,31 +433,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         lastVerdict.value = null
     }
 
-    // Audio Transcription (gemini-3.5-transcribe)
+    // v3 privacy rule (RAKSHAM PS 02): SatarkPay never records or uploads audio.
+    // The old mic -> cloud transcription path was removed; the mic button is a no-op.
     fun toggleAudioRecording() {
-        if (!isAudioRecording.value) {
-            val started = audioRecorder.startRecording()
-            if (started) {
-                isAudioRecording.value = true
-            }
-        } else {
-            val audioBytes = audioRecorder.stopRecording()
-            isAudioRecording.value = false
-            if (audioBytes != null && audioBytes.isNotEmpty()) {
-                viewModelScope.launch {
-                    isChatLoading.value = true
-                    val transcribeResult = GeminiService.transcribeAudio(audioBytes)
-                    isChatLoading.value = false
-                    transcribeResult.onSuccess { transcribed ->
-                        if (transcribed.isNotEmpty()) {
-                            sendUserChatMessage(transcribed)
-                        }
-                    }.onFailure { err ->
-                        sendUserChatMessage("Suspicious payment demand audio recording received. Please inspect caller claims.")
-                    }
-                }
-            }
-        }
+        isAudioRecording.value = false
     }
 
     // --- M5: Wallet Mandate Audit Actions ---

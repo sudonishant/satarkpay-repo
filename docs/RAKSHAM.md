@@ -101,6 +101,7 @@ We detect the *workflow* around cloned voices and deepfakes. We do not analyse a
 | Web checks | `make check` | ✅ 144/144: 66 v2 single-file checks + 78 THEHRO checks (card schema, every card fires, 8 normal payments stay quiet, floors, anti-splitting, retry, 2,000-decision speed, all 9 web pages load with no script errors, demo sessions end at the right tier, offline cache) |
 | GitHub Pages | HTTP check of all pages and assets | ✅ all 200 |
 | Kotlin engine | `kotlinc` 2.0 compile + spot checks vs Python | ✅ same tier, p and card (incl. split and retry cases) |
-| Android full build | `./gradlew assembleDebug` | ⚠️ not run (no Android SDK in our sandbox). Run before a release |
+| Android full build | `./gradlew assembleDebug` | ⚠️ tried with Android SDK 36 + JDK 21, but the Gradle daemon was killed (our sandbox has 2 GB RAM, the build asks for 4 GB). Run on a laptop before a release |
 | Android APK release | GitHub Releases | ⚠️ no release published yet |
+| Privacy fix | | mic recording + cloud transcription removed from the Android app (`AudioRecorderHelper.kt` deleted, `RECORD_AUDIO` permission dropped). SatarkPay now records no audio |
 | Fixed in this pass | | unknown stage in a newer card crashed the JS and Python engines (now ignored, like Kotlin) · an unrelated card's reason was shown when only a safety floor fired · `run_smoke.sh` / `publish.sh` not executable · unsourced "87 %" claim removed |

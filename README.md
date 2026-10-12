@@ -106,6 +106,7 @@ docs/                 RAKSHAM.md (this round), architecture, privacy, v2 docs
 * New THEHRO engine: playbook cards → kill-chain → fusion → floors → tier with attention budget (Python, Kotlin, JS, all kept in sync).
 * Android: call state now comes from `AudioManager` mode instead of a hard-coded `true`. The view model computes a THEHRO decision next to the v2 score.
 * v2 wording corrected: the old "Bharat-BERT" classifier is a keyword and weight scorer, not a BERT model. It stays as the v2 message checker and is not part of the THEHRO decision.
+* Android: mic recording and cloud audio transcription removed, along with the `RECORD_AUDIO` permission. SatarkPay records no audio.
 * Scope narrowed to PS 02 (scam workflows). Voice-clone detection is PS 01 and is not claimed here.
 
 ## Responsible use
