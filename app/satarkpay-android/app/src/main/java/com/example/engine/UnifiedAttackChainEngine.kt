@@ -92,7 +92,7 @@ object UnifiedAttackChainEngine {
             signals.add(
                 AttackChainSignal(
                     title = "Ongoing Voice / Video Call",
-                    description = "You are currently on a call while initiating this transfer. 87% of Digital Arrest frauds involve live call pressure.",
+                    description = "You are on a call while starting this transfer. Digital-arrest and fake-KYC scams keep the victim on a live call while they pay.",
                     severity = AttackChainRiskTier.CRITICAL_BLOCKED,
                     provenance = "LIVE ON DEVICE"
                 )

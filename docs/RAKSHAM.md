@@ -84,3 +84,19 @@ We detect the *workflow* around cloned voices and deepfakes. We do not analyse a
 * `baseline_p95` is a constant in the Android view model for now. It will come from the local payee ledger.
 * `ThehroEngine.kt` and `PlaybookCards.kt` compile with kotlinc 2.0 and give the same tier, p and card as Python on spot checks. `CallStateProbe.kt` and the view-model change use Android APIs and were not compiled in our sandbox; run `./gradlew assembleDebug` before a release. Showing the THEHRO tier on the pay screen is a finale task.
 * The package name is still `com.example`. It will be renamed before any store release.
+
+## Verification status (12 Oct 2026, 21:55 IST)
+
+| Part | Check | Result |
+|---|---|---|
+| THEHRO engine (Python) | `make thehro-test` | ✅ 10/10 tests pass |
+| Simulated evaluation | `make thehro` | ✅ 46/50 held at T3+, 0 false holds in 200 normal payments (simulated) |
+| JS port vs Python | `make parity` | ✅ 250/250 identical decisions |
+| Web demo `webapp/thehro.html` | jsdom run, all 5 sessions stepped | ✅ no script errors; digital arrest → T4, screen-share → T4, fake credit → T3, both normal → T0 |
+| v2 web app (8 pages) | jsdom load of every page | ✅ no script errors |
+| v2 single-file demo | `make check` | ✅ 66/66 smoke checks |
+| GitHub Pages | HTTP check of all pages and assets | ✅ all 200 |
+| Kotlin engine | `kotlinc` 2.0 compile + spot checks vs Python | ✅ same tier, p and card |
+| Android full build | `./gradlew assembleDebug` | ⚠️ not run (no Android SDK in our sandbox). Run before a release |
+| Android APK release | GitHub Releases | ⚠️ no release published yet |
+| Fixed in this pass | | `run_smoke.sh` and `publish.sh` were not executable · unsourced "87 %" claim removed from the v2 call signal |
