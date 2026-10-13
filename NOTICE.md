@@ -1,7 +1,7 @@
 # NOTICE — Third-Party Notices & Attribution
 
 ## 1 · Project Authorship
-**SatarkPay** is designed and developed by **Team SCΛMURΛI** for the **SANGYAN Hackathon** (SEBI × NSDL × SNTC, IIT-BHU).
+**SatarkPay** is designed and developed by **Team SCΛMURΛI** for **RAKSHAM 2026** (ARIES & DevClub, IIT Delhi), Problem Statement 02.
 - **Nishant Kumar** — System Architecture, Android Jetpack Compose & Rule Engine
 - **Prince Singh** — Threat Intelligence Crawling & Evidence Dossier Pipeline
 - **Kartik Singh** — UI/UX Design System, Evaluation Harness & Web Simulator

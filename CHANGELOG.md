@@ -2,6 +2,13 @@
 
 Sab notable changes, naye se purane. Format: `date · version — kya`.
 
+## v3.1.1 · 13 Oct 2026 · cleanup for RAKSHAM
+
+- Removed the previous event's branding from the app, web demo, docs and repo description.
+- Removed old decks (`web/deck/`, `web/pitch/`, root `.pptx` files), demo-video and deck tools, and `publish.sh`.
+- Android: mic recording, cloud transcription and the `RECORD_AUDIO` permission removed.
+- README rewritten: integration boundary (participating PSP / bank / wallet apps), what works vs what is planned, simulation vs next validation, hand-set weights called a risk score.
+
 ## v3.1.0 · 12 Oct 2026 (night) · real time + emerging workflows
 
 - `thehro/realtime.py`: event-driven session tracker, call length from the clock, content-free audit log.
@@ -17,7 +24,7 @@ Sab notable changes, naye se purane. Format: `date · version — kya`.
 - 10 unit tests (`thehro/tests`). JS port parity-checked against Python: 250/250 identical.
 - Web demo `webapp/thehro.html`: step-through digital-arrest, screen-share KYC, fake-credit and two normal sessions.
 - Android: `com.example.thehro` (ThehroEngine, PlaybookCards, CallStateProbe). Call state now comes from AudioManager instead of a hard-coded `true`. The view model computes a THEHRO decision.
-- Docs: new README, `docs/RAKSHAM.md` (criteria map, Build for Trust, proof plan, known limits). The v2 README moved to `docs/README_v2_SANGYAN.md`. "Bharat-BERT" is now described as what it is: a keyword and weight scorer.
+- Docs: new README, `docs/RAKSHAM.md` (criteria map, Build for Trust, proof plan, known limits). The old v2 README, decks and video tools were removed. "Bharat-BERT" is now described as what it is: a keyword and weight scorer.
 - Team: Gourvendra Kumar Jha added.
 
 ## 2026-10-04 · v1.4 — 🎬 demo video (3:19, Hinglish)
@@ -62,7 +69,7 @@ cd web && bash run_smoke.sh                                              # 66/66
 
 ### Naya (iss session)
 - **Mobile UI pass** — header controls ek scrollable row (pehle 4 rows kha rahe the), tabs **sticky + horizontal scroll**, KPI cards snap-scroll carousel, phone mockup `max-height:56vh` (judge ko Run button pehli screen par dikhta hai), bade tap targets (chip ≥10px pad, buttons ≥38px) — Tier-2/3 usability ke liye
-- **Judge branding** — header: `SANGYAN · SEBI × NSDL × IIT (BHU) · Track A + B`; footer me guardrails line + Team names + live URL
+- **Judge branding** — header: event name + track; footer me guardrails line + Team names + live URL
 - **KPI consistent** — `<12ms LATENCY` → **`0.012ms MEDIAN`** (measured, VERIFICATION §8 se match)
 - **Deck v2 numbers** — cover: 2,443 reg / 51 repos; landscape chart 51-repo data (71% checker · 24% live demo · 8% measured eval); "verified ✓" markers
 - **15 screenshots regenerate** — naya UI (header/judge branding/sticky tabs) ke saath; `shoot_new_shots.py` ab reproducible (paths fixed, full set scripted)
@@ -70,7 +77,7 @@ cd web && bash run_smoke.sh                                              # 66/66
 
 ---
 
-## 2026-10-03 · v1.0 — SANGYAN submission (final)
+## 2026-10-03 · v1.0 — earlier hackathon submission
 
 ### Naya (aaj ka kaam)
 - **R38 · Fraud CONFIRM emergency layer** (aapka ask): confirm hone par teen kadam — (1) 📧 cyber cell + bank ko **ready email draft** (Bihar cyber cell 3 IDs + nodal officer cc, body me txn/UTR/amount/annexure), (2) 📞 **one-tap dialer** (1930 · 1909 · bank/PSP · Bihar cyber cell) + 5-line call script, (3) ⛔ **payment-stop request** (txn-wise dispute/chargeback + beneficiary par hold (CFCFRMS) + account freeze/limit + mandate revoke) + optional step 4 parivaar/community alert (masked numbers). Golden-hour clock. Auto-send **nahi** — sab user ke tap par. → `web/_part_app.js`, `web/_part_m3m6.html`, rules `R38`
@@ -111,7 +118,7 @@ cd web && bash run_smoke.sh                                              # 66/66
   polished buttons/notes/verdicts across all 8 pages. 139/139 tests still pass.
 - **Hindi voice mode + senior mode** on the webapp (topbar toggles, session-
   remembered, `speechSynthesis` `hi-IN`) — the "voice service for elderly" idea.
-- **`SatarkPay_SANGYAN_Final.pptx`** — 10-slide hackathon deck with the scam
+- **old pitch deck (removed in v3)** — 10-slide hackathon deck with the scam
   screenshots and fresh web/android demo shots (`tools/generate_final_deck.py`).
 - **`assets/demo/SatarkPay_Demo.mp4`** — ~7 min Hindi demo video, intro →
   problem → web walkthrough → support → android → outro

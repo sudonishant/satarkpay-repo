@@ -195,7 +195,7 @@ SP.shell = function () {
     '<span class="sep">·</span><a href="emergency.html">1930 emergency steps</a>' +
     '<span class="sep">·</span><a href="evidence.html">Evidence pack</a>' +
     '<span class="sep">·</span><a href="about.html">Honest capability matrix</a>' +
-    '<span style="margin-left:auto">SANGYAN 2026 · Team SCΛMURΛI</span>';
+    '<span style="margin-left:auto">RAKSHAM 2026 · Team SCΛMURΛI</span>';
   main.appendChild(foot);
 
   var progress = document.createElement('div');

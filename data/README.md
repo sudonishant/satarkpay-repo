@@ -3,7 +3,7 @@
 | File | Kya | Note |
 |---|---|---|
 | `intel_snapshot.json` | M6 crawler threat intelligence output | Public headlines + source links (DPDP/copyright-safe) |
-| `problem_statement.txt` | SANGYAN official problem statement notes | Reference guidelines |
+| `problem_statement.txt` | earlier problem statement notes (v2) | Reference guidelines |
 | `case_pack/` | asli fraud case ke **documents** | ⚠️ sirf masked versions: `annexure_index.csv`, `case_facts.json`, `complaint_ncrp.md`, `complaint_email.html` |
 | `case_pack/README.md` | case ka summary + kya mask kiya | raw screenshots **private** hain (kisi ka asli PII) |
 

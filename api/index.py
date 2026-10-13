@@ -57,7 +57,7 @@ except Exception:  # mode 2 — inline fallback (stdlib only)
         '<path d="M12 2.5 4 6v6.2c0 4.7 3.3 8.6 8 9.8 4.7-1.2 8-5.1 8-9.8V6l-8-3.5Z" stroke="#c9a86a" stroke-width="1.8"/>'
         '<path d="m8.6 12.2 2.3 2.3 4.5-4.6" stroke="#e6d3ac" stroke-width="2.1" stroke-linecap="round"/></svg>'
         "<h1>SatarkPay <span style='color:var(--dim);font-weight:400'>(\u0938\u0924\u0930\u094d\u0915\u092a\u0947)</span></h1>"
-        "<p class='sub'>SANGYAN 2026 · SEBI × NSDL × IIT (BHU) · Team SC\u039bMUR\u039bI</p>"
+        "<p class='sub'>RAKSHAM 2026 · IIT Delhi · PS 02 · Team SC\u039bMUR\u039bI</p>"
         "<div class='bar'></div>"
         "<p class='sub'>Live demo khul raha hai…</p>"
         '<p><a href="' + LIVE_URL + '">Yahan click karo agar apne-aap na khule →</a></p>'

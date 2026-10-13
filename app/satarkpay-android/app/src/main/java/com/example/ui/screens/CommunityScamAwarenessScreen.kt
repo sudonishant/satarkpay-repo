@@ -241,7 +241,7 @@ fun CommunityScamAwarenessScreen(
                     }
                 }
                 Text(
-                    text = "Real Case Evidence & Team Discussion · SANGYAN 2026",
+                    text = "Real Case Evidence & Team Discussion",
                     style = MaterialTheme.typography.bodySmall,
                     color = SatarkDim,
                     fontSize = 11.sp

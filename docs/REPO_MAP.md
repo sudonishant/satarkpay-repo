@@ -6,7 +6,7 @@ satarkpay/
 ├── CHANGELOG.md               kya-kya kab bana
 ├── LICENSE                    MIT (original code)
 ├── NOTICE.md                  third-party attributions and regulatory sources
-├── CONTRIBUTING / CODE_OF_CONDUCT / SECURITY / Makefile / publish.sh
+├── CONTRIBUTING / CODE_OF_CONDUCT / SECURITY / Makefile
 ├── .github/                   CI (66 checks + eval + JSON lint), issue/PR templates
 │
 ├── web/                       ★ ASLI DELIVERABLE (offline demo)
@@ -47,7 +47,7 @@ satarkpay/
 │
 ├── data/                      snapshots (privacy-safe)
 │   ├── intel_snapshot.json    aaj ka crawl (784 → 172 → 63 novel)
-│   ├── problem_statement.txt  official SANGYAN PS notes
+│   ├── problem_statement.txt  earlier PS notes (v2)
 │   └── case_pack/             asli case ke MASKED documents (annexure, complaint, email, summary)
 │
 └── docs/                      sab likhit
@@ -58,7 +58,7 @@ satarkpay/
     ├── DEMO_SCRIPT.md         3-min demo beats + judges ke 6 sawal ke jawab
     ├── PLAY_STORE_NOTES.md    permission declarations + risk register
     ├── ROADMAP.md             phase 1 (48h) · pilot · scale + metrics
-    ├── SUBMISSION.md          SANGYAN submission checklist
+    ├── SUBMISSION.md          RAKSHAM submission checklist
     ├── VERIFICATION.md        har claim ka command + output
     └── REPO_MAP.md            ye file
 ```
@@ -68,7 +68,6 @@ satarkpay/
 | Chahiye | Kahan |
 |---|---|
 | Demo chala ke dekhna | `web/satarkpay_m2.html` |
-| Interactive deck dekhna | `web/deck/deck.html` |
 | Native Android app | `app/satarkpay-android/` |
 | Ready Android APK | `SatarkPay-WhiteTheme.apk` |
 | Rules ka JSON | `rules/` |

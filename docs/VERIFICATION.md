@@ -28,7 +28,7 @@ RESULT: 66 passed, 0 failed
 
 **Kya cover hota hai:** M1 ke chaaron cell, M2 ka burst+R22 staircase, M3 ka L1–L4 + gateway≠merchant, M4 ke 9 case (digital arrest, Telegram task, KYC/APK, refund-trap, legit refund, fake SEBI number, OTP negation, redaction note, eval harness), M5 ke 6 apps + 5 mandates + revoke, M6 ka filter + approve, M7 ka mask toggle + annexure hashes, R38 ke 3 steps + optional step 4.
 
-**Limit:** jsdom me `scrollTo` implement nahi hai (harmless stub). Asli Chromium me page errors 0 — wahi screenshots `web/deck/screenshots/` me hain.
+**Limit:** jsdom me `scrollTo` implement nahi hai (harmless stub). Asli Chromium me page errors 0.
 
 ---
 
@@ -92,14 +92,9 @@ All code in this repository is 100% original work by Team SCΛMURΛI licensed un
 
 ---
 
-## 6 · Deck build (ek source → teen output)
+## 6 · Deck build
 
-```bash
-cd web/deck
-python3 build_charts.py       # charts/*.png  (eval + landscape, light theme)
-python3 build_diagrams.py     # diagrams/*.svg + *.png (journey · M1 matrix · R38)
-python3 build_deck.py         # deck.html · satarkpay_deck.pptx · satarkpay_deck.pdf
-```
+Old decks were removed from the repo in v3. The RAKSHAM pitch PDF is submitted on Unstop and is not kept here.
 
 Verify:
 
@@ -149,5 +144,4 @@ grep -rn "ghp_\|github_pat_" .     # koi token nahi
 cd web && bash run_smoke.sh                    # 66/66
 python3 eval/run_eval.py                       # P/R/F + latest_results.json
 python3 tools/intel_crawler.py --max-age-days 45 --out data/intel_snapshot.json
-cd web/deck && python3 build_charts.py && python3 build_diagrams.py && python3 build_deck.py
 ```

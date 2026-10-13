@@ -7,14 +7,13 @@
    NOTE: web/build.py chalana mat bhoolna (satarkpay_m2.html usi se banta hai)
    ============================================================ */
 
-const CACHE = 'satarkpay-v1';
+const CACHE = 'satarkpay-v2';
 
 /* Core shell — offline ke liye zaroori cheezein.
    Sab single-file HTML hai, isliye ye chhoti list hi kaafi hai. */
 const PRECACHE = [
   './',
   './satarkpay_m2.html',
-  './deck/deck.html',
   './manifest.webmanifest',
   './_intel.json',
   './icon-192.png',

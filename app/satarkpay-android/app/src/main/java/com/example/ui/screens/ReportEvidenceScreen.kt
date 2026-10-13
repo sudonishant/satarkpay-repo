@@ -179,7 +179,7 @@ fun ReportEvidenceScreen(
                 )
 
                 ArtifactRow("📦 case_analysis_bundle.zip", "Forensic archive: 22 verified scam cases & evidence crops in Downloads")
-                ArtifactRow("📄 detailed_scam_case_explanations.pdf", "Official SANGYAN 2026 27MB case dossier in Downloads")
+                ArtifactRow("📄 detailed_scam_case_explanations.pdf", "Case dossier in Downloads")
                 ArtifactRow("📄 complaint_ncrp.md", "National Cyber Crime Reporting Portal ready text in Hindi & English")
                 ArtifactRow("📧 complaint_email.eml", "Pre-formatted formal complaint to Cyber Cell & Bank Nodal Officer")
                 ArtifactRow("📊 annexure.csv", "Detailed transaction timeline with hashes & suspect handles")
