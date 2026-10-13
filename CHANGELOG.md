@@ -5,7 +5,7 @@ Sab notable changes, naye se purane. Format: `date · version — kya`.
 ## v3.1.1 · 13 Oct 2026 · cleanup for RAKSHAM
 
 - Removed the previous event's branding from the app, web demo, docs and repo description.
-- Removed old decks (`web/deck/`, `web/pitch/`, root `.pptx` files), demo-video and deck tools, and `publish.sh`.
+- Removed old decks (`web/deck/`, `web/pitch/`, root `.pptx` files), the old demo video (`assets/demo/`, its frames carried the old branding), video and deck tools, and `publish.sh`.
 - Android: mic recording, cloud transcription and the `RECORD_AUDIO` permission removed.
 - README rewritten: integration boundary (participating PSP / bank / wallet apps), what works vs what is planned, simulation vs next validation, hand-set weights called a risk score.
 
