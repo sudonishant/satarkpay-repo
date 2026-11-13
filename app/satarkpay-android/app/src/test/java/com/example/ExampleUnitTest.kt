@@ -69,7 +69,8 @@ class ExampleUnitTest {
                 ),
                 sensitivePermissionsCount = 2,
                 riskLevel = SensitiveRiskLevel.HIGH_RISK,
-                riskSummary = "Remote Desktop Tool"
+                riskSummary = "Remote Desktop Tool",
+                permissionRationale = "May enable remote assistance; installation alone does not confirm active screen control."
             ),
             InstalledAppPermissionInfo(
                 packageName = "com.normal.app",
@@ -88,7 +89,8 @@ class ExampleUnitTest {
                 ),
                 sensitivePermissionsCount = 2,
                 riskLevel = SensitiveRiskLevel.MEDIUM_RISK,
-                riskSummary = "SMS & Location Access"
+                riskSummary = "SMS & Location Access",
+                permissionRationale = "The app requests SMS and location access; its purpose is not verified by this test."
             )
         )
 
