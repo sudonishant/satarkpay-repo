@@ -1,9 +1,8 @@
 # SatarkPay — Android App (Kotlin + Jetpack Compose)
 
-**Native companion to the SatarkPay web app.** The same idea, on the device
-where the payment actually happens: nine attack-chain signals are read *before*
-the UPI PIN is entered, and the app produces a verdict whose arithmetic you can
-check yourself.
+**Native companion to the SatarkPay web app.** THEHRO reviews available signals
+before an Android UPI handoff and explains its tier, evidence and next action.
+It does not verify the recipient with a bank or see the bank's payment result.
 
 > Premium light fintech theme · Hindi voice (TTS) · Senior mode · PII masking ·
 > Full offline rule engine · Room persistence · Gemini-assisted Sanchalak chat
@@ -15,17 +14,17 @@ check yourself.
 | Screen | What it does |
 |---|---|
 | **Splash / Consent (S0)** | Guard ON/OFF consent — the app intercepts nothing without it |
-| **Home (S1)** | Dashboard: cooling timer, burst counter, intel count, permission audit, quick "confirm fraud" |
-| **Chat Before Pay (S2)** | The payment gate: nine signals → score → tier → cooling / withhold |
+| **Home (S1)** | Dashboard: local payee history, permission summary and a user-controlled 1930 dialer shortcut |
+| **SafePay (S2)** | One THEHRO decision drives the verdict card and UPI handoff gate; T3/T4 hold payment in-app |
 | **Screenshot Radar (S3)** | WhatsApp/SMS screenshot triage — burst detection, OCR-ready slots |
 | **Domain Trust (S4)** | Link decomposition (brand + action word + punycode + bulk TLD), no blacklist |
 | **Sanchalak Chat (S5)** | Hinglish AI assistant (Gemini) with Hindi voice output + audio notes |
 | **Wallet Audit (S6)** | AutoPay/mandate audit — what is silently active |
 | **Intel Feed (S7)** | Scam-pattern intel desk (snapshot crawler output) |
-| **Report + Evidence (S8)** | Complaint packet generator: incident summary, redacted identifiers, 1930-ready |
-| **Emergency (S9)** | 10-minute emergency mode — golden-hour clock, ordered steps, family alert |
+| **Report + Evidence (S8)** | Draft preview only; no PDF/ZIP is created and no complaint is submitted |
+| **Emergency (S9)** | Legacy action screen; not part of the SafePay route and not an official reporting integration |
 | **Grievance Ladder (S10)** | SCORES / SMART ODR / NCRP follow-up route |
-| **App Security (S11)** | Installed-app permission audit (remote-access / SMS-forwarding detectors) |
+| **App Security (S11)** | Installed-app indicators; an installed app is not proof of active remote control |
 | **Analyst Console** | Ops timeline, hold/callback queue for a human analyst |
 | **Settings** | Senior mode · Hindi voice · PII mask toggle · model picker · consent centre |
 
@@ -41,8 +40,13 @@ network/      GeminiService (optional — everything core works offline)
 util/         TtsManager (hi-IN voice) · AudioRecorderHelper
 ```
 
-- **Everything that protects you runs offline.** The rule engine, redaction,
-  tiering and emergency actions never touch the network.
+- **THEHRO scoring and the payee ledger run locally.** Configured assistant/chat
+  requests may use the network; they are not part of the payment decision.
+- **The app cannot see the bank result.** After returning from a UPI app, any
+  completion record is explicitly user-reported and is not bank-confirmed.
+- **Limited signals are shown honestly.** Call/audio-mode sensing cannot prove
+  every call is absent, and active screen-control is a user-observed input rather
+  than automatic detection. Demo presets are simulations.
 - **Gemini is optional sugar** — Sanchalak chat and grounding toggles degrade
   gracefully without an API key.
 - **Redaction runs first** — account numbers, card numbers, UPI handles, emails
@@ -52,13 +56,23 @@ util/         TtsManager (hi-IN voice) · AudioRecorderHelper
 
 ```bash
 cd app/satarkpay-android
-./gradlew assembleDebug          # debug APK
+./gradlew :app:assembleDebug :app:testDebugUnitTest --no-daemon
 ./gradlew assembleRelease        # release (needs KEYSTORE_PATH / STORE_PASSWORD env)
-./gradlew test                   # unit + Robolectric tests
 ```
 
 Requirements: Android Studio Ladybug+ (SDK 36, JDK 17). `GEMINI_API_KEY` is
 read via the secrets gradle plugin (see `.env.example`) — optional.
+
+## THEHRO verification status
+
+The Python engine, JavaScript port and flexible web Judge Mode have automated
+checks in `../../.github/workflows/ci.yml`. Android JVM tests and a debug APK
+build are configured in the same workflow. These checks establish code
+consistency, not scam-detection accuracy on real users or device compatibility.
+The app still needs a clean CI run and testing on representative Android
+devices before a production release. Bank-side recipient verification,
+automatic active-screen-control detection, and complaint-file export are not
+implemented.
 
 ## Design system
 

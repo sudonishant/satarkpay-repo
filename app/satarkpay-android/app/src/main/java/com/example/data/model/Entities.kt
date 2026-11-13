@@ -1,6 +1,7 @@
 package com.example.data.model
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "scam_reports")
@@ -82,4 +83,17 @@ data class PayeeLedgerEntity(
     val isTrustVerified: Boolean = false,
     val lastRiskVerdict: String = "SAFE",
     val notes: String = ""
+)
+
+/** Local history is explicitly user-reported after returning from a UPI app; it is not bank-verified. */
+@Entity(
+    tableName = "user_reported_payments",
+    indices = [Index(value = ["timestamp"]), Index(value = ["status"]), Index(value = ["payeeHash", "timestamp"])]
+)
+data class UserReportedPaymentEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val amount: Long,
+    val payeeHash: String,
+    val timestamp: Long = System.currentTimeMillis(),
+    val status: String = "USER_REPORTED_SUCCESS"
 )

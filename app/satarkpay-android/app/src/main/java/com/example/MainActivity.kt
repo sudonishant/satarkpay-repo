@@ -16,6 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ui.MainViewModel
@@ -77,12 +80,35 @@ class MainActivity : ComponentActivity() {
             val safePayAmount by viewModel.safePayAmount.collectAsStateWithLifecycle()
             val safePayChannel by viewModel.safePayChannel.collectAsStateWithLifecycle()
             val safePayActiveCall by viewModel.safePayActiveCall.collectAsStateWithLifecycle()
-            val safePaySnippet by viewModel.safePaySnippet.collectAsStateWithLifecycle()
-            val safePayEvaluation by viewModel.safePayEvaluation.collectAsStateWithLifecycle()
+            val safePayActiveScreenControl by viewModel.safePayActiveScreenControl.collectAsStateWithLifecycle()
+            val safePayDemoMode by viewModel.safePayDemoMode.collectAsStateWithLifecycle()
+            val safePayPendingPayment by viewModel.safePayPendingPayment.collectAsStateWithLifecycle()
+            val safePayReturnedFromPaymentApp by viewModel.safePayReturnedFromPaymentApp.collectAsStateWithLifecycle()
+            val safePayBaselineP95 by viewModel.safePayBaselineP95.collectAsStateWithLifecycle()
+            val safePayHoldSeconds by viewModel.safePayHoldSeconds.collectAsStateWithLifecycle()
+            val safePayHoldActive by viewModel.safePayHoldActive.collectAsStateWithLifecycle()
+            val thehroDecision by viewModel.thehroDecision.collectAsStateWithLifecycle()
             val safePayIsFirstTime by viewModel.safePayIsFirstTime.collectAsStateWithLifecycle()
             val safePayTxnCount by viewModel.safePayTxnCount.collectAsStateWithLifecycle()
             val safePayTrusted by viewModel.safePayTrusted.collectAsStateWithLifecycle()
             val allPayees by viewModel.allPayees.collectAsStateWithLifecycle()
+
+            val lifecycleOwner = LocalLifecycleOwner.current
+            DisposableEffect(lifecycleOwner, safePayPendingPayment) {
+                var pausedWithPendingPayment = false
+                val observer = LifecycleEventObserver { _, event ->
+                    when (event) {
+                        Lifecycle.Event.ON_PAUSE -> if (safePayPendingPayment != null) pausedWithPendingPayment = true
+                        Lifecycle.Event.ON_RESUME -> if (pausedWithPendingPayment && safePayPendingPayment != null) {
+                            viewModel.markSafePayReturnedFromPaymentApp()
+                            pausedWithPendingPayment = false
+                        }
+                        else -> Unit
+                    }
+                }
+                lifecycleOwner.lifecycle.addObserver(observer)
+                onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+            }
 
             // App Security & Permission State
             val scannedApps by viewModel.scannedApps.collectAsStateWithLifecycle()
@@ -191,9 +217,13 @@ class MainActivity : ComponentActivity() {
                                 intelCount = approvedIntel.size,
                                 permissionSummary = permissionSummary,
                                 payees = allPayees,
+                                maskPiiOn = maskPiiOn,
                                 onNavigate = { viewModel.navigateTo(it) },
                                 onConfirmFraudQuick = {
-                                    viewModel.confirmFraudAndTriggerEmergency()
+                                    startActivity(android.content.Intent(
+                                        android.content.Intent.ACTION_DIAL,
+                                        android.net.Uri.parse("tel:1930")
+                                    ))
                                 }
                             )
 
@@ -207,26 +237,39 @@ class MainActivity : ComponentActivity() {
                                 sourceChannel = safePayChannel,
                                 onChannelChange = { viewModel.setSafePayChannel(it) },
                                 isActiveCall = safePayActiveCall,
-                                onToggleActiveCall = { viewModel.toggleSafePayActiveCall() },
-                                chatSnippet = safePaySnippet,
-                                onSnippetChange = { viewModel.setSafePaySnippet(it) },
-                                evaluation = safePayEvaluation,
+                                onSetActiveCall = { viewModel.setSafePayActiveCall(it) },
+                                activeScreenControl = safePayActiveScreenControl,
+                                onSetActiveScreenControl = { viewModel.setSafePayActiveScreenControl(it) },
+                                decision = thehroDecision,
+                                demoMode = safePayDemoMode,
+                                pendingPayment = safePayPendingPayment,
+                                paymentAppReturned = safePayReturnedFromPaymentApp,
+                                baselineP95 = safePayBaselineP95,
+                                holdSeconds = safePayHoldSeconds,
+                                holdActive = safePayHoldActive,
                                 isFirstTimePayee = safePayIsFirstTime,
                                 txnCount = safePayTxnCount,
                                 isTrusted = safePayTrusted,
                                 onMarkTrusted = { viewModel.markCurrentPayeeTrusted() },
                                 highRiskAppsCount = permissionSummary.highRiskAppsCount,
-                                onExecutePayment = { ctx -> viewModel.executeSafePayment(ctx) },
+                                isScanningApps = isScanningApps,
+                                onExecutePayment = { ctx, confirmed -> viewModel.executeSafePayment(ctx, confirmed) },
                                 onTriggerEmergency = {
-                                    viewModel.confirmFraudAndTriggerEmergency(safePayAmount, safePayUpi)
+                                    startActivity(android.content.Intent(
+                                        android.content.Intent.ACTION_DIAL,
+                                        android.net.Uri.parse("tel:1930")
+                                    ))
                                 },
-                                onStartCooling = {
-                                    viewModel.startCoolingTimer()
-                                    viewModel.navigateTo(SatarkScreen.CHAT_PAY)
+                                onOpenTrustedContact = {
+                                    startActivity(android.content.Intent(android.content.Intent.ACTION_DIAL))
                                 },
-                                onLoadPreset = { upi, name, amt, ch, call, snip ->
-                                    viewModel.loadSafePayPreset(upi, name, amt, ch, call, snip)
+                                onStartCooling = { viewModel.startSafePayHold() },
+                                onLoadPreset = { upi, name, amt, ch, call, screenControl ->
+                                    viewModel.loadSafePayPreset(upi, name, amt, ch, call, screenControl)
                                 },
+                                onClearDemo = { viewModel.clearSafePayDemo() },
+                                onConfirmPaymentReportedSuccess = { viewModel.confirmSafePayUserReportedSuccess() },
+                                onCancelPendingPayment = { viewModel.cancelSafePayPendingPayment() },
                                 onSpeakText = { viewModel.speakText(it) },
                                 onScanQr = { viewModel.navigateTo(SatarkScreen.QR_SCANNER) },
                                 onBack = { viewModel.navigateBack() }
@@ -331,7 +374,10 @@ class MainActivity : ComponentActivity() {
                                 maskPiiOn = maskPiiOn,
                                 onToggleMask = { viewModel.toggleMask() },
                                 onConfirmFraudTriggerEmergency = {
-                                    viewModel.confirmFraudAndTriggerEmergency(reportAmount, reportUpi)
+                                    startActivity(android.content.Intent(
+                                        android.content.Intent.ACTION_DIAL,
+                                        android.net.Uri.parse("tel:1930")
+                                    ))
                                 },
                                 onSpeakText = { viewModel.speakText(it) },
                                 onNavigateToAirGap = { viewModel.navigateTo(SatarkScreen.AIR_GAP_LINK) },
@@ -381,7 +427,12 @@ class MainActivity : ComponentActivity() {
                             SatarkScreen.AIR_GAP_LINK -> AirGapLinkCheckerScreen(
                                 initialUrl = currentDomainUrl,
                                 onBack = { viewModel.navigateBack() },
-                                onReportTo1930 = { viewModel.confirmFraudAndTriggerEmergency(0L, it) },
+                                onReportTo1930 = {
+                                    startActivity(android.content.Intent(
+                                        android.content.Intent.ACTION_DIAL,
+                                        android.net.Uri.parse("tel:1930")
+                                    ))
+                                },
                                 onAskSanchalak = {
                                     viewModel.sendUserChatMessage(it)
                                     viewModel.navigateTo(SatarkScreen.SANCHALAK_CHAT)

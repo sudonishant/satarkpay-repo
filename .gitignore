@@ -37,3 +37,4 @@ SatarkPay_Pitch_Document.*
 *.jks
 local.properties
 release-assets/
+/thehro/results/parity_ref.json

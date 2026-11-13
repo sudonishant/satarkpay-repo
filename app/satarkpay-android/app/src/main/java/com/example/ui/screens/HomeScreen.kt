@@ -36,6 +36,7 @@ fun HomeScreen(
     intelCount: Int,
     permissionSummary: PermissionAuditSummary,
     payees: List<PayeeLedgerEntity> = emptyList(),
+    maskPiiOn: Boolean = true,
     onNavigate: (SatarkScreen) -> Unit,
     onConfirmFraudQuick: () -> Unit,
     modifier: Modifier = Modifier
@@ -360,8 +361,8 @@ fun HomeScreen(
                     modifier = Modifier.weight(1f),
                     icon = Icons.Default.AccountBalanceWallet,
                     iconColor = SatarkOk,
-                    title = "Trusted Payees",
-                    subtitle = "Verified account directory",
+                    title = "Payee history",
+                    subtitle = "Your local payee history",
                     badge = "On-Device",
                     badgeColor = SatarkOk,
                     onClick = { onNavigate(SatarkScreen.SAFEPAY) }
@@ -370,8 +371,8 @@ fun HomeScreen(
                     modifier = Modifier.weight(1f),
                     icon = Icons.Default.Warning,
                     iconColor = SatarkDanger,
-                    title = "🚨 Lost Money?",
-                    subtitle = "Call 1930 & Freeze Bank",
+                    title = "🚨 Need urgent help?",
+                    subtitle = "Open 1930 dialer · you place the call",
                     badge = "Emergency",
                     badgeColor = SatarkDanger,
                     onClick = onConfirmFraudQuick
@@ -412,8 +413,8 @@ fun HomeScreen(
                     modifier = Modifier.weight(1f),
                     icon = Icons.Default.AccountBalanceWallet,
                     iconColor = SatarkOk,
-                    title = "Trusted Payees",
-                    subtitle = "Verified account directory",
+                    title = "Payee history",
+                    subtitle = "Your local payee history",
                     badge = "On-Device",
                     badgeColor = SatarkOk,
                     onClick = { onNavigate(SatarkScreen.SAFEPAY) }
@@ -422,8 +423,8 @@ fun HomeScreen(
                     modifier = Modifier.weight(1f),
                     icon = Icons.Default.Warning,
                     iconColor = SatarkDanger,
-                    title = "🚨 Lost Money?",
-                    subtitle = "Call 1930 & Freeze Bank",
+                    title = "🚨 Need urgent help?",
+                    subtitle = "Open 1930 dialer · you place the call",
                     badge = "Emergency",
                     badgeColor = SatarkDanger,
                     onClick = onConfirmFraudQuick
@@ -431,7 +432,7 @@ fun HomeScreen(
             }
         }
 
-        // 4. VERIFIED BENEFICIARY DIRECTORY
+        // 4. Local payee history (user-reported; not bank-verified)
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -448,18 +449,41 @@ fun HomeScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Icon(Icons.Default.BookmarkBorder, contentDescription = null, tint = SatarkOk, modifier = Modifier.size(16.dp))
-                        Text("Verified Payee Directory", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = SatarkInk)
+                        Icon(Icons.Default.BookmarkBorder, contentDescription = null, tint = SatarkAccent, modifier = Modifier.size(16.dp))
+                        Text("Local Payee History", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = SatarkInk)
                     }
-                    Text("Encrypted Locally", fontSize = 10.sp, color = SatarkDim)
+                    Text("On this device", fontSize = 10.sp, color = SatarkDim)
                 }
 
-                BeneficiaryRow("Mom (Sunita Devi)", "mother.family@oksbi", "24 payments • Verified")
-                BeneficiaryRow("Sharma General Store", "sharma.kirana@icici", "11 payments • Verified")
-                BeneficiaryRow("Electricity Bill Utility", "sbpdcl.billpay@sbi", "4 payments • Verified")
+                if (payees.isEmpty()) {
+                    Text(
+                        "No payees saved yet. Entries appear only after you mark one trusted or report a completed UPI handoff.",
+                        fontSize = 11.sp,
+                        color = SatarkDim,
+                        lineHeight = 15.sp
+                    )
+                } else {
+                    payees.take(3).forEach { payee ->
+                        val history = when {
+                            payee.paymentCount > 0 && payee.isTrustVerified -> "${payee.paymentCount} reports · user trusted"
+                            payee.paymentCount > 0 -> "${payee.paymentCount} self-reported"
+                            payee.isTrustVerified -> "User-marked trusted"
+                            else -> "No recent history"
+                        }
+                        BeneficiaryRow(
+                            name = if (maskPiiOn) "Saved payee" else payee.payeeName.ifBlank { "Saved payee" },
+                            vpa = displayVpa(payee.upiId, maskPiiOn),
+                            tag = history,
+                            trusted = payee.isTrustVerified
+                        )
+                    }
+                    if (payees.size > 3) {
+                        Text("${payees.size - 3} more payees in your local history", fontSize = 10.sp, color = SatarkDim)
+                    }
+                }
 
                 Text(
-                    text = "💡 SatarkPay automatically detects when a transfer is attempted to a brand new, unverified VPA and initiates safety checks.",
+                    text = "History is self-reported, not bank-confirmed. Marking a payee trusted never overrides a confirmed safety hold.",
                     fontSize = 11.sp,
                     color = SatarkDim,
                     lineHeight = 15.sp
@@ -640,8 +664,15 @@ private fun ConsumerCard(
     }
 }
 
+private fun displayVpa(vpa: String, mask: Boolean): String {
+    if (!mask) return vpa
+    val separator = vpa.lastIndexOf('@')
+    if (separator <= 0) return "••••"
+    return "${vpa.take(2)}••••@${vpa.substring(separator + 1)}"
+}
+
 @Composable
-private fun BeneficiaryRow(name: String, vpa: String, tag: String) {
+private fun BeneficiaryRow(name: String, vpa: String, tag: String, trusted: Boolean) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -651,14 +682,14 @@ private fun BeneficiaryRow(name: String, vpa: String, tag: String) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column {
+        Column(modifier = Modifier.weight(1f)) {
             Text(name, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, color = SatarkInk)
             Text(vpa, fontSize = 10.sp, color = SatarkDim)
         }
-        Surface(shape = RoundedCornerShape(4.dp), color = SatarkOkAlpha) {
+        Surface(shape = RoundedCornerShape(4.dp), color = if (trusted) SatarkAccentAlpha else SatarkPanel) {
             Text(
                 text = tag,
-                color = SatarkOk,
+                color = if (trusted) SatarkAccent else SatarkDim,
                 fontSize = 9.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)

@@ -13,7 +13,9 @@ import com.example.thehro.AttentionBudget
 import com.example.thehro.CallStateProbe
 import com.example.thehro.Decision
 import com.example.thehro.PaymentSession
+import com.example.thehro.PersonalBaseline
 import com.example.thehro.ThehroEngine
+import com.example.thehro.permitsPayment
 import com.example.network.GeminiService
 import com.example.util.TtsManager
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +45,8 @@ enum class SatarkScreen {
     AIR_GAP_LINK,
     COMMUNITY
 }
+
+data class PendingSafePayment(val upiId: String, val payeeName: String, val amount: Long)
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -98,14 +102,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     // --- SafePay Pre-Payment Broker State ---
-    val safePayUpi = MutableStateFlow("cybercbi91@okhdfcbank")
-    val safePayName = MutableStateFlow("CBI Digital Cell")
-    val safePayAmount = MutableStateFlow(25000L)
-    val safePayChannel = MutableStateFlow(PaymentSourceChannel.WHATSAPP_UNSAVED)
-    // real call state from AudioManager (was hard-coded true); demo presets can still override it
+    val safePayUpi = MutableStateFlow("")
+    val safePayName = MutableStateFlow("")
+    val safePayAmount = MutableStateFlow(0L)
+    val safePayChannel = MutableStateFlow(PaymentSourceChannel.UNKNOWN_SMS)
     val safePayActiveCall = MutableStateFlow(CallStateProbe.read(application).inCall)
-    val safePaySnippet = MutableStateFlow("Urgent verification security deposit under CBI Mumbai. Do not disconnect call.")
-    val safePayEvaluation = MutableStateFlow<AttackChainEvaluation?>(null)
+    val safePayActiveScreenControl = MutableStateFlow<Boolean?>(null)
+    val safePayDemoMode = MutableStateFlow(false)
+    val safePayPendingPayment = MutableStateFlow<PendingSafePayment?>(null)
+    val safePayReturnedFromPaymentApp = MutableStateFlow(false)
+    val safePayBaselineP95 = MutableStateFlow<Double?>(null)
+    val safePayHoldSeconds = MutableStateFlow(0)
+    val safePayHoldActive = MutableStateFlow(false)
+    private var safePayHoldJob: Job? = null
+    private var safePayLedgerJob: Job? = null
 
     // --- THEHRO v3 (RAKSHAM PS 02): workflow engine + attention budget ---
     private val thehro = ThehroEngine()
@@ -154,7 +164,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val clientRedactionCount = MutableStateFlow(0)
 
     // --- M7 & R38: Emergency Golden Hour State ---
-    val goldenHourSeconds = MutableStateFlow(42L)
+    val goldenHourSeconds = MutableStateFlow(3600L)
     val isEmergencyClockRunning = MutableStateFlow(true)
     private var emergencyClockJob: Job? = null
 
@@ -163,17 +173,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val stepStopPaymentDone = MutableStateFlow(false)
     val stepFamilyAlertSent = MutableStateFlow(false)
 
-    val activeReportAmount = MutableStateFlow(5000L)
-    val activeReportUpi = MutableStateFlow("7349123456@ptaxis")
-    val activeReportUtr = MutableStateFlow("UTR492817290123")
-    val activeReportTxn = MutableStateFlow("TXN8912301948")
-    val activeSuspectContact = MutableStateFlow("9876543210")
-    val activeComplaintNumber = MutableStateFlow("NCRP-2026-BH-89123")
+    val activeReportAmount = MutableStateFlow(0L)
+    val activeReportUpi = MutableStateFlow("")
+    val activeReportUtr = MutableStateFlow("")
+    val activeReportTxn = MutableStateFlow("")
+    val activeSuspectContact = MutableStateFlow("")
+    val activeComplaintNumber = MutableStateFlow("")
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 repository.seedInitialDataIfEmpty()
+                refreshSafePayBaseline()
                 analyzeCurrentDomain("qr-pay.top")
                 withContext(Dispatchers.Main) {
                     startEmergencyClock()
@@ -204,6 +215,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 Log.e("SatarkPay", "App security scan failed gracefully", e)
             } finally {
                 isScanningApps.value = false
+                evaluateSafePay()
             }
         }
     }
@@ -491,36 +503,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         speakText("परिवार को अलर्ट संदेश भेज दिया गया है।")
     }
 
-    fun confirmFraudAndTriggerEmergency(amount: Long = 5000, upi: String = "7349123456@ptaxis") {
-        activeReportAmount.value = amount
-        activeReportUpi.value = upi
-        goldenHourSeconds.value = 0
-        stepEmailSent.value = false
-        stepCallHelplineDone.value = false
-        stepStopPaymentDone.value = false
-
-        viewModelScope.launch {
-            val report = ScamReportEntity(
-                title = "UPI Fraud ₹$amount via $upi",
-                amount = amount,
-                upiId = upi,
-                utrNumber = activeReportUtr.value,
-                txnId = activeReportTxn.value,
-                suspectContact = activeSuspectContact.value,
-                status = "CONFIRMED",
-                complaintNumber = activeComplaintNumber.value,
-                evidenceHashes = "SHA256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-            )
-            repository.insertReport(report)
-        }
-
-        speakText("तुरंत 1930 पर कॉल कीजिए। ट्रांज़ैक्शन आईडी और यूटीआर सामने रखिए।")
-        navigateTo(SatarkScreen.EMERGENCY_CONFIRM)
-    }
 
     // --- SafePay Pre-Payment Broker Actions ---
+    private val vpaPattern = Regex("^[A-Za-z0-9][A-Za-z0-9._-]{1,99}@[A-Za-z0-9][A-Za-z0-9.-]{1,31}$")
+    private fun isValidVpa(value: String) = vpaPattern.matches(value.trim())
+
     fun setSafePayUpi(upi: String) {
-        safePayUpi.value = upi.trim()
+        val clean = upi.trim()
+        if (!clean.equals(safePayUpi.value, ignoreCase = true)) {
+            safePayName.value = ""
+            safePayIsFirstTime.value = true
+            safePayTxnCount.value = 0
+            safePayTrusted.value = false
+        }
+        safePayUpi.value = clean
         checkPayeeLedgerAndEvaluate()
     }
 
@@ -539,69 +535,110 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         evaluateSafePay()
     }
 
-    fun toggleSafePayActiveCall() {
-        safePayActiveCall.value = !safePayActiveCall.value
+    fun setSafePayActiveCall(active: Boolean?) {
+        safePayActiveCall.value = active
         evaluateSafePay()
     }
 
-    fun setSafePaySnippet(snippet: String) {
-        safePaySnippet.value = snippet
+    fun setSafePayActiveScreenControl(active: Boolean?) {
+        safePayActiveScreenControl.value = active
         evaluateSafePay()
     }
 
     fun checkPayeeLedgerAndEvaluate() {
-        viewModelScope.launch {
-            val clean = safePayUpi.value.lowercase().trim()
-            val payee = repository.getPayee(clean)
-            if (payee != null) {
-                safePayIsFirstTime.value = payee.paymentCount <= 0
-                safePayTxnCount.value = payee.paymentCount
-                safePayTrusted.value = payee.isTrustVerified
-                if (safePayName.value.isBlank() && payee.payeeName.isNotBlank()) {
-                    safePayName.value = payee.payeeName
-                }
-            } else {
+        safePayLedgerJob?.cancel()
+        thehroDecision.value = null
+        val clean = safePayUpi.value.lowercase().trim()
+        safePayLedgerJob = viewModelScope.launch {
+            delay(180)
+            if (safePayDemoMode.value || !isValidVpa(clean)) {
                 safePayIsFirstTime.value = true
                 safePayTxnCount.value = 0
                 safePayTrusted.value = false
+                if (clean == safePayUpi.value.lowercase().trim()) evaluateSafePay()
+                return@launch
+            }
+            val payee = repository.getPayee(clean)
+            val reportedCount = repository.getRecentUserReportedAmountsForPayee(clean).size
+            if (clean != safePayUpi.value.lowercase().trim() || safePayDemoMode.value) return@launch
+            safePayIsFirstTime.value = reportedCount == 0
+            safePayTxnCount.value = reportedCount
+            safePayTrusted.value = payee?.isTrustVerified == true
+            if (safePayName.value.isBlank() && payee?.payeeName?.isNotBlank() == true) {
+                safePayName.value = payee.payeeName
             }
             evaluateSafePay()
         }
     }
 
     fun evaluateSafePay() {
-        val hasRat = scannedApps.value.any { it.riskLevel == SensitiveRiskLevel.HIGH_RISK }
-        val eval = UnifiedAttackChainEngine.evaluate(
-            payeeUpi = safePayUpi.value,
-            payeeName = safePayName.value,
-            amount = safePayAmount.value,
-            isFirstTimePayee = safePayIsFirstTime.value,
-            knownPayeeTxnCount = safePayTxnCount.value,
-            isTrustVerified = safePayTrusted.value,
-            sourceChannel = safePayChannel.value,
-            isActiveCall = safePayActiveCall.value,
-            chatTextSnippet = safePaySnippet.value,
-            hasRatOrAccessibilityTool = hasRat,
-            highRiskAppsCount = permissionSummary.value.highRiskAppsCount
-        )
-        safePayEvaluation.value = eval
-
-        // THEHRO: same inputs as metadata only (the chat snippet is NOT passed in)
         val probe = CallStateProbe.read(getApplication())
-        thehroDecision.value = thehro.decide(
-            PaymentSession(
-                callActive = safePayActiveCall.value || probe.inCall,
-                callerInContacts = safePayChannel.value == PaymentSourceChannel.SAVED_CONTACT ||
-                    safePayChannel.value == PaymentSourceChannel.DIRECT_SHOP_QR,
-                callVideoOrVoip = probe.voipOrVideo,
-                screenShare = hasRat,
-                payeeNew = safePayIsFirstTime.value,
-                payeeSaved = safePayTrusted.value || safePayTxnCount.value >= 3,
-                amount = safePayAmount.value.toDouble(),
-                baselineP95 = 5000.0, // TODO finale: user's own p95 from the local payee ledger
-            ),
-            attentionBudget,
+        val highRiskInstalled = scannedApps.value.takeIf { it.isNotEmpty() }
+            ?.any { it.riskLevel == SensitiveRiskLevel.HIGH_RISK }
+        val effectiveCallState = safePayActiveCall.value
+        val session = PaymentSession(
+            callActive = effectiveCallState,
+            callerInContacts = null,
+            callVideoOrVoip = if (probe.inCall == true) probe.voipOrVideo else null,
+            callMinutes = null,
+            hour = java.time.LocalTime.now().hour,
+            activeScreenControl = safePayActiveScreenControl.value,
+            activeScreenControlConfidence = null,
+            highRiskAppInstalled = highRiskInstalled,
+            accessibilityServiceEnabled = null,
+            apkInstalledHours = null,
+            overlayService = null,
+            payeeNew = if (isValidVpa(safePayUpi.value)) safePayIsFirstTime.value else null,
+            payeeSaved = safePayTrusted.value,
+            payeeVpaAgeDays = null,
+            payeeRisk = null,
+            payeeSebiValid = null,
+            amount = safePayAmount.value.toDouble(),
+            baselineP95 = safePayBaselineP95.value,
         )
+        val raw = thehro.decide(session, budget = null)
+        val now = System.currentTimeMillis()
+        thehroDecision.value = if (raw.tier == "T2" && attentionBudget.remaining(now) <= 0) {
+            raw.copy(
+                tier = "T1",
+                action = ThehroEngine.ACTIONS.getValue("T1"),
+                reason = "Caution: check the recipient name independently before paying.",
+                question = null,
+                budgetNote = "attention budget used up -> badge instead of question"
+            )
+        } else raw
+    }
+
+    private suspend fun refreshSafePayBaseline() {
+        safePayBaselineP95.value = PersonalBaseline.p95(repository.getRecentUserReportedAmounts())
+    }
+
+    fun startSafePayHold() {
+        safePayHoldJob?.cancel()
+        safePayHoldSeconds.value = 60
+        safePayHoldActive.value = true
+        safePayHoldJob = viewModelScope.launch {
+            repeat(60) {
+                delay(1000)
+                safePayHoldSeconds.value = (safePayHoldSeconds.value - 1).coerceAtLeast(0)
+            }
+            safePayHoldActive.value = false
+            evaluateSafePay() // the countdown itself never releases a payment hold
+        }
+    }
+
+    fun clearSafePayDemo() {
+        if (safePayPendingPayment.value != null) return
+        safePayDemoMode.value = false
+        safePayPendingPayment.value = null
+        safePayReturnedFromPaymentApp.value = false
+        safePayUpi.value = ""
+        safePayName.value = ""
+        safePayAmount.value = 0L
+        safePayChannel.value = PaymentSourceChannel.UNKNOWN_SMS
+        safePayActiveCall.value = CallStateProbe.read(getApplication()).inCall
+        safePayActiveScreenControl.value = null
+        checkPayeeLedgerAndEvaluate()
     }
 
     fun loadSafePayPreset(
@@ -610,61 +647,99 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         amount: Long,
         channel: PaymentSourceChannel,
         activeCall: Boolean,
-        snippet: String
+        activeScreenControl: Boolean?
     ) {
+        if (safePayPendingPayment.value != null) return
+        safePayDemoMode.value = true
+        safePayReturnedFromPaymentApp.value = false
         safePayUpi.value = upi
         safePayName.value = name
         safePayAmount.value = amount
         safePayChannel.value = channel
         safePayActiveCall.value = activeCall
-        safePaySnippet.value = snippet
+        safePayActiveScreenControl.value = activeScreenControl
         checkPayeeLedgerAndEvaluate()
     }
 
     fun onQrScannedResult(parsed: com.example.util.ParsedUpiData) {
-        if (parsed.upiId.isNotBlank()) {
-            safePayUpi.value = parsed.upiId
+        if (safePayPendingPayment.value != null) {
+            speakText("पहले पिछले UPI ऐप से लौटकर भुगतान का परिणाम दर्ज करें।")
+            navigateTo(SatarkScreen.SAFEPAY)
+            return
         }
-        if (parsed.payeeName.isNotBlank()) {
-            safePayName.value = parsed.payeeName
+        if (!isValidVpa(parsed.upiId)) {
+            speakText("इस QR में मान्य UPI ID नहीं मिली। भुगतान विवरण नहीं बदले गए।")
+            navigateTo(SatarkScreen.SAFEPAY)
+            return
         }
-        if (parsed.amount != null && parsed.amount > 0) {
-            safePayAmount.value = parsed.amount
-        }
+        safePayDemoMode.value = false
+        if (!parsed.upiId.equals(safePayUpi.value, ignoreCase = true)) safePayName.value = ""
+        safePayUpi.value = parsed.upiId.trim()
+        safePayName.value = parsed.payeeName.trim()
+        safePayAmount.value = parsed.amount?.takeIf { it > 0L } ?: 0L
         safePayChannel.value = PaymentSourceChannel.DIRECT_SHOP_QR
         checkPayeeLedgerAndEvaluate()
         navigateTo(SatarkScreen.SAFEPAY)
     }
 
     fun markCurrentPayeeTrusted() {
+        val clean = safePayUpi.value.lowercase().trim()
+        if (safePayDemoMode.value || !isValidVpa(clean)) {
+            speakText("पहले वास्तविक UPI ID दर्ज करें; सिमुलेशन को भरोसेमंद सूची में नहीं जोड़ा जा सकता।")
+            return
+        }
         viewModelScope.launch {
-            repository.setPayeeTrustStatus(safePayUpi.value.lowercase().trim(), true)
+            repository.markPayeeTrusted(clean, safePayName.value)
             safePayTrusted.value = true
             evaluateSafePay()
-            speakText("इस खाते को सत्यापित सूची में जोड़ दिया गया है।")
+            speakText("यह UPI ID आपकी स्थानीय भरोसेमंद सूची में जोड़ी गई है; इससे जोखिम संकेत बंद नहीं होंगे।")
         }
     }
 
-    fun executeSafePayment(context: android.content.Context) {
-        val eval = safePayEvaluation.value
-        if (eval?.blockPayment == true) {
-            speakText("चेतावनी! सुरक्षा खतरे के कारण यह भुगतान रोका गया है। कृपया पहले सुरक्षा निर्देशों का पालन करें।")
+    fun executeSafePayment(context: android.content.Context, questionConfirmed: Boolean = false) {
+        val decision = thehroDecision.value
+        if (safePayDemoMode.value) {
+            speakText("यह केवल सिमुलेशन है। भुगतान करने के लिए डेमो हटाकर वास्तविक विवरण दर्ज करें।")
             return
         }
-
-        viewModelScope.launch {
-            repository.recordSuccessfulPayment(
-                upiId = safePayUpi.value.lowercase().trim(),
-                name = safePayName.value,
-                amount = safePayAmount.value,
-                riskVerdict = eval?.riskTier?.name ?: "SAFE"
-            )
-            checkPayeeLedgerAndEvaluate()
+        if (!isValidVpa(safePayUpi.value) || safePayAmount.value <= 0L) {
+            speakText("वास्तविक UPI ID और शून्य से अधिक राशि दर्ज करें।")
+            return
         }
-
+        if (decision == null || !decision.permitsPayment(questionConfirmed)) {
+            val message = if (decision?.tier == "T2") {
+                "जारी रखने से पहले स्क्रीन पर दिया गया सुरक्षा सवाल पढ़कर पुष्टि करें।"
+            } else {
+                "सुरक्षा जांच के कारण अभी भुगतान ऐप नहीं खोला जाएगा।"
+            }
+            speakText(message)
+            return
+        }
+        if (decision.tier == "T2") {
+            val now = System.currentTimeMillis()
+            if (attentionBudget.remaining(now) <= 0) {
+                evaluateSafePay()
+                speakText("आज की सुरक्षा पुष्टि सीमा पूरी हो गई है; भुगतान जारी नहीं किया गया।")
+                return
+            }
+            attentionBudget.spend(now)
+        }
+        if (safePayPendingPayment.value != null) {
+            speakText("पहले पिछले भुगतान का परिणाम दर्ज करें।")
+            return
+        }
+        val pending = PendingSafePayment(safePayUpi.value.trim(), safePayName.value.trim(), safePayAmount.value)
+        safePayReturnedFromPaymentApp.value = false
+        safePayPendingPayment.value = pending
         try {
-            val encodedName = android.net.Uri.encode(safePayName.value)
-            val upiUri = android.net.Uri.parse("upi://pay?pa=${safePayUpi.value}&pn=$encodedName&am=${safePayAmount.value}&cu=INR")
+            val upiUri = android.net.Uri.Builder()
+                .scheme("upi")
+                .authority("pay")
+                .appendQueryParameter("pa", pending.upiId)
+                .appendQueryParameter("pn", pending.payeeName.take(80))
+                .appendQueryParameter("am", pending.amount.toString())
+                .appendQueryParameter("cu", "INR")
+                .build()
             val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, upiUri).apply {
                 flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK
             }
@@ -674,8 +749,41 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             context.startActivity(chooser)
             speakText("पेमेंट ऐप खोला जा रहा है। सावधानी बरतें।")
         } catch (e: Exception) {
+            safePayPendingPayment.value = null
+            safePayReturnedFromPaymentApp.value = false
             speakText("फोन में कोई UPI पेमेंट ऐप नहीं मिला। विवरण जांचें।")
         }
+    }
+
+    fun markSafePayReturnedFromPaymentApp() {
+        if (safePayPendingPayment.value != null) safePayReturnedFromPaymentApp.value = true
+    }
+
+    fun confirmSafePayUserReportedSuccess() {
+        val pending = safePayPendingPayment.value ?: return
+        if (safePayDemoMode.value) return
+        if (!safePayReturnedFromPaymentApp.value) {
+            speakText("पेमेंट ऐप से लौटने के बाद ही परिणाम दर्ज करें।")
+            return
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                repository.recordUserReportedPayment(pending.upiId, pending.payeeName, pending.amount)
+                refreshSafePayBaseline()
+                safePayPendingPayment.value = null
+                safePayReturnedFromPaymentApp.value = false
+                checkPayeeLedgerAndEvaluate()
+                speakText("आपकी बताई हुई सफल पेमेंट स्थानीय इतिहास में दर्ज हुई; बैंक से पुष्टि नहीं की गई है।")
+            } catch (e: Exception) {
+                Log.e("SatarkPay", "Could not record user-reported payment", e)
+                speakText("पेमेंट का स्थानीय रिकॉर्ड सेव नहीं हुआ।")
+            }
+        }
+    }
+
+    fun cancelSafePayPendingPayment() {
+        safePayPendingPayment.value = null
+        safePayReturnedFromPaymentApp.value = false
     }
 
     override fun onCleared() {
@@ -683,5 +791,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         ttsManager.shutdown()
         coolingJob?.cancel()
         emergencyClockJob?.cancel()
+        safePayHoldJob?.cancel()
     }
 }

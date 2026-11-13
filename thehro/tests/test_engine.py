@@ -56,6 +56,33 @@ class EngineTests(unittest.TestCase):
         d = decide({})
         self.assertEqual(d.tier, "T0")
 
+    def test_unknown_screen_control_is_not_inferred_from_installed_risky_app(self):
+        d = decide({"active_screen_control": None, "screen_share": None,
+                    "high_risk_app_installed": True, "amount": 10})
+        self.assertNotEqual(d.tier, "T4")
+        self.assertIn("active_screen_control", d.unknown_signals)
+
+    def test_unknown_credit_verification_does_not_trigger_fake_credit_floor(self):
+        d = decide({"credit_claim_recent": True, "real_credit_found": None, "amount": 2000})
+        self.assertLess(int(d.tier[1]), 3)
+
+    def test_missing_p95_does_not_create_amount_anomaly(self):
+        d = decide({"amount": 10_000_000, "baseline_p95": None})
+        self.assertEqual(d.components["anomaly"], 0.0)
+        self.assertNotIn("amount_high", d.evidence)
+        self.assertIn("baseline_p95", d.unknown_signals)
+
+    def test_explicitly_saved_payee_does_not_suppress_confirmed_fake_credit_floor(self):
+        d = decide({"payee_saved": True, "payee_new": False,
+                    "credit_claim_recent": True, "real_credit_found": False, "amount": 100})
+        self.assertEqual(d.tier, "T3")
+        self.assertIn("fake credit, no real credit -> T3", d.floors)
+
+    def test_installed_high_risk_app_alone_is_only_supporting_evidence(self):
+        d = decide({"high_risk_app_installed": True, "amount": 10})
+        self.assertNotEqual(d.tier, "T4")
+        self.assertEqual(d.components["device"], 0.35)
+
     def test_unknown_stage_never_fires(self):
         card = {"id": "X", "name": "x", "stages": ["future_signal"], "min_match": 1,
                 "anchor": "future_signal", "tier_floor": "T4", "reason": "r", "question": "q?"}
