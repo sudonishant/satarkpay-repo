@@ -24,3 +24,28 @@ jobs:
           import json, glob
           for f in glob.glob('rules/*.json'): json.load(open(f)); print('ok', f)
           PY
+      - name: THEHRO Python unit tests
+        run: python3 -m unittest discover -s thehro/tests -t .
+      - name: THEHRO Python/JavaScript parity
+        run: python3 tools/export_parity.py && node tools/parity_check.js
+      - name: THEHRO Judge Mode and web regressions
+        run: node web/thehro_checks.js
+
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+          cache-dependency-path: app/satarkpay-android/gradle/wrapper/gradle-wrapper.properties
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+      - name: Install Android 36 SDK
+        run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0"
+      - name: Build debug APK and run JVM tests
+        working-directory: app/satarkpay-android
+        run: ./gradlew --no-daemon :app:assembleDebug :app:testDebugUnitTest

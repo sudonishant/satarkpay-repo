@@ -1,151 +1,35 @@
 <!doctype html>
 <html lang="en-IN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#1f3a68">
-<title>SatarkPay v3 · THEHRO live demo (RAKSHAM 2026, PS 02)</title>
-<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f3a68">
+<title>SatarkPay v3 · THEHRO live demo (RAKSHAM 2026, PS 02)</title><link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <style>
-:root{--navy:#1f3a68;--blue:#1e5aa8;--ink:#1d2433;--mu:#5b6578;--line:#dfe4ee;--bg:#f6f8fc;
---t0:#1f8a4c;--t1:#0f9d8a;--t2:#2563eb;--t3:#d97706;--t4:#c81e3a}
-*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
-header{background:#fff;border-bottom:3px solid var(--blue);padding:14px 22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-header h1{font:700 20px/1.2 Georgia,serif;color:var(--navy);margin:0}header small{color:var(--mu)}
-.badge{border:1.5px solid var(--navy);border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700;color:var(--navy)}
-main{max-width:1180px;margin:0 auto;padding:18px;display:grid;grid-template-columns:1.25fr 1fr;gap:18px}
-@media(max-width:900px){main{grid-template-columns:1fr}}
-.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
-.card h2{margin:0 0 10px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue)}
-.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.tabs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;font-size:13px}
-.tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-ol.steps{list-style:none;margin:0;padding:0}
-ol.steps li{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;cursor:pointer;border:1px solid transparent}
-ol.steps li.done{opacity:.95}ol.steps li.cur{background:#eef4ff;border-color:#c9dafc}ol.steps li.todo{opacity:.45}
-.dot{flex:0 0 26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;background:#9aa4b5}
-.t{font-size:12px;color:var(--mu)}.row{display:flex;gap:8px;margin-top:12px}
-.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer;background:var(--blue);color:#fff}.btn.g{background:#e8edf6;color:var(--ink)}
-.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0 14px}
-.ladder div{border-radius:10px;padding:8px 4px;text-align:center;font-size:12px;border:1.5px solid var(--line);color:var(--mu)}
-.ladder b{display:block;font-size:15px}
-.gauge{height:12px;border-radius:99px;background:linear-gradient(90deg,var(--t0) 0 10%,var(--t1) 10% 30%,var(--t2) 30% 60%,var(--t3) 60% 85%,var(--t4) 85%);position:relative;margin:6px 0 4px}
-.gauge i{position:absolute;top:-5px;width:4px;height:22px;background:var(--ink);border-radius:2px;transition:left .35s}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.chip{font:12px ui-monospace,Consolas,monospace;background:#f1f4fa;border:1px solid var(--line);border-radius:6px;padding:2px 7px}
-.chip.hit{background:#fff3e6;border-color:#f3c48a;color:#8a4b00}
-.phone{width:270px;margin:4px auto 0;border:10px solid #121826;border-radius:30px;background:#fff;min-height:430px;padding:14px;position:relative}
-.phone .pay{border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:6px}
-.alert{border-radius:12px;padding:12px;margin-top:12px;font-size:13.5px}
-.alert h3{margin:0 0 6px;font-size:14px}.mono{font:12px ui-monospace,Consolas,monospace;color:var(--mu)}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:13px}.kv span:nth-child(odd){color:var(--mu)}
-footer{max-width:1180px;margin:0 auto;padding:0 18px 30px;color:var(--mu);font-size:12.5px}
-</style>
-</head>
-<body>
-<header>
-  <span class="badge">TEAM SCΛMURΛI</span>
-  <div><h1>SatarkPay v3 · THEHRO engine, live demo</h1>
-  <small>RAKSHAM 2026 · PS 02: detect AI-enabled scam workflows in UPI / bank / wallet and alert without alert fatigue</small></div>
-</header>
+:root{--navy:#1f3a68;--blue:#1e5aa8;--ink:#1d2433;--mu:#5b6578;--line:#dfe4ee;--bg:#f6f8fc;--t0:#1f8a4c;--t1:#0f9d8a;--t2:#2563eb;--t3:#d97706;--t4:#c81e3a}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}header{background:#fff;border-bottom:3px solid var(--blue);padding:14px 22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}header h1{font:700 20px/1.2 Georgia,serif;color:var(--navy);margin:0}header small{color:var(--mu)}.badge{border:1.5px solid var(--navy);border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700;color:var(--navy)}main{max-width:1180px;margin:0 auto;padding:18px;display:grid;grid-template-columns:1.25fr 1fr;gap:18px}@media(max-width:900px){main{grid-template-columns:1fr}}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}.card h2{margin:0 0 10px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue)}.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.tabs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;font-size:13px}.tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}ol.steps{list-style:none;margin:0;padding:0}ol.steps li{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;cursor:pointer;border:1px solid transparent}ol.steps li.done{opacity:.95}ol.steps li.cur{background:#eef4ff;border-color:#c9dafc}ol.steps li.todo{opacity:.45}.dot{flex:0 0 26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;background:#9aa4b5}.t{font-size:12px;color:var(--mu)}.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer;background:var(--blue);color:#fff}.btn.g{background:#e8edf6;color:var(--ink)}.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0 14px}.ladder div{border-radius:10px;padding:8px 4px;text-align:center;font-size:12px;border:1.5px solid var(--line);color:var(--mu)}.ladder b{display:block;font-size:15px}.gauge{height:12px;border-radius:99px;background:linear-gradient(90deg,var(--t0) 0 10%,var(--t1) 10% 30%,var(--t2) 30% 60%,var(--t3) 60% 85%,var(--t4) 85%);position:relative;margin:6px 0 4px}.gauge i{position:absolute;top:-5px;width:4px;height:22px;background:var(--ink);border-radius:2px;transition:left .35s}.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.chip{font:12px ui-monospace,Consolas,monospace;background:#f1f4fa;border:1px solid var(--line);border-radius:6px;padding:2px 7px}.chip.hit{background:#fff3e6;border-color:#f3c48a;color:#8a4b00}.phone{width:270px;margin:4px auto 0;border:10px solid #121826;border-radius:30px;background:#fff;min-height:430px;padding:14px;position:relative}.phone .pay{border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:6px}.alert{border-radius:12px;padding:12px;margin-top:12px;font-size:13.5px}.alert h3{margin:0 0 6px;font-size:14px}.mono{font:12px ui-monospace,Consolas,monospace;color:var(--mu)}.kv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:13px}.kv span:nth-child(odd){color:var(--mu)}footer{max-width:1180px;margin:0 auto;padding:0 18px 30px;color:var(--mu);font-size:12.5px}.judge{grid-column:1/-1;border:2px solid #b9ccef;background:#fbfdff}.judge h2{font-size:16px}.judge-note{margin:0 0 12px;color:var(--mu)}.controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 14px}.control{display:flex;flex-direction:column;gap:3px}.control label{font-size:12px;font-weight:650;color:var(--mu)}.control input,.control select{width:100%;min-height:38px;border:1px solid #c8d1e0;border-radius:8px;padding:7px 8px;background:#fff;font:inherit}.control input:focus,.control select:focus{outline:2px solid #9fc0f4;border-color:var(--blue)}.judge-output{margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff}.judge-output h3{margin:0 0 6px;color:var(--navy)}.judge-tier{font-size:20px;font-weight:800}.judge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 16px}.judge-grid b{color:var(--mu);font-size:12px}.judge-list{margin:3px 0 0;padding-left:18px;font:12px ui-monospace,Consolas,monospace}@media(max-width:650px){.controls{grid-template-columns:1fr 1fr}.judge-grid{grid-template-columns:1fr}}@media(max-width:420px){.controls{grid-template-columns:1fr}.phone{width:min(270px,100%)}}
+</style></head>
+<body><header><span class="badge">TEAM SCΛMURΛI</span><div><h1>SatarkPay v3 · THEHRO engine, live demo</h1><small>RAKSHAM 2026 · PS 02: detect AI-enabled scam workflows in UPI / bank / wallet and alert without alert fatigue</small></div></header>
 <main>
-  <section class="card">
-    <h2>1 · Pick a session, then step through it</h2>
-    <div class="tabs" id="tabs"></div>
-    <ol class="steps" id="steps"></ol>
-    <div class="row"><button class="btn g" id="prev">◀ Back</button><button class="btn" id="next">Next event ▶</button><button class="btn g" id="reset">Reset</button><button class="btn" id="live" style="background:#c81e3a">● Live (real time)</button></div>
-    <div class="t" id="clock" style="margin-top:8px"></div>
-    <p class="t" style="margin-top:14px">Every step asks the engine: <em>"if the user tried to pay right now, what should happen?"</em>
-    Signals are metadata only (call state, screen-share flag, payee age, amount vs the user's own baseline). No SMS text, chat or call audio is read.
-    Scenarios are simulated for the demo.</p>
-  </section>
-  <section class="card">
-    <h2>2 · Engine decision</h2>
-    <div class="ladder" id="ladder"></div>
-    <div class="t">p(scam) = <b id="p">0</b></div>
-    <div class="gauge"><i id="needle" style="left:0"></i></div>
-    <div class="kv" id="comp" style="margin-top:10px"></div>
-    <div class="t" style="margin-top:10px">Playbook card</div><div id="card" style="font-weight:600">—</div>
-    <div class="t" style="margin-top:6px">Kill-chain stages (orange = seen)</div><div class="chips" id="chips"></div>
-    <div class="t">Deterministic floors</div><div id="floors" class="mono">—</div>
-    <div class="phone"><div class="mono">UPI · Pay</div>
-      <div class="pay"><div class="t">To</div><div id="payee" style="font-weight:600">—</div><div class="t">Amount</div><div id="amt" style="font-size:22px;font-weight:700">—</div></div>
-      <div id="alert"></div>
-    </div>
-  </section>
-</main>
-<footer>Engine: <code>webapp/assets/thehro.js</code> (port of <code>thehro/engine.py</code>, 250/250 identical decisions in <code>tools/parity_check.js</code>). Playbooks: <code>assets/playbooks.json</code>.
-Thresholds and weights are v3 design values, refit on finale data. This page is a demo, not a bank product.</footer>
-
-<script src="assets/thehro.js"></script>
-<script>
-const COL={T0:"var(--t0)",T1:"var(--t1)",T2:"var(--t2)",T3:"var(--t3)",T4:"var(--t4)"};
-const NAME={T0:"Silent",T1:"Badge",T2:"Ask",T3:"Story + hold",T4:"Breaker"};
-const SC={
- "Digital arrest":{payee:"verify.rbi.safe@ybl (4 days old)",steps:[
-  ["Normal evening, phone idle",{baseline_p95:12000,amount:1200,payee_new:false,payee_vpa_age_days:900,hour:19}],
-  ["Video call from unknown number: 'CBI, your Aadhaar is in a case'",{call_active:true,caller_in_contacts:false,call_video_or_voip:true,call_minutes:5}],
-  ["Call passes 30 minutes, 'stay on camera'",{call_minutes:45,hour:20}],
-  ["'Install this app to verify': screen sharing starts",{screen_share:true,call_minutes:70}],
-  ["'Move funds to RBI safe account': new payee opened",{payee_new:true,payee_vpa_age_days:4,amount:20000}],
-  ["Amount typed: ₹4,80,000 (40× normal)",{amount:480000,call_minutes:95,hour:21}]]},
- "Screen-share 'KYC'":{payee:"kyc.update.help@okaxis",steps:[
-  ["Searching 'bank KYC helpline'",{baseline_p95:5000,amount:10,payee_new:false}],
-  ["Calls number from search result (not official)",{unofficial_helpline:true,call_active:true,caller_in_contacts:false}],
-  ["'Download AnyDesk so I can help you'",{screen_share:true}],
-  ["'Send ₹1 to verify': new payee",{payee_new:true,payee_vpa_age_days:9,amount:1}]]},
- "Fake 'credited' SMS":{payee:"rahul.k.0921@ibl (new)",steps:[
-  ["Normal afternoon",{baseline_p95:3000,amount:300,payee_new:false}],
-  ["SMS: '₹10,000 credited' (no money actually arrived)",{credit_claim_recent:true,real_credit_found:false}],
-  ["Caller: 'sent by mistake, please return'",{call_active:true,caller_in_contacts:false}],
-  ["Opens QR they sent, ₹10,000 to a new payee",{qr_recent:true,payee_new:true,payee_vpa_age_days:15,amount:10000}]]},
- "Normal: rent to saved landlord":{payee:"sharma.landlord@okhdfc (saved)",steps:[
-  ["Month start",{baseline_p95:4000,amount:500,payee_saved:true,payee_new:false}],
-  ["Talking to mother on the phone (saved contact)",{call_active:true,caller_in_contacts:true,call_minutes:40}],
-  ["Pays rent ₹18,000 (4.5× usual, saved payee)",{amount:18000}]]},
- "Normal: new chai shop":{payee:"chai.point.patna@paytm",steps:[
-  ["Morning",{baseline_p95:2500,amount:50}],
-  ["Scans shop QR, first time, ₹40",{payee_new:true,payee_vpa_age_days:700,amount:40,qr_recent:true}]]}
-};
-let cards=[],cur=Object.keys(SC)[0],k=0;
-const $=id=>document.getElementById(id);
-function session(){let s={};SC[cur].steps.slice(0,k+1).forEach(x=>Object.assign(s,x[1]));return s;}
+<section class="card"><h2>1 · Pick a session, then step through it</h2><div class="tabs" id="tabs"></div><ol class="steps" id="steps"></ol><div class="row"><button class="btn g" id="prev">◀ Back</button><button class="btn" id="next">Next event ▶</button><button class="btn g" id="reset">Reset</button><button class="btn" id="live" style="background:#c81e3a">● Live (real time)</button></div><div class="t" id="clock" style="margin-top:8px"></div><p class="t" style="margin-top:14px">Every step asks the engine: <em>"if the user tried to pay right now, what should happen?"</em> Signals are metadata only (call state, screen-share flag, payee age, amount vs the user's own baseline). Scenarios are simulated for the demo.</p></section>
+<section class="card"><h2>2 · Engine decision</h2><div class="ladder" id="ladder"></div><div class="t">p(scam) = <b id="p">0</b></div><div class="gauge"><i id="needle" style="left:0"></i></div><div class="kv" id="comp" style="margin-top:10px"></div><div class="t" style="margin-top:10px">Playbook card</div><div id="card" style="font-weight:600">—</div><div class="t" style="margin-top:6px">Kill-chain stages (orange = seen)</div><div class="chips" id="chips"></div><div class="t">Deterministic floors</div><div id="floors" class="mono">—</div><div class="phone"><div class="mono">UPI · Pay</div><div class="pay"><div class="t">To</div><div id="payee" style="font-weight:600">—</div><div class="t">Amount</div><div id="amt" style="font-size:22px;font-weight:700">—</div></div><div id="alert"></div></div></section>
+<section class="card judge" id="judge-mode"><h2>Judge Mode · edit an independent session</h2><p class="judge-note">Simulation only: THEHRO re-evaluates this local decision on every edit. No guardian is notified and no external bank blocks a payment.</p><div class="controls" id="judge-controls"></div><div class="row"><button class="btn g" id="reset-to-demo">Reset to demo</button><button class="btn g" id="reset-to-default">Reset to default</button></div><div class="judge-output" aria-live="polite"><h3>Judge decision</h3><div class="judge-tier" id="judge-tier">—</div><div class="judge-grid"><div><b>p(scam)</b><div id="judge-p">—</div></div><div><b>Action</b><div id="judge-action">—</div></div><div><b>Reason</b><div id="judge-reason">—</div></div><div><b>Evidence</b><div id="judge-evidence">—</div></div><div><b>Deterministic floors</b><div id="judge-floors">—</div></div><div><b>Unknown / unverified signals</b><div id="judge-unknown">—</div></div></div></div></section>
+</main><footer>Engine: <code>webapp/assets/thehro.js</code> (port of <code>thehro/engine.py</code>). Playbooks: <code>assets/playbooks.json</code>. Thresholds and weights are v3 design values. This page is a demo and Judge Mode is a simulation, not a bank product.</footer>
+<script src="assets/thehro.js"></script><script>
+const COL={T0:"var(--t0)",T1:"var(--t1)",T2:"var(--t2)",T3:"var(--t3)",T4:"var(--t4)"},NAME={T0:"Silent",T1:"Badge",T2:"Ask",T3:"Story + hold",T4:"Breaker"};
+const SC={"Digital arrest":{payee:"verify.rbi.safe@ybl (4 days old)",steps:[["Normal evening, phone idle",{baseline_p95:12000,amount:1200,payee_new:false,payee_vpa_age_days:900,hour:19}],["Video call from unknown number: 'CBI, your Aadhaar is in a case'",{call_active:true,caller_in_contacts:false,call_video_or_voip:true,call_minutes:5}],["Call passes 30 minutes, 'stay on camera'",{call_minutes:45,hour:20}],["'Install this app to verify': screen sharing starts",{screen_share:true,call_minutes:70}],["'Move funds to RBI safe account': new payee opened",{payee_new:true,payee_vpa_age_days:4,amount:20000}],["Amount typed: ₹4,80,000 (40× normal)",{amount:480000,call_minutes:95,hour:21}]]},"Screen-share 'KYC'":{payee:"kyc.update.help@okaxis",steps:[["Searching 'bank KYC helpline'",{baseline_p95:5000,amount:10,payee_new:false}],["Calls number from search result (not official)",{unofficial_helpline:true,call_active:true,caller_in_contacts:false}],["'Download AnyDesk so I can help you'",{screen_share:true}],["'Send ₹1 to verify': new payee",{payee_new:true,payee_vpa_age_days:9,amount:1}]]},"Fake 'credited' SMS":{payee:"rahul.k.0921@ibl (new)",steps:[["Normal afternoon",{baseline_p95:3000,amount:300,payee_new:false}],["SMS: '₹10,000 credited' (no money actually arrived)",{credit_claim_recent:true,real_credit_found:false}],["Caller: 'sent by mistake, please return'",{call_active:true,caller_in_contacts:false}],["Opens QR they sent, ₹10,000 to a new payee",{qr_recent:true,payee_new:true,payee_vpa_age_days:15,amount:10000}]]},"Normal: rent to saved landlord":{payee:"sharma.landlord@okhdfc (saved)",steps:[["Month start",{baseline_p95:4000,amount:500,payee_saved:true,payee_new:false}],["Talking to mother on the phone (saved contact)",{call_active:true,caller_in_contacts:true,call_minutes:40}],["Pays rent ₹18,000 (4.5× usual, saved payee)",{amount:18000}]]},"Normal: new chai shop":{payee:"chai.point.patna@paytm",steps:[["Morning",{baseline_p95:2500,amount:50}],["Scans shop QR, first time, ₹40",{payee_new:true,payee_vpa_age_days:700,amount:40,qr_recent:true}]]}};
+let cards=[],cur=Object.keys(SC)[0],k=0,$=id=>document.getElementById(id),liveT=null,liveStart=0;
+function session(){let s={};SC[cur].steps.slice(0,k+1).forEach(x=>Object.assign(s,x[1]));return s}
 function render(){
- $("tabs").innerHTML=Object.keys(SC).map(n=>`<button class="${n===cur?"on":""}" data-n="${n}">${n}</button>`).join("");
- $("steps").innerHTML=SC[cur].steps.map((x,i)=>{const d=THEHRO.decide(SC[cur].steps.slice(0,i+1).reduce((a,y)=>Object.assign(a,y[1]),{}),cards);
-   return `<li class="${i<k?"done":i===k?"cur":"todo"}" data-i="${i}"><span class="dot" style="background:${i<=k?COL[d.tier]:"#9aa4b5"}">${i<=k?d.tier:i+1}</span><div>${x[0]}<div class="t">${i<=k?"if paid now → "+d.action:""}</div></div></li>`}).join("");
- const s=session(),d=THEHRO.decide(s,cards);
- $("ladder").innerHTML=["T0","T1","T2","T3","T4"].map(t=>`<div style="${t===d.tier?`background:${COL[t]};color:#fff;border-color:${COL[t]}`:""}"><b>${t}</b>${NAME[t]}</div>`).join("");
- $("p").textContent=d.p.toFixed(3);$("needle").style.left=`calc(${(d.p*100).toFixed(1)}% - 2px)`;
- $("comp").innerHTML=Object.entries(d.components).map(([a,b])=>`<span>${a}</span><span>${b.toFixed(2)}</span>`).join("")+`<span>decision</span><span>${d.ms} ms on this device</span>`;
- const card=cards.find(c=>c.id===(d.card_id||""))||THEHRO.matchCards(Object.assign({},THEHRO.DEFAULT_SESSION,s),cards)[0].card;
- $("card").textContent=d.card_id?`${d.card_id} · ${d.card_name}`:`no card complete (closest: ${card.id})`;
- $("chips").innerHTML=card.stages.map(x=>`<span class="chip ${THEHRO.PREDICATES[x](Object.assign({},THEHRO.DEFAULT_SESSION,s))?"hit":""}">${x}</span>`).join("");
- $("floors").textContent=d.floors.length?d.floors.join(" · "):"none";
- $("payee").textContent=s.payee_new||s.payee_saved?SC[cur].payee:"—";
- $("amt").textContent="₹"+Number(s.amount||0).toLocaleString("en-IN");
- const c=COL[d.tier];let h="";
- if(d.tier==="T1")h=`<div class="alert" style="border:1.5px solid ${c}"><h3 style="color:${c}">ⓘ New payee</h3>${d.reason}</div>`;
- if(d.tier==="T2")h=`<div class="alert" style="border:1.5px solid ${c}"><h3 style="color:${c}">Quick question</h3>${d.question}<div class="row"><button class="btn g">Yes</button><button class="btn g">No</button></div></div>`;
- if(d.tier==="T3")h=`<div class="alert" style="background:#fff6e8;border:1.5px solid ${c}"><h3 style="color:${c}">⚠ Pause for 60 seconds</h3>${d.reason}<div class="t" style="margin-top:6px">We will ask again after the call ends.</div></div>`;
- if(d.tier==="T4")h=`<div class="alert" style="background:#fdecef;border:1.5px solid ${c}"><h3 style="color:${c}">⚠ Payment on hold</h3>${d.reason}<div class="row"><button class="btn" style="background:${c}">Call my daughter</button></div><div class="t" style="margin-top:6px">Guardian notified (opt-in) · 1930 report ready</div></div>`;
- if(d.tier==="T0")h=`<div class="alert t">No alert. Pay as usual.</div>`;
- $("alert").innerHTML=h;
+ $("tabs").innerHTML=Object.keys(SC).map(n=>`<button class="${n===cur?"on":""}" data-n="${n}">${n}</button>`).join("");$("steps").innerHTML=SC[cur].steps.map((x,i)=>{const d=THEHRO.decide(SC[cur].steps.slice(0,i+1).reduce((a,y)=>Object.assign(a,y[1]),{}),cards);return `<li class="${i<k?"done":i===k?"cur":"todo"}" data-i="${i}"><span class="dot" style="background:${i<=k?COL[d.tier]:"#9aa4b5"}">${i<=k?d.tier:i+1}</span><div>${x[0]}<div class="t">${i<=k?"if paid now → "+d.action:""}</div></div></li>`}).join("");
+ const s=session(),d=THEHRO.decide(s,cards);$("ladder").innerHTML=["T0","T1","T2","T3","T4"].map(t=>`<div style="${t===d.tier?`background:${COL[t]};color:#fff;border-color:${COL[t]}`:""}"><b>${t}</b>${NAME[t]}</div>`).join("");$("p").textContent=d.p.toFixed(3);$("needle").style.left=`calc(${(d.p*100).toFixed(1)}% - 2px)`;$("comp").innerHTML=Object.entries(d.components).map(([a,b])=>`<span>${a}</span><span>${b.toFixed(2)}</span>`).join("")+`<span>decision</span><span>${d.ms} ms on this device</span>`;const card=cards.find(c=>c.id===(d.card_id||""))||THEHRO.matchCards(Object.assign({},THEHRO.DEFAULT_SESSION,s),cards)[0].card;$("card").textContent=d.card_id?`${d.card_id} · ${d.card_name}`:`no card complete (closest: ${card.id})`;$("chips").innerHTML=card.stages.map(x=>`<span class="chip ${THEHRO.PREDICATES[x](Object.assign({},THEHRO.DEFAULT_SESSION,s))?"hit":""}">${x}</span>`).join("");$("floors").textContent=d.floors.length?d.floors.join(" · "):"none";$("payee").textContent=s.payee_new||s.payee_saved?SC[cur].payee:"—";$("amt").textContent="₹"+Number(s.amount||0).toLocaleString("en-IN");const c=COL[d.tier];let h="";if(d.tier==="T1")h=`<div class="alert" style="border:1.5px solid ${c}"><h3 style="color:${c}">ⓘ New payee</h3>${d.reason}</div>`;if(d.tier==="T2")h=`<div class="alert" style="border:1.5px solid ${c}"><h3 style="color:${c}">Quick question</h3>${d.question}<div class="row"><button class="btn g">Yes</button><button class="btn g">No</button></div></div>`;if(d.tier==="T3")h=`<div class="alert" style="background:#fff6e8;border:1.5px solid ${c}"><h3 style="color:${c}">⚠ Pause for 60 seconds</h3>${d.reason}<div class="t" style="margin-top:6px">We will ask again after the call ends.</div></div>`;if(d.tier==="T4")h=`<div class="alert" style="background:#fdecef;border:1.5px solid ${c}"><h3 style="color:${c}">⚠ Payment on hold</h3>${d.reason}<div class="row"><button class="btn" style="background:${c}">Call my daughter</button></div><div class="t" style="margin-top:6px">Trusted-contact options are shown for this simulation only · 1930 report ready</div></div>`;if(d.tier==="T0")h=`<div class="alert t">No alert. Pay as usual.</div>`;$("alert").innerHTML=h;
 }
-document.addEventListener("click",e=>{const b=e.target.closest("[data-n]");if(b){stopLive();cur=b.dataset.n;k=0;render();}
- const l=e.target.closest("[data-i]");if(l){k=+l.dataset.i;render();}});
-$("next").onclick=()=>{k=Math.min(k+1,SC[cur].steps.length-1);render();};
-$("prev").onclick=()=>{k=Math.max(k-1,0);render();};
-$("reset").onclick=()=>{stopLive();k=0;render();};
-let liveT=null,liveStart=0;
-function stopLive(){if(liveT){clearInterval(liveT);liveT=null;$("live").textContent="● Live (real time)";}}
-$("live").onclick=()=>{if(liveT){stopLive();return;}k=0;render();liveStart=Date.now();$("live").textContent="■ Stop";
- liveT=setInterval(()=>{const sec=Math.round((Date.now()-liveStart)/1000);
-  const n=Math.min(SC[cur].steps.length-1,Math.floor(sec/3));if(n!==k){k=n;render();}
-  const t0=(typeof performance!=="undefined"?performance.now():0);THEHRO.decide(session(),cards);const dt=((typeof performance!=="undefined"?performance.now():0)-t0).toFixed(2);
-  $("clock").textContent=`Live: ${sec}s since start · a new event every 3 s · engine re-decides on every event (${dt} ms)`;
-  if(n>=SC[cur].steps.length-1&&sec>n*3+4)stopLive();},500);};
-fetch("assets/playbooks.json").then(r=>r.json()).then(j=>{cards=j.cards;render();})
- .catch(()=>{document.body.insertAdjacentHTML("afterbegin","<p style='padding:12px;background:#fdecef'>Could not load playbooks.json. Open this page through a web server (GitHub Pages / python -m http.server).</p>")});
-</script>
-</body>
-</html>
+const BOOL=["payee_new","payee_saved","call_active","caller_in_contacts","call_video_or_voip","active_screen_control","high_risk_app_installed","accessibility_service_enabled","overlay_service","credit_claim_recent","real_credit_found","qr_recent","qr_from_gallery","qr_receive_intent"],NUM=["amount","baseline_p95","payee_vpa_age_days","call_minutes","apk_installed_hours","new_payee_sum_72h","held_recently_hours","hour"];
+const LABEL={payee_new:"Payee is new",payee_saved:"Payee is saved",call_active:"Call active",caller_in_contacts:"Caller in contacts",call_video_or_voip:"Video / VoIP call",active_screen_control:"Active screen control (separate from installed app)",high_risk_app_installed:"High-risk app installed",accessibility_service_enabled:"Accessibility service",overlay_service:"Overlay service",credit_claim_recent:"Confirmed fake-credit claim",real_credit_found:"Matching real credit found",qr_recent:"Recent QR signal",qr_from_gallery:"QR from gallery",qr_receive_intent:"QR asks to receive",amount:"Amount (₹)",baseline_p95:"User’s P95 baseline (₹)",payee_vpa_age_days:"Payee VPA age (days)",call_minutes:"Call duration (minutes)",apk_installed_hours:"APK age (hours)",new_payee_sum_72h:"New-payee split sum (72h)",held_recently_hours:"Recent hold (hours)",hour:"Hour (0–23)"};
+function makeControls(){let html="";for(const key of [...NUM,...BOOL]){if(BOOL.includes(key))html+=`<div class="control"><label for="judge-${key}">${LABEL[key]}</label><select id="judge-${key}" data-jfield="${key}"><option value="">UNKNOWN</option><option value="true">YES</option><option value="false">NO</option></select></div>`;else html+=`<div class="control"><label for="judge-${key}">${LABEL[key]}</label><input id="judge-${key}" data-jfield="${key}" type="number" step="any" placeholder="UNKNOWN"></div>`}$("judge-controls").innerHTML=html}
+function judgeRead(){const s={};document.querySelectorAll("[data-jfield]").forEach(el=>{const v=el.value,key=el.dataset.jfield;s[key]=BOOL.includes(key)?(v===""?null:v==="true"):(v===""?null:Number(v))});return s}
+function judgeWrite(s){document.querySelectorAll("[data-jfield]").forEach(el=>{const v=s[el.dataset.jfield];el.value=BOOL.includes(el.dataset.jfield)?(v===true?"true":v===false?"false":""):(v==null?"":v)})}
+function judgeRender(){const d=THEHRO.decide(judgeRead(),cards);$("judge-tier").textContent=`${d.tier} · ${d.tier==="T0"?"Silent":NAME[d.tier]}`;$("judge-tier").style.color=COL[d.tier];$("judge-p").textContent=d.p.toFixed(4);$("judge-action").textContent=d.action;$("judge-reason").textContent=d.reason;$("judge-evidence").textContent=d.evidence.length?d.evidence.join(" · "):"none";$("judge-floors").textContent=d.floors.length?d.floors.join(" · "):"none";$("judge-unknown").textContent=d.unknown_signals.length?d.unknown_signals.join(" · "):"none"}
+function judgeDemo(){const demo=Object.assign({},THEHRO.DEFAULT_SESSION,session());delete demo.screen_share;judgeWrite(demo);judgeRender()}
+function stopLive(){if(liveT){clearInterval(liveT);liveT=null;$("live").textContent="● Live (real time)"}}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-n]");if(b){stopLive();cur=b.dataset.n;k=0;render();judgeDemo()}const l=e.target.closest("[data-i]");if(l){k=+l.dataset.i;render();judgeDemo()}});$("next").onclick=()=>{k=Math.min(k+1,SC[cur].steps.length-1);render();judgeDemo()};$("prev").onclick=()=>{k=Math.max(k-1,0);render();judgeDemo()};$("reset").onclick=()=>{stopLive();k=0;render();judgeDemo()};$("reset-to-demo").onclick=()=>{stopLive();k=0;render();judgeDemo()};$("reset-to-default").onclick=()=>{judgeWrite(THEHRO.DEFAULT_SESSION);judgeRender()};document.addEventListener("input",e=>{if(e.target.matches("[data-jfield]"))judgeRender()});document.addEventListener("change",e=>{if(e.target.matches("[data-jfield]"))judgeRender()});$("live").onclick=()=>{if(liveT){stopLive();return}k=0;render();judgeDemo();liveStart=Date.now();$("live").textContent="■ Stop";liveT=setInterval(()=>{const sec=Math.round((Date.now()-liveStart)/1000),n=Math.min(SC[cur].steps.length-1,Math.floor(sec/3));if(n!==k){k=n;render();judgeDemo()}if(n>=SC[cur].steps.length-1&&sec>n*3+4)stopLive()},500)};
+makeControls();fetch("assets/playbooks.json").then(r=>r.json()).then(j=>{cards=j.cards;render();judgeDemo()}).catch(()=>{document.body.insertAdjacentHTML("afterbegin","<p style='padding:12px;background:#fdecef'>Could not load playbooks.json. Open this page through a web server.</p>");makeControls();judgeRender()});
+</script></body></html>

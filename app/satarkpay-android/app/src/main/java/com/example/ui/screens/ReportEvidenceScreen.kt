@@ -74,7 +74,7 @@ fun ReportEvidenceScreen(
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = SatarkInk)
             }
             Text(
-                text = "M7 · Report & Evidence Pack",
+                text = "Report preview · not submitted",
                 style = MaterialTheme.typography.titleMedium,
                 color = SatarkInk,
                 fontWeight = FontWeight.Bold
@@ -122,7 +122,7 @@ fun ReportEvidenceScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "INCIDENT DOSSIER SNAPSHOT",
+                        text = "CURRENT DRAFT · NOT SUBMITTED",
                         style = MaterialTheme.typography.labelSmall,
                         color = SatarkAccent,
                         fontWeight = FontWeight.Bold,
@@ -143,19 +143,19 @@ fun ReportEvidenceScreen(
                 }
 
                 Text(
-                    text = "Self-reported incident record for 1930 cyber helpline and bank freeze request. Unverified by bank server.",
+                    text = "Values shown are user-entered only. This preview does not contact a bank, helpline, or reporting portal.",
                     fontSize = 11.sp,
                     color = SatarkDim,
                     lineHeight = 15.sp
                 )
 
-                SigRow(label = "Reported Disputed Amount", value = "₹$amount", tagText = "Self-Reported", tagType = SigTagType.DANGER)
-                SigRow(label = "Total Demanded by Suspect", value = "₹30,625", tagText = "3 Demands Logged", tagType = SigTagType.WARN)
-                SigRow(label = "Suspect Beneficiary UPI", value = displayUpi, tagText = "Masked for Privacy", tagType = SigTagType.INFO)
-                SigRow(label = "Bank UTR Number", value = utr, tagText = "Provided UTR", tagType = SigTagType.OK)
-                SigRow(label = "UPI Transaction ID", value = txnId, tagText = "Reported Txn ID", tagType = SigTagType.OK)
-                SigRow(label = "Suspect Shortlink", value = "cutt.ly/sec-upi-pay", tagText = "Phishing URL", tagType = SigTagType.WARN)
-                SigRow(label = "Local File Integrity Hash", value = "SHA256: 8a3e7b...92e", tagText = "Export Checksum", tagType = SigTagType.INFO)
+                SigRow(label = "Reported disputed amount", value = if (amount > 0L) "₹$amount" else "Not provided", tagText = "User-entered", tagType = SigTagType.INFO)
+                SigRow(label = "Additional amount demanded", value = "Not provided", tagText = "Not collected", tagType = SigTagType.INFO)
+                SigRow(label = "Suspect beneficiary UPI", value = displayUpi.ifBlank { "Not provided" }, tagText = "User-entered", tagType = SigTagType.INFO)
+                SigRow(label = "Bank UTR number", value = utr.ifBlank { "Not provided" }, tagText = "User-entered", tagType = SigTagType.INFO)
+                SigRow(label = "UPI transaction ID", value = txnId.ifBlank { "Not provided" }, tagText = "User-entered", tagType = SigTagType.INFO)
+                SigRow(label = "Suspect link", value = "Not provided", tagText = "Not collected", tagType = SigTagType.INFO)
+                SigRow(label = "File integrity hash", value = "Not generated", tagText = "No export", tagType = SigTagType.INFO)
             }
         }
 
@@ -171,19 +171,14 @@ fun ReportEvidenceScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = "DOSSIER ATTACHMENTS (COMPLAINT EXPORT)",
+                    text = "EXPORT STATUS",
                     style = MaterialTheme.typography.labelSmall,
                     color = SatarkDim,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 1.sp
                 )
 
-                ArtifactRow("📦 case_analysis_bundle.zip", "Forensic archive: 22 verified scam cases & evidence crops in Downloads")
-                ArtifactRow("📄 detailed_scam_case_explanations.pdf", "Case dossier in Downloads")
-                ArtifactRow("📄 complaint_ncrp.md", "National Cyber Crime Reporting Portal ready text in Hindi & English")
-                ArtifactRow("📧 complaint_email.eml", "Pre-formatted formal complaint to Cyber Cell & Bank Nodal Officer")
-                ArtifactRow("📊 annexure.csv", "Detailed transaction timeline with hashes & suspect handles")
-                ArtifactRow("📦 evidence_bundle.zip", "Tamper-evident ZIP archive with digital signatures & OCR proofs")
+                Text("Report-file export is not implemented. This screen does not create or save a PDF, ZIP, CSV, email, or complaint.", style = MaterialTheme.typography.bodySmall, color = SatarkDim)
             }
         }
 
@@ -223,7 +218,7 @@ fun ReportEvidenceScreen(
             Icon(Icons.Default.Inventory2, contentDescription = null, tint = Color.White)
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = if (isPackGenerated) "📦 Pack Ready (Saved Locally)" else "📦 Pack Banao (8 Seconds)",
+                text = if (isPackGenerated) "Preview refreshed · not saved" else "Refresh draft preview · no export",
                 color = Color.White,
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold
@@ -249,7 +244,7 @@ fun ReportEvidenceScreen(
                 ) {
                     Icon(Icons.Default.Emergency, contentDescription = null, tint = SatarkDanger)
                     Text(
-                        text = "PAISA KAT GAYA HAI? (FRAUD CONFIRMED)",
+                        text = "NEED URGENT HELP?",
                         style = MaterialTheme.typography.titleSmall,
                         color = SatarkDanger,
                         fontWeight = FontWeight.Bold
@@ -257,7 +252,7 @@ fun ReportEvidenceScreen(
                 }
 
                 Text(
-                    text = "Agar lagta hai fraud ho gaya hai, aur aap confirm karte hain — to turant Cyber Cell ko complaint mail bhejein aur helpline se payment stop karein.",
+                    text = "This preview is not a complaint. It does not send email, stop a payment, or notify a bank. You can open the 1930 dialer and decide whether to place a call.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = SatarkInk
                 )
@@ -274,7 +269,7 @@ fun ReportEvidenceScreen(
                     Icon(Icons.Default.Warning, contentDescription = null, tint = Color.White)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "🚨 FRAUD CONFIRM → S9 Emergency Chalu Karo",
+                        text = "Open 1930 dialer · no report is sent",
                         color = Color.White,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold

@@ -13,33 +13,37 @@ import kotlin.math.min
  * and the evidence behind it. Pure Kotlin: no Android imports, unit-testable on the JVM.
  */
 data class PaymentSession(
-    val callActive: Boolean = false,
-    val callerInContacts: Boolean = true,
-    val callVideoOrVoip: Boolean = false,
-    val callMinutes: Double = 0.0,
-    val hour: Int = 14,
-    val screenShare: Boolean = false,
+    val callActive: Boolean? = null,
+    val callerInContacts: Boolean? = null,
+    val callVideoOrVoip: Boolean? = null,
+    val callMinutes: Double? = null,
+    val hour: Int? = null,
+    val activeScreenControl: Boolean? = null,
+    val activeScreenControlConfidence: Double? = null,
+    val screenShare: Boolean? = null, // legacy input alias; never infer from installed apps
+    val highRiskAppInstalled: Boolean? = null,
+    val accessibilityServiceEnabled: Boolean? = null,
     val apkInstalledHours: Double? = null,
-    val overlayService: Boolean = false,
+    val overlayService: Boolean? = null,
     val payeeSaved: Boolean = false,
-    val payeeNew: Boolean = true,
-    val payeeVpaAgeDays: Int = 365,
-    val payeeRisk: Double = 0.0,
-    val payeeSebiValid: Boolean = false,
+    val payeeNew: Boolean? = null,
+    val payeeVpaAgeDays: Int? = null,
+    val payeeRisk: Double? = null,
+    val payeeSebiValid: Boolean? = null,
     val amount: Double = 500.0,
-    val baselineP95: Double = 2000.0,
-    val creditClaimRecent: Boolean = false,
-    val realCreditFound: Boolean = false,
-    val qrRecent: Boolean = false,
-    val qrFromGallery: Boolean = false,
-    val qrReceiveIntent: Boolean = false,
+    val baselineP95: Double? = null,
+    val creditClaimRecent: Boolean? = null,
+    val realCreditFound: Boolean? = null,
+    val qrRecent: Boolean? = null,
+    val qrFromGallery: Boolean? = null,
+    val qrReceiveIntent: Boolean? = null,
     val recentFraudReportDays: Int? = null,
     val remark: String = "",
-    val newPayees7d: Int = 0,
-    val risingAmounts: Boolean = false,
-    val smallInboundUnknown72h: Boolean = false,
-    val unofficialHelpline: Boolean = false,
-    val newPayeeSum72h: Double = 0.0,      // anti-splitting: earlier new-payee payments in 72 h
+    val newPayees7d: Int? = null,
+    val risingAmounts: Boolean? = null,
+    val smallInboundUnknown72h: Boolean? = null,
+    val unofficialHelpline: Boolean? = null,
+    val newPayeeSum72h: Double? = null,    // anti-splitting history is unknown until sourced
     val heldRecentlyHours: Double? = null, // hours since last T3/T4 hold
 )
 
@@ -57,7 +61,14 @@ data class Decision(
     val floors: List<String>,
     val budgetNote: String?,
     val components: Components,
+    val unknownSignals: List<String>,
 )
+
+fun Decision.permitsPayment(questionConfirmed: Boolean = false): Boolean = when (tier) {
+    "T0", "T1" -> true
+    "T2" -> questionConfirmed
+    else -> false
+}
 
 /** Per-user interruption budget. Only T2 questions spend it; T3/T4 are never suppressed. */
 class AttentionBudget(private val per30Days: Int = 3) {
@@ -77,31 +88,64 @@ class ThehroEngine(private val cards: List<PlaybookCard> = PlaybookCards.P1) {
     private val invest = listOf("ipo", "share", "trading", "stock", "invest", "allot")
     private val fee = listOf("fee", "processing", "release", "refund charge", "recovery")
     private fun has(r: String, w: List<String>) = w.any { r.lowercase().contains(it) }
-    private fun eff(s: PaymentSession) = s.amount + if (s.payeeNew && !s.payeeSaved) s.newPayeeSum72h else 0.0
+    private fun screenControl(s: PaymentSession): Boolean? = s.activeScreenControl ?: s.screenShare
+    private fun eff(s: PaymentSession) = s.amount +
+        if (s.payeeNew == true && !s.payeeSaved) (s.newPayeeSum72h ?: 0.0) else 0.0
+
+    private fun unknownSignals(s: PaymentSession): List<String> = buildList {
+        if (s.callActive == null) add("call_active")
+        if (s.callerInContacts == null) add("caller_in_contacts")
+        if (s.callVideoOrVoip == null) add("call_video_or_voip")
+        if (s.callMinutes == null) add("call_minutes")
+        if (s.hour == null) add("hour")
+        if (s.activeScreenControl == null && s.screenShare == null) add("active_screen_control")
+        if (s.activeScreenControlConfidence == null) add("active_screen_control_confidence")
+        if (s.highRiskAppInstalled == null) add("high_risk_app_installed")
+        if (s.accessibilityServiceEnabled == null) add("accessibility_service_enabled")
+        if (s.apkInstalledHours == null) add("apk_installed_hours")
+        if (s.overlayService == null) add("overlay_service")
+        if (s.payeeNew == null) add("payee_new")
+        if (s.payeeVpaAgeDays == null) add("payee_vpa_age_days")
+        if (s.payeeRisk == null) add("payee_risk")
+        if (s.payeeSebiValid == null) add("payee_sebi_valid")
+        if (s.baselineP95 == null) add("baseline_p95")
+        if (s.creditClaimRecent == null) add("credit_claim_recent")
+        if (s.realCreditFound == null) add("real_credit_found")
+        if (s.qrRecent == null) add("qr_recent")
+        if (s.qrFromGallery == null) add("qr_from_gallery")
+        if (s.qrReceiveIntent == null) add("qr_receive_intent")
+        if (s.recentFraudReportDays == null) add("recent_fraud_report_days")
+        if (s.newPayees7d == null) add("new_payees_7d")
+        if (s.risingAmounts == null) add("rising_amounts")
+        if (s.smallInboundUnknown72h == null) add("small_inbound_unknown_72h")
+        if (s.unofficialHelpline == null) add("unofficial_helpline")
+        if (s.newPayeeSum72h == null) add("new_payee_sum_72h")
+        if (s.heldRecentlyHours == null) add("held_recently_hours")
+    }
 
     fun predicate(name: String, s: PaymentSession): Boolean = when (name) {
-        "unknown_caller" -> s.callActive && !s.callerInContacts
-        "video_or_voip_call" -> s.callActive && s.callVideoOrVoip
-        "long_call" -> s.callActive && s.callMinutes >= 30
-        "odd_hour" -> s.hour < 7 || s.hour >= 22
-        "screen_share" -> s.screenShare
+        "unknown_caller" -> s.callActive == true && s.callerInContacts == false
+        "video_or_voip_call" -> s.callActive == true && s.callVideoOrVoip == true
+        "long_call" -> s.callActive == true && s.callMinutes != null && s.callMinutes >= 30
+        "odd_hour" -> s.hour != null && (s.hour < 7 || s.hour >= 22)
+        "screen_share" -> screenControl(s) == true
         "fresh_apk" -> s.apkInstalledHours != null && s.apkInstalledHours < 72
-        "overlay_service" -> s.overlayService
-        "new_payee" -> s.payeeNew && !s.payeeSaved
-        "amount_high" -> eff(s) > 3 * s.baselineP95
-        "amount_very_high" -> eff(s) > 10 * s.baselineP95
-        "fake_credit" -> s.creditClaimRecent && !s.realCreditFound
-        "qr_recent" -> s.qrRecent
-        "qr_from_gallery" -> s.qrFromGallery
-        "qr_receive_intent" -> s.qrReceiveIntent
+        "overlay_service" -> s.overlayService == true
+        "new_payee" -> s.payeeNew == true && !s.payeeSaved
+        "amount_high" -> s.baselineP95 != null && s.baselineP95 > 0 && eff(s) > 3 * s.baselineP95
+        "amount_very_high" -> s.baselineP95 != null && s.baselineP95 > 0 && eff(s) > 10 * s.baselineP95
+        "fake_credit" -> s.creditClaimRecent == true && s.realCreditFound == false
+        "qr_recent" -> s.qrRecent == true
+        "qr_from_gallery" -> s.qrFromGallery == true
+        "qr_receive_intent" -> s.qrReceiveIntent == true
         "recent_fraud_report" -> s.recentFraudReportDays != null && s.recentFraudReportDays <= 90
         "fee_remark" -> has(s.remark, fee)
         "invest_remark" -> has(s.remark, invest)
-        "payee_not_sebi_valid" -> has(s.remark, invest) && !s.payeeSebiValid
-        "many_new_payees_7d" -> s.newPayees7d >= 3
-        "rising_amounts" -> s.risingAmounts
-        "small_inbound_credit_unknown" -> s.smallInboundUnknown72h
-        "unofficial_helpline" -> s.unofficialHelpline
+        "payee_not_sebi_valid" -> has(s.remark, invest) && s.payeeSebiValid == false
+        "many_new_payees_7d" -> s.newPayees7d != null && s.newPayees7d >= 3
+        "rising_amounts" -> s.risingAmounts == true
+        "small_inbound_credit_unknown" -> s.smallInboundUnknown72h == true
+        "unofficial_helpline" -> s.unofficialHelpline == true
         else -> false   // unknown stage from a newer card: never fires
     }
 
@@ -121,13 +165,20 @@ class ThehroEngine(private val cards: List<PlaybookCard> = PlaybookCards.P1) {
 
     private fun components(s: PaymentSession, best: Match?): Components {
         val stage = if (best == null) 0.0 else if (best.complete) best.progress else best.progress * 0.5
-        val ratio = max(eff(s), 1.0) / max(s.baselineP95, 1.0)
-        val anomaly = min(1.0, max(0.0, log10(ratio) / 1.3)) + if (predicate("odd_hour", s)) 0.15 else 0.0
+        val baseline = s.baselineP95
+        val amountAnomaly = if (baseline == null || baseline <= 0) 0.0 else {
+            val ratio = max(eff(s), 1.0) / max(baseline, 1.0)
+            min(1.0, max(0.0, log10(ratio) / 1.3))
+        }
+        val anomaly = amountAnomaly + if (predicate("odd_hour", s)) 0.15 else 0.0
         val payee = if (s.payeeSaved) 0.0 else
-            max(s.payeeRisk, (if (s.payeeNew) 0.35 else 0.0) + (if (s.payeeVpaAgeDays < 30) 0.3 else 0.0))
-        val device = maxOf(if (s.screenShare) 1.0 else 0.0,
+            max(s.payeeRisk ?: 0.0, (if (s.payeeNew == true) 0.35 else 0.0) +
+                (if (s.payeeVpaAgeDays != null && s.payeeVpaAgeDays < 30) 0.3 else 0.0))
+        val device = maxOf(if (screenControl(s) == true) 1.0 else 0.0,
                            if (predicate("fresh_apk", s)) 0.8 else 0.0,
-                           if (s.overlayService) 0.7 else 0.0)
+                           if (s.overlayService == true) 0.7 else 0.0,
+                           if (s.accessibilityServiceEnabled == true) 0.45 else 0.0,
+                           if (s.highRiskAppInstalled == true) 0.35 else 0.0)
         return Components(r3(stage), r3(min(anomaly, 1.0)), r3(min(payee, 1.0)), r3(device))
     }
 
@@ -140,15 +191,23 @@ class ThehroEngine(private val cards: List<PlaybookCard> = PlaybookCards.P1) {
         val p = 1 / (1 + exp(-z))
         var tier = THRESHOLDS.firstOrNull { p >= it.first }?.second ?: "T0"
         val floors = mutableListOf<String>()
+        var hardFloor = best?.let { it.complete && it.card.tierFloor != null } ?: false
         best?.card?.tierFloor?.let { f ->
             if (best.complete && idx(f) > idx(tier)) { tier = f; floors += "${best.card.id} complete -> floor $f" }
         }
         if (predicate("fake_credit", s) && idx(tier) < 3) { tier = "T3"; floors += "fake credit, no real credit -> T3" }
-        val takeover = s.screenShare || (predicate("fresh_apk", s) && s.overlayService)
-        if (takeover && !s.payeeSaved && idx(tier) < 4) { tier = "T4"; floors += "screen control on pay screen -> T4" }
-        val retry = s.heldRecentlyHours != null && s.heldRecentlyHours < 24 && s.payeeNew && !s.payeeSaved
+        if (predicate("fake_credit", s)) hardFloor = true
+        val takeover = screenControl(s) == true || (predicate("fresh_apk", s) && s.overlayService == true)
+        if (takeover && idx(tier) < 4) {
+            tier = "T4"; floors += "active screen control or fresh APK plus overlay -> T4"
+        }
+        if (takeover) hardFloor = true
+        val retry = s.heldRecentlyHours != null && s.heldRecentlyHours < 24 && s.payeeNew == true && !s.payeeSaved
         if (retry && idx(tier) < 3) { tier = "T3"; floors += "retry to a new payee within 24 h of a hold -> T3" }
-        if (s.payeeSaved && !takeover && idx(tier) > 1) { tier = "T1"; floors += "saved / recurring payee -> never above T1" }
+        if (retry) hardFloor = true
+        if (s.payeeSaved && !hardFloor && !takeover && idx(tier) > 1) {
+            tier = "T1"; floors += "saved / recurring payee -> never above T1"
+        }
         var budgetNote: String? = null
         if (tier == "T2" && budget != null) {
             if (budget.remaining(nowMs) <= 0) { tier = "T1"; budgetNote = "attention budget used up -> badge instead of question" }
@@ -156,13 +215,13 @@ class ThehroEngine(private val cards: List<PlaybookCard> = PlaybookCards.P1) {
         }
         val card = if (best != null && (best.complete || (tier != "T0" && best.anchorHit))) best.card else null
         val reason = when (tier) {
-            "T0" -> "Looks like a normal payment."
-            "T1" -> "New payee. Check the name before you pay."
+            "T0" -> "No high-risk pattern is confirmed from the available signals."
+            "T1" -> "Caution: check the recipient name independently before paying."
             else -> card?.reason ?: if (retry) "You were warned about a similar payment today. Scammers often call back and ask again." else "Unusual payment pattern."
         }
         return Decision(Math.round(p * 1e4) / 1e4, tier, ACTIONS.getValue(tier), card?.id, card?.name, reason,
             if (card != null && tier == "T2") card.question else null,
-            best?.hits ?: emptyList(), floors, budgetNote, c)
+            best?.hits ?: emptyList(), floors, budgetNote, c, unknownSignals(s))
     }
 
     companion object {
@@ -170,10 +229,10 @@ class ThehroEngine(private val cards: List<PlaybookCard> = PlaybookCards.P1) {
         val THRESHOLDS = listOf(0.85 to "T4", 0.60 to "T3", 0.30 to "T2", 0.10 to "T1")
         val ACTIONS = mapOf(
             "T0" to "silent",
-            "T1" to "trust badge on the pay screen",
+            "T1" to "caution badge; recipient is not verified",
             "T2" to "one neutral question",
             "T3" to "scam story + 60 s hold, reconfirm after the call ends",
-            "T4" to "circuit breaker: hold + guardian alert + 1930 option",
+            "T4" to "payment hold; offer trusted-contact and 1930 options",
         )
         // v3 hand-set weights, same as thehro/engine.py; refit on finale data
         const val W_BIAS = -4.6

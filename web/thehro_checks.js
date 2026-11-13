@@ -62,7 +62,8 @@ for (const [n, s] of normals) { const d = D(s); t(`${n} → no interruption (${d
 
 console.log("== deterministic floors and guards ==");
 t("screen control on non-saved payee → T4 even for ₹1", D({ screen_share: true, amount: 1 }).tier === "T4");
-t("fake credit with no real credit → at least T3", lvl(D({ credit_claim_recent: true, amount: 100 })) >= 3);
+t("unknown real-credit check does not trigger fake-credit floor", lvl(D({ credit_claim_recent: true, amount: 100 })) < 3);
+t("confirmed fake credit with no real credit → at least T3", lvl(D({ credit_claim_recent: true, real_credit_found: false, amount: 100 })) >= 3);
 t("saved payee capped at T1 without takeover", lvl(D({ payee_saved: true, payee_new: false, amount: 1e6, baseline_p95: 1000, call_active: true, caller_in_contacts: false, call_minutes: 120 })) <= 1);
 t("generic unknown call + new payee does not complete severe cards", !["PB-D2", "PB-D1", "PB-B1"].includes(D({ call_active: true, caller_in_contacts: false, payee_new: true, amount: 500 }).card_id));
 t("split payments are added up (anti-splitting)", D({ payee_new: true, amount: 30000, baseline_p95: 10000, new_payee_sum_72h: 120000 }).evidence.includes("amount_very_high"));
@@ -100,6 +101,38 @@ console.log("== live demo page + v2 pages ==");
       const live = d.getElementById("live");
       t("demo has a real-time Live button", !!live);
       t("demo phone shows an alert box at the end of digital arrest", (() => { d.querySelectorAll("#tabs button")[0].click(); for (let i = 0; i < 8; i++) d.getElementById("next").click(); return /hold/i.test(d.getElementById("alert").textContent); })());
+      t("Judge Mode renders", !!d.getElementById("judge-mode") && d.querySelectorAll("[data-jfield]").length >= 20);
+      t("Judge Mode boolean selects include YES/NO/UNKNOWN", (() => {
+        const s = d.querySelector("#judge-active_screen_control");
+        return !!s && [...s.options].map(o => o.textContent).join("/") === "UNKNOWN/YES/NO";
+      })());
+      t("unknown active control + high-risk app does not produce T4", (() => {
+        d.getElementById("reset-to-default").click();
+        const active = d.getElementById("judge-active_screen_control"), app = d.getElementById("judge-high_risk_app_installed");
+        active.value = ""; app.value = "true"; app.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
+        return d.getElementById("judge-tier").textContent.slice(0, 2) !== "T4";
+      })());
+      t("active screen control YES produces T4", (() => {
+        const active = d.getElementById("judge-active_screen_control"); active.value = "true"; active.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
+        return d.getElementById("judge-tier").textContent.slice(0, 2) === "T4";
+      })());
+      t("Judge Mode displays unknown signals", /unknown|unverified|call_active/i.test(d.getElementById("judge-unknown").textContent));
+      t("custom amount/input updates the decision", (() => {
+        d.getElementById("reset-to-default").click();
+        const amount = d.getElementById("judge-amount"), baseline = d.getElementById("judge-baseline_p95"), before = d.getElementById("judge-p").textContent;
+        baseline.value = "100"; baseline.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+        amount.value = "999999"; amount.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+        return d.getElementById("judge-p").textContent !== before;
+      })());
+      t("Judge Mode reset-to-default works", (() => {
+        d.getElementById("reset-to-default").click();
+        return d.getElementById("judge-amount").value === "500" && d.getElementById("judge-active_screen_control").value === "";
+      })());
+      t("Judge Mode reset-to-demo works", (() => {
+        d.getElementById("judge-amount").value = "123"; d.getElementById("judge-amount").dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+        d.getElementById("reset-to-demo").click();
+        return d.getElementById("judge-amount").value === "1200";
+      })());
     }
     dom.window.close();
   }

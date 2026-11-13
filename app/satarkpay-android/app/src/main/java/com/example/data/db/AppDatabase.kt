@@ -2,6 +2,8 @@ package com.example.data.db
 
 import android.content.Context
 import androidx.room.*
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.data.model.*
 import kotlinx.coroutines.flow.Flow
 
@@ -98,6 +100,21 @@ interface PayeeLedgerDao {
     suspend fun setTrustStatus(upiId: String, trusted: Boolean)
 }
 
+@Dao
+interface UserReportedPaymentDao {
+    @Insert
+    suspend fun insert(payment: UserReportedPaymentEntity): Long
+
+    @Query("SELECT amount FROM user_reported_payments WHERE timestamp >= :sinceTimestamp AND status = 'USER_REPORTED_SUCCESS' ORDER BY timestamp ASC")
+    suspend fun getRecentSuccessfulAmounts(sinceTimestamp: Long): List<Long>
+
+    @Query("SELECT amount FROM user_reported_payments WHERE payeeHash = :payeeHash AND timestamp >= :sinceTimestamp AND status = 'USER_REPORTED_SUCCESS' ORDER BY timestamp ASC")
+    suspend fun getRecentSuccessfulAmountsForPayee(payeeHash: String, sinceTimestamp: Long): List<Long>
+
+    @Query("DELETE FROM user_reported_payments WHERE timestamp < :cutoffTimestamp")
+    suspend fun deleteOlderThan(cutoffTimestamp: Long)
+}
+
 @Database(
     entities = [
         ScamReportEntity::class,
@@ -105,9 +122,10 @@ interface PayeeLedgerDao {
         MandateAuditEntity::class,
         IntelPatternEntity::class,
         CheckHistoryEntity::class,
-        PayeeLedgerEntity::class
+        PayeeLedgerEntity::class,
+        UserReportedPaymentEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -117,8 +135,20 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun intelPatternDao(): IntelPatternDao
     abstract fun checkHistoryDao(): CheckHistoryDao
     abstract fun payeeLedgerDao(): PayeeLedgerDao
+    abstract fun userReportedPaymentDao(): UserReportedPaymentDao
 
     companion object {
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("CREATE TABLE IF NOT EXISTS `user_reported_payments` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `amount` INTEGER NOT NULL, `payeeHash` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `status` TEXT NOT NULL)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_user_reported_payments_timestamp` ON `user_reported_payments` (`timestamp`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_user_reported_payments_status` ON `user_reported_payments` (`status`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_user_reported_payments_payeeHash_timestamp` ON `user_reported_payments` (`payeeHash`, `timestamp`)")
+                // These exact rows were shipped as sample data; they are not user-verified payees.
+                db.execSQL("UPDATE payee_ledger SET isTrustVerified = 0, paymentCount = 0, totalAmountPaid = 0, lastRiskVerdict = 'UNVERIFIED' WHERE (LOWER(upiId) = 'mother.family@oksbi' AND notes = 'Family contact verified') OR (LOWER(upiId) = 'sbpdcl.billpay@sbi' AND notes = 'Official utility biller') OR (LOWER(upiId) = 'sharma.kirana@icici' AND notes = 'Local neighbourhood grocer')")
+            }
+        }
+
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
@@ -129,7 +159,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "satarkpay_database"
                 )
-                .fallbackToDestructiveMigration()
+                .addMigrations(MIGRATION_2_3)
                 .build()
                 INSTANCE = instance
                 instance

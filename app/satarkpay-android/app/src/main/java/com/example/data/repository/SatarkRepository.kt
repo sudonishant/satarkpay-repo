@@ -2,7 +2,10 @@ package com.example.data.repository
 
 import com.example.data.db.AppDatabase
 import com.example.data.model.*
+import com.example.thehro.PersonalBaseline
+import androidx.room.withTransaction
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.security.MessageDigest
 
 class SatarkRepository(private val db: AppDatabase) {
@@ -14,6 +17,7 @@ class SatarkRepository(private val db: AppDatabase) {
     val reviewQueueIntel: Flow<List<IntelPatternEntity>> = db.intelPatternDao().getReviewQueuePatterns()
     val checkHistory: Flow<List<CheckHistoryEntity>> = db.checkHistoryDao().getRecentHistory()
     val allPayees: Flow<List<PayeeLedgerEntity>> = db.payeeLedgerDao().getAllPayees()
+        .map { payees -> payees.filterNot(::isSeededSamplePayee) }
 
     suspend fun insertReport(report: ScamReportEntity): Long = db.scamReportDao().insertReport(report)
     suspend fun updateReport(report: ScamReportEntity) = db.scamReportDao().updateReport(report)
@@ -31,90 +35,83 @@ class SatarkRepository(private val db: AppDatabase) {
     suspend fun insertHistory(item: CheckHistoryEntity): Long = db.checkHistoryDao().insertHistory(item)
 
     // --- Payee Ledger Methods ---
-    suspend fun getPayee(upiId: String): PayeeLedgerEntity? = db.payeeLedgerDao().getPayee(upiId)
+    suspend fun getPayee(upiId: String): PayeeLedgerEntity? =
+        db.payeeLedgerDao().getPayee(upiId)?.takeUnless(::isSeededSamplePayee)
     suspend fun upsertPayee(payee: PayeeLedgerEntity) = db.payeeLedgerDao().upsertPayee(payee)
-    suspend fun recordSuccessfulPayment(upiId: String, name: String, amount: Long, riskVerdict: String) {
-        val existing = db.payeeLedgerDao().getPayee(upiId)
-        if (existing == null) {
-            db.payeeLedgerDao().upsertPayee(
-                PayeeLedgerEntity(
-                    upiId = upiId.lowercase().trim(),
-                    payeeName = name,
-                    firstSeenTimestamp = System.currentTimeMillis(),
-                    lastSeenTimestamp = System.currentTimeMillis(),
-                    paymentCount = 1,
-                    totalAmountPaid = amount,
-                    isContactSaved = false,
-                    isTrustVerified = false,
-                    lastRiskVerdict = riskVerdict
-                )
+    suspend fun getRecentUserReportedAmounts(): List<Long> {
+        val cutoff = System.currentTimeMillis() - PersonalBaseline.WINDOW_DAYS * 24L * 60L * 60L * 1000L
+        return db.userReportedPaymentDao().getRecentSuccessfulAmounts(cutoff)
+    }
+
+    suspend fun getRecentUserReportedAmountsForPayee(upiId: String): List<Long> {
+        val clean = upiId.lowercase().trim()
+        if (clean.isBlank()) return emptyList()
+        val cutoff = System.currentTimeMillis() - PersonalBaseline.WINDOW_DAYS * 24L * 60L * 60L * 1000L
+        return db.userReportedPaymentDao().getRecentSuccessfulAmountsForPayee(computeSha256(clean), cutoff)
+    }
+
+    /** Called only after the user explicitly reports success on return from a UPI app. */
+    suspend fun recordUserReportedPayment(upiId: String, name: String, amount: Long) {
+        val clean = upiId.lowercase().trim()
+        require(clean.isNotBlank() && amount > 0L)
+        val now = System.currentTimeMillis()
+        val cutoff = now - PersonalBaseline.WINDOW_DAYS * 24L * 60L * 60L * 1000L
+        val hash = computeSha256(clean)
+        db.withTransaction {
+            db.userReportedPaymentDao().deleteOlderThan(cutoff)
+            db.userReportedPaymentDao().insert(
+                UserReportedPaymentEntity(amount = amount, payeeHash = hash, timestamp = now)
             )
-        } else {
-            db.payeeLedgerDao().upsertPayee(
-                existing.copy(
-                    payeeName = if (name.isNotBlank()) name else existing.payeeName,
-                    lastSeenTimestamp = System.currentTimeMillis(),
-                    paymentCount = existing.paymentCount + 1,
-                    totalAmountPaid = existing.totalAmountPaid + amount,
-                    lastRiskVerdict = riskVerdict
-                )
+            val amounts = db.userReportedPaymentDao().getRecentSuccessfulAmountsForPayee(hash, cutoff)
+            val stored = db.payeeLedgerDao().getPayee(clean)
+            val existing = stored?.takeUnless(::isSeededSamplePayee)
+            val base = existing ?: PayeeLedgerEntity(
+                upiId = clean, payeeName = name, firstSeenTimestamp = now, paymentCount = 0,
+                totalAmountPaid = 0L, isTrustVerified = false, lastRiskVerdict = "UNVERIFIED"
             )
+            db.payeeLedgerDao().upsertPayee(base.copy(
+                payeeName = name.ifBlank { base.payeeName },
+                lastSeenTimestamp = now,
+                paymentCount = amounts.size,
+                totalAmountPaid = amounts.sum(),
+                lastRiskVerdict = "USER_REPORTED_SUCCESS",
+                notes = if (stored != null && existing == null) "" else base.notes
+            ))
+        }
+    }
+
+    suspend fun markPayeeTrusted(upiId: String, name: String = "") {
+        val clean = upiId.lowercase().trim()
+        if (clean.isBlank()) return
+        db.withTransaction {
+            val stored = db.payeeLedgerDao().getPayee(clean)
+            val existing = stored?.takeUnless(::isSeededSamplePayee)
+            if (existing == null) {
+                db.payeeLedgerDao().upsertPayee(PayeeLedgerEntity(
+                    upiId = clean, payeeName = name, paymentCount = 0, totalAmountPaid = 0L,
+                    isTrustVerified = true, lastRiskVerdict = "USER_MARKED_TRUSTED"
+                ))
+            } else {
+                db.payeeLedgerDao().setTrustStatus(clean, true)
+            }
         }
     }
     suspend fun setPayeeTrustStatus(upiId: String, trusted: Boolean) =
         db.payeeLedgerDao().setTrustStatus(upiId, trusted)
 
     suspend fun isFirstTimePayee(upiId: String): Boolean {
-        val clean = upiId.lowercase().trim()
-        val payee = db.payeeLedgerDao().getPayee(clean)
-        return payee == null || payee.paymentCount <= 0
+        return getRecentUserReportedAmountsForPayee(upiId).isEmpty()
+    }
+
+    private fun isSeededSamplePayee(payee: PayeeLedgerEntity): Boolean = when {
+        payee.upiId.equals("mother.family@oksbi", ignoreCase = true) && payee.notes == "Family contact verified" -> true
+        payee.upiId.equals("sbpdcl.billpay@sbi", ignoreCase = true) && payee.notes == "Official utility biller" -> true
+        payee.upiId.equals("sharma.kirana@icici", ignoreCase = true) && payee.notes == "Local neighbourhood grocer" -> true
+        else -> false
     }
 
     suspend fun seedInitialDataIfEmpty() {
-        // Pre-populate trusted known payees in Payee Ledger
-        if (db.payeeLedgerDao().getPayeeCount() == 0) {
-            val trustedPayees = listOf(
-                PayeeLedgerEntity(
-                    upiId = "mother.family@oksbi",
-                    payeeName = "Maa (Sunita Devi)",
-                    firstSeenTimestamp = System.currentTimeMillis() - (180L * 24 * 3600 * 1000),
-                    lastSeenTimestamp = System.currentTimeMillis() - (2L * 24 * 3600 * 1000),
-                    paymentCount = 24,
-                    totalAmountPaid = 48500,
-                    isContactSaved = true,
-                    isTrustVerified = true,
-                    lastRiskVerdict = "SAFE",
-                    notes = "Family contact verified"
-                ),
-                PayeeLedgerEntity(
-                    upiId = "sbpdcl.billpay@sbi",
-                    payeeName = "Bihar State Power Holding",
-                    firstSeenTimestamp = System.currentTimeMillis() - (120L * 24 * 3600 * 1000),
-                    lastSeenTimestamp = System.currentTimeMillis() - (25L * 24 * 3600 * 1000),
-                    paymentCount = 4,
-                    totalAmountPaid = 5820,
-                    isContactSaved = false,
-                    isTrustVerified = true,
-                    lastRiskVerdict = "SAFE",
-                    notes = "Official utility biller"
-                ),
-                PayeeLedgerEntity(
-                    upiId = "sharma.kirana@icici",
-                    payeeName = "Sharma General Store",
-                    firstSeenTimestamp = System.currentTimeMillis() - (45L * 24 * 3600 * 1000),
-                    lastSeenTimestamp = System.currentTimeMillis() - (1L * 24 * 3600 * 1000),
-                    paymentCount = 11,
-                    totalAmountPaid = 3450,
-                    isContactSaved = false,
-                    isTrustVerified = true,
-                    lastRiskVerdict = "SAFE",
-                    notes = "Local neighbourhood grocer"
-                )
-            )
-            for (p in trustedPayees) {
-                db.payeeLedgerDao().upsertPayee(p)
-            }
-        }
+        // Beneficiary history is never seeded: trust and repetition must be user-derived.
         // Pre-populate realistic mandate audit items
         val defaultMandates = listOf(
             MandateAuditEntity(
